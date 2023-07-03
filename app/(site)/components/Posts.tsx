@@ -3,14 +3,34 @@ import React from 'react';
 import { format } from 'date-fns';
 
 export default function Posts() {
-  return <div></div>;
+  const posts: Post[] = [
+    {
+      path: '/',
+      slug: 'sss',
+      frontmatter: {
+        date: new Date(),
+        title: 'hello'
+      }
+    }
+  ];
+
+  return (
+    <div className="my-10">
+      <h2 className="text-3xl font-semibold">Latest Posts</h2>
+      <div className="mt-8 flex flex-col gap-2">
+        {posts.map((item, index) => (
+          <Card key={index} post={item} />
+        ))}
+      </div>
+    </div>
+  );
 }
 
-export function Card(post: Post) {
+export function Card({ post }: { post: Post }) {
   return (
     <Link
       href={`/posts/${post.slug}`}
-      className="rounded-md px-3 py-3 transition-colors hover:bg-gray-100 dark:hover:bg-gray-50/10"
+      className="block rounded-md px-3 py-3 transition-colors hover:bg-gray-100 dark:hover:bg-gray-50/10"
     >
       <div className="flex items-center justify-between">
         <div className="flex-1">{post.frontmatter.title}</div>
