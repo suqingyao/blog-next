@@ -1,6 +1,9 @@
+'use client';
+
 import Link from 'next/link';
 import React from 'react';
 import { format } from 'date-fns';
+import { motion } from 'framer-motion';
 
 export default function Posts() {
   const posts: Post[] = [
@@ -16,10 +19,30 @@ export default function Posts() {
 
   return (
     <div className="my-10">
-      <h2 className="text-3xl font-semibold">Latest Posts</h2>
+      <motion.h2
+        initial={{ x: 100, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{
+          delay: 0.5,
+          duration: 0.5
+        }}
+        className="text-3xl font-semibold"
+      >
+        Latest Posts
+      </motion.h2>
       <div className="mt-8 flex flex-col gap-2">
         {posts.map((item, index) => (
-          <Card key={index} post={item} />
+          <motion.div
+            initial={{ y: 100 - 10 * (index + 1), opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{
+              delay: 0.5 + index,
+              duration: 0.5
+            }}
+            key={index}
+          >
+            <Card post={item} />
+          </motion.div>
         ))}
       </div>
     </div>
