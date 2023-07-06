@@ -8,7 +8,7 @@ export default function NotFound() {
       <Image
         src="/404.svg"
         alt="404 not found"
-        layout="fill"
+        fill
         className="animate-floating animate-alternate w-full sm:w-1/2"
       />
     </div>
