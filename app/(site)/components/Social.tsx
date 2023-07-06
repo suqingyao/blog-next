@@ -7,7 +7,7 @@ const Social = () => {
   return (
     <div className="flex items-center gap-5">
       <Link
-        href="https://twitter.com"
+        href="https://twitter.com/cully_fung"
         className="
           rounded-md
           p-2
