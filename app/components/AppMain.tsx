@@ -9,17 +9,22 @@ import Plum from './Plum';
 
 export default function AppMain({ children }: { children?: React.ReactNode }) {
   return (
-    <>
+    <div
+      className="
+        mx-auto
+        w-[75ch]
+      "
+    >
       <NextProgressbar
         color="var(--primary-color)"
         options={{ showSpinner: false }}
       />
-      <ThemeProvider attribute="">
+      <ThemeProvider attribute="class">
         <Header />
         {children}
         <Footer />
         <Plum />
       </ThemeProvider>
-    </>
+    </div>
   );
 }

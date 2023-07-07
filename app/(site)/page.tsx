@@ -4,15 +4,10 @@ import Posts from './components/Posts';
 
 export default function Home() {
   return (
-    <main
-      className="
-        mx-auto
-        w-[75ch]
-      "
-    >
+    <>
       <Hero />
       <Social />
       <Posts />
-    </main>
+    </>
   );
 }

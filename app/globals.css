@@ -12,3 +12,10 @@ body,
 :root {
   height: 100%;
 }
+
+@layer utilities {
+  .text-stroke {
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: rgb(170, 170, 170);
+  }
+}

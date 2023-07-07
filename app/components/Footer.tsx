@@ -9,7 +9,6 @@ export default function Footer() {
         my-12
         text-center
         text-sm 
-        dark:text-white
       "
     >
       <p className="opacity-40">
