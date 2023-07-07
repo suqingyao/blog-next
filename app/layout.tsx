@@ -1,10 +1,7 @@
-import Footer from './components/Footer';
-import Header from './components/Header';
-import Provider from './components/Provider';
-import Plum from './components/Plum';
 import { Inter } from 'next/font/google';
 import clsx from 'clsx';
 import './globals.css';
+import AppMain from './components/AppMain';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -19,14 +16,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={clsx(inter.className, 'min-h-screen')}>
-        <Provider>
-          <Header />
-          {children}
-          <Footer />
-          <Plum />
-        </Provider>
+        <AppMain>{children}</AppMain>
       </body>
     </html>
   );

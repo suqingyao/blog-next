@@ -53,11 +53,32 @@ export function Card({ post }: { post: Post }) {
   return (
     <Link
       href={`/posts/${post.slug}`}
-      className="block rounded-md px-3 py-3 transition-colors hover:bg-gray-100 dark:hover:bg-gray-50/10"
+      className="
+        block
+        rounded-md
+        px-3
+        py-3
+        transition-colors
+        hover:bg-gray-100
+        dark:hover:bg-gray-50/10
+       "
     >
-      <div className="flex items-center justify-between">
+      <div
+        className="
+          flex 
+          items-center 
+          justify-between
+        "
+      >
         <div className="flex-1">{post.frontmatter.title}</div>
-        <div className="hidden font-normal opacity-40 sm:block">
+        <div
+          className="
+            hidden 
+            font-normal 
+            opacity-40 
+            sm:block
+          "
+        >
           {format(post.frontmatter.date, 'yyyy-MM-dd')}
         </div>
       </div>

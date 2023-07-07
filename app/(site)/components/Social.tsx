@@ -24,6 +24,7 @@ const Social = () => {
           hover:border-blue-400
           hover:bg-blue-400
           hover:text-white
+          dark:text-white
         "
       >
         <IoLogoTwitter size={28} />
@@ -37,6 +38,7 @@ const Social = () => {
           transition-all
           hover:bg-gray-600
           hover:text-white
+          dark:text-white
         "
       >
         <IoLogoGithub size={28} />

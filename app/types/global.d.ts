@@ -5,3 +5,9 @@ interface Post {
   slug: string;
   frontmatter: PostFrontmatter;
 }
+
+interface PostFrontmatter {
+  title: string;
+  description?: string;
+  date: Date;
+}
