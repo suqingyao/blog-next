@@ -10,7 +10,7 @@ export default async function Posts() {
     >
       <div
         className="
-          animate-slide 
+          animate-slide-enter
           pointer-events-none
           relative
           h-20

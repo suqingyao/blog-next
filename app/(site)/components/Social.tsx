@@ -5,8 +5,9 @@ import Link from 'next/link';
 import React from 'react';
 
 import { IoLogoTwitter, IoLogoGithub } from 'react-icons/io';
+import { FaBilibili } from 'react-icons/fa6';
 
-const Social = () => {
+export default function Social() {
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -24,7 +25,6 @@ const Social = () => {
           hover:border-blue-400
           hover:bg-blue-400
           hover:text-white
-          dark:text-white
         "
       >
         <IoLogoTwitter size={28} />
@@ -34,17 +34,28 @@ const Social = () => {
         className="
           rounded-md
           p-2
-          text-gray-600
+          text-black
           transition-all
-          hover:bg-gray-600
+          hover:bg-black
           hover:text-white
           dark:text-white
         "
       >
         <IoLogoGithub size={28} />
       </Link>
+      <Link
+        href="https://space.bilibili.com/27022081"
+        className="
+          rounded-md
+          p-2
+          text-primary
+          transition-all
+          hover:bg-primary
+          hover:text-white
+        "
+      >
+        <FaBilibili size={28} />
+      </Link>
     </motion.div>
   );
-};
-
-export default Social;
+}

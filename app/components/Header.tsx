@@ -1,8 +1,6 @@
-'use client';
-import React from 'react';
 import DarkToggle from './DarkToggle';
 
-export default function Header() {
+export default async function Header() {
   return (
     <header
       className="
