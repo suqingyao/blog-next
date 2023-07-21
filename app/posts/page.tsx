@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default async function Posts() {
+export default function Posts() {
   return (
     <div
       className="

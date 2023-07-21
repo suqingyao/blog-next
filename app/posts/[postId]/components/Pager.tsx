@@ -17,14 +17,14 @@ export default function Pager() {
   return (
     <div className="flex items-center">
       <div
-        className="border border-gray-400 px-3 py-2 hover:border-black dark:hover:border-white"
+        className="cursor-pointer border border-gray-400 px-3 py-2 hover:border-black dark:hover:border-white"
         onClick={handleClickPrevious}
       >
-        <span>下一页</span>
+        <span>上一页</span>
       </div>
 
       <div
-        className="border border-gray-400 px-3 py-2 hover:border-black dark:hover:border-white"
+        className="cursor-pointer border border-gray-400 px-3 py-2 hover:border-black dark:hover:border-white"
         onClick={handleClickNext}
       >
         <span>下一页</span>
