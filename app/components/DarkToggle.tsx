@@ -24,32 +24,36 @@ export default function DarkToggle() {
     return [];
   }, [isDark]);
 
-  // prettier-ignore
   const starts = (
-    <svg className="absolute left-[8px] top-[7px]" width="16" height="14" viewBox="0 0 89 77" fill="none" xmlns="http://www.w3.org/2000/svg">
-      { 
-        starPaths.map(path =>(
-          <motion.path 
-            initial={{
-              scale: 0,
-              rotate: -30,
-              opacity: 0
-            }}
-            animate={{
-              scale: 1,
-              rotate: -30,
-              opacity: 1,
-            }} 
-            transition={{ delay: 0.15, duration: 0.5  }}
-            key={path}
-            style={{ transformBox: 'fill-box', transformOrigin: 'center' }}
-            d={path}
-            fill="#C6D0D1"
-          />
-        ))
-      }
+    <svg
+      className="absolute left-[8px] top-[7px]"
+      width="16"
+      height="14"
+      viewBox="0 0 89 77"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      {starPaths.map((path) => (
+        <motion.path
+          initial={{
+            scale: 0,
+            rotate: -30,
+            opacity: 0
+          }}
+          animate={{
+            scale: 1,
+            rotate: -30,
+            opacity: 1
+          }}
+          transition={{ delay: 0.15, duration: 0.5 }}
+          key={path}
+          style={{ transformBox: 'fill-box', transformOrigin: 'center' }}
+          d={path}
+          fill="#C6D0D1"
+        />
+      ))}
     </svg>
-  )
+  );
 
   // prettier-ignore
   const clouds = (

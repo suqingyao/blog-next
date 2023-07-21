@@ -15,10 +15,7 @@ export default function AppMain({ children }: { children?: React.ReactNode }) {
         w-[75ch]
       "
     >
-      <NextProgressbar
-        color="var(--primary-color)"
-        options={{ showSpinner: false }}
-      />
+      <NextProgressbar color="#fb7299" options={{ showSpinner: false }} />
       <ThemeProvider attribute="class">
         <Header />
         {children}

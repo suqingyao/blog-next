@@ -19,3 +19,39 @@ body,
     -webkit-text-fill-color: transparent;
   }
 }
+
+/* Query based dark mode */
+
+@media (prefers-color-scheme: dark) {
+  .shiki-light {
+    display: none;
+  }
+}
+
+@media (prefers-color-scheme: light), (prefers-color-scheme: no-preference) {
+  .shiki-dark {
+    display: none;
+  }
+}
+
+/* Class based dark mode */
+
+html.dark .shiki-light {
+  display: none;
+}
+
+html:not(.dark) .shiki-dark {
+  display: none;
+}
+
+code[v-pre] {
+  display: flex;
+  flex-direction: column;
+}
+
+.shiki .highlighted {
+  background: #7f7f7f20;
+  display: block;
+  margin: 0 -1rem;
+  padding: 0 1rem;
+}

@@ -4,8 +4,6 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 const Hero = () => {
-  const variants = [];
-
   return (
     <section className="my-10">
       <div className="flex flex-col gap-3 text-5xl font-bold">
