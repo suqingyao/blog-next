@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default async function Footer() {
+export default function Footer() {
   return (
     <footer
       className="

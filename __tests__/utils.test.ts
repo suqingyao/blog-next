@@ -1,14 +1,19 @@
 import getAllPosts from '@/app/utils/posts';
 
 describe('test utils', () => {
-  test('false is false', () => {
-    expect(false).toMatchInlineSnapshot(`false`);
-  });
-
   test('get posts', async () => {
     const posts = await getAllPosts();
     expect(posts).toMatchInlineSnapshot(`
       [
+        {
+          "author": [
+            "cullyfung",
+          ],
+          "content": "<h2>vue is best of frontend framework</h2>
+      ",
+          "date": 2023-07-24T00:00:00.000Z,
+          "title": "Hello2",
+        },
         {
           "author": [
             "cullyfung",

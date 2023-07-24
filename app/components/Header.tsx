@@ -1,6 +1,6 @@
 import DarkToggle from './DarkToggle';
 
-export default async function Header() {
+export default function Header() {
   return (
     <header
       className="
