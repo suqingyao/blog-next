@@ -6,6 +6,26 @@ import { format } from 'date-fns';
 import { motion } from 'framer-motion';
 import { RiArrowRightUpLine } from 'react-icons/ri';
 
+const variants = {
+  container: {
+    animate: {
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  },
+  card: {
+    initial: {
+      opacity: 0,
+      x: -50
+    },
+    animate: {
+      opacity: 1,
+      x: 0
+    }
+  }
+};
+
 export default function Posts() {
   const posts: Post[] = [
     {
@@ -42,30 +62,26 @@ export default function Posts() {
           </Link>
         </motion.div>
       </motion.div>
-      <div className="mt-8 flex flex-col gap-2">
+      <motion.div
+        initial="initial"
+        animate="animate"
+        variants={variants.container}
+        className="mt-8 flex flex-col gap-2"
+      >
         {posts.map((item, index) => (
-          <motion.div
-            initial={{ y: 100 - 10 * (index + 1), opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{
-              delay: 0.5 + index,
-              duration: 0.5
-            }}
-            key={index}
-          >
-            <Card post={item} />
-          </motion.div>
+          <Card post={item} key={index} />
         ))}
-      </div>
+      </motion.div>
     </div>
   );
 }
 
 export function Card({ post }: { post: Post }) {
   return (
-    <Link
-      href={`/posts/${post.slug}`}
-      className="
+    <motion.div variants={variants.card}>
+      <Link
+        href={`/posts/${post.slug}`}
+        className="
         block
         rounded-md
         px-3
@@ -74,26 +90,27 @@ export function Card({ post }: { post: Post }) {
         hover:bg-gray-100
         dark:hover:bg-gray-50/10
        "
-    >
-      <div
-        className="
+      >
+        <div
+          className="
           flex 
           items-center 
           justify-between
         "
-      >
-        <div className="flex-1">{post.frontmatter.title}</div>
-        <div
-          className="
+        >
+          <div className="flex-1">{post.frontmatter.title}</div>
+          <div
+            className="
             hidden 
             font-normal 
             opacity-40 
             sm:block
           "
-        >
-          {format(post.frontmatter.date, 'yyyy-MM-dd')}
+          >
+            {format(post.frontmatter.date, 'yyyy-MM-dd')}
+          </div>
         </div>
-      </div>
-    </Link>
+      </Link>
+    </motion.div>
   );
 }
