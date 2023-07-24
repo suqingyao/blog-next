@@ -6,26 +6,6 @@ import { format } from 'date-fns';
 import { motion } from 'framer-motion';
 import { RiArrowRightUpLine } from 'react-icons/ri';
 
-const variants = {
-  container: {
-    animate: {
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  },
-  card: {
-    initial: {
-      opacity: 0,
-      x: -50
-    },
-    animate: {
-      opacity: 1,
-      x: 0
-    }
-  }
-};
-
 export default function Posts() {
   const posts: Post[] = [
     {
@@ -65,7 +45,13 @@ export default function Posts() {
       <motion.div
         initial="initial"
         animate="animate"
-        variants={variants.container}
+        variants={{
+          animate: {
+            transition: {
+              staggerChildren: 0.1
+            }
+          }
+        }}
         className="mt-8 flex flex-col gap-2"
       >
         {posts.map((item, index) => (
@@ -78,7 +64,18 @@ export default function Posts() {
 
 export function Card({ post }: { post: Post }) {
   return (
-    <motion.div variants={variants.card}>
+    <motion.div
+      variants={{
+        initial: {
+          opacity: 0,
+          x: -50
+        },
+        animate: {
+          opacity: 1,
+          x: 0
+        }
+      }}
+    >
       <Link
         href={`/posts/${post.slug}`}
         className="
