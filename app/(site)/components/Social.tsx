@@ -40,6 +40,7 @@ export default function Social() {
           hover:text-white
           dark:text-white
           dark:hover:bg-white
+          dark:hover:text-black
         "
       >
         <IoLogoGithub size={28} />
