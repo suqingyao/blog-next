@@ -15,6 +15,14 @@ export default function Posts() {
         date: new Date(),
         title: 'hello'
       }
+    },
+    {
+      path: '/a',
+      slug: 'sssa',
+      frontmatter: {
+        date: new Date(),
+        title: 'hello2'
+      }
     }
   ];
 
