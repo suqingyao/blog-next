@@ -45,7 +45,7 @@ export default function Posts() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5, duration: 0.5 }}
         >
-          <Link href={'/posts'} className="opacity-50 hover:opacity-100">
+          <Link href={'/post'} className="opacity-50 hover:opacity-100">
             <RiArrowRightUpLine size={28} />
           </Link>
         </motion.div>
@@ -85,7 +85,7 @@ export function Card({ post }: { post: Post }) {
       }}
     >
       <Link
-        href={`/posts/${post.slug}`}
+        href={`/post/${post.slug}`}
         className="
         block
         rounded-md

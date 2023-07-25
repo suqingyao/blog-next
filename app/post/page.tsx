@@ -1,6 +1,4 @@
-import React from 'react';
-
-export default function Posts() {
+export default function Post() {
   return (
     <div
       className="

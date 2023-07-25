@@ -1,10 +1,10 @@
 import { Inter } from 'next/font/google';
 import clsx from 'clsx';
-import './globals.css';
+import './styles/globals.css';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import NextProgressbar from './components/NextProgressbar';
-import ConfigProvider from './components/ConfigProvider';
+import NextProgress from './components/NextProgress';
+import Providers from './components/Providers';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -21,9 +21,11 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={clsx(inter.className, 'mx-auto min-h-screen w-[75ch]')}>
-        <NextProgressbar color="#fb7299" options={{ showSpinner: false }} />
-        <Header />
-        <ConfigProvider attribute="class">{children}</ConfigProvider>
+        <NextProgress color="#fb7299" options={{ showSpinner: false }} />
+        <Providers>
+          <Header />
+          {children}
+        </Providers>
         <Footer />
       </body>
     </html>

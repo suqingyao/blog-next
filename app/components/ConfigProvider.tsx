@@ -1,9 +1,6 @@
 'use client';
-import { ThemeProvider } from 'next-themes';
-import { ThemeProviderProps } from 'next-themes/dist/types';
-import { createContext, FC, PropsWithChildren, useState } from 'react';
 
-export interface ConfigProviderProps extends ThemeProviderProps {}
+import { createContext, FC, PropsWithChildren, useState } from 'react';
 
 export interface ConfigContext {
   soundEnabled?: boolean;
@@ -12,17 +9,12 @@ export interface ConfigContext {
 
 export const ConfigContext = createContext({} as ConfigContext);
 
-const ConfigProvider: FC<PropsWithChildren<ConfigProviderProps>> = ({
-  children,
-  ...rest
-}) => {
+const ConfigProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
   const [soundEnabled, setSoundEnabled] = useState(true);
   return (
-    <ThemeProvider {...rest}>
-      <ConfigContext.Provider value={{ soundEnabled, setSoundEnabled }}>
-        {children}
-      </ConfigContext.Provider>
-    </ThemeProvider>
+    <ConfigContext.Provider value={{ soundEnabled, setSoundEnabled }}>
+      {children}
+    </ConfigContext.Provider>
   );
 };
 
