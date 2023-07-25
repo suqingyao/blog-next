@@ -21,7 +21,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={clsx(inter.className, 'mx-auto min-h-screen w-[75ch]')}>
+      <body
+        className={clsx(
+          inter.className,
+          'mx-auto min-h-screen w-[75ch] bg-white dark:bg-black'
+        )}
+      >
         <NextProgress color="#fb7299" options={{ showSpinner: false }} />
         <Providers>
           <Header />

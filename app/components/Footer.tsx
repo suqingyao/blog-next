@@ -9,12 +9,12 @@ export default function Footer() {
         text-sm 
       "
     >
-      <p className="opacity-40">
+      <p className="opacity-80">
         Built with &nbsp;
         <a
           href="https://nextjs.org"
           className="
-            text-primary 
+            text-primary
             no-underline
           "
         >
@@ -25,7 +25,7 @@ export default function Footer() {
           Vercel
         </a>
       </p>
-      <p className="text-sm opacity-40">&copy;2023&nbsp;cullyfung</p>
+      <p className="text-sm opacity-80">&copy;2023&nbsp;cullyfung</p>
     </footer>
   );
 }

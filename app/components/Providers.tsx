@@ -6,7 +6,7 @@ import ConfigProvider from './ConfigProvider';
 
 export default function Providers({ children }: PropsWithChildren) {
   return (
-    <ThemeProvider attribute="class" storageKey="blog-theme">
+    <ThemeProvider attribute="class" defaultTheme="light">
       <ConfigProvider>{children}</ConfigProvider>
     </ThemeProvider>
   );
