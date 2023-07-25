@@ -33,7 +33,6 @@ export default function Posts() {
           initial={{ x: 100, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{
-            delay: 0.5,
             duration: 0.5
           }}
           className="text-3xl font-semibold"

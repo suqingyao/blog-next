@@ -1,34 +1,49 @@
 'use client';
 
-import React from 'react';
+import React, { memo } from 'react';
 import { motion } from 'framer-motion';
 
 const Hero = () => {
   return (
-    <section className="my-10">
+    <motion.section
+      initial="initial"
+      animate="animate"
+      variants={{
+        animate: {
+          transition: {
+            staggerChildren: 0.2,
+            duration: 0.5,
+            delay: 0.3
+          }
+        }
+      }}
+      className="my-10"
+    >
       <div className="flex flex-col gap-3 text-5xl font-bold">
         <motion.p
-          initial={{
-            x: 50,
-            opacity: 0
-          }}
-          animate={{
-            x: 0,
-            opacity: 1
-          }}
-          transition={{
-            delay: 0.1,
-            duration: 0.5
+          variants={{
+            initial: {
+              opacity: 0,
+              x: -50
+            },
+            animate: {
+              opacity: 1,
+              x: 0
+            }
           }}
         >
           👋 Hi, I&apos;m Cully Fung.
         </motion.p>
         <motion.p
-          initial={{ x: 50, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{
-            delay: 0.2,
-            duration: 0.5
+          variants={{
+            initial: {
+              opacity: 0,
+              x: -50
+            },
+            animate: {
+              opacity: 1,
+              x: 0
+            }
           }}
         >
           A front-end developer.
@@ -36,28 +51,36 @@ const Hero = () => {
       </div>
       <div className="mt-6 flex flex-col gap-1 text-base">
         <motion.p
-          initial={{ x: 100, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{
-            delay: 0.3,
-            duration: 0.5
+          variants={{
+            initial: {
+              opacity: 0,
+              x: -50
+            },
+            animate: {
+              opacity: 1,
+              x: 0
+            }
           }}
         >
           Currently working in Chongqing.{' '}
         </motion.p>
         <motion.p
-          initial={{ x: 100, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{
-            delay: 0.4,
-            duration: 0.5
+          variants={{
+            initial: {
+              opacity: 0,
+              x: -50
+            },
+            animate: {
+              opacity: 1,
+              x: 0
+            }
           }}
         >
           I love coding.
         </motion.p>
       </div>
-    </section>
+    </motion.section>
   );
 };
 
-export default Hero;
+export default memo(Hero);
