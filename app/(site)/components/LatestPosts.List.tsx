@@ -1,33 +1,14 @@
 'use client';
 
-import Link from 'next/link';
-import React from 'react';
 import { format } from 'date-fns';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
+import React from 'react';
 import { RiArrowRightUpLine } from 'react-icons/ri';
 
-export default function Posts() {
-  const posts: Post[] = [
-    {
-      path: '/',
-      slug: 'sss',
-      frontmatter: {
-        date: new Date(),
-        title: 'hello'
-      }
-    },
-    {
-      path: '/a',
-      slug: 'sssa',
-      frontmatter: {
-        date: new Date(),
-        title: 'hello2'
-      }
-    }
-  ];
-
+export default function LatestPostsList({ posts }: { posts: Frontmatter[] }) {
   return (
-    <div className="my-10">
+    <div>
       <motion.div layout className="flex items-center justify-between">
         <motion.h2
           initial={{ x: 100, opacity: 0 }}
@@ -61,15 +42,15 @@ export default function Posts() {
         }}
         className="mt-8 flex flex-col gap-2"
       >
-        {posts.map((item, index) => (
-          <Card post={item} key={index} />
+        {posts.map((post) => (
+          <Card post={post} key={post.slug} />
         ))}
       </motion.div>
     </div>
   );
 }
 
-export function Card({ post }: { post: Post }) {
+export function Card({ post }: { post: Frontmatter }) {
   return (
     <motion.div
       variants={{
@@ -102,7 +83,7 @@ export function Card({ post }: { post: Post }) {
           justify-between
         "
         >
-          <div className="flex-1">{post.frontmatter.title}</div>
+          <div className="flex-1">{post.title}</div>
           <div
             className="
             hidden 
@@ -111,7 +92,7 @@ export function Card({ post }: { post: Post }) {
             sm:block
           "
           >
-            {format(post.frontmatter.date, 'yyyy-MM-dd')}
+            {format(new Date(post.date), 'yyyy-MM-dd')}
           </div>
         </div>
       </Link>
