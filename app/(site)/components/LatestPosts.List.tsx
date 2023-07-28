@@ -36,7 +36,8 @@ export default function LatestPostsList({ posts }: { posts: Frontmatter[] }) {
         variants={{
           animate: {
             transition: {
-              staggerChildren: 0.1
+              staggerChildren: 0.3,
+              duration: 1000
             }
           }
         }}
@@ -56,11 +57,11 @@ export function Card({ post }: { post: Frontmatter }) {
       variants={{
         initial: {
           opacity: 0,
-          x: -50
+          y: 10
         },
         animate: {
           opacity: 1,
-          x: 0
+          y: 0
         }
       }}
     >
