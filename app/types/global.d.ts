@@ -1,13 +1,14 @@
 type Fn = () => void;
 
-interface Post {
-  path: string;
+interface Frontmatter {
+  title: string;
+  date: string;
   slug: string;
-  frontmatter: PostFrontmatter;
+  description?: string;
+  readingTime?: string;
 }
 
-interface PostFrontmatter {
-  title: string;
-  description?: string;
-  date: Date;
+interface Post {
+  content: JSX;
+  frontmatter: Frontmatter;
 }

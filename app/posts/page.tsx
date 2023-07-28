@@ -1,9 +1,12 @@
-import clsx from 'clsx';
+import { getAllPostFrontMatter } from '../utils/mdx';
+import PostList from './components/PostList';
 
-export default function Post() {
+export default async function Posts() {
+  const posts = await getAllPostFrontMatter();
+
   return (
     <div className="flex flex-col">
-      <div
+      {/* <div
         className="
           animate-slide-enter
           pointer-events-none
@@ -29,7 +32,9 @@ export default function Post() {
           2023
         </div>
         hh
-      </div>
+      </div> */}
+
+      <PostList posts={posts} />
     </div>
   );
 }

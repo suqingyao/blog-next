@@ -1,27 +1,21 @@
-'use client';
-
-import { useRouter } from 'next/navigation';
 import DarkToggle from './DarkToggle';
+import Link from 'next/link';
 
 export default function Header() {
-  const router = useRouter();
   const links = [
     {
       label: 'Home',
       path: '/'
     },
     {
-      label: 'Post',
-      path: '/post'
+      label: 'Posts',
+      path: '/posts'
     }
   ];
 
   return (
     <header
       className="
-        sticky
-        top-0
-        z-50
         flex
         items-center
         justify-end
@@ -32,13 +26,13 @@ export default function Header() {
       "
     >
       {links.map((link) => (
-        <span
+        <Link
+          href={`${link.path}`}
           key={link.path}
-          onClick={() => router.push(link.path)}
           className="mx-2 cursor-pointer hover:font-semibold hover:text-primary"
         >
           {link.label}
-        </span>
+        </Link>
       ))}
       <DarkToggle />
     </header>
