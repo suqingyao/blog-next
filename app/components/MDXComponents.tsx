@@ -6,7 +6,7 @@ const components = {
   h5: (props: any) => <h5 className="text-sm font-bold" {...props} />,
   h6: (props: any) => <h6 className="text-xs font-bold" {...props} />,
   li: (props: any) => <li className="text-primary" {...props} />
-  // pre: () => <div className="" />
+  // pre: (props: any) => <div className="my-3" {...props} />
 };
 
 export default components;

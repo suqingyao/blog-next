@@ -35,23 +35,18 @@ body,
 }
 
 /* Class based dark mode */
-
-html.dark .shiki-light {
+html.dark pre[data-theme='light'] {
   display: none;
 }
 
-html:not(.dark) .shiki-dark {
+html.dark code[data-theme='light'] {
   display: none;
 }
 
-code[v-pre] {
-  display: flex;
-  flex-direction: column;
+html:not(.dark) pre[data-theme='dark'] {
+  display: none;
 }
 
-.shiki .highlighted {
-  background: #7f7f7f20;
-  display: block;
-  margin: 0 -1rem;
-  padding: 0 1rem;
+html:not(.dark) code[data-theme='dark'] {
+  display: none;
 }

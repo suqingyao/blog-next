@@ -2,8 +2,14 @@ import { getAllPostFrontMatter, getPostBySlug } from '@/app/utils/mdx';
 import { AiOutlineFieldTime } from 'react-icons/ai';
 import PostWrapper from '@/app/components/PostWrapper';
 
-export default async function Post({ params }: any) {
-  const { content, frontmatter } = await getPostBySlug(params.slug);
+interface PageParams {
+  params: {
+    slug: string;
+  };
+}
+
+export default async function Post({ params: { slug } }: PageParams) {
+  const { content, frontmatter } = await getPostBySlug(slug);
 
   return (
     <>
@@ -27,4 +33,18 @@ export async function generateStaticParams() {
   return posts.map((post) => ({
     slug: post.slug
   }));
+}
+
+export async function generateMetadata({ params: { slug } }: PageParams) {
+  const post = await getPostBySlug(slug);
+
+  if (!post) {
+    return {
+      title: 'Post Not Found'
+    };
+  }
+
+  return {
+    title: post.frontmatter.title
+  };
 }

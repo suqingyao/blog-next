@@ -14,7 +14,7 @@ export default function Header() {
   ];
 
   return (
-    <header
+    <div
       className="
         flex
         items-center
@@ -35,6 +35,6 @@ export default function Header() {
         </Link>
       ))}
       <DarkToggle />
-    </header>
+    </div>
   );
 }

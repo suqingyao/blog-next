@@ -1,16 +1,16 @@
 'use client';
 
 import React, { useMemo } from 'react';
-import { isBrowser, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useTheme } from 'next-themes';
 import useSound from 'use-sound';
-import useMountedRef from '../hooks/useMountedRef';
+import { isBrowser } from '../utils/is';
 
 export default function DarkToggle() {
   const { theme = 'light', setTheme } = useTheme();
   const [playOn] = useSound('/sounds/switch.mp3');
   const [playOff] = useSound('/sounds/switch.mp3', { playbackRate: 0.6 });
-  const isMountedRef = useMountedRef();
+
   const isDark = theme === 'dark';
 
   const starPaths = useMemo(() => {
@@ -69,13 +69,16 @@ export default function DarkToggle() {
     </motion.svg>
   )
 
+  if (!isBrowser) {
+    return null;
+  }
+
   return (
-    isMountedRef.current && (
-      <motion.div
-        animate={{
-          backgroundColor: isDark ? '#475569' : '#7dd3fc'
-        }}
-        className="
+    <motion.div
+      animate={{
+        backgroundColor: isDark ? '#475569' : '#7dd3fc'
+      }}
+      className="
         relative 
         h-[28px] 
         w-[56px] 
@@ -83,33 +86,32 @@ export default function DarkToggle() {
         rounded-full 
         p-[5px]
       "
-        onClick={() => {
-          setTheme(isDark ? 'light' : 'dark');
-          isDark ? playOff() : playOn();
+      onClick={() => {
+        setTheme(isDark ? 'light' : 'dark');
+        isDark ? playOff() : playOn();
+      }}
+    >
+      {starts}
+      {clouds}
+      <motion.div
+        animate={{
+          x: isDark ? 28 : 0,
+          rotate: isDark ? 0 : 180,
+          backgroundColor: isDark ? '#c6d0d1' : '#fde047'
         }}
+        className="relative h-[18px] w-[18px] rounded-full"
       >
-        {starts}
-        {clouds}
         <motion.div
           animate={{
-            x: isDark ? 28 : 0,
-            rotate: isDark ? 0 : 180,
-            backgroundColor: isDark ? '#c6d0d1' : '#fde047'
+            opacity: isDark ? 1 : 0
           }}
-          className="relative h-[18px] w-[18px] rounded-full"
+          className="relative h-full w-full"
         >
-          <motion.div
-            animate={{
-              opacity: isDark ? 1 : 0
-            }}
-            className="relative h-full w-full"
-          >
-            <div className="absolute left-[4px] top-[6px] h-[4px] w-[4px] rounded-full bg-slate-400/50 shadow-inner" />
-            <div className="absolute left-[11px] top-[8px] h-[1px] w-[1px] rounded-full bg-slate-400/50 shadow-inner" />
-            <div className="absolute left-[9px] top-[11px] h-[2px] w-[2px] rounded-full bg-slate-400/50 shadow-inner" />
-          </motion.div>
+          <div className="absolute left-[4px] top-[6px] h-[4px] w-[4px] rounded-full bg-slate-400/50 shadow-inner" />
+          <div className="absolute left-[11px] top-[8px] h-[1px] w-[1px] rounded-full bg-slate-400/50 shadow-inner" />
+          <div className="absolute left-[9px] top-[11px] h-[2px] w-[2px] rounded-full bg-slate-400/50 shadow-inner" />
         </motion.div>
       </motion.div>
-    )
+    </motion.div>
   );
 }
