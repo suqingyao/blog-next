@@ -1,14 +1,10 @@
-import Image from 'next/image';
+import Link from 'next/link';
 
 export default function NotFound() {
   return (
-    <div className="mt-20 flex items-center justify-center">
-      <Image
-        src="/404.svg"
-        alt="404 not found"
-        fill
-        className="animate-floating animate-alternate w-full sm:w-1/2"
-      />
+    <div className="text-center">
+      <p className="mt-10">Sorry, the requested post does not exist.</p>
+      <Link href="/">Back to Home</Link>
     </div>
   );
 }
