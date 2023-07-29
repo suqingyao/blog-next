@@ -2,28 +2,29 @@ import fg from 'fast-glob';
 import fs from 'fs-extra';
 import { join } from 'path';
 import readingTime from 'reading-time';
-import matter from 'gray-matter';
+import { compileMDX } from 'next-mdx-remote/rsc';
 
 const ROOT_PATH = process.cwd();
 
 export async function getAllPostFiles() {
-  const files = await fg('blog/**/*.mdx');
-  return files;
+  return await fg('blog/**/*.mdx');
 }
 
 export async function getPostBySlug(slug: string) {
-  const raw = await fs.readFile(
-    join(ROOT_PATH, 'blog', `${slug}.mdx`),
-    'utf-8'
-  );
+  const raw = await fs.readFile(join(ROOT_PATH, `${slug}.mdx`), 'utf-8');
 
-  const { data: frontmatter, content } = matter(raw);
+  const { content, frontmatter } = await compileMDX<Frontmatter>({
+    source: raw,
+    options: {
+      mdxOptions: {}
+    }
+  });
 
   return {
     content,
     frontmatter: {
       ...frontmatter,
-      readingTime: readingTime(content).text.split('read')[0],
+      readingTime: readingTime(raw).text.split('read')[0],
       slug
     } as Frontmatter
   };
@@ -32,18 +33,15 @@ export async function getPostBySlug(slug: string) {
 export async function getAllPostFrontMatter() {
   const files = await getAllPostFiles();
 
-  const posts = await Promise.all(
+  const posts: Frontmatter[] = await Promise.all(
     files.map(async (file) => {
-      const raw = await fs.readFile(file, 'utf-8');
-      const { data, content } = matter(raw);
+      const slug = file.replace(/\.mdx$/, '');
+      const { frontmatter } = await getPostBySlug(slug);
       return {
-        ...data,
-        slug: file.replace(/\.mdx$/, '').replace('blog/', ''),
-        readingTime: readingTime(content).text.split('read')[0]
-      } as Frontmatter;
+        ...frontmatter
+      };
     })
   );
 
-  posts.sort((a, b) => +new Date(b.date) - +new Date(a.date));
-  return posts;
+  return posts.sort((a, b) => +new Date(b.date) - +new Date(a.date));
 }
