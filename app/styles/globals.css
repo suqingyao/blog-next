@@ -2,10 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --primary-color: #7dd3fc;
-}
-
 html,
 body,
 :root {

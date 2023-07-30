@@ -67,7 +67,7 @@ export function Card({ post }: { post: Frontmatter }) {
       }}
     >
       <Link
-        href={`/post/${post.slug}`}
+        href={`/posts/${post.slug}`}
         className="
         block
         rounded-md

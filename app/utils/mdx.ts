@@ -6,6 +6,7 @@ import { compileMDX } from 'next-mdx-remote/rsc';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypePrettyCode from 'rehype-pretty-code';
 import rehypeSlug from 'rehype-slug';
+import rehypeToc from 'rehype-toc';
 import components from '@/app/components/MDXComponents';
 
 const ROOT_PATH = process.cwd();
@@ -25,10 +26,12 @@ export async function getPostBySlug(slug: string) {
     options: {
       parseFrontmatter: true,
       mdxOptions: {
+        remarkPlugins: [],
         rehypePlugins: [
           [
             rehypePrettyCode,
             {
+              keepBackground: false,
               theme: {
                 dark: 'vitesse-dark',
                 light: 'vitesse-light'
@@ -40,6 +43,12 @@ export async function getPostBySlug(slug: string) {
             rehypeAutolinkHeadings,
             {
               behavior: 'wrap'
+            }
+          ],
+          [
+            rehypeToc,
+            {
+              headings: ['h2', 'h3', 'h4']
             }
           ]
         ]
@@ -62,6 +71,7 @@ export async function getAllPostFrontMatter() {
 
   const posts: Frontmatter[] = await Promise.all(
     files.map(async (file) => {
+      // get filename not include file extension name
       const slug = file.replace(/(.*\/)*([^.]+).*/gi, '$2');
       const { frontmatter } = await getPostBySlug(slug);
       return {

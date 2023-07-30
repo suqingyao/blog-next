@@ -1,4 +1,52 @@
 .prose {
+  --fg: #555;
+  --fg-deep: #222;
+  --fg-deeper: #000;
+  color: var(--fg);
+}
+
+html.dark .prose {
+  --fg: #bbb;
+  --fg-deep: #ddd;
+  --fg-deeper: #fff;
+}
+
+/** TOC **/
+.prose nav.toc {
+  @apply fixed right-28 top-20;
+}
+
+.prose .toc ol.toc-level-1 {
+}
+
+.prose .toc ol.toc-level-1 {
+}
+
+.prose .toc ol.toc-level-1 {
+}
+
+.prose .toc ol li {
+  @apply m-0;
+}
+
+.prose nav.toc ol li:before {
+  @apply hidden;
+}
+
+.prose .toc ol {
+  @apply m-0 p-0;
+}
+
+.prose .toc ol li {
+  @apply m-0 pl-4;
+}
+
+/** Headings **/
+.prose h1 {
+}
+
+/*
+.prose {
   color: var(--fg);
   max-width: 65ch;
   font-size: 1rem;
@@ -494,3 +542,4 @@
 .prose-sm > :last-child {
   margin-bottom: 0;
 }
+*/
