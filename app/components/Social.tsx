@@ -10,9 +10,9 @@ import { FaBilibili } from 'react-icons/fa6';
 export default function Social() {
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ delay: 1 }}
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 1, duration: 1 }}
       className="flex items-center gap-5"
     >
       <Link

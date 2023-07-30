@@ -31,14 +31,19 @@ export default function LatestPosts({ posts }: { posts: Frontmatter[] }) {
           </Link>
         </motion.div>
       </motion.div>
-      <motion.div
+      <motion.ul
         initial="initial"
         animate="animate"
         variants={{
+          initial: {
+            transition: {
+              when: 'afterChildren'
+            }
+          },
           animate: {
             transition: {
-              staggerChildren: 0.3,
-              duration: 1000
+              when: 'beforeChildren',
+              staggerChildren: 0.3
             }
           }
         }}
@@ -47,14 +52,14 @@ export default function LatestPosts({ posts }: { posts: Frontmatter[] }) {
         {posts.map((post) => (
           <Card post={post} key={post.slug} />
         ))}
-      </motion.div>
+      </motion.ul>
     </div>
   );
 }
 
 export function Card({ post }: { post: Frontmatter }) {
   return (
-    <motion.div
+    <motion.li
       variants={{
         initial: {
           opacity: 0,
@@ -98,6 +103,6 @@ export function Card({ post }: { post: Frontmatter }) {
           </div>
         </div>
       </Link>
-    </motion.div>
+    </motion.li>
   );
 }

@@ -9,11 +9,15 @@ const Hero = () => {
       initial="initial"
       animate="animate"
       variants={{
+        // initial: {
+        //   transition: {
+        //     when: 'afterChildren'
+        //   }
+        // },
         animate: {
           transition: {
-            staggerChildren: 0.2,
-            duration: 0.5,
-            delay: 0.3
+            // when: 'beforeChildren',
+            staggerChildren: 0.3
           }
         }
       }}
