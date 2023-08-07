@@ -9,9 +9,9 @@ function run() {
     return;
   }
 
-  fs.createFileSync(`/blog/${filename}.md`);
+  fs.createFileSync(`/posts/${filename}.mdx`);
   fs.writeFileSync(
-    `/blog/${filename}.md`,
+    `/posts/${filename}.mdx`,
     `
     ---
       - title: ${filename}

@@ -11,18 +11,18 @@ import components from '@/app/components/MDXComponents';
 
 const ROOT_PATH = process.cwd();
 
-const BLOG_DIR = join(ROOT_PATH, 'blog');
+const POSTS_DIR = join(ROOT_PATH, 'posts');
 
 export async function getAllPostFiles() {
   return await fg('blog/**/*.mdx');
 }
 
 export async function getPostBySlug(slug: string) {
-  const raw = await fs.readFile(join(BLOG_DIR, `${slug}.mdx`), 'utf-8');
+  const raw = await fs.readFile(join(POSTS_DIR, `${slug}.mdx`), 'utf-8');
 
   const { content, frontmatter } = await compileMDX<Frontmatter>({
     source: raw,
-    components,
+    // components,
     options: {
       parseFrontmatter: true,
       mdxOptions: {
