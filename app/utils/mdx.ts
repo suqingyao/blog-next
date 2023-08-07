@@ -14,7 +14,7 @@ const ROOT_PATH = process.cwd();
 const POSTS_DIR = join(ROOT_PATH, 'posts');
 
 export async function getAllPostFiles() {
-  return await fg('blog/**/*.mdx');
+  return await fg('posts/**/*.mdx');
 }
 
 export async function getPostBySlug(slug: string) {

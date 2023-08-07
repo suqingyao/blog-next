@@ -15,7 +15,7 @@ export default async function Post({ params: { slug } }: PageParams) {
     <>
       <h1 className="text-center text-2xl font-bold">{frontmatter.title}</h1>
       <p className="flex flex-row gap-2">
-        <span>{format(new Date(frontmatter.date), 'yyyy-MM-dd')}</span>
+        <span>{format(new Date(frontmatter.date), 'MMM d, yyyy')}</span>
         <span className="flex flex-row items-center">
           <AiOutlineFieldTime size={20} className="inline-block" />
           {frontmatter.readingTime}
@@ -24,9 +24,12 @@ export default async function Post({ params: { slug } }: PageParams) {
       <article
         className="
           prose
-          dark:prose-invert
+          transition-opacity
+          dark:prose-invert 
+          prose-headings:opacity-50
+          hover:prose-headings:opacity-100
           prose-h1:hidden
-          prose-a:no-underline 
+          prose-a:no-underline
           prose-pre:bg-[#f8f8f8]
           dark:prose-pre:bg-[#0e0e0e]
         "
