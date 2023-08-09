@@ -1,4 +1,8 @@
-import { getAllPostFrontMatter, getPostBySlug } from '@/app/utils/mdx';
+import {
+  getAdjacentPosts,
+  getAllPostFrontMatter,
+  getPostBySlug
+} from '@/app/utils/mdx';
 import { format } from 'date-fns';
 import { AiOutlineFieldTime } from 'react-icons/ai';
 import Pager from './components/Pager';
@@ -11,7 +15,8 @@ interface PageParams {
 
 export default async function Post({ params: { slug } }: PageParams) {
   const { content, frontmatter } = await getPostBySlug(slug);
-  const posts = await getAllPostFrontMatter();
+
+  const { prev, next } = await getAdjacentPosts(slug);
 
   return (
     <>
@@ -38,18 +43,13 @@ export default async function Post({ params: { slug } }: PageParams) {
           prose-h2:before:opacity-0
           prose-h2:before:content-['#']
           hover:prose-h2:before:opacity-100
-          prose-a:no-underline
-          prose-code:text-primary
-          prose-code:before:hidden
-          prose-code:after:hidden
           prose-pre:bg-[#f8f8f8]
-          prose-li:marker:hidden
           dark:prose-pre:bg-[#0e0e0e]
         "
       >
         {content}
       </article>
-      <Pager posts={posts} />
+      <Pager prev={prev!} next={next!} />
     </>
   );
 }

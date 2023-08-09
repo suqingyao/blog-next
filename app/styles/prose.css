@@ -1,0 +1,12 @@
+.contains-task-list li::marker {
+  @apply hidden;
+}
+
+.toc li::marker {
+  @apply hidden;
+}
+
+/* Admonition */
+.admonition .danger {
+  @apply text-red-600;
+}

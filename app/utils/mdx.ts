@@ -3,12 +3,15 @@ import fs from 'fs-extra';
 import { join } from 'path';
 import readingTime from 'reading-time';
 import { compileMDX } from 'next-mdx-remote/rsc';
-import remarkReadingTime from 'remark-reading-time';
-import remarkReadingMdxTime from 'remark-reading-time/mdx';
+import remarkGfm from 'remark-gfm';
+import remarkDirective from 'remark-directive';
+import remarkAdmonitions from '@/lib/remark-admonitions';
+import remarkMath from 'remark-math';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypePrettyCode from 'rehype-pretty-code';
 import rehypeSlug from 'rehype-slug';
 import rehypeToc from 'rehype-toc';
+import rehypeKatex from 'rehype-katex';
 import components from '@/app/components/MDXComponents';
 
 const ROOT_PATH = process.cwd();
@@ -28,7 +31,12 @@ export async function getPostBySlug(slug: string) {
     options: {
       parseFrontmatter: true,
       mdxOptions: {
-        remarkPlugins: [remarkReadingTime, remarkReadingMdxTime],
+        remarkPlugins: [
+          remarkGfm,
+          remarkDirective,
+          remarkAdmonitions,
+          remarkMath
+        ],
         rehypePlugins: [
           [
             rehypePrettyCode,
@@ -45,7 +53,9 @@ export async function getPostBySlug(slug: string) {
             rehypeAutolinkHeadings,
             {
               behavior: 'wrap',
-              class: 'anchor'
+              properties: {
+                class: 'anchor'
+              }
             }
           ],
           [
@@ -53,13 +63,12 @@ export async function getPostBySlug(slug: string) {
             {
               headings: ['h2', 'h3', 'h4']
             }
-          ]
+          ],
+          rehypeKatex
         ]
       }
     }
   });
-  console.dir({ content, frontmatter });
-
   return {
     content,
     frontmatter: {
@@ -85,4 +94,13 @@ export async function getAllPostFrontMatter() {
   );
 
   return posts.sort((a, b) => +new Date(b.date) - +new Date(a.date));
+}
+
+export async function getAdjacentPosts(slug: string) {
+  const posts = await getAllPostFrontMatter();
+  const idx = posts.findIndex((post) => post.slug === slug);
+  const prev = idx > 0 ? posts[idx - 1] : null;
+  const next = idx !== -1 && idx < posts.length - 1 ? posts[idx + 1] : null;
+
+  return { prev, next };
 }

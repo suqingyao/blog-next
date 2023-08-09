@@ -1,6 +1,7 @@
 import { Inter } from 'next/font/google';
 import clsx from 'clsx';
 import './styles/globals.css';
+import './styles/prose.css';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import NextProgress from './components/NextProgress';
