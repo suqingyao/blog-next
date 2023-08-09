@@ -12,7 +12,12 @@ export const ConfigContext = createContext({} as ConfigContext);
 const ConfigProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
   const [soundEnabled, setSoundEnabled] = useState(true);
   return (
-    <ConfigContext.Provider value={{ soundEnabled, setSoundEnabled }}>
+    <ConfigContext.Provider
+      value={{
+        soundEnabled,
+        setSoundEnabled
+      }}
+    >
       {children}
     </ConfigContext.Provider>
   );

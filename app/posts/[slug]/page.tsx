@@ -1,6 +1,7 @@
 import { getAllPostFrontMatter, getPostBySlug } from '@/app/utils/mdx';
 import { format } from 'date-fns';
 import { AiOutlineFieldTime } from 'react-icons/ai';
+import Pager from './components/Pager';
 
 interface PageParams {
   params: {
@@ -10,6 +11,7 @@ interface PageParams {
 
 export default async function Post({ params: { slug } }: PageParams) {
   const { content, frontmatter } = await getPostBySlug(slug);
+  const posts = await getAllPostFrontMatter();
 
   return (
     <>
@@ -25,17 +27,29 @@ export default async function Post({ params: { slug } }: PageParams) {
         className="
           prose
           transition-opacity
-          dark:prose-invert 
+          dark:prose-invert
+          before:transition-opacity
           prose-headings:opacity-50
           hover:prose-headings:opacity-100
           prose-h1:hidden
+          prose-h2:relative
+          prose-h2:before:absolute
+          prose-h2:before:-left-[1em]
+          prose-h2:before:opacity-0
+          prose-h2:before:content-['#']
+          hover:prose-h2:before:opacity-100
           prose-a:no-underline
+          prose-code:text-primary
+          prose-code:before:hidden
+          prose-code:after:hidden
           prose-pre:bg-[#f8f8f8]
+          prose-li:marker:hidden
           dark:prose-pre:bg-[#0e0e0e]
         "
       >
         {content}
       </article>
+      <Pager posts={posts} />
     </>
   );
 }

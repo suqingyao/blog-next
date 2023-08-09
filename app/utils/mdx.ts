@@ -3,6 +3,8 @@ import fs from 'fs-extra';
 import { join } from 'path';
 import readingTime from 'reading-time';
 import { compileMDX } from 'next-mdx-remote/rsc';
+import remarkReadingTime from 'remark-reading-time';
+import remarkReadingMdxTime from 'remark-reading-time/mdx';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypePrettyCode from 'rehype-pretty-code';
 import rehypeSlug from 'rehype-slug';
@@ -22,11 +24,11 @@ export async function getPostBySlug(slug: string) {
 
   const { content, frontmatter } = await compileMDX<Frontmatter>({
     source: raw,
-    // components,
+    components,
     options: {
       parseFrontmatter: true,
       mdxOptions: {
-        remarkPlugins: [],
+        remarkPlugins: [remarkReadingTime, remarkReadingMdxTime],
         rehypePlugins: [
           [
             rehypePrettyCode,
@@ -42,7 +44,8 @@ export async function getPostBySlug(slug: string) {
           [
             rehypeAutolinkHeadings,
             {
-              behavior: 'wrap'
+              behavior: 'wrap',
+              class: 'anchor'
             }
           ],
           [
@@ -55,6 +58,7 @@ export async function getPostBySlug(slug: string) {
       }
     }
   });
+  console.dir({ content, frontmatter });
 
   return {
     content,

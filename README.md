@@ -1,7 +1,16 @@
-**[blog](https://blog-jet-alpha.vercel.app//)**
+# Personal website and blog
 
-my personal website powered by [Nextjs](https://www.nextjs.cn/)
+My new [personal website and blog](https://blog-next-brmgh0q46-cullyfung.vercel.app) built with Next.js, MDX, Tailwind CSS and hosted on Vercel.
 
-<br>
+## Stack
 
+- [Next.js](https://nextjs.org)
+- [TypeScript](https://www.typescriptlang.org)
+- [MDX](https://github.com/hashicorp/next-mdx-remote)
+- [Tailwind CSS](https://tailwindcss.com)
+- [ESLint](https://eslint.org)
+- [Prettier](https://prettier.io)
+- [Vercel](http://vercel.com)
+
+## License
 <samp>code is licensed under <a href='./LICENSE'>MIT</a>,<br> words and images are licensed under <a href='https://creativecommons.org/licenses/by-nc-sa/4.0/'>CC BY-NC-SA 4.0</a></samp>.
