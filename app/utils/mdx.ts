@@ -5,7 +5,7 @@ import readingTime from 'reading-time';
 import { compileMDX } from 'next-mdx-remote/rsc';
 import remarkGfm from 'remark-gfm';
 import remarkDirective from 'remark-directive';
-import remarkAdmonitions from '@/lib/remark-admonitions';
+import remarkAdmonitions from '@/app/lib/remark-admonitions';
 import remarkMath from 'remark-math';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypePrettyCode from 'rehype-pretty-code';
