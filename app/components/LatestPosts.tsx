@@ -5,7 +5,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { RiArrowRightUpLine } from 'react-icons/ri';
-import { format } from 'date-fns';
+import dayjs from 'dayjs';
 
 export default function LatestPosts({ posts }: { posts: Frontmatter[] }) {
   return (
@@ -99,7 +99,7 @@ export function Card({ post }: { post: Frontmatter }) {
             sm:block
           "
           >
-            {format(new Date(post.date), 'yyyy-MM-dd')}
+            {dayjs(post.date).format('YYYY-MM-DD')}
           </div>
         </div>
       </Link>

@@ -1,6 +1,6 @@
 'use client';
 
-import { format } from 'date-fns';
+import dayjs from 'dayjs';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 
@@ -84,7 +84,7 @@ export default function PostList({ posts }: PostListProps) {
             >
               <span className="text-lg leading-[1.2em]">{post.title}</span>
               <span className="whitespace-nowrap text-sm opacity-50">
-                {format(new Date(post.date), 'MMM d, yyyy')}
+                {dayjs(post.date).format('MMM d, YYYY')}
               </span>
               <span className="whitespace-nowrap text-sm opacity-40">
                 {post.readingTime}

@@ -6,12 +6,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "gen": "esno ./cli/gen.ts"
   },
   "dependencies": {
     "ahooks": "^3.7.8",
     "clsx": "^1.2.1",
-    "date-fns": "^2.30.0",
+    "dayjs": "^1.11.9",
     "framer-motion": "^10.12.18",
     "next": "13.4.7",
     "next-mdx-remote": "^4.4.1",
@@ -29,8 +30,11 @@
     "@types/react": "18.2.14",
     "@types/react-dom": "18.2.6",
     "autoprefixer": "10.4.14",
+    "cac": "^6.7.14",
+    "chalk": "^5.3.0",
     "eslint": "8.44.0",
     "eslint-config-next": "13.4.7",
+    "esno": "^0.17.0",
     "fast-glob": "^3.3.0",
     "fs-extra": "^11.1.1",
     "hastscript": "^8.0.0",

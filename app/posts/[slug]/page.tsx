@@ -3,9 +3,10 @@ import {
   getAllPostFrontMatter,
   getPostBySlug
 } from '@/app/utils/mdx';
-import { format } from 'date-fns';
+
 import { AiOutlineFieldTime } from 'react-icons/ai';
 import Pager from './components/Pager';
+import dayjs from 'dayjs';
 
 interface PageParams {
   params: {
@@ -22,7 +23,7 @@ export default async function Post({ params: { slug } }: PageParams) {
     <>
       <h1 className="text-center text-2xl font-bold">{frontmatter.title}</h1>
       <p className="flex flex-row gap-2">
-        <span>{format(new Date(frontmatter.date), 'MMM d, yyyy')}</span>
+        <span>{dayjs(frontmatter.date).format('MMM d, YYYY')}</span>
         <span className="flex flex-row items-center">
           <AiOutlineFieldTime size={20} className="inline-block" />
           {frontmatter.readingTime}
