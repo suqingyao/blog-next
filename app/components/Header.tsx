@@ -1,5 +1,7 @@
-import DarkToggle from './DarkToggle';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
+
+const DarkToggle = dynamic(() => import('./DarkToggle'), { ssr: false });
 
 export default function Header() {
   const links = [
