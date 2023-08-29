@@ -74,13 +74,13 @@ export default function DarkToggle() {
         backgroundColor: isDark ? '#475569' : '#7dd3fc'
       }}
       className="
-      relative 
-      h-[28px] 
-      w-[56px] 
-      cursor-pointer 
-      rounded-full 
-      p-[5px]
-    "
+        relative 
+        h-[28px] 
+        w-[56px] 
+        cursor-pointer 
+        rounded-full 
+        p-[5px]
+      "
       onClick={() => {
         setTheme(isDark ? 'light' : 'dark');
         isDark ? playOff() : playOn();

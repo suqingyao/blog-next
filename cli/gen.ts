@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import cac from 'cac';
+import ora from 'ora';
 import fs from 'fs-extra';
 import path from 'path';
 import chalk from 'chalk';
@@ -18,13 +19,13 @@ cli.command('create <filename> [title]').action(async (filename, title) => {
 
   const template = `
 ---
-  title: ${title || 'title'}
+  title: ${title || filename}
   date: ${dayjs().format('YYYY-MM-DD HH:mm:ss')}
 ---
     `;
-
+  const spinner = ora('Loading...').start();
   await fs.writeFile(filePath, template, 'utf-8');
-  console.log(chalk.green(`File ${filename} created successfully.`));
+  spinner.succeed(chalk.green(`File [${filename}] created successfully.`));
 });
 
 cli.parse();

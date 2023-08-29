@@ -38,6 +38,7 @@
     "fast-glob": "^3.3.0",
     "fs-extra": "^11.1.1",
     "hastscript": "^8.0.0",
+    "ora": "^7.0.1",
     "postcss": "8.4.24",
     "prettier": "^2.8.8",
     "prettier-plugin-tailwindcss": "^0.3.0",
