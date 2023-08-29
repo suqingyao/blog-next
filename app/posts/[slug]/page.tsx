@@ -23,7 +23,7 @@ export default async function Post({ params: { slug } }: PageParams) {
     <>
       <h1 className="text-center text-2xl font-bold">{frontmatter.title}</h1>
       <p className="flex flex-row gap-2">
-        <span>{dayjs(frontmatter.date).format('MMM d, YYYY')}</span>
+        <span>{dayjs(frontmatter.date).format('MMM DD, YYYY')}</span>
         <span className="flex flex-row items-center">
           <AiOutlineFieldTime size={20} className="inline-block" />
           {frontmatter.readingTime}
