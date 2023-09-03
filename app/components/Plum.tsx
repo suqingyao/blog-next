@@ -5,7 +5,6 @@ import { useMemo, useRef } from 'react';
 import useRafFn from '../hooks/useRafFn';
 import useWindowSize from '../hooks/useWindowSize';
 
-// TODO jess
 export default function Plum() {
   const r180 = Math.PI;
   const r90 = Math.PI / 2;
