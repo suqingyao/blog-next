@@ -50,9 +50,9 @@ export default function Social() {
         className="
           rounded-md
           p-2
-          text-primary
+          text-[#fb7299]
           transition-all
-          hover:bg-primary
+          hover:bg-[#fb7299]
           hover:text-white
         "
       >

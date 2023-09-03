@@ -1,6 +1,5 @@
 'use client';
 
-import React, { memo } from 'react';
 import { motion } from 'framer-motion';
 
 const Hero = () => {
@@ -9,14 +8,15 @@ const Hero = () => {
       initial="initial"
       animate="animate"
       variants={{
-        // initial: {
-        //   transition: {
-        //     when: 'afterChildren'
-        //   }
-        // },
+        initial: {
+          transition: {
+            when: 'afterChildren',
+            ease: 'easeInOut'
+          }
+        },
         animate: {
           transition: {
-            // when: 'beforeChildren',
+            when: 'beforeChildren',
             staggerChildren: 0.3
           }
         }
@@ -66,7 +66,7 @@ const Hero = () => {
             }
           }}
         >
-          Currently working in Chongqing.{' '}
+          Currently live in Chongqing.
         </motion.p>
         <motion.p
           variants={{
@@ -80,11 +80,11 @@ const Hero = () => {
             }
           }}
         >
-          I love coding.
+          Like listening to music and coding.
         </motion.p>
       </div>
     </motion.section>
   );
 };
 
-export default memo(Hero);
+export default Hero;

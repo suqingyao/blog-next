@@ -1,0 +1,122 @@
+---
+  title: Neovim 基础配置
+  date: 2023-08-30 01:25:12
+---
+
+## 终端安装与配置
+
+首先，我们得安装一个终端软件做为 `neovim` 的载体，这里我选择 `kitty`，当然你也可以选择 `iTerm` 等其他终端.
+这里我们可以到 [Github Release](https://github.com/kovidgoyal/kitty/releases) 页面下载 `dmg` 格式进行安装
+
+## 安装 neovim
+
+Mac 可以直接使用 Homebrew 直接安装
+
+```bash
+brew install neovim
+```
+
+## tmux （option）
+
+tmux config file path `~/.tmux.conf`
+
+```bash
+brew instal tmux
+```
+
+fix `clear` command `terminal database is inaccessible` error
+
+```bash
+curl -LO https://invisible-island.net/datafiles/current/terminfo.src.gz && gunzip terminfo.src.gz
+
+/usr/bin/tic -xe tmux-256color terminfo.src
+sudo /usr/bin/tic -xe tmux-256color terminfo.src
+/usr/bin/tic -xe kitty-direct,tmux-256color terminfo.src
+infocmp -x tmux-256color
+```
+
+add `set -g default-terminal "tmux-256color"` into `.tmux.conf`
+
+### tmux config
+
+```bash
+set -g default-terminal "tmux-256color"` into `.tmux.conf
+
+# keymaps
+unbind C-b
+set -g prefix C-a
+
+
+
+```
+
+## Neovim 配置
+
+在这里我就不从零开始安装配置了，可以从下面列出的社区活跃的方案选择其中一个
+
+- `LazyVim` neovim 社区比较活跃的一位大神所编写
+- `LernaVim`
+- `AstroVim`
+  下面我将以`LazyVim`的安装作为示例
+
+### lazyvim 安装配置
+
+```bash
+git clone
+```
+
+### Requirement
+
+```bash
+brew install ripgrep
+brew install fd
+brew install tmux
+```
+
+### Install lazyvim
+
+```bash
+git clone https://github.com/LazyVim/starter ~/.config/nvim
+
+rm -rf ~/.config/nvim/.git
+```
+
+- start
+
+```bash
+nvim
+```
+
+> Tips
+> macos should set
+> `defaults write -g ApplePressAndHoldEnabled --bool false`
+
+### Config keymap (Option)
+
+According to your own preference.
+
+```bash
+# ~/.config/nvim/lua/config/keymaps.lua
+keymap.set('n', 'jk', '<Esc>')
+```
+
+## Shortcut key
+
+- indent `cmd + shift + </>`
+- move up/down `A-j/k`
+- search content `leader s g`
+- search file `leader leader`
+- hover documentaion `shift k`
+- varibale rename `leader c r`
+- search in buffer `leader f b`
+- split window `leader |`
+- close window `leader w d`
+- switch buffer `leader ``
+- search TODO `leader s t`
+- search keymaps `leader s k`
+- switch numberline `leader u l`
+- replace in file `leader s r`
+- open git window `leader g`
+
+
+

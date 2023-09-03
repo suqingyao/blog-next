@@ -1,12 +1,10 @@
-import React from 'react';
-
 export default function Footer() {
   return (
     <footer
       className="
         my-12
         text-center
-        text-sm 
+        text-sm
       "
     >
       <p className="opacity-80">

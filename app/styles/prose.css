@@ -1,12 +1,45 @@
 .contains-task-list li::marker {
+  display: none;
+}
+
+/* TOC */
+.toc {
+  @apply fixed right-5 top-24;
+}
+
+.toc .toc-link {
+  @apply no-underline;
+}
+
+.toc-link:hover {
+  @apply underline;
+}
+
+.anchor {
+  @apply no-underline;
+}
+
+code::before,
+code::after {
   @apply hidden;
 }
 
-.toc li::marker {
-  @apply hidden;
+.prose code {
+  @apply rounded-sm text-pink-300;
+}
+
+.prose h2 .anchor,
+.prose h3 .anchor {
+  @apply relative before:absolute before:-left-[1em] before:opacity-0 before:content-[#] hover:before:opacity-100;
 }
 
 /* Admonition */
 .admonition .danger {
   @apply text-red-600;
+}
+.admonition .warning {
+  @apply text-orange-600;
+}
+.admonition .tip {
+  @apply text-green-400;
 }

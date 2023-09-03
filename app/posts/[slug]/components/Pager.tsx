@@ -72,14 +72,12 @@ export default function Pager({ prev, next }: PagerProps) {
             px-3
             py-2
             transition-colors
+            peer-hover:translate-x-1
           "
           onClick={() => handleTogglePage(next)}
         >
           <span>{next.title}</span>
-          <FiArrowRight
-            size={24}
-            className="transition-transform hover:translate-x-1"
-          />
+          <FiArrowRight size={24} className="peer transition-transform" />
         </button>
       )}
     </div>

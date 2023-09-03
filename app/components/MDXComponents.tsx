@@ -1,9 +1,14 @@
 import CopyButton from './CopyButton';
 import DarkToggle from './DarkToggle';
+import TOC from './TOC';
 
 const components = {
-  nav: (props: any) => <nav className="fixed right-0 top-0" {...props} />,
-  DarkToggle: (props: any) => <DarkToggle {...props} />,
+  // nav: (props: any) => (
+  //   <TOC {...props}>
+  //     <nav className="fixed" />
+  //   </TOC>
+  // ),
+  DarkToggle,
   pre: (props: any) => (
     <pre className="relative" {...props}>
       {/* <CopyButton /> */}
