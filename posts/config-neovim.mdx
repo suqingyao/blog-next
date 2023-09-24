@@ -45,9 +45,6 @@ set -g default-terminal "tmux-256color"` into `.tmux.conf
 # keymaps
 unbind C-b
 set -g prefix C-a
-
-
-
 ```
 
 ## Neovim 配置
@@ -58,12 +55,6 @@ set -g prefix C-a
 - `LernaVim`
 - `AstroVim`
   下面我将以`LazyVim`的安装作为示例
-
-### lazyvim 安装配置
-
-```bash
-git clone
-```
 
 ### Requirement
 
@@ -87,7 +78,6 @@ rm -rf ~/.config/nvim/.git
 nvim
 ```
 
-> Tips
 > macos should set
 > `defaults write -g ApplePressAndHoldEnabled --bool false`
 
@@ -123,9 +113,13 @@ keymap.set('n', 'jk', '<Esc>')
 - open terminal `leader f t`
 - switch filetree `leader e`
 - toggle format on save `leader u f`
-- toggle diagnostics `leader u d` 
+- toggle diagnostics `leader u d`
+- create new window `C-a c`
+
+## Tmux Shortcut
 
 ## Quick selection
+
 dependence flash
 
 - remote mode
