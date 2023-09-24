@@ -7,7 +7,7 @@ import {
 import { AiOutlineFieldTime } from 'react-icons/ai';
 import Pager from './components/Pager';
 import dayjs from 'dayjs';
-import Article from './components/Article';
+import Prose from './components/Prose';
 
 interface PageParams {
   params: {
@@ -22,17 +22,17 @@ export default async function Post({ params: { slug } }: PageParams) {
 
   return (
     <>
-      <h1 className="mx-auto w-[32rem] text-center text-2xl font-bold">
+      <h1 className="mx-auto my-3 w-[32rem] text-center text-2xl font-bold">
         {frontmatter.title}
       </h1>
-      <p className="flex flex-row gap-2">
+      <p className="flex flex-row gap-2 text-[#555]">
         <span>{dayjs(frontmatter.date).format('MMM DD, YYYY')}</span>
         <span className="flex flex-row items-center">
           <AiOutlineFieldTime size={20} className="inline-block" />
           {frontmatter.readingTime}
         </span>
       </p>
-      <Article>{content}</Article>
+      <Prose>{content}</Prose>
       <Pager prev={prev!} next={next!} />
     </>
   );

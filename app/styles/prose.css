@@ -1,36 +1,61 @@
-.contains-task-list li::marker {
-  display: none;
+.prose {
+  @apply text-[#222] dark:text-[#ddd];
 }
 
 /* TOC */
-.toc {
-  @apply fixed right-5 top-24;
+.prose .toc a {
+  @apply text-sm no-underline opacity-40 hover:opacity-100;
 }
 
-.toc .toc-link {
-  @apply no-underline;
+.prose .toc ol {
+  @apply pl-4;
 }
 
-.toc-link:hover {
-  @apply underline;
+.prose .toc ol li {
+  @apply list-none;
 }
 
-.anchor {
-  @apply no-underline;
+.prose .toc {
+  @apply fixed right-10 top-32;
 }
 
-code::before,
-code::after {
-  @apply hidden;
+.prose h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
 }
 
-.prose code {
-  @apply rounded-sm text-pink-300;
+.prose .anchor {
+  @apply relative font-semibold text-[#222] no-underline dark:text-[#ddd];
 }
 
-.prose h2 .anchor,
-.prose h3 .anchor {
-  @apply relative before:absolute before:-left-[1em] before:opacity-0 before:content-[#] hover:before:opacity-100;
+/* Code */
+.prose code:not([data-language]) {
+  @apply rounded-sm bg-gray-300/20 px-2 py-1 before:content-none after:content-none;
+}
+
+/* Blockquote */
+.prose blockquote {
+  @apply border-none p-0;
+}
+
+.prose blockquote p {
+  @apply relative m-0 px-8 py-1 text-gray-500;
+}
+
+.prose blockquote p::before {
+  @apply absolute left-0 top-0 text-6xl text-gray-200 opacity-50;
+}
+
+.prose blockquote p::after {
+  @apply absolute bottom-0 right-0 text-6xl text-gray-200 opacity-50;
+}
+
+/* List */
+.prose .contains-task-list {
+  @apply list-none pl-0;
 }
 
 /* Admonition */
