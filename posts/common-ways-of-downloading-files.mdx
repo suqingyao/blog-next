@@ -1,0 +1,66 @@
+---
+  title: 前端常用下载文件方式汇总
+  date: 2023-09-24 23:13:54
+---
+
+在工作中，我们经常有下载文件的需求，在这里我将介绍几种常用的文件下载方式
+
+## 方式 1 利用`a`标签下载文件
+
+```jsx
+export function Demo() {
+  const imgUrl = 'https://w.wallhaven.cc/full/3l/wallhaven-3l2ldd.png';
+
+  return (
+    <div>
+      <a href={imgUrl} download>
+        下载文件
+      </a>
+    </div>
+  );
+}
+```
+
+## 方式 2 使用 Blob 和 URL.createObjectURL
+
+```js
+async function downloadFile(url) {
+  const response = await fetch(url);
+  const data = await response.blob();
+  const downloadUrl = URL.createObjectURL(data);
+  const a = document.createElement('a');
+  a.href = downloadUrl;
+  a.download = 'file_name';
+  a.click();
+
+  URL.revokeObjectURL(downloadUrl);
+}
+
+downloadFile('https://w.wallhaven.cc/full/3l/wallhaven-3l2ldd.png');
+```
+
+### 方式 3 使用`FormData` 和 `XMLHttpRequest`
+
+```js
+function downloadFile(url) {
+  const xhr = new XMLHttpRequest();
+  xhr.open('GET', url, true);
+  xhr.responseType = 'blob';
+
+  xhr.onload = function () {
+    if (this.status === 200) {
+      const downloadUrl = URL.createObjectURL(this.response);
+      const a = document.createElement('a');
+      a.href = downloadUrl;
+      a.download = 'file_name';
+      a.click();
+
+      URL.revokeObjectURL(downloadUrl);
+    }
+  };
+
+  xhr.send();
+}
+
+downloadFile('https://w.wallhaven.cc/full/3l/wallhaven-3l2ldd.png');
+```
