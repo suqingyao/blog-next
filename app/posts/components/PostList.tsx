@@ -21,78 +21,64 @@ export default function PostList({ posts }: PostListProps) {
   }
 
   return (
-    <div className="my-20">
+    <motion.ul
+      initial="initial"
+      animate="animate"
+      variants={{
+        initial: {
+          transition: {
+            when: 'afterChildren'
+          }
+        },
+        animate: {
+          transition: {
+            when: 'beforeChildren',
+            staggerChildren: 0.2
+          }
+        }
+      }}
+      className="my-20"
+    >
       {posts.map((post, idx) => (
-        <motion.div
-          initial="initial"
-          animate="animate"
+        <motion.li
           variants={{
             initial: {
-              transition: {
-                when: 'afterChildren'
-              }
+              opacity: 0,
+              y: 10
             },
             animate: {
-              transition: {
-                when: 'beforeChildren',
-                staggerChildren: 0.3
-              }
+              opacity: 1,
+              y: 0
             }
           }}
           key={post.slug}
         >
           {!isSameGroup(post, posts[idx - 1]) && (
-            <motion.div
-              variants={{
-                initial: {
-                  opacity: 0,
-                  y: 10
-                },
-                animate: {
-                  opacity: 1,
-                  y: 0
-                }
-              }}
-              className="pointer-events-none relative h-20 select-none"
-            >
+            <motion.div className="pointer-events-none relative h-20 select-none">
               <span
                 className="absolute -left-[3rem] -top-[2rem] text-[8em] font-bold tracking-wider text-transparent opacity-10"
                 style={{
-                  WebkitTextStroke: '10px #aaa'
+                  WebkitTextStroke: '10px #bbb'
                 }}
               >
                 {getYear(post.date)}
               </span>
             </motion.div>
           )}
-          <motion.div
-            variants={{
-              initial: {
-                opacity: 0,
-                y: 10
-              },
-              animate: {
-                opacity: 1,
-                y: 0
-              }
-            }}
+          <Link
+            href={`/posts/${post.slug}`}
+            className="mb-6 mt-2 flex items-center gap-2 opacity-50 transition-opacity hover:opacity-100"
           >
-            <Link
-              href={`/posts/${post.slug}`}
-              key={post.slug}
-              className="mb-6 mt-2 flex items-center gap-2 opacity-50 transition-opacity hover:opacity-100"
-            >
-              <span className="text-lg leading-[1.2em]">{post.title}</span>
-              <span className="whitespace-nowrap text-sm opacity-50">
-                {dayjs(post.date).format('MMM DD, YYYY')}
-              </span>
-              <span className="whitespace-nowrap text-sm opacity-40">
-                {post.readingTime}
-              </span>
-            </Link>
-          </motion.div>
-        </motion.div>
+            <span className="text-lg leading-[1.2em]">{post.title}</span>
+            <span className="whitespace-nowrap text-sm opacity-50">
+              {dayjs(post.date).format('MMM DD, YYYY')}
+            </span>
+            <span className="whitespace-nowrap text-sm opacity-40">
+              {post.readingTime}
+            </span>
+          </Link>
+        </motion.li>
       ))}
-    </div>
+    </motion.ul>
   );
 }
