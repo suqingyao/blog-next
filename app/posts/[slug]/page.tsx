@@ -22,9 +22,7 @@ export default async function Post({ params: { slug } }: PageParams) {
 
   return (
     <>
-      <h1 className="mx-auto my-3 w-[32rem] text-center text-2xl font-bold">
-        {frontmatter.title}
-      </h1>
+      <h1 className="my-3 w-[32rem] text-2xl font-bold">{frontmatter.title}</h1>
       <p className="flex flex-row gap-2 text-[#555]">
         <span>{dayjs(frontmatter.date).format('MMM DD, YYYY')}</span>
         <span className="flex flex-row items-center">

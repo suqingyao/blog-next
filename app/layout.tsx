@@ -25,15 +25,15 @@ export default function RootLayout({
       <body
         className={clsx(
           inter.className,
-          'mx-auto min-h-screen w-[75ch] bg-white dark:bg-black'
+          'mx-auto flex min-h-screen w-[75ch] flex-col bg-white dark:bg-black'
         )}
       >
         <NextProgress color="#fb7299" options={{ showSpinner: false }} />
         <Providers>
           <Header />
-          {children}
+          <div className="flex-1">{children}</div>
+          <Footer />
         </Providers>
-        <Footer />
         <Plum />
       </body>
     </html>
