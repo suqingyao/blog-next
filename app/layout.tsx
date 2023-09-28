@@ -7,6 +7,7 @@ import Footer from './components/Footer';
 import NextProgress from './components/NextProgress';
 import Providers from './components/Providers';
 import Plum from './components/Plum';
+import BackTop from './components/BackTop';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -33,6 +34,7 @@ export default function RootLayout({
           <Header />
           <div className="flex-1">{children}</div>
           <Footer />
+          <BackTop />
         </Providers>
         <Plum />
       </body>
