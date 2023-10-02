@@ -9,7 +9,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: '#ff7008'
+        primary: '#22c55e'
       },
       keyframes: {
         slide: {
