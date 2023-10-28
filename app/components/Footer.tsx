@@ -2,7 +2,7 @@ export default function Footer() {
   return (
     <footer
       className="
-        py-12
+        py-8
         text-center
         text-sm
       "

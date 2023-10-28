@@ -5,7 +5,7 @@ export default async function Posts() {
   const posts = await getAllPostFrontMatter();
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-1 flex-col pt-20">
       <PostList posts={posts} />
     </div>
   );

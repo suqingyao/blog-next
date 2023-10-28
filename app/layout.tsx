@@ -32,7 +32,7 @@ export default function RootLayout({
         <NextProgress color="#fb7299" options={{ showSpinner: false }} />
         <Providers>
           <Header />
-          <div className="flex-1">{children}</div>
+          {children}
           <Footer />
           <BackTop />
         </Providers>

@@ -7,10 +7,10 @@ export default async function Home() {
   const posts = await getAllPostFrontMatter();
 
   return (
-    <>
+    <div className="flex-1 pt-20">
       <Hero />
       <Social />
       <LatestPosts posts={posts} />
-    </>
+    </div>
   );
 }

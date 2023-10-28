@@ -21,7 +21,7 @@ export default async function Post({ params: { slug } }: PageParams) {
   const { prev, next } = await getAdjacentPosts(slug);
 
   return (
-    <>
+    <div className="flex-1 pt-20">
       <h1 className="my-3 w-[32rem] text-2xl font-bold">{frontmatter.title}</h1>
       <p className="flex flex-row gap-2 text-[#555]">
         <span>{dayjs(frontmatter.date).format('MMM DD, YYYY')}</span>
@@ -32,7 +32,7 @@ export default async function Post({ params: { slug } }: PageParams) {
       </p>
       <Prose>{content}</Prose>
       <Pager prev={prev!} next={next!} />
-    </>
+    </div>
   );
 }
 
