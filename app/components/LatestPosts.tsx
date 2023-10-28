@@ -43,21 +43,24 @@ export default function LatestPosts({ posts }: { posts: Frontmatter[] }) {
           animate: {
             transition: {
               when: 'beforeChildren',
-              staggerChildren: 0.3
+              staggerChildren: 0.3,
+              transition: {
+                ease: 'easeInOut'
+              }
             }
           }
         }}
         className="mt-8 flex flex-col gap-2"
       >
-        {posts.map((post) => (
-          <Card post={post} key={post.slug} />
+        {posts.map((post, index) => (
+          <Card post={post} delay={index * 0.06} key={post.slug} />
         ))}
       </motion.ul>
     </div>
   );
 }
 
-export function Card({ post }: { post: Frontmatter }) {
+export function Card({ post, delay }: { post: Frontmatter; delay: number }) {
   return (
     <motion.li
       variants={{
@@ -67,7 +70,11 @@ export function Card({ post }: { post: Frontmatter }) {
         },
         animate: {
           opacity: 1,
-          y: 0
+          y: 0,
+          transition: {
+            ease: 'easeInOut',
+            delay
+          }
         }
       }}
     >

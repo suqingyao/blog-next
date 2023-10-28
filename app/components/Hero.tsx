@@ -17,7 +17,8 @@ const Hero = () => {
         animate: {
           transition: {
             when: 'beforeChildren',
-            staggerChildren: 0.3
+            staggerChildren: 0.3,
+            ease: 'easeInOut'
           }
         }
       }}
@@ -32,7 +33,10 @@ const Hero = () => {
             },
             animate: {
               opacity: 1,
-              x: 0
+              x: 0,
+              transition: {
+                ease: 'easeInOut'
+              }
             }
           }}
         >
@@ -46,7 +50,10 @@ const Hero = () => {
             },
             animate: {
               opacity: 1,
-              x: 0
+              x: 0,
+              transition: {
+                ease: 'easeInOut'
+              }
             }
           }}
         >
@@ -62,7 +69,10 @@ const Hero = () => {
             },
             animate: {
               opacity: 1,
-              x: 0
+              x: 0,
+              transition: {
+                ease: 'easeInOut'
+              }
             }
           }}
         >
@@ -76,7 +86,10 @@ const Hero = () => {
             },
             animate: {
               opacity: 1,
-              x: 0
+              x: 0,
+              transition: {
+                ease: 'easeInOut'
+              }
             }
           }}
         >

@@ -48,7 +48,11 @@ export default function PostList({ posts }: PostListProps) {
             },
             animate: {
               opacity: 1,
-              y: 0
+              y: 0,
+              transition: {
+                delay: idx * 0.06,
+                ease: 'easeInOut'
+              }
             }
           }}
           key={post.slug}
