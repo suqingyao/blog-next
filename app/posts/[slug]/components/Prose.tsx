@@ -6,10 +6,10 @@ import { ReactNode } from 'react';
 export default function Prose({ children }: { children: ReactNode }) {
   return (
     <motion.article
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
+      initial={{ opacity: 0, marginTop: 50 }}
+      animate={{ opacity: 1, marginTop: 0 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 1 }}
       className="
         prose
         dark:prose-invert

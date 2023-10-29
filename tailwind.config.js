@@ -12,16 +12,13 @@ module.exports = {
         primary: '#22c55e'
       },
       keyframes: {
-        slide: {
-          '0%': {
-            transform: 'translateY(10px)',
-            opacity: 0
-          },
-          '100%': {
-            transform: 'translateY(0)',
-            opacity: 100
-          }
+        'slide-enter-in': {
+          '0%': { transform: 'translateY(-100%)', opacity: '0' },
+          '100%': { transform: 'translateY(0)', opacity: '1' }
         }
+      },
+      animation: {
+        'slide-enter-in': 'slide-enter-in 1s both 1'
       }
     }
   },
