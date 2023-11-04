@@ -23,11 +23,11 @@ export default function Header() {
         top-0
         z-50
         flex
+        h-[60px]
         w-full
         items-center
         justify-end
         px-5
-        py-6
         text-center
         shadow-sm
         backdrop-blur-sm

@@ -7,6 +7,10 @@ body,
 :root {
   height: 100%;
   scroll-behavior: smooth;
+
+  --c-bg: #fefefe;
+  --c-scrollbar: #e5e5e5;
+  --c-scrollbar-hover: #999;
 }
 
 @layer utilities {
@@ -14,6 +18,37 @@ body,
     -webkit-text-stroke-width: 2px;
     -webkit-text-stroke-color: #aaa;
   }
+}
+html.dark {
+  --c-bg: #050505;
+  --c-scrollbar: #111;
+  --c-scrollbar-hover: #222;
+}
+
+* {
+  scrollbar-color: var(--c-scrollbar) var(--c-bg);
+}
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar:horizontal {
+  height: 6px;
+}
+
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-corner {
+  background: var(--c-bg);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--c-scrollbar);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--c-scrollbar-hover);
 }
 
 /* Query based dark mode */

@@ -21,7 +21,7 @@ export default async function Post({ params: { slug } }: PageParams) {
   const { prev, next } = await getAdjacentPosts(slug);
 
   return (
-    <div className="flex-1 pt-20">
+    <div className="flex-1 pt-[60px]">
       <h1 className="my-3 w-[32rem] animate-slide-enter-in text-2xl font-bold">
         {frontmatter.title}
       </h1>
