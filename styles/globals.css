@@ -64,20 +64,3 @@ html.dark {
     display: none;
   }
 }
-
-/* Class based dark mode */
-html.dark pre[data-theme='light'] {
-  display: none;
-}
-
-html.dark code[data-theme='light'] {
-  display: none;
-}
-
-html:not(.dark) pre[data-theme='dark'] {
-  display: none;
-}
-
-html:not(.dark) code[data-theme='dark'] {
-  display: none;
-}

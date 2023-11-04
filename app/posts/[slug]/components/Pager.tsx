@@ -33,13 +33,14 @@ export default function Pager({ prev, next }: PagerProps) {
       {prev && (
         <button
           className="
+            group
             flex
             w-64
             cursor-pointer
-            flex-row
-            items-center 
-            gap-2
-            rounded-md 
+            flex-row 
+            items-center
+            gap-2 
+            rounded-md
             border
             border-gray-500/50
             px-3
@@ -50,7 +51,7 @@ export default function Pager({ prev, next }: PagerProps) {
         >
           <FiArrowLeft
             size={24}
-            className="transition-transform hover:-translate-x-1"
+            className="group:hover:-translate-x-1 transition-transform"
           />
           <span>{prev.title}</span>
         </button>
@@ -59,6 +60,7 @@ export default function Pager({ prev, next }: PagerProps) {
       {next && (
         <button
           className="
+            group
             flex
             w-64
             cursor-pointer
@@ -72,12 +74,14 @@ export default function Pager({ prev, next }: PagerProps) {
             px-3
             py-2
             transition-colors
-            peer-hover:translate-x-1
           "
           onClick={() => handleTogglePage(next)}
         >
           <span>{next.title}</span>
-          <FiArrowRight size={24} className="peer transition-transform" />
+          <FiArrowRight
+            size={24}
+            className="group:hover:translate-x-1 transition-transform"
+          />
         </button>
       )}
     </div>

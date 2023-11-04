@@ -1,5 +1,5 @@
 import { useEventListener, useMount } from 'ahooks';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 const useClipboard = () => {
   const [text, setText] = useState('');
@@ -20,9 +20,9 @@ const useClipboard = () => {
   useEventListener('cut', updateText);
 
   const copy = useCallback(
-    (value: string) => {
+    async (value: string) => {
       if (isSupported) {
-        navigator.clipboard.writeText(value);
+        await navigator.clipboard.writeText(value);
       }
     },
     [isSupported]

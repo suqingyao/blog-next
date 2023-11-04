@@ -2,7 +2,7 @@ import {
   getAdjacentPosts,
   getAllPostFrontMatter,
   getPostBySlug
-} from '@/app/utils/mdx';
+} from '@/utils/mdx';
 
 import { AiOutlineFieldTime } from 'react-icons/ai';
 import Pager from './components/Pager';

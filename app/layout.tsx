@@ -1,13 +1,16 @@
 import { Inter } from 'next/font/google';
-import clsx from 'clsx';
-import './styles/globals.css';
-import './styles/prose.css';
-import Header from './components/Header';
-import Footer from './components/Footer';
-import NextProgress from './components/NextProgress';
-import Providers from './components/Providers';
-import Plum from './components/Plum';
-import BackTop from './components/BackTop';
+import { Toaster } from 'react-hot-toast';
+
+import '@/styles/globals.css';
+import '@/styles/prose.css';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import NextProgress from '@/components/NextProgress';
+import Providers from '@/components/Providers';
+import Plum from '@/components/Plum';
+import BackTop from '@/components/BackTop';
+
+import { cn } from '@/lib/utils';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -27,7 +30,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body
-        className={clsx(
+        className={cn(
           inter.className,
           'mx-auto min-h-screen w-[75ch] bg-white dark:bg-black'
         )}
@@ -43,6 +46,7 @@ export default function RootLayout({
             <Footer />
           </div>
           <BackTop />
+          <Toaster />
         </Providers>
         <Plum />
       </body>

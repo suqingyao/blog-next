@@ -134,7 +134,11 @@ export default function Plum() {
       className="pointer-events-none fixed bottom-0 left-0 right-0 top-0"
       style={{ zIndex: -1, maskImage: `${mask}`, WebkitMaskImage: `${mask}` }}
     >
-      <canvas ref={el} width="400" height="400" />
+      <canvas
+        ref={el}
+        width="400"
+        height="400"
+      />
     </div>
   );
 }

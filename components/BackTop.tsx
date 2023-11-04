@@ -1,8 +1,8 @@
 'use client';
 
+import { cn } from '@/lib/utils';
 import { useEffect, useState } from 'react';
 import { BsArrowUpCircleFill } from 'react-icons/bs';
-import { clsx } from 'clsx';
 
 export default function BackTop() {
   const [show, setShow] = useState(false);
@@ -31,7 +31,7 @@ export default function BackTop() {
   return (
     <div
       onClick={scrollTop}
-      className={clsx(
+      className={cn(
         `
         fixed
         bottom-10

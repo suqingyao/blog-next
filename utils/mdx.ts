@@ -5,14 +5,14 @@ import readingTime from 'reading-time';
 import { compileMDX } from 'next-mdx-remote/rsc';
 import remarkGfm from 'remark-gfm';
 import remarkDirective from 'remark-directive';
-import remarkAdmonitions from '@/app/lib/remark-admonitions';
+import remarkAdmonitions from '@/lib/remark-admonitions';
 import remarkMath from 'remark-math';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypePrettyCode from 'rehype-pretty-code';
 import rehypeSlug from 'rehype-slug';
 import rehypeToc from 'rehype-toc';
 import rehypeKatex from 'rehype-katex';
-import components from '@/app/components/MDXComponents';
+import components from '@/components/MDXComponents';
 
 const ROOT_PATH = process.cwd();
 

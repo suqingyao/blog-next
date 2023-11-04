@@ -38,11 +38,6 @@ h6 {
   margin-top: -60px;
 }
 
-/* Code */
-.prose code:not([data-language]) {
-  @apply rounded-sm bg-gray-300/20 px-2 py-1 before:content-none after:content-none;
-}
-
 /* Blockquote */
 .prose blockquote {
   @apply border-none p-0;

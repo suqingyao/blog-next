@@ -1,4 +1,4 @@
-import { getAllPostFrontMatter } from '../utils/mdx';
+import { getAllPostFrontMatter } from '../../utils/mdx';
 import PostList from './components/PostList';
 
 export default async function Posts() {
