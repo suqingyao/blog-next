@@ -1,9 +1,9 @@
 'use client';
 
-import clsx from 'clsx';
 import { useRouter } from 'next/navigation';
-import React from 'react';
 import { FiArrowLeft, FiArrowRight } from 'react-icons/fi';
+
+import { cn } from '@/lib/utils';
 
 interface PagerProps {
   prev: Frontmatter;
@@ -19,13 +19,10 @@ export default function Pager({ prev, next }: PagerProps) {
 
   return (
     <div
-      className={clsx(
+      className={cn(
         `
-          mt-10
-          flex 
-          items-center
-          px-2
-          py-3
+          my-10
+          flex
         `,
         prev ? 'justify-between' : 'justify-end'
       )}
@@ -37,8 +34,6 @@ export default function Pager({ prev, next }: PagerProps) {
             flex
             w-64
             cursor-pointer
-            flex-row 
-            items-center
             gap-2 
             rounded-md
             border
@@ -53,7 +48,7 @@ export default function Pager({ prev, next }: PagerProps) {
             size={24}
             className="group:hover:-translate-x-1 transition-transform"
           />
-          <span>{prev.title}</span>
+          <span className='truncate' title={prev.title}>{prev.title}</span>
         </button>
       )}
 
@@ -64,8 +59,6 @@ export default function Pager({ prev, next }: PagerProps) {
             flex
             w-64
             cursor-pointer
-            flex-row
-            items-center
             justify-between
             gap-2
             rounded-md
@@ -77,7 +70,7 @@ export default function Pager({ prev, next }: PagerProps) {
           "
           onClick={() => handleTogglePage(next)}
         >
-          <span>{next.title}</span>
+          <span className='truncate' title={next.title}>{next.title}</span>
           <FiArrowRight
             size={24}
             className="group:hover:translate-x-1 transition-transform"
