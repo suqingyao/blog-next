@@ -22,18 +22,26 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html
+      lang="en"
+      suppressHydrationWarning
+    >
       <body
         className={clsx(
           inter.className,
-          'mx-auto flex min-h-screen w-[75ch] flex-col bg-white dark:bg-black'
+          'mx-auto min-h-screen w-[75ch] bg-white dark:bg-black'
         )}
       >
-        <NextProgress color="#fb7299" options={{ showSpinner: false }} />
+        <NextProgress
+          color="#fb7299"
+          options={{ showSpinner: false }}
+        />
         <Providers>
           <Header />
-          {children}
-          <Footer />
+          <div className="h-full pt-[60px]">
+            <div className="min-h-[calc(100%-60px)]">{children}</div>
+            <Footer />
+          </div>
           <BackTop />
         </Providers>
         <Plum />

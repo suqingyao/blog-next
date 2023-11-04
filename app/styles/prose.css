@@ -31,6 +31,13 @@ h6 {
   @apply relative font-semibold text-[#222] no-underline dark:text-[#ddd];
 }
 
+.prose .anchor::before {
+  content: '';
+  display: block;
+  height: 60px;
+  margin-top: -60px;
+}
+
 /* Code */
 .prose code:not([data-language]) {
   @apply rounded-sm bg-gray-300/20 px-2 py-1 before:content-none after:content-none;

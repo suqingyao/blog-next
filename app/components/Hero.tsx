@@ -22,7 +22,7 @@ const Hero = () => {
           }
         }
       }}
-      className="my-10"
+      className="py-10"
     >
       <div className="flex flex-col gap-3 text-5xl font-bold">
         <motion.p

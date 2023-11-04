@@ -16,23 +16,7 @@ export default function Header() {
   ];
 
   return (
-    <div
-      className="
-        fixed
-        left-0
-        top-0
-        z-50
-        flex
-        h-[60px]
-        w-full
-        items-center
-        justify-end
-        px-5
-        text-center
-        shadow-sm
-        backdrop-blur-sm
-      "
-    >
+    <header className="fixed left-0 top-0 z-50 flex h-[60px] w-full items-center justify-end px-5 text-center shadow-sm backdrop-blur-sm">
       {links.map((link) => (
         <Link
           href={`${link.path}`}
@@ -43,6 +27,6 @@ export default function Header() {
         </Link>
       ))}
       <DarkToggle />
-    </div>
+    </header>
   );
 }

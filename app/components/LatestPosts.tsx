@@ -9,8 +9,11 @@ import dayjs from 'dayjs';
 
 export default function LatestPosts({ posts }: { posts: Frontmatter[] }) {
   return (
-    <div className="my-10">
-      <motion.div layout className="flex items-center justify-between">
+    <div className="py-10">
+      <motion.div
+        layout
+        className="flex items-center justify-between"
+      >
         <motion.h2
           initial={{ x: 100, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
@@ -26,7 +29,10 @@ export default function LatestPosts({ posts }: { posts: Frontmatter[] }) {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5, duration: 0.5 }}
         >
-          <Link href={'/posts'} className="opacity-50 hover:opacity-100">
+          <Link
+            href={'/posts'}
+            className="opacity-50 hover:opacity-100"
+          >
             <RiArrowRightUpLine size={28} />
           </Link>
         </motion.div>
@@ -53,7 +59,11 @@ export default function LatestPosts({ posts }: { posts: Frontmatter[] }) {
         className="mt-8 flex flex-col gap-2"
       >
         {posts.map((post, index) => (
-          <Card post={post} delay={index * 0.06} key={post.slug} />
+          <Card
+            post={post}
+            delay={index * 0.06}
+            key={post.slug}
+          />
         ))}
       </motion.ul>
     </div>

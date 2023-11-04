@@ -37,7 +37,6 @@ export default function PostList({ posts }: PostListProps) {
           }
         }
       }}
-      className="my-20"
     >
       {posts.map((post, idx) => (
         <motion.li
