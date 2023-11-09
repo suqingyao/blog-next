@@ -1,8 +1,8 @@
 'use client';
 
-import { cn } from '@/lib/utils';
 import { useEffect, useState } from 'react';
-import { BsArrowUpCircleFill } from 'react-icons/bs';
+import { TbCircleArrowUpFilled } from 'react-icons/tb';
+import { cn } from '@/lib/utils';
 
 export default function BackTop() {
   const [show, setShow] = useState(false);
@@ -37,15 +37,19 @@ export default function BackTop() {
         bottom-10
         right-10
         cursor-pointer
-        text-primary
+        rounded-full
+        text-primary/90
         opacity-0
-        transition-opacity
+        drop-shadow-sm
+        transition-all
+        hover:text-primary/80
+        dark:hover:text-primary/60
       `,
         show && 'opacity-100',
         !show && 'pointer-events-none'
       )}
     >
-      <BsArrowUpCircleFill size={32} />
+      <TbCircleArrowUpFilled size={32} />
     </div>
   );
 }

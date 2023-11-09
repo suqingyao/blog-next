@@ -46,9 +46,14 @@ export default function Pager({ prev, next }: PagerProps) {
         >
           <FiArrowLeft
             size={24}
-            className="group:hover:-translate-x-1 transition-transform"
+            className="transition-transform group-hover:-translate-x-1"
           />
-          <span className='truncate' title={prev.title}>{prev.title}</span>
+          <span
+            className="truncate"
+            title={prev.title}
+          >
+            {prev.title}
+          </span>
         </button>
       )}
 
@@ -70,10 +75,15 @@ export default function Pager({ prev, next }: PagerProps) {
           "
           onClick={() => handleTogglePage(next)}
         >
-          <span className='truncate' title={next.title}>{next.title}</span>
+          <span
+            className="truncate"
+            title={next.title}
+          >
+            {next.title}
+          </span>
           <FiArrowRight
             size={24}
-            className="group:hover:translate-x-1 transition-transform"
+            className="transition-transform group-hover:translate-x-1"
           />
         </button>
       )}
