@@ -11,18 +11,31 @@ const DarkToggle = dynamic(() => import('./DarkToggle'), { ssr: false });
 const links = [
   {
     label: 'Home',
-    path: '/'
+    path: '/',
+    sort: 0
   },
   {
     label: 'Posts',
-    path: '/posts'
+    path: '/posts',
+    sort: 1
   }
 ];
 
 export default function Header() {
   const pathname = usePathname();
 
-  const [activeIndex, setActiveIndex] = useState(0);
+  const activeIndex = useMemo(() => {
+    let index = -1;
+
+    links.some((link) => {
+      if (pathname === link.path) {
+        index = link.sort;
+        return true;
+      }
+    });
+
+    return index;
+  }, [pathname]);
 
   const activeLineLeft = useMemo(() => {
     return activeIndex * 5;
@@ -39,13 +52,15 @@ export default function Header() {
               'flex h-full w-20 cursor-pointer items-center justify-center hover:text-primary',
               pathname === link.path && 'text-primary'
             )}
-            onClick={() => setActiveIndex(index)}
           >
             {link.label}
           </Link>
         ))}
         <div
-          className="absolute bottom-0 h-1 w-20 rounded-full bg-primary transition-all"
+          className={cn(
+            'absolute bottom-0 h-1 w-20 rounded-full bg-primary transition-all',
+            activeIndex < 0 && 'hidden'
+          )}
           style={{ left: `${activeLineLeft}rem` }}
         />
       </div>
