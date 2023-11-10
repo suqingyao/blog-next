@@ -45,8 +45,8 @@ export default function BackTop() {
         hover:text-primary/80
         dark:hover:text-primary/60
       `,
-        show && 'opacity-100',
-        !show && 'pointer-events-none'
+        show && 'animate-bounce-enter-in opacity-100',
+        !show && 'pointer-events-none animate-bounce-leave-out'
       )}
     >
       <TbCircleArrowUpFilled size={32} />

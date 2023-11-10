@@ -40,7 +40,9 @@
     "fast-glob": "^3.3.0",
     "fs-extra": "^11.1.1",
     "hastscript": "^8.0.0",
+    "mdast-util-directive": "^3.0.0",
     "ora": "^7.0.1",
+    "plaiceholder": "^3.0.0",
     "postcss": "8.4.24",
     "prettier": "^2.8.8",
     "prettier-plugin-tailwindcss": "^0.3.0",
@@ -57,6 +59,7 @@
     "shiki": "^0.14.3",
     "tailwindcss": "3.3.2",
     "typescript": "5.1.6",
+    "unified": "^11.0.4",
     "unist-util-visit": "^5.0.0"
   }
 }
