@@ -1,9 +1,8 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { ReactNode } from 'react';
 
-export default function Prose({ children }: { children: ReactNode }) {
+export default function Prose({ children }: { children: React.ReactNode }) {
   return (
     <motion.article
       initial={{ opacity: 0, marginTop: 50 }}

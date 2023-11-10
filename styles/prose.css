@@ -61,12 +61,31 @@ h6 {
 }
 
 /* Admonition */
-.admonition .danger {
-  @apply text-red-600;
+.admonition {
+  @apply relative my-12 border-l-[3px] px-8 py-px sm:-mx-[1.5ch] sm:rounded-[3px];
 }
-.admonition .warning {
-  @apply text-orange-600;
+
+.admonition::before {
+  @apply absolute -left-[26.5px] -top-[25px] hidden h-[50px] w-[50px] rounded-full bg-white sm:block;
 }
-.admonition .tip {
-  @apply text-green-400;
+
+.admonition.tip {
+  @apply border-blue-600 bg-blue-300/30;
+}
+.admonition.tip::before {
+  content: url('/tip.svg');
+}
+
+.admonition.warning {
+  @apply border-yellow-400 bg-yellow-300/30;
+}
+.admonition.warning::before {
+  content: url('/warning.svg');
+}
+
+.admonition.danger {
+  @apply border-rose-500 bg-rose-300/30;
+}
+.admonition.danger::before {
+  content: url('/danger.svg');
 }
