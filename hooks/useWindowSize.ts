@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { isBrowser } from '../utils/is';
-import { useRafState } from 'ahooks';
+import { useRafState } from './useRafState';
 
 export default function useWindowSize(
   initialWidth = Infinity,

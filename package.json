@@ -10,7 +10,6 @@
     "gen": "esno ./cli/gen.ts"
   },
   "dependencies": {
-    "ahooks": "^3.7.8",
     "clsx": "^1.2.1",
     "dayjs": "^1.11.9",
     "framer-motion": "^10.12.18",

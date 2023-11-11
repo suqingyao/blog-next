@@ -1,5 +1,5 @@
-import { useMount } from 'ahooks';
 import { useRef } from 'react';
+import { useMount } from './useMount';
 
 export default function useMountedRef() {
   const isMounted = useRef(false);

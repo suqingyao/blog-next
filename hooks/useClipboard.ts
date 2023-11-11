@@ -1,5 +1,6 @@
-import { useEventListener, useMount } from 'ahooks';
 import { useCallback, useState } from 'react';
+import { useMount } from './useMount';
+import { useEventListener } from './useEventListener';
 
 const useClipboard = () => {
   const [text, setText] = useState('');
