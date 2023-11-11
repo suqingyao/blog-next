@@ -1,13 +1,15 @@
+import { AiOutlineFieldTime } from 'react-icons/ai';
+import dayjs from 'dayjs';
+
 import {
   getAdjacentPosts,
   getAllPostFrontMatter,
   getPostBySlug
 } from '@/utils/mdx';
 
-import { AiOutlineFieldTime } from 'react-icons/ai';
-import Pager from './components/Pager';
-import dayjs from 'dayjs';
-import Prose from './components/Prose';
+import Pager from './_components/Pager';
+import Prose from './_components/Prose';
+import Error from 'next/error';
 
 interface PageParams {
   params: {
