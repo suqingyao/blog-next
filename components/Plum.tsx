@@ -1,9 +1,9 @@
 'use client';
 
-import { useMount } from 'ahooks';
 import { useMemo, useRef } from 'react';
-import useRafFn from '../hooks/useRafFn';
-import useWindowSize from '../hooks/useWindowSize';
+import useRafFn from '@/hooks/useRafFn';
+import useWindowSize from '@/hooks/useWindowSize';
+import { useMount } from '@/hooks/useMount';
 
 export default function Plum() {
   const r180 = Math.PI;
