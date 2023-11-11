@@ -1,11 +1,11 @@
 import { Inter } from 'next/font/google';
 import { Toaster } from 'react-hot-toast';
+import NextTopLoader from 'nextjs-toploader';
 
 import '@/styles/globals.css';
 import '@/styles/prose.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import NextProgress from '@/components/NextProgress';
 import Providers from '@/components/Providers';
 import Plum from '@/components/Plum';
 import BackTop from '@/components/BackTop';
@@ -35,9 +35,9 @@ export default function RootLayout({
           'mx-auto min-h-screen w-[75ch] bg-white dark:bg-black'
         )}
       >
-        <NextProgress
-          color="#fb7299"
-          options={{ showSpinner: false }}
+        <NextTopLoader
+          color="#22c55e"
+          showSpinner={false}
         />
         <Providers>
           <Header />

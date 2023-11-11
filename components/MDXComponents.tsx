@@ -1,6 +1,4 @@
-import { cn } from '@/lib/utils';
 import DarkToggle from './DarkToggle';
-import TOC from './TOC';
 import Pre from './mdx/Pre';
 import Code from './mdx/Code';
 

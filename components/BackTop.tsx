@@ -49,7 +49,7 @@ export default function BackTop() {
         !show && 'pointer-events-none animate-bounce-leave-out'
       )}
     >
-      <TbCircleArrowUpFilled size={32} />
+      <TbCircleArrowUpFilled size={36} />
     </div>
   );
 }
