@@ -34,6 +34,7 @@ export async function getPostBySlug(slug: string) {
         remarkPlugins: [
           remarkGfm,
           remarkDirective,
+          // @ts-ignore
           remarkAdmonitions,
           remarkMath
         ],

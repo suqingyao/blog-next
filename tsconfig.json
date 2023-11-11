@@ -29,7 +29,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "dist/types/**/*.ts",
-    "lib/remark-admonitions.ts"
+    "lib/*.ts"
   ],
   "exclude": ["node_modules"]
 }
