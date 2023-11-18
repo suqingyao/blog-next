@@ -3,7 +3,9 @@
   date: 2023-11-18 21:47:13
 ---
 
-## 1. Flex 布局
+## 1. `Flex` 与 `Grid` 布局
+
+### 1. `Flex`
 
 <FlexDemo />
 
@@ -24,8 +26,120 @@
 }
 ```
 
+### 2. `Grid`
+
+```css
+.container {
+  display: grid:
+  align-items: center;
+}
+
+```
+
 :::warning
-IE 兼容性会有问题
+`flex` 相对于 `grid` 的兼容性会更好，并且支持部分 ie 版本， 具体兼容请前往 [caniuse](https://caniuse.com/?search=grid) 查询
 :::
 
 ## 2. 绝对定位
+
+<AbsoluteDemo />
+
+```css showLineNumbers {2, 10-13}
+.container {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  background-color: #fbf;
+  margin: 20px auto;
+}
+
+.element {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 100px;
+  height: 100px;
+  background-color: #fb3;
+}
+```
+
+:::tip
+这里的 `transform` 也可以替换为 `margin: -50px 0 0 -50px;` 但是仅限于固定宽高
+:::
+
+## 3. `table` 布局
+
+<InlineBlockDemo />
+
+```css showLineNumbers {2-3, 11-12, 16}
+.container {
+  display: table;
+  text-align: center;
+  background-color: #f92;
+  width: 200px;
+  height: 200px;
+  margin: 20px auto;
+}
+
+.centered {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.content {
+  display: inline-block;
+  background-color: #fb7299;
+  width: 100px;
+  height: 100px;
+}
+```
+
+## 4. 其他居中方式
+
+### 1. 水平居中
+
+- 行内元素（如文本、链接等）：
+  使用 text-align: center 属性将行内元素（如文本、链接等）水平居中：
+
+```css showLineNumbers {2}
+.container {
+  text-align: center;
+}
+```
+
+- 块级元素：
+
+使用 margin: auto 将块级元素（如 div）水平居中。请确保元素具有明确的宽度 (width)。
+
+```css
+.container {
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+```
+
+### 2. 垂直居中
+
+- 单行文本
+
+使用 line-height 将单行文本垂直居中。设置元素的 line-height 等于其 height：
+
+```css
+.single-line {
+  height: 50px;
+  line-height: 50px;
+}
+```
+
+- 行内元素与其他行内元素之间的对齐
+
+当用于行内元素（如 `<span>`、`<img>`）或行内块级元素（如 `<button>`、`<input>`、`<textarea>`）时，`vertical-align: middle` 将使元素在其 “line box” 内垂直对齐。这意味着行内元素或行内块级元素将与其他行内内容（如文字或图像）垂直居中对齐。
+
+```html
+<p>
+  This is a
+  <span style="vertical-align: middle;">vertically middle-aligned</span> text.
+</p>
+```
