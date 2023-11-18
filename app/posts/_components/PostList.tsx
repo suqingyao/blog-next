@@ -10,14 +10,10 @@ interface PostListProps {
 
 export default function PostList({ posts }: PostListProps) {
   const getYear = (a: Date | string | number) => new Date(a).getFullYear();
-  const isFuture = (a?: Date | string | number) =>
-    a && new Date(a) > new Date();
   const isSameYear = (a?: Date | string | number, b?: Date | string | number) =>
     a && b && getYear(a) === getYear(b);
   function isSameGroup(a: Frontmatter, b?: Frontmatter) {
-    return (
-      isFuture(a.date) === isFuture(b?.date) && isSameYear(a.date, b?.date)
-    );
+    return !!isSameYear(a.date, b?.date);
   }
 
   return (
