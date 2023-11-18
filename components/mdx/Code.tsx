@@ -1,16 +1,17 @@
 import { cn } from '@/lib/utils';
 
-const Code = ({ ...props }: any) => {
+const Code = ({ children, ...props }: any) => {
   return (
     <>
       <code
+        {...props}
         className={cn(
           'before:hidden after:hidden',
           !!!props['data-language'] &&
             'mx-1 rounded-sm bg-gray-300/20 px-2 py-1'
         )}
       >
-        {props.children}
+        {children}
       </code>
     </>
   );

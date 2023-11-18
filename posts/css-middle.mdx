@@ -1,0 +1,31 @@
+---
+  title: CSS 常见居中方式
+  date: 2023-11-18 21:47:13
+---
+
+## 1. Flex 布局
+
+<FlexDemo />
+
+```css showLineNumbers {5-7}
+.container {
+  background-color: aquamarine;
+  height: 200px;
+  width: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.element {
+  background-color: skyblue;
+  width: 100px;
+  height: 100px;
+}
+```
+
+:::warning
+IE 兼容性会有问题
+:::
+
+## 2. 绝对定位

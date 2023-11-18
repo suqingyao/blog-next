@@ -60,11 +60,13 @@ export async function getPostBySlug(slug: string) {
             }
           ],
           [
+            // @ts-ignore
             rehypeToc,
             {
               headings: ['h2', 'h3', 'h4']
             }
           ],
+          // @ts-ignore
           rehypeKatex
         ]
       }

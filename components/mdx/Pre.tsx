@@ -9,7 +9,7 @@ import { cn } from '@/lib/utils';
 import toast from 'react-hot-toast';
 import useClipboard from '@/hooks/useClipboard';
 
-const Pre = ({ ...props }: any) => {
+const Pre = ({ children, ...props }: any) => {
   const { theme } = useTheme();
   const [show, setShow] = useState(false);
   const { isSupported, text, copy } = useClipboard();
@@ -50,9 +50,9 @@ const Pre = ({ ...props }: any) => {
       </div>
       <pre
         {...props}
-        className="m-0"
+        className="m-0 p-0"
       >
-        {props.children}
+        {children}
       </pre>
     </div>
   );
