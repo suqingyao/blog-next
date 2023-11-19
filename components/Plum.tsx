@@ -96,9 +96,9 @@ export default function Plum() {
       const rad2 = rad - random() * r15;
       if (
         nx < -100 ||
-        nx > size?.width + 100 ||
+        nx > (size?.width || 0) + 100 ||
         ny < -100 ||
-        ny > size?.height + 100
+        ny > (size?.height || 0) + 100
       )
         return;
       if (iterations <= init.current || random() > 0.5)
@@ -114,12 +114,12 @@ export default function Plum() {
       ctx!.strokeStyle = color;
       prevSteps = [];
       steps = [
-        () => step(random() * size?.width, 0, r90),
-        () => step(random() * size?.width, size?.height, -r90),
-        () => step(0, random() * size?.height, 0),
-        () => step(size?.width, random() * size?.height, r180)
+        () => step(random() * (size?.width || 0), 0, r90),
+        () => step(random() * (size?.width || 0), size?.height || 0, -r90),
+        () => step(0, random() * (size?.height || 0), 0),
+        () => step(size?.width || 0, random() * (size?.height || 0), r180)
       ];
-      if (size?.width < 500) steps = steps.slice(0, 2);
+      if ((size?.width || 0) < 500) steps = steps.slice(0, 2);
       controls.resume();
       stopped.current = false;
     };
