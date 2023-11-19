@@ -1,4 +1,4 @@
-import fg from 'fast-glob';
+import fg, { async } from 'fast-glob';
 import fs from 'fs-extra';
 import { join } from 'path';
 import readingTime from 'reading-time';
@@ -18,11 +18,9 @@ const ROOT_PATH = process.cwd();
 
 const POSTS_DIR = join(ROOT_PATH, 'posts');
 
-export async function getAllPostFiles() {
-  return await fg('posts/**/*.mdx');
-}
+export const getAllPostFiles = async () => await fg('posts/**/*.mdx');
 
-export async function getPostBySlug(slug: string) {
+export const getPostBySlug = async (slug: string) => {
   const raw = await fs.readFile(join(POSTS_DIR, `${slug}.mdx`), 'utf-8');
 
   const { content, frontmatter } = await compileMDX<Frontmatter>({
@@ -80,9 +78,9 @@ export async function getPostBySlug(slug: string) {
       slug
     } as Frontmatter
   };
-}
+};
 
-export async function getAllPostFrontMatter() {
+export const getAllPostFrontMatter = async () => {
   const files = await getAllPostFiles();
 
   const posts: Frontmatter[] = await Promise.all(
@@ -97,13 +95,13 @@ export async function getAllPostFrontMatter() {
   );
 
   return posts.sort((a, b) => +new Date(b.date) - +new Date(a.date));
-}
+};
 
-export async function getAdjacentPosts(slug: string) {
+export const getAdjacentPosts = async (slug: string) => {
   const posts = await getAllPostFrontMatter();
   const idx = posts.findIndex((post) => post.slug === slug);
   const prev = idx > 0 ? posts[idx - 1] : null;
   const next = idx !== -1 && idx < posts.length - 1 ? posts[idx + 1] : null;
 
   return { prev, next };
-}
+};
