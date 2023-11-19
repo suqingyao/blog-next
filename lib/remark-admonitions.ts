@@ -23,7 +23,7 @@ const remarkAdmonitions: Plugin<[], Root> = () => {
     visit(tree, 'containerDirective', (node: ContainerDirective) => {
       if (!['tip', 'warning', 'danger'].includes(node.name)) return;
 
-      const data = (node.data || (node.data = {})) as any;
+      const data = (node.data || (node.data = {}));
       const tagName = 'div';
       data.hName = tagName;
       data.hProperties = h(tagName, {
