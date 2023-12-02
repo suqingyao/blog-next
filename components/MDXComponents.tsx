@@ -1,7 +1,7 @@
 import DarkToggle from './DarkToggle';
 import Pre from './mdx/Pre';
 import Code from './mdx/Code';
-import LinkCard from './mdx/LinkCard';
+import LinkCard from './LinkCard';
 
 const components = {
   // nav: (props: any) => (
