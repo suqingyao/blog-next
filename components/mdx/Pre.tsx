@@ -49,7 +49,7 @@ const Pre = ({ children, ...props }: any) => {
   }, [theme, props['data-theme']]);
 
   return (
-    <div className={cn('hidden rounded border', show && 'block')}>
+    <div className={cn('my-2 hidden rounded border', show && 'block')}>
       <div className="flex items-center justify-between border-b px-2 py-2 text-sm">
         <span className="font-mono">{props['data-language']}</span>
         <BiCopy

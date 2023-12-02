@@ -6,6 +6,7 @@ interface Frontmatter {
   slug: string;
   description?: string;
   readingTime?: string;
+  draft?: boolean;
 }
 
 interface Post {

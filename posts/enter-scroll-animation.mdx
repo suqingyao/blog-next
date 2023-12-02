@@ -1,0 +1,183 @@
+---
+  title: IntersectionObserver 实现滚动进入动画
+  date: 2023-12-02 20:48:57
+---
+
+<LinkCard
+  title="IntersectionObserver实现滚动进入动画"
+  href="https:/github.com/cullyfung/blog-demo/enter-in-scroll-animation"
+  image="https://w.wallhaven.cc/full/3l/wallhaven-3l7eoy.jpg"
+/>
+
+## IntersectionObserver 实现滚动进入动画
+
+### 1. 前言
+
+`IntersectionObserver` 是一个新的 API，它允许我们监听一个元素是否进入或离开视口。
+
+### 2. 基本用法
+
+`IntersectionObserver` 是一个构造函数，它接收一个 2 个参数。 第一个参数是回调函数，第二个是配置对象。
+
+- `callback`：回调函数，当元素进入或离开视口时，就会调用回调函数。
+- `options`：配置对象，可选。
+
+```js
+const animatedItems = document.querySelectorAll('.animated-item');
+const options = {
+  root: null, // 根节点，默认为视口
+  rootMargin: '0px', // 根节点的边距，默认为 0px
+  threshold: 0.3 // 触发回调函数的阈值，默认为 0.3
+};
+
+const observer = new IntersectionObserver((entries, observer) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      // 进入视口 添加动画
+      entry.target.classList.add('fade-in');
+      // 从视口移除元素
+      observer.unobserve(entry.target);
+    }
+  });
+}, options);
+
+animatedItems.forEach((item) => {
+  observer.observe(item);
+});
+```
+
+```css
+.animated-item {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.fade-in {
+  opacity: 1;
+}
+```
+
+### 3. 在 React 中使用
+
+```jsx
+// App.tsx
+import { useEffect } from 'react';
+
+function App() {
+  useEffect(() => {
+    const animatedItems = document.querySelectorAll('.animated-item');
+    const options = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.3
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('enter-in');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, options);
+
+    animatedItems.forEach((item) => {
+      observer.observe(item);
+    });
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  return (
+    <div className="w-80% mx-auto">
+      <div className="w-full py-12">
+        <h2 className="animated-item text-center text-4xl font-semibold">
+          文章标题
+        </h2>
+        <p className="animated-item py-2 text-xl text-black/80">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod,
+          libero eu egestas efficitur, erat neque egestas erat, eget egestas
+          metus felis non felis. Sed euismod, libero eu egestas efficitur, erat
+          neque egestas erat, eget egestas metus felis non felis. Sed euismod,
+        </p>
+        <img
+          className="h-[800px] w-full object-cover"
+          src="https://w.wallhaven.cc/full/3l/wallhaven-3l7eoy.jpg"
+          alt="cover"
+        />
+      </div>
+      <div className="w-full py-12">
+        <h2 className="animated-item text-center text-4xl font-semibold">
+          文章标题
+        </h2>
+        <p className="animated-item py-2 text-xl text-black/80">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod,
+          libero eu egestas efficitur, erat neque egestas erat, eget egestas
+          metus felis non felis. Sed euismod, libero eu egestas efficitur, erat
+          neque egestas erat, eget egestas metus felis non felis. Sed euismod,
+        </p>
+        <img
+          className="h-[800px] w-full object-cover"
+          src="https://w.wallhaven.cc/full/3l/wallhaven-3l7eoy.jpg"
+          alt="cover"
+        />
+      </div>
+      <div className="w-full py-12">
+        <h2 className="animated-item text-center text-4xl font-semibold">
+          文章标题
+        </h2>
+        <p className="animated-item py-2 text-xl text-black/80">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod,
+          libero eu egestas efficitur, erat neque egestas erat, eget egestas
+          metus felis non felis. Sed euismod, libero eu egestas efficitur, erat
+          neque egestas erat, eget egestas metus felis non felis. Sed euismod,
+        </p>
+        <img
+          className="h-[800px] w-full object-cover"
+          src="https://w.wallhaven.cc/full/3l/wallhaven-3l7eoy.jpg"
+          alt="cover"
+        />
+      </div>
+    </div>
+  );
+}
+
+export default App;
+```
+
+```css
+// index.css
+
+html,
+body,
+:root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.animated-item {
+  opacity: 0;
+  transform: translateY(50px);
+}
+
+.enter-in {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.5s ease-in-out;
+}
+```
+
+:::warning
+
+注意：使用 IntersectionObserver 的浏览器兼容性可能因浏览器版本不同而存在差异，使用时需要确保目标浏览器支持 IntersectionObserver API。也可通过 polyfills 来扩展对老版本浏览器的兼容性。
+
+:::

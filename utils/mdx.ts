@@ -94,7 +94,9 @@ export const getAllPostFrontMatter = async () => {
     })
   );
 
-  return posts.sort((a, b) => +new Date(b.date) - +new Date(a.date));
+  return posts
+    .filter((item) => !!!item.draft)
+    .sort((a, b) => +new Date(b.date) - +new Date(a.date));
 };
 
 export const getAdjacentPosts = async (slug: string) => {
