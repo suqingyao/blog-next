@@ -1,10 +1,7 @@
 import DarkToggle from './DarkToggle';
 import Pre from './mdx/Pre';
 import Code from './mdx/Code';
-
-import FlexDemo from '@/examples/css-middle/FlexDemo';
-import AbsoluteDemo from '@/examples/css-middle/AbsoluteDemo';
-import InlineBlockDemo from '@/examples/css-middle/InlineBlockDemo';
+import LinkCard from './mdx/LinkCard';
 
 const components = {
   // nav: (props: any) => (
@@ -13,9 +10,7 @@ const components = {
   //   </TOC>
   // ),
   DarkToggle,
-  FlexDemo,
-  AbsoluteDemo,
-  InlineBlockDemo,
+  LinkCard,
   pre: (props: any) => <Pre {...props} />,
   code: (props: any) => <Code {...props} />
 };

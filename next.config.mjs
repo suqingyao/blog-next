@@ -3,7 +3,12 @@ const nextConfig = {
   reactStrictMode: true,
   images: {
     formats: ['image/avif', 'image/webp'],
-    domains: []
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**w.wallhaven.cc'
+      }
+    ]
   }
 };
 
