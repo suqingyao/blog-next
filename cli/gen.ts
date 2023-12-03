@@ -21,6 +21,7 @@ cli.command('create <filename> [title]').action(async (filename, title) => {
 ---
   title: ${title || filename}
   date: ${dayjs().format('YYYY-MM-DD HH:mm:ss')}
+  draft: true
 ---
     `;
   const spinner = ora('Loading...').start();
