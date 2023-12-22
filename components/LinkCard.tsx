@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
 import { motion } from 'framer-motion';
 
 import useSpotlight from '@/hooks/useSpotlight';
@@ -51,10 +50,8 @@ const LinkCard = ({ title, description, href, image }: LinkCardProps) => {
         </div>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         {image && (
-          <Image
-            className="relative z-[1] rounded"
-            height={65}
-            width={65}
+          <img
+            className="h-[65px] rounded-md"
             src={image}
             alt="og"
           />
