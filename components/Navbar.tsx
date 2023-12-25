@@ -1,6 +1,5 @@
 'use client';
 
-import { useMemo } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -9,38 +8,20 @@ import { cn } from '@/lib/utils';
 const links = [
   {
     label: 'Home',
-    path: '/',
-    sort: 0
+    path: '/'
   },
   {
     label: 'Posts',
-    path: '/posts',
-    sort: 1
+    path: '/posts'
   }
 ];
 
 const Navbar = () => {
   const pathname = usePathname();
-  const activeIndex = useMemo(() => {
-    let index = -1;
-
-    links.some((link) => {
-      if (pathname === link.path) {
-        index = link.sort;
-        return true;
-      }
-    });
-
-    return index;
-  }, [pathname]);
-
-  const activeLineLeft = useMemo(() => {
-    return activeIndex * 5;
-  }, [activeIndex]);
 
   return (
     <nav className="relative ml-auto flex h-full items-center">
-      {links.map((link, index) => (
+      {links.map((link) => (
         <Link
           href={`${link.path}`}
           key={link.path}
@@ -52,13 +33,6 @@ const Navbar = () => {
           {link.label}
         </Link>
       ))}
-      {/* <div
-          className={cn(
-            'absolute bottom-0 h-1 w-20 rounded-full bg-primary transition-all',
-            activeIndex < 0 && 'hidden'
-          )}
-          style={{ left: `${activeLineLeft}rem` }}
-        /> */}
     </nav>
   );
 };
