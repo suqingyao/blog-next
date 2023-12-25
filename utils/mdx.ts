@@ -40,7 +40,7 @@ export const getPostBySlug = async (slug: string) => {
           [
             rehypePrettyCode,
             {
-              keepBackground: false,
+              keepBackground: true,
               theme: {
                 dark: 'vitesse-dark',
                 light: 'vitesse-light'
