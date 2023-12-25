@@ -1,0 +1,12 @@
+:root {
+  --c-bg: #fefefe;
+  --c-scrollbar: #e5e5e5;
+  --c-scrollbar-hover: #999;
+  --font-sans: theme('fontFamily.sans');
+
+  --color-primary: #22c55e;
+  --color-primary-dark: #169c48;
+  --color-primary-light: #36d16a;
+  --color-primary-lighter: #64e38d;
+  --color-primary-lightest: #a0f0b6;
+}

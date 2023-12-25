@@ -2,15 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url(./variables.css);
+
 html,
 body,
 :root {
   height: 100%;
   scroll-behavior: smooth;
-
-  --c-bg: #fefefe;
-  --c-scrollbar: #e5e5e5;
-  --c-scrollbar-hover: #999;
+  font-family: var(--font-sans);
 }
 
 @layer utilities {
@@ -62,5 +61,43 @@ html.dark {
 @media (prefers-color-scheme: light), (prefers-color-scheme: no-preference) {
   .shiki-dark {
     display: none;
+  }
+}
+
+::selection {
+  background-color: var(--color-primary-lighter) !important;
+  color: theme(colors.white) !important;
+  text-shadow: none;
+}
+
+::view-transition-new(root) {
+  animation: turnOff 800ms ease-in-out;
+}
+::view-transition-old(root) {
+  animation: none;
+}
+
+@keyframes turnOn {
+  0% {
+    clip-path: polygon(0% 0%, 100% 0, 100% 0, 0 0);
+  }
+  100% {
+    clip-path: polygon(0% 0%, 100% 0, 100% 100%, 0 100%);
+  }
+}
+
+[data-theme='dark']::view-transition-new(root) {
+  animation: turnOn 800ms ease-in-out;
+}
+::view-transition-old(root) {
+  animation: none;
+}
+
+@keyframes turnOff {
+  0% {
+    clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0% 100%);
+  }
+  100% {
+    clip-path: polygon(0 100%, 100% 100%, 100% 0, 0 0);
   }
 }

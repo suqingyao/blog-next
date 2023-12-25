@@ -38,6 +38,10 @@ h6 {
   margin-top: -60px;
 }
 
+code:not(pre) {
+  @apply rounded-md bg-[#E4E4E7] px-2 py-1 before:hidden after:hidden dark:bg-[#262626];
+}
+
 /* lineNumber */
 code {
   counter-reset: line;
@@ -50,7 +54,7 @@ code > [data-line] {
 
 code > [data-highlighted-line] {
   background: #b1b1fd1a;
-  border-left-color: rgb(80, 155, 247);
+  border-left-color: var(--color-primary);
 }
 
 code > [data-line]::before {
@@ -119,6 +123,7 @@ code[data-line-numbers-max-digits='3'] > [data-line]::before {
 .admonition.danger {
   @apply border-rose-500 bg-rose-300/30;
 }
+
 .admonition.danger::before {
   content: url('/danger.svg');
 }

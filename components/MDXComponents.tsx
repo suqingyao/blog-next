@@ -11,8 +11,8 @@ const components = {
   // ),
   DarkToggle,
   LinkCard,
-  pre: (props: any) => <Pre {...props} />,
-  code: (props: any) => <Code {...props} />
+  pre: (props: any) => <Pre {...props} />
+  // code: (props: any) => <Code {...props} />
 };
 
 export default components;

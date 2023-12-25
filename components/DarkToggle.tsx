@@ -1,9 +1,10 @@
 'use client';
 
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from 'next-themes';
-import useSound from 'use-sound';
+
+import useSound from '@/hooks/useSound';
 
 export default function DarkToggle() {
   const { theme = 'light', setTheme } = useTheme();

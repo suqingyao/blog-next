@@ -7,8 +7,7 @@ const Code = ({ children, ...props }: any) => {
         {...props}
         className={cn(
           'before:hidden after:hidden',
-          !!!props['data-language'] &&
-            'mx-1 rounded-sm bg-gray-300/20 px-2 py-1'
+          !!!props['data-language'] && 'mx-1 rounded-md bg-[#E4E4E7] px-2 py-1'
         )}
       >
         {children}

@@ -49,23 +49,21 @@ const Pre = ({ children, ...props }: any) => {
   }, [theme, props['data-theme']]);
 
   return (
-    <div className={cn('my-2 hidden rounded border', show && 'block')}>
-      <div className="flex items-center justify-between border-b px-2 py-2 text-sm">
+    <pre
+      {...props}
+      className={cn('group m-0 my-2 hidden rounded p-0', show && 'block')}
+    >
+      <div className="flex items-center justify-between px-2 py-2 text-sm text-primary/80 group-hover:text-primary">
         <span className="font-mono">{props['data-language']}</span>
         <BiCopy
           role="button"
           size={20}
           onClick={handleCopy}
-          className="hover:text-gray-600"
         />
       </div>
-      <pre
-        {...props}
-        className="m-0 p-0"
-      >
-        {children}
-      </pre>
-    </div>
+
+      {children}
+    </pre>
   );
 };
 
