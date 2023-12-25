@@ -18,11 +18,6 @@ body,
     -webkit-text-stroke-color: #aaa;
   }
 }
-html.dark {
-  --c-bg: #050505;
-  --c-scrollbar: #111;
-  --c-scrollbar-hover: #222;
-}
 
 * {
   scrollbar-color: var(--c-scrollbar) var(--c-bg);
