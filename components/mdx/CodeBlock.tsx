@@ -1,8 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
 import ReactDOM from 'react-dom/client';
-import { useTheme } from 'next-themes';
 import { BiCopy } from 'react-icons/bi';
 
 import { cn } from '@/lib/utils';
@@ -10,7 +8,6 @@ import toast from 'react-hot-toast';
 import useClipboard from '@/hooks/useClipboard';
 
 const CodeBlock = ({ children, ...props }: any) => {
-  const { theme } = useTheme();
   const { isSupported, text, copy } = useClipboard();
 
   async function simpleRenderToString(element: React.ReactElement) {
@@ -43,17 +40,10 @@ const CodeBlock = ({ children, ...props }: any) => {
     }
   };
 
-  const isShowCurrentTheme = useMemo(() => {
-    return theme === props['data-theme'];
-  }, [props, theme]);
-
   return (
     <pre
       {...props}
-      className={cn(
-        'h-max-[500px] group m-0 my-2 hidden overflow-y-auto rounded',
-        isShowCurrentTheme && 'block'
-      )}
+      className={cn('h-max-[500px] group m-0 overflow-y-auto rounded p-0')}
     >
       <div className="flex items-center justify-between px-2 py-2 text-sm text-primary/80 group-hover:text-primary">
         <span className="font-mono">

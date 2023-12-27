@@ -9,7 +9,6 @@ import {
 
 import Pager from './_components/Pager';
 import Prose from './_components/Prose';
-import Error from 'next/error';
 
 interface PageParams {
   params: {
@@ -23,7 +22,7 @@ export default async function Post({ params: { slug } }: PageParams) {
   const { prev, next } = await getAdjacentPosts(slug);
 
   return (
-    <>
+    <div className="font-mono">
       <h1 className="my-3 w-[32rem] animate-slide-enter-in text-2xl font-bold">
         {frontmatter.title}
       </h1>
@@ -42,7 +41,7 @@ export default async function Post({ params: { slug } }: PageParams) {
         prev={prev!}
         next={next!}
       />
-    </>
+    </div>
   );
 }
 

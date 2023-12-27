@@ -38,13 +38,10 @@ export const getPostBySlug = async (slug: string) => {
         ],
         rehypePlugins: [
           [
+            // @ts-ignore
             rehypePrettyCode,
             {
-              keepBackground: true,
-              theme: {
-                dark: 'vitesse-black',
-                light: 'vitesse-light'
-              }
+              keepBackground: true
             }
           ],
           rehypeSlug,

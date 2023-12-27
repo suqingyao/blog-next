@@ -39,7 +39,7 @@ h6 {
 }
 
 code:not(pre) {
-  @apply rounded-md bg-[#E4E4E7] px-2 py-1 before:hidden after:hidden dark:bg-[#262626];
+  @apply rounded-md px-2 py-1 before:hidden after:hidden;
 }
 
 /* lineNumber */
