@@ -1,5 +1,5 @@
 import DarkToggle from './DarkToggle';
-import Pre from './mdx/Pre';
+import CodeBlock from './mdx/CodeBlock';
 import LinkCard from './LinkCard';
 
 const components = {
@@ -10,7 +10,7 @@ const components = {
   // ),
   DarkToggle,
   LinkCard,
-  pre: (props: any) => <Pre {...props} />
+  pre: (props: any) => <CodeBlock {...props} />
 };
 
 export default components;

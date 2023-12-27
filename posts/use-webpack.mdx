@@ -1,7 +1,7 @@
 ---
-  title: 认识Webpack
+  title: Webpack入门
   date: 2023-12-22 16:45:36
-  draft: true
+  draft: false
 ---
 
 ## 简介
@@ -48,6 +48,12 @@ module.exports = {
 
 处理 ts 可以利用 babel 也可以利用 ts-loader
 
+#### ts-loader
+
+```bash
+pnpm install ts-loader -D
+```
+
 ```js
 module.exports = {
   module: {
@@ -59,6 +65,12 @@ module.exports = {
     ]
   }
 };
+```
+
+#### babel
+
+```bash
+pnpm install @babel/preset-typescript -D
 ```
 
 ```js
@@ -128,9 +140,9 @@ module.exports = {
 };
 ```
 
-### Postcss
+### PostCSS
 
-Postcss 是一款强大的 css 预处理器，它可以帮助我们实现很多功能，比如：
+PostCSS 是一款强大的 css 预处理器，它可以帮助我们实现很多功能，比如：
 
 - 自动添加浏览器前缀
 - 自动处理 css 兼容性问题
@@ -180,7 +192,7 @@ module.exports = {
 };
 ```
 
-postcss 也支持单独配置
+PostCSS 也支持单独配置
 
 ```js
 // webpack.config.js
@@ -212,7 +224,7 @@ module.exports = {
 };
 ```
 
-推荐几个常用的插件
+常用的插件
 
 - autoprefixer 自动添加浏览器前缀
 - postcss-preset-env 允许使用最新 css 特性
@@ -360,7 +372,7 @@ vue-loader 库同时提供用于处理 SFC 代码转译的 Loader 组件，与�
 :::
 
 经过 vue-loader 处理后，SFC 各个模块会被等价转换为普通的 Javascript 模块
-其中`<template>`内容会被转换为用于构造 Virtual DOM 结构的 `render` 函数;
+其中`<template>`内容会被转换为用于构造 `Virtual DOM` 结构的 `render` 函数;
 `<script>`标签导出的对象会被转译成 Javascript 对象字面量形式。
 
 ## 运行页面

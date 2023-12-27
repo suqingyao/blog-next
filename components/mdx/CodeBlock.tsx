@@ -9,7 +9,7 @@ import { cn } from '@/lib/utils';
 import toast from 'react-hot-toast';
 import useClipboard from '@/hooks/useClipboard';
 
-const Pre = ({ children, ...props }: any) => {
+const CodeBlock = ({ children, ...props }: any) => {
   const { theme } = useTheme();
   const [show, setShow] = useState(false);
   const { isSupported, text, copy } = useClipboard();
@@ -51,7 +51,7 @@ const Pre = ({ children, ...props }: any) => {
   return (
     <pre
       {...props}
-      className={cn('group m-0 my-2 hidden rounded p-0', show && 'block')}
+      className={cn('group m-0 my-2 hidden rounded', show && 'block')}
     >
       <div className="flex items-center justify-between px-2 py-2 text-sm text-primary/80 group-hover:text-primary">
         <span className="font-mono">
@@ -69,4 +69,4 @@ const Pre = ({ children, ...props }: any) => {
   );
 };
 
-export default Pre;
+export default CodeBlock;

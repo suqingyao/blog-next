@@ -42,8 +42,8 @@ export const getPostBySlug = async (slug: string) => {
             {
               keepBackground: true,
               theme: {
-                dark: 'vitesse-dark',
-                light: 'vitesse-light'
+                dark: 'material-theme-darker',
+                light: 'material-theme-lighter'
               }
             }
           ],
