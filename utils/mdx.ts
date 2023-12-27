@@ -1,4 +1,4 @@
-import fg, { async } from 'fast-glob';
+import fg from 'fast-glob';
 import fs from 'fs-extra';
 import { join } from 'path';
 import readingTime from 'reading-time';
@@ -42,8 +42,8 @@ export const getPostBySlug = async (slug: string) => {
             {
               keepBackground: true,
               theme: {
-                dark: 'material-theme-darker',
-                light: 'material-theme-lighter'
+                dark: 'vitesse-black',
+                light: 'vitesse-light'
               }
             }
           ],
