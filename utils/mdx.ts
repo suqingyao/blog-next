@@ -41,7 +41,7 @@ export const getPostBySlug = async (slug: string) => {
             // @ts-ignore
             rehypePrettyCode,
             {
-              keepBackground: true
+              keepBackground: false
             }
           ],
           rehypeSlug,

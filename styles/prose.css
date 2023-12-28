@@ -16,7 +16,7 @@
 }
 
 .prose .toc {
-  @apply fixed right-10 top-32;
+  @apply md:fixed md:right-10 md:top-32;
 }
 
 .prose h1,
@@ -39,7 +39,7 @@ h6 {
 }
 
 code:not(pre) {
-  @apply rounded-md px-2 py-1 before:hidden after:hidden;
+  @apply rounded-md bg-slate-100 px-2 py-1 before:hidden after:hidden dark:bg-slate-800;
 }
 
 /* lineNumber */

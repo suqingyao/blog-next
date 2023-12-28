@@ -41,7 +41,7 @@ export default function RootLayout({
           font.className,
           sansFont.variable,
           serifFont.variable,
-          'mx-auto min-h-screen w-[75ch] bg-white dark:bg-black'
+          'mx-auto max-h-screen w-[75ch] overflow-y-auto bg-white dark:bg-black'
         )}
       >
         <NextTopLoader
