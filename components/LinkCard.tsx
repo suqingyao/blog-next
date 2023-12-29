@@ -1,9 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { motion, useMotionTemplate } from 'framer-motion';
 
 import useSpotlight from '@/hooks/useSpotlight';
+import { useEffect } from 'react';
 
 interface LinkCardProps {
   title: string;
@@ -15,6 +16,11 @@ interface LinkCardProps {
 const LinkCard = ({ title, description, href, image }: LinkCardProps) => {
   const [{ x: spotX, y: spotY, r: spotR }, onMouseMove] = useSpotlight();
 
+  useEffect(() => {
+    console.log(spotX, spotY, spotR);
+  }, [spotX, spotY, spotR]);
+
+  const background = useMotionTemplate`radial-gradient(${spotR}px circle at ${spotX}px ${spotX}px, currentColor, transparent 65%)`;
   return (
     <Link
       href={href}
@@ -35,7 +41,7 @@ const LinkCard = ({ title, description, href, image }: LinkCardProps) => {
       <motion.div
         className="pointer-events-none absolute inset-0 z-[1] text-black/5 opacity-0 transition-opacity duration-500 group-hover:opacity-100 dark:text-white/10"
         style={{
-          background: `radial-gradient(${spotR}px circle at ${spotX}px ${spotY}px, currentColor, transparent)`
+          background
         }}
         aria-hidden
       ></motion.div>

@@ -16,7 +16,7 @@
 }
 
 .prose .toc {
-  @apply md:fixed md:right-10 md:top-32;
+  @apply lg:fixed lg:right-10 lg:top-32 lg:z-10;
 }
 
 .prose h1,
