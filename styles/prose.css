@@ -19,14 +19,6 @@
   @apply lg:fixed lg:right-10 lg:top-32 lg:z-10;
 }
 
-.prose h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-}
-
 .prose .anchor {
   @apply relative font-semibold text-[#222] no-underline dark:text-[#ddd];
 }
@@ -36,6 +28,21 @@ h6 {
   display: block;
   height: 60px;
   margin-top: -60px;
+}
+
+.prose h2 .anchor::after {
+  content: '#';
+  position: absolute;
+  left: -1em;
+  top: 50%;
+  transform: translateY(calc(-50% + 30px));
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+  color: var(--color-primary);
+}
+
+.prose h2 .anchor:hover::after {
+  opacity: 1;
 }
 
 .prose pre[data-theme*=' '] {
