@@ -51,6 +51,9 @@
 
   --skeleton-color: #f8fafc;
   --skeleton-to-color: #e2e8f0;
+
+  --highlighted-bg-color: #b1b1fd1a;
+  --highlighted-color: var(--color-primary);
 }
 
 html.dark {
@@ -60,4 +63,7 @@ html.dark {
 
   --skeleton-color: #111;
   --skeleton-to-color: #222;
+
+  --highlighted-bg-color: #0000401a;
+  --highlighted-color: var(--color-primary);
 }

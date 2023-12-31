@@ -2,8 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url(./variables.css);
-
 html,
 body,
 :root {

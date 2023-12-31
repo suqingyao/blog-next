@@ -43,7 +43,7 @@ const CodeBlock = ({ children, ...props }: any) => {
   return (
     <pre
       {...props}
-      className={cn('group m-0 rounded p-0')}
+      className={cn('group')}
     >
       <div className="flex items-center justify-between px-2 py-2 text-sm text-primary/80 group-hover:text-primary">
         <span className="font-mono">
