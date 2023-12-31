@@ -2,9 +2,9 @@ import { MouseEvent, useCallback, useMemo } from 'react';
 import { useMotionValue, useSpring } from 'framer-motion';
 
 const useSpotlight = () => {
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const r = useMotionValue(0);
+  const x = useSpring(0);
+  const y = useSpring(0);
+  const r = useSpring(0);
 
   const movement = useCallback(
     ({ currentTarget, clientX, clientY }: MouseEvent) => {

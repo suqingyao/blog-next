@@ -15,7 +15,8 @@ module.exports = {
         mono: `"OperatorMonoSSmLig Nerd Font","Cascadia Code PL","FantasqueSansMono Nerd Font","operator mono",JetBrainsMono,"Fira code Retina","Fira code","Consolas", Monaco, "Hannotate SC", monospace, -apple-system`
       },
       colors: {
-        primary: '#22c55e'
+        primary: '#22c55e',
+        muted: 'hsl(240 3.7% 15.9%)'
       },
       keyframes: {
         'slide-enter-in': {

@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { motion, useMotionTemplate } from 'framer-motion';
 
 import useSpotlight from '@/hooks/useSpotlight';
-import { useEffect } from 'react';
 
 interface LinkCardProps {
   title: string;
@@ -15,10 +14,6 @@ interface LinkCardProps {
 
 const LinkCard = ({ title, description, href, image }: LinkCardProps) => {
   const [{ x: spotX, y: spotY, r: spotR }, onMouseMove] = useSpotlight();
-
-  useEffect(() => {
-    console.log(spotX, spotY, spotR);
-  }, [spotX, spotY, spotR]);
 
   const background = useMotionTemplate`radial-gradient(${spotR}px circle at ${spotX}px ${spotX}px, currentColor, transparent 65%)`;
   return (
@@ -66,5 +61,15 @@ const LinkCard = ({ title, description, href, image }: LinkCardProps) => {
     </Link>
   );
 };
+
+LinkCard.Skelton = () => {
+  return (
+    <div className="group relative mx-auto my-12 block min-h-[83px] w-[460px] max-w-full overflow-hidden rounded-xl bg-zinc-400/20">
+      <div className="pointer-events-none absolute inset-0 text-white/10 opacity-0 transition-opacity duration-500" />
+    </div>
+  );
+};
+
+LinkCard.Skelton.displayName = 'LinkCardSkelton';
 
 export default LinkCard;
