@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 
 import type { FC, ImgHTMLAttributes } from 'react';
 
@@ -30,24 +30,22 @@ const LazyImage: FC<LazyImageProps> = (props) => {
 
   return (
     <ClientOnly>
-      <span
-        ref={targetRef}
-        className="block h-64 w-full"
-      >
+      <span ref={targetRef}>
         <Skeleton
-          className="h-full w-full rounded-md"
+          className="rounded-md"
           isLoaded={isLoaded}
         >
           {visible && (
             <img
               className={cn(
-                'h-full w-full rounded-md object-cover opacity-0 transition-opacity',
+                'rounded-md object-cover opacity-0 transition-opacity',
                 isLoaded && 'opacity-100',
                 className
               )}
               onLoad={() => setIsLoaded(true)}
               src={src}
               {...rest}
+              alt="og"
             />
           )}
         </Skeleton>

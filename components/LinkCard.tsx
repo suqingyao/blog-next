@@ -5,6 +5,8 @@ import { motion, useMotionTemplate } from 'framer-motion';
 
 import useSpotlight from '@/hooks/useSpotlight';
 
+import LazyImage from './LazyImage';
+
 interface LinkCardProps {
   title: string;
   description?: string;
@@ -45,14 +47,16 @@ const LinkCard = ({ title, description, href, image }: LinkCardProps) => {
       <div className="absolute inset-px flex items-center rounded-[11px] bg-zinc-50 p-2 dark:bg-zinc-900">
         <div className="relative z-[1] w-0 flex-1 px-3">
           <span className="block truncate text-lg leading-tight">{title}</span>
-          <span className="mt-1 block truncate text-sm leading-tight	text-zinc-500">
+          <span
+            className="mt-1 block truncate text-sm leading-tight	text-zinc-500"
+            title={description}
+          >
             {description}
           </span>
         </div>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
         {image && (
-          <img
-            className="h-[65px] rounded-md"
+          <LazyImage
+            className="block h-[64px] w-[96px]"
             src={image}
             alt="og"
           />
@@ -61,15 +65,5 @@ const LinkCard = ({ title, description, href, image }: LinkCardProps) => {
     </Link>
   );
 };
-
-LinkCard.Skelton = () => {
-  return (
-    <div className="group relative mx-auto my-12 block min-h-[83px] w-[460px] max-w-full overflow-hidden rounded-xl bg-zinc-400/20">
-      <div className="pointer-events-none absolute inset-0 text-white/10 opacity-0 transition-opacity duration-500" />
-    </div>
-  );
-};
-
-LinkCard.Skelton.displayName = 'LinkCardSkelton';
 
 export default LinkCard;

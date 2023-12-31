@@ -43,7 +43,7 @@ const CodeBlock = ({ children, ...props }: any) => {
   return (
     <pre
       {...props}
-      className={cn('h-max-[500px] group m-0 overflow-y-auto rounded p-0')}
+      className={cn('group m-0 rounded p-0')}
     >
       <div className="flex items-center justify-between px-2 py-2 text-sm text-primary/80 group-hover:text-primary">
         <span className="font-mono">
@@ -56,7 +56,7 @@ const CodeBlock = ({ children, ...props }: any) => {
         />
       </div>
 
-      {children}
+      <div className="max-h-[500px] overflow-y-auto">{children}</div>
     </pre>
   );
 };
