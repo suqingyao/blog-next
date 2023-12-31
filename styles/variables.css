@@ -48,10 +48,16 @@
   --color-gray-500: #a0aec0;
   --color-gray-600: #718096;
   --color-gray-700: #4a5568;
+
+  --skeleton-color: #f8fafc;
+  --skeleton-to-color: #e2e8f0;
 }
 
 html.dark {
   --c-bg: #050505;
   --c-scrollbar: #111;
   --c-scrollbar-hover: #222;
+
+  --skeleton-color: #111;
+  --skeleton-to-color: #222;
 }

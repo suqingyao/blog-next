@@ -16,7 +16,8 @@ module.exports = {
       },
       colors: {
         primary: '#22c55e',
-        muted: 'hsl(240 3.7% 15.9%)'
+        'skeleton-color': 'var(--skeleton-color)',
+        'skeleton-to-color': 'var(--skeleton-to-color)'
       },
       keyframes: {
         'slide-enter-in': {
@@ -31,12 +32,17 @@ module.exports = {
         'bounce-leave-out': {
           '0%': { transform: 'translateY(0)', opacity: '1' },
           '100%': { transform: 'translateY(100px)', opacity: '0' }
+        },
+        'skeleton-loading': {
+          '0%': { 'background-position': '100% 50%' },
+          '100%': { 'background-position': '0 50%' }
         }
       },
       animation: {
         'slide-enter-in': 'slide-enter-in 1s both 1',
         'bounce-enter-in': 'bounce-enter-in 0.5s',
-        'bounce-leave-out': 'bounce-leave-out 0.5s'
+        'bounce-leave-out': 'bounce-leave-out 0.5s',
+        'skeleton-loading': 'skeleton-loading 2s ease infinite'
       }
     }
   },

@@ -14,7 +14,7 @@ const Skeleton = (props: SkeletonProps) => {
   return (
     <span
       className={cn(
-        'block h-fit w-fit animate-pulse bg-muted',
+        'block h-fit w-fit animate-skeleton-loading bg-gradient-to-r from-skeleton-color via-skeleton-to-color to-skeleton-color bg-[400%,100%]',
         isLoaded && 'animate-none bg-transparent',
         className
       )}
