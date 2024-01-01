@@ -1,14 +1,12 @@
-import DarkToggle from './DarkToggle';
 import CodeBlock from './mdx/CodeBlock';
+import Sidebar from './mdx/Sidebar';
+
+import DarkToggle from './DarkToggle';
 import LinkCard from './LinkCard';
 import LazyImage from './LazyImage';
 
 const components = {
-  // nav: (props: any) => (
-  //   <TOC {...props}>
-  //     <nav className="fixed" />
-  //   </TOC>
-  // ),
+  nav: (props: any) => <Sidebar {...props} />,
   DarkToggle,
   LinkCard,
   pre: (props: any) => <CodeBlock {...props} />,

@@ -1,6 +1,6 @@
 export default function Footer() {
   return (
-    <footer className="h-[60px] text-center text-sm">
+    <footer className="h-[var(--footer-height)] text-center text-sm">
       <p className="opacity-80">
         Built with &nbsp;
         <a

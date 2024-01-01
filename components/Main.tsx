@@ -5,8 +5,10 @@ const Main = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <Header />
-      <div className="h-full pt-[60px]">
-        <main className="min-h-[calc(100%-60px)]">{children}</main>
+      <div className="h-full pt-[var(--header-height)]">
+        <main className="min-h-[calc(100%-var(--header-height))]">
+          {children}
+        </main>
         <Footer />
       </div>
     </>

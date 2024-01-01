@@ -1,9 +1,7 @@
 'use client';
 
 import ReactDOM from 'react-dom/client';
-import { BiCopy } from 'react-icons/bi';
 
-import { cn } from '@/lib/utils';
 import toast from 'react-hot-toast';
 import useClipboard from '@/hooks/useClipboard';
 
@@ -43,20 +41,24 @@ const CodeBlock = ({ children, ...props }: any) => {
   return (
     <pre
       {...props}
-      className={cn('group')}
+      className="group relative"
     >
-      <div className="flex items-center justify-between px-2 py-2 text-sm text-primary/80 group-hover:text-primary">
-        <span className="font-mono">
+      <div className="absolute right-0 top-0 flex flex-col gap-1 text-right text-[#000000cc] dark:text-[#ffffffcc]">
+        <span className="font-mono text-sm">
           {String(props['data-language']).toUpperCase()}
         </span>
-        <BiCopy
+        <span
           role="button"
-          size={20}
           onClick={handleCopy}
-        />
+          className="cursor-pointer border-b border-[currentColor] text-xs opacity-0 transition-opacity hover:opacity-100 group-hover:opacity-80"
+        >
+          COPY
+        </span>
       </div>
 
-      <div className="max-h-[500px] overflow-y-auto">{children}</div>
+      <div className="max-h-[500px] min-h-[50px] overflow-y-auto">
+        {children}
+      </div>
     </pre>
   );
 };

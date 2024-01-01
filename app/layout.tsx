@@ -41,11 +41,11 @@ export default function RootLayout({
           font.className,
           sansFont.variable,
           serifFont.variable,
-          'mx-auto max-h-screen w-[75ch] overflow-y-auto bg-white dark:bg-black'
+          'mx-auto max-h-screen w-[75ch] overflow-y-auto bg-[var(--c-bg)]'
         )}
       >
         <NextTopLoader
-          color="#22c55e"
+          color="var(--color-primary)"
           showSpinner={false}
         />
         <Providers>

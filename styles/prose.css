@@ -19,32 +19,36 @@
   @apply lg:fixed lg:right-10 lg:top-32 lg:z-10;
 }
 
+.prose h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @apply h-fit;
+}
+
+/* Anchor */
 .prose .anchor {
   @apply relative font-semibold text-[#222] no-underline dark:text-[#ddd];
 }
 
-.prose .anchor::before {
-  content: '';
-  display: block;
-  height: 60px;
-  margin-top: -60px;
-}
-
-.prose h2 .anchor::after {
+.prose h2 .anchor:hover::after {
   content: '#';
   position: absolute;
   left: -1em;
   top: 50%;
-  transform: translateY(calc(-50% + 30px));
+  transform: translateY(calc(-50%));
   opacity: 0;
   transition: opacity 0.2s ease-in-out;
   color: var(--color-primary);
 }
 
-.prose h2 .anchor:hover::after {
+.prose h2:hover .anchor::after {
   opacity: 1;
 }
 
+/* CodeBlock */
 .prose pre[data-theme*=' '] {
   @apply bg-transparent p-0;
 }

@@ -15,7 +15,7 @@ module.exports = {
         mono: `"OperatorMonoSSmLig Nerd Font","Cascadia Code PL","FantasqueSansMono Nerd Font","operator mono",JetBrainsMono,"Fira code Retina","Fira code","Consolas", Monaco, "Hannotate SC", monospace, -apple-system`
       },
       colors: {
-        primary: '#22c55e',
+        primary: 'var(--color-primary)',
         'skeleton-color': 'var(--skeleton-color)',
         'skeleton-to-color': 'var(--skeleton-to-color)'
       },

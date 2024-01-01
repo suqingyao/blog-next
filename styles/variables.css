@@ -54,6 +54,9 @@
 
   --highlighted-bg-color: #b1b1fd1a;
   --highlighted-color: var(--color-primary);
+
+  --header-height: 60px;
+  --footer-height: 60px;
 }
 
 html.dark {
