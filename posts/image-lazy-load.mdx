@@ -1,0 +1,239 @@
+---
+  title: 图片懒加载
+  date: 2024-01-01 12:48:18
+  draft: false
+---
+
+## 引言
+
+图片懒加载是一种网页优化技术，使图片只在用户需要查看时加载，而不是在页面加载时一次性加载所有图片。这种技术具有两大优点：提升页面性能和降低服务器负担。
+
+提升页面性能：通过懒加载技术，页面加载时只加载当前可见的图片，其他图片随着用户滚动而按需加载。这可以显著提升页面加载速度，特别是在网络和设备性能有限的移动设备上，更能改善用户体验。
+
+降低服务器负担：使用懒加载时，服务器只在用户需要查看某张图片时才发送图片，而不是一次性处理大量请求。这节省了宽带，减轻了服务器压力。
+
+总之，图片懒加载是一种实用的优化技术，对于图片资源多的网页尤其有益，它可以提高页面性能，改善用户体验，节约服务器资源。
+
+## 图片懒加载的实现方式
+
+图片的懒加载通常有两种常用的实现方式：JavaScript 事件监听和 Intersection Observer API。
+
+1. **JavaScript 事件监听**：这是一种较老的实现方法，通常是用 JavaScript 监听滚动事件，然后计算图片元素是否进入可视区域。如果进入可视区域，那么将图片的数据源（data-src）更换为实际的图片源（src）。但是这种方法有一定的性能问题，因为滚动事件会频繁触发，同时计算元素是否在视口内也需要一些性能开销。
+
+代码示例：
+
+```javascript
+window.addEventListener('scroll', function () {
+  // 获取所有的图片标签
+  var imgs = document.getElementsByTagName('img');
+  // 遍历图片列表
+  for (var i = 0; i < imgs.length; i++) {
+    // 取消已经加载的图片
+    if (imgs[i].getAttribute('isLoaded')) continue;
+    // 计算图片是否进入可视区域
+    if (imgs[i].getBoundingClientRect().top < window.innerHeight) {
+      imgs[i].src = imgs[i].getAttribute('data-src');
+      imgs[i].setAttribute('isLoaded', true);
+    }
+  }
+});
+```
+
+2. **Intersection Observer API**：这是一种新的实现方式，更加高效且不会引起滚动抖动。Intersection Observer API 允许你配置一个 callback，当目标元素进入或退出另一个元素（或 viewport）时，callback 会被触发。
+
+代码示例：
+
+```javascript
+// 创建一个IntersectionObserver实例
+let observer = new IntersectionObserver((entries, observer) => {
+  entries.forEach((entry) => {
+    // 当图片进入视口时
+    if (entry.isIntersecting) {
+      let img = entry.target;
+      img.src = img.getAttribute('data-src');
+      img.setAttribute('isLoaded', true);
+      // 如果加载完成，则停止观察
+      observer.unobserve(img);
+    }
+  });
+});
+
+// 选择需要观察的图片
+let imgs = document.querySelectorAll('img');
+imgs.forEach((img) => {
+  observer.observe(img);
+});
+```
+
+这两种方法中，推荐使用 Intersection Observer API，因为它更加高效且不会阻塞主线程。
+
+## 如何结合 Hook 使用
+
+在 React 中创建一个用于图片懒加载的组件，我们可以借助 Intersection Observer API，并结合 React hook 来实现。
+
+```typescript
+import { useEffect, useState, useRef } from 'react';
+
+function useLazyImage(src: string) {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const imgRef = useRef<HTMLImageElement | null>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        imgRef.current!.src = src;
+        setIsLoaded(true);
+        observer.disconnect();
+      }
+    });
+
+    observer.observe(imgRef.current!);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [src]);
+
+  return { imgRef, isLoaded };
+}
+
+export default useLazyImage;
+```
+
+封装组件`LazyImage`
+
+```typescript
+import React, { ImgHTMLAttributes } from 'react';
+import useLazyImage from './useLazyImage';
+
+interface LazyImageProps extends ImgHTMLAttributes<HTMLImageElement> {
+  src: string;
+  placeholder: string;
+}
+
+const LazyImage: React.FC<LazyImageProps> = ({
+  src,
+  alt,
+  placeholder,
+  ...props
+}) => {
+  const { imgRef, isLoaded } = useLazyImage(src);
+
+  return (
+    <img
+      ref={imgRef}
+      src={isLoaded ? undefined : placeholder}
+      alt={alt}
+      {...props}
+    />
+  );
+};
+
+export default LazyImage;
+```
+
+## 其他解决方案
+
+在实际开发中，我们通常使用第三方库来解决图片懒加载问题，例如 `react-intersection-observer` 和 `react-lazyload` ，以下是使用示例。
+
+**1. 使用 `react-intersection-observer`**
+
+`react-intersection-observer` 是一个 `Intersection Observer API` 在 React 中的封装实现。
+
+安装它:
+
+```bash
+npm install react-intersection-observer
+```
+
+编写 `LazyImage` 组件的实现:
+
+```typescript
+import React, { ImgHTMLAttributes } from 'react';
+import { useInView } from 'react-intersection-observer';
+
+interface LazyImageProps extends ImgHTMLAttributes<HTMLImageElement> {
+  src: string;
+  placeholder: string;
+}
+
+const LazyImage: React.FC<LazyImageProps> = ({
+  src,
+  alt,
+  placeholder,
+  ...props
+}) => {
+  const [ref, inView] = useInView({
+    triggerOnce: true
+  });
+
+  return (
+    <img
+      ref={ref}
+      src={inView ? src : placeholder}
+      alt={alt}
+      {...props}
+    />
+  );
+};
+
+export default LazyImage;
+```
+
+在这个例子中，通过 `useInView` hook，我们检查图片是否在视图中。当图片出现在视图中时，`inView` 变为 `true`，我们将 `src` 更改为真实的图片链接。
+
+**2. 使用 `react-lazyload`**
+
+`react-lazyload` 是另一个提供懒加载功能的 React 库。
+
+安装它:
+
+```bash
+npm install react-lazyload
+```
+
+编写 `LazyImage` 组件的实现:
+
+```typescript
+import React, { ImgHTMLAttributes } from 'react';
+import LazyLoad from 'react-lazyload';
+
+interface LazyImageProps extends ImgHTMLAttributes<HTMLImageElement> {
+  src: string;
+  placeholder: string;
+}
+
+const LazyImage: React.FC<LazyImageProps> = ({
+  src,
+  alt,
+  placeholder,
+  ...props
+}) => {
+  return (
+    <LazyLoad
+      once
+      placeholder={
+        <img
+          src={placeholder}
+          alt={alt}
+          {...props}
+        />
+      }
+    >
+      <img
+        src={src}
+        alt={alt}
+        {...props}
+      />
+    </LazyLoad>
+  );
+};
+
+export default LazyImage;
+```
+
+在这个例子中，我们使用了 `react-lazyload` 的 `LazyLoad` 组件将实际图片包裹起来，并传入占位符图像。
+
+## 总结
+
+本文介绍了图片懒加载的概念和两种实现方式，并提供了在 React 应用中使用 `Intersection Observer` API 实现图片懒加载的代码示例。同时，还介绍了两个常用的第三方库：`react-intersection-observer` 和 `react-lazyload`，并提供了使用示例。使用图片懒加载技术可以有效提升页面性能和用户体验。

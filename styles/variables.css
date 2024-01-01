@@ -4,11 +4,10 @@
   --c-scrollbar-hover: #999;
   --font-sans: theme('fontFamily.sans');
 
-  --color-primary: #22c55e;
-  --color-primary-dark: #169c48;
-  --color-primary-light: #36d16a;
-  --color-primary-lighter: #64e38d;
-  --color-primary-lightest: #a0f0b6;
+  --color-primary: #33a6b8;
+  --color-primary-dark: #0070f3;
+  --color-primary-light: #66d3ff;
+  --color-primary-lighter: #a0f0ff;
 
   --color-secondary: #ff4d4f;
   --color-secondary-dark: #c51a20;
