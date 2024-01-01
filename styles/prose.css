@@ -54,7 +54,7 @@ h6 {
 }
 
 code:not(pre) {
-  @apply rounded-md px-2 py-1 before:hidden after:hidden;
+  @apply rounded-md bg-slate-100 px-2 py-1 before:hidden after:hidden dark:bg-slate-800;
 }
 
 code[data-theme*=' '],

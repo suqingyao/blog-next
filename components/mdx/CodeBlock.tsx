@@ -43,14 +43,14 @@ const CodeBlock = ({ children, ...props }: any) => {
       {...props}
       className="group relative"
     >
-      <div className="absolute right-0 top-0 flex flex-col gap-1 text-right text-[#000000cc] dark:text-[#ffffffcc]">
+      <div className="absolute right-0 top-0 flex flex-col items-end gap-1 text-[#000000cc] dark:text-[#ffffffcc]">
         <span className="font-mono text-sm">
           {String(props['data-language']).toUpperCase()}
         </span>
         <span
           role="button"
           onClick={handleCopy}
-          className="cursor-pointer border-b border-[currentColor] text-xs opacity-0 transition-opacity hover:opacity-100 group-hover:opacity-80"
+          className="cursor-pointer border-b border-[currentColor] text-right text-xs opacity-0 transition-opacity hover:opacity-100 group-hover:opacity-80"
         >
           COPY
         </span>
