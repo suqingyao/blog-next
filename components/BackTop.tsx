@@ -30,26 +30,25 @@ export default function BackTop() {
 
   return (
     <div
+      role="button"
       onClick={scrollTop}
       className={cn(
         `
         fixed
         bottom-10
         right-10
+        z-[9999]
         cursor-pointer
         rounded-full
-        text-primary/90
         opacity-0
         drop-shadow-sm
-        transition-all
-        hover:text-primary/80
-        dark:hover:text-primary/60
+        transition
       `,
         show && 'animate-bounce-enter-in opacity-100',
         !show && 'pointer-events-none animate-bounce-leave-out'
       )}
     >
-      <TbCircleArrowUpFilled size={36} />
+      <TbCircleArrowUpFilled size={32} />
     </div>
   );
 }
