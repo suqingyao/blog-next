@@ -1,54 +1,127 @@
 'use client';
 
-import { useMount } from '@/hooks/useMount';
-import { useRef, type FC, type PropsWithChildren, ReactNode } from 'react';
+import { useRef } from 'react';
+import type { FC, PropsWithChildren } from 'react';
 
-export interface SidebarProps extends PropsWithChildren {}
+import { useMount } from '@/hooks/useMount';
+import { isArrayLike } from '@/utils/is';
+
+export type SidebarProps = PropsWithChildren & {};
 
 type Children = {
   type?: string;
   key?: string | null;
   ref?: HTMLElement | null;
   props?: {
-    children?: Children[];
+    children?: Children[] | Children;
     className?: string;
   };
 };
 
-function getChildren(children: Children) {
-  if (children.props?.children?.length) {
-    Array.from(children.props.children).forEach((child) => {
-      return getChildren(child);
-    });
-  } else {
-    return children;
-  }
-}
+// function getAllAnchors(children: Children) {
+//   const anchors: any[] = [];
 
-const Sidebar: FC<SidebarProps> = ({ children, ...restProps }) => {
-  const listRef = useRef<Children[]>([]);
+//   function getAnchors(children: Children) {
+//     if (isArrayLike(children?.props?.children)) {
+//       Array.from(children?.props?.children as Children[]).forEach((child) => {
+//         getAnchors(child);
+//       });
+//     } else if (typeof children.props?.children === 'object') {
+//       getAnchors(children.props.children as Children);
+//     } else if (children.type === 'a') {
+//       anchors.push(children);
+//     }
+//   }
 
-  const components = children as Children;
+//   getAnchors(children);
+
+//   return anchors;
+// }
+
+const Sidebar: FC<SidebarProps> = ({ children, ...props }) => {
+  const tocAnchorsRef = useRef<HTMLAnchorElement[]>([]);
+  const headingAnchorsRef = useRef<HTMLAnchorElement[]>([]);
+  const observerRef = useRef<IntersectionObserver | null>(null);
+  const inViewAnchorsRef = useRef(new Map<HTMLAnchorElement, boolean>());
 
   useMount(() => {
-    if (components.type === 'li') {
-      listRef.current.push(components);
-    }
-    if (components.props?.children?.length) {
-      Array.from(components.props.children).forEach((child) => {
-        const node = getChildren(child);
-        if (node?.type === 'li') {
-          listRef.current.push(node);
+    tocAnchorsRef.current = Array.from(
+      document.querySelectorAll('a.toc-link') as NodeListOf<HTMLAnchorElement>
+    );
+
+    headingAnchorsRef.current = Array.from(
+      document.querySelectorAll('a.anchor') as NodeListOf<HTMLAnchorElement>
+    );
+
+    // reset inViewAnchorsRef
+    headingAnchorsRef.current.forEach((anchor) => {
+      inViewAnchorsRef.current.set(anchor, false);
+    });
+
+    if (!observerRef.current) {
+      observerRef.current = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            inViewAnchorsRef.current.set(
+              entry.target as HTMLAnchorElement,
+              true
+            );
+          } else {
+            inViewAnchorsRef.current.set(
+              entry.target as HTMLAnchorElement,
+              false
+            );
+          }
+        });
+        const inViewList = Array.from(inViewAnchorsRef.current);
+        const inViewIndex = inViewList.findIndex(([_, inView]) => !!inView);
+
+        if (inViewIndex !== -1) {
+          requestAnimationFrame(() => {
+            tocAnchorsRef.current.forEach((anchor, index) => {
+              if (index === inViewIndex) {
+                anchor.classList.remove('!opacity-40');
+                anchor.classList.add('!opacity-100');
+              } else {
+                anchor.classList.remove('!opacity-100');
+                anchor.classList.add('!opacity-40');
+              }
+            });
+          });
         }
       });
     }
-    console.log(
-      '🚀 ~ file: Sidebar.tsx:15 ~ listRef.current:',
-      listRef.current
-    );
+
+    headingAnchorsRef.current.forEach((anchor) => {
+      observerRef.current?.observe(anchor);
+    });
+
+    return () => {
+      if (observerRef.current) {
+        observerRef.current.disconnect();
+      }
+    };
   });
 
-  return <nav {...restProps}>{children}</nav>;
+  useMount(() => {});
+
+  useMount(() => {
+    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+      anchor.addEventListener('click', (event) => {
+        let hashval = anchor.getAttribute('href') as string;
+        let target = document.querySelector(hashval) as HTMLAnchorElement;
+        let targetPos = target.getBoundingClientRect().top;
+        let offsetPos = targetPos + scrollY - 60;
+        event.preventDefault();
+        window.scrollTo({
+          top: offsetPos,
+          behavior: 'smooth'
+        });
+      });
+    });
+  });
+
+  return <nav {...props}>{children}</nav>;
 };
 
 export default Sidebar;
