@@ -19,15 +19,6 @@
   @apply lg:fixed lg:right-10 lg:top-32 lg:z-10;
 }
 
-.prose h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  @apply h-fit;
-}
-
 /* Anchor */
 .prose .anchor {
   @apply relative font-semibold text-[#222] no-underline dark:text-[#ddd];
@@ -54,7 +45,7 @@ h6 {
 }
 
 code:not(pre) {
-  @apply rounded-md bg-slate-100 px-2 py-1 before:hidden after:hidden dark:bg-slate-800;
+  @apply rounded-md bg-[var(--highlighted-bg-color)] px-2 py-1 before:hidden after:hidden;
 }
 
 code[data-theme*=' '],
@@ -91,7 +82,7 @@ code > [data-line] {
 }
 
 code > [data-highlighted-line] {
-  background: #b1b1fd1a !important;
+  background: var(--highlighted-bg-color) !important;
   border-left-color: var(--color-primary);
 }
 

@@ -66,6 +66,6 @@ html.dark {
   --skeleton-color: #111;
   --skeleton-to-color: #222;
 
-  --highlighted-bg-color: #0000401a;
+  --highlighted-bg-color: #b1b1fd1a;
   --highlighted-color: var(--color-primary);
 }

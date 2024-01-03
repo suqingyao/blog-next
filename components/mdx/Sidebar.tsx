@@ -4,19 +4,19 @@ import { useRef } from 'react';
 import type { FC, PropsWithChildren } from 'react';
 
 import { useMount } from '@/hooks/useMount';
-import { isArrayLike } from '@/utils/is';
+// import { isArrayLike } from '@/utils/is';
 
 export type SidebarProps = PropsWithChildren & {};
 
-type Children = {
-  type?: string;
-  key?: string | null;
-  ref?: HTMLElement | null;
-  props?: {
-    children?: Children[] | Children;
-    className?: string;
-  };
-};
+// type Children = {
+//   type?: string;
+//   key?: string | null;
+//   ref?: HTMLElement | null;
+//   props?: {
+//     children?: Children[] | Children;
+//     className?: string;
+//   };
+// };
 
 // function getAllAnchors(children: Children) {
 //   const anchors: any[] = [];
