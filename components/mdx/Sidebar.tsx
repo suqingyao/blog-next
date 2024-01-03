@@ -103,16 +103,16 @@ const Sidebar: FC<SidebarProps> = ({ children, ...props }) => {
     };
   });
 
-  useMount(() => {});
-
   useMount(() => {
-    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+    Array.from(document.querySelectorAll('a[href^="#"]')).forEach((anchor) => {
       anchor.addEventListener('click', (event) => {
-        let hashval = anchor.getAttribute('href') as string;
-        let target = document.querySelector(hashval) as HTMLAnchorElement;
-        let targetPos = target.getBoundingClientRect().top;
-        let offsetPos = targetPos + scrollY - 60;
         event.preventDefault();
+        const hashval = anchor.getAttribute('href') as string;
+        const target = document.getElementById(
+          hashval.substring(1)
+        ) as HTMLAnchorElement;
+        const targetPos = target.getBoundingClientRect().top;
+        const offsetPos = targetPos + scrollY - 60;
         window.scrollTo({
           top: offsetPos,
           behavior: 'smooth'
