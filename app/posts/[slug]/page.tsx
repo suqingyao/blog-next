@@ -1,4 +1,3 @@
-import { AiOutlineFieldTime } from 'react-icons/ai';
 import dayjs from 'dayjs';
 
 import {
@@ -29,11 +28,7 @@ export default async function Post({ params: { slug } }: PageParams) {
       <p className="flex animate-slide-enter-in flex-row gap-2 text-[#555]">
         <span>{dayjs(frontmatter.date).format('MMM DD, YYYY')}</span>
         <span className="flex flex-row items-center">
-          <AiOutlineFieldTime
-            size={20}
-            className="inline-block"
-          />
-          {frontmatter.readingTime}
+          · {frontmatter.readingTime}
         </span>
       </p>
       <Prose>{content}</Prose>
