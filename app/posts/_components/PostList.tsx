@@ -54,14 +54,7 @@ export default function PostList({ posts }: PostListProps) {
         >
           {!isSameGroup(post, posts[idx - 1]) && (
             <motion.div className="pointer-events-none relative h-20 select-none">
-              <span
-                className="absolute -left-[3rem] -top-[2rem] text-[8em] font-bold text-transparent opacity-10"
-                style={{
-                  WebkitTextStrokeWidth: '2px',
-                  WebkitTextStrokeColor: '#aaa',
-                  lineHeight: '1.75'
-                }}
-              >
+              <span className="text-stroke absolute -left-[3rem] -top-[2rem] text-[8em] font-bold text-transparent opacity-10">
                 {getYear(post.date)}
               </span>
             </motion.div>
