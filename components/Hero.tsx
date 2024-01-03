@@ -28,10 +28,12 @@ const Hero = () => {
         <div className="flex items-center gap-2">
           <motion.span
             initial={{
-              rotate: 0
+              rotate: 0,
+              opacity: 0
             }}
             animate={{
-              rotate: [15, -15, 15, -15, 0]
+              rotate: [15, -15, 15, -15, 0],
+              opacity: 1
             }}
             transition={{
               duration: 1,
@@ -41,7 +43,7 @@ const Hero = () => {
           >
             👋
           </motion.span>
-          <motion.p
+          <motion.span
             variants={{
               initial: {
                 opacity: 0,
@@ -57,7 +59,7 @@ const Hero = () => {
             }}
           >
             Hi, I&apos;m <span className="font-semibold">Cully Fung</span>.
-          </motion.p>
+          </motion.span>
         </div>
 
         <motion.p
