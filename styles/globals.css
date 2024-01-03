@@ -43,54 +43,28 @@ body,
   background: var(--c-scrollbar-hover);
 }
 
-/* Query based dark mode */
-
-@media (prefers-color-scheme: dark) {
-  .shiki-light {
-    display: none;
-  }
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
 }
 
-@media (prefers-color-scheme: light), (prefers-color-scheme: no-preference) {
-  .shiki-dark {
-    display: none;
-  }
+.dark::view-transition-old(root) {
+  z-index: 1;
+}
+.dark::view-transition-new(root) {
+  z-index: 99999;
+}
+
+::view-transition-old(root) {
+  z-index: 99999;
+}
+::view-transition-new(root) {
+  z-index: 1;
 }
 
 ::selection {
   background-color: var(--color-primary-lighter) !important;
   color: theme(colors.white) !important;
   text-shadow: none;
-}
-
-::view-transition-new(root) {
-  animation: turnOff 800ms ease-in-out;
-}
-::view-transition-old(root) {
-  animation: none;
-}
-
-@keyframes turnOn {
-  0% {
-    clip-path: polygon(0% 0%, 100% 0, 100% 0, 0 0);
-  }
-  100% {
-    clip-path: polygon(0% 0%, 100% 0, 100% 100%, 0 100%);
-  }
-}
-
-[data-theme='dark']::view-transition-new(root) {
-  animation: turnOn 800ms ease-in-out;
-}
-::view-transition-old(root) {
-  animation: none;
-}
-
-@keyframes turnOff {
-  0% {
-    clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0% 100%);
-  }
-  100% {
-    clip-path: polygon(0 100%, 100% 100%, 100% 0, 0 0);
-  }
 }

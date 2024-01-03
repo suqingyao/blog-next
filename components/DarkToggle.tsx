@@ -1,10 +1,12 @@
 'use client';
 
-import { useMemo } from 'react';
+import { MouseEvent, useMemo } from 'react';
+import { flushSync } from 'react-dom';
 import { motion } from 'framer-motion';
 import { useTheme } from 'next-themes';
 
 import useSound from '@/hooks/useSound';
+import { transitionViewIfSupported } from '@/lib/dom';
 import ClientOnly from './ClientOnly';
 
 export default function DarkToggle() {
@@ -12,7 +14,43 @@ export default function DarkToggle() {
   const [playOn] = useSound('/sounds/switch.mp3');
   const [playOff] = useSound('/sounds/switch.mp3', { playbackRate: 0.6 });
 
-  const isDark = theme === 'dark';
+  const isDark = useMemo(() => theme === 'dark', [theme]);
+
+  const handleToggleTheme = (event: MouseEvent<HTMLDivElement>) => {
+    const x = event.clientX;
+    const y = event.clientY;
+    const endRadius = Math.hypot(
+      Math.max(x, innerWidth - x),
+      Math.max(y, innerHeight - y)
+    );
+
+    const transition = transitionViewIfSupported(() => {
+      flushSync(() => {
+        setTheme(isDark ? 'light' : 'dark');
+        isDark ? playOff() : playOn();
+      });
+    });
+    if (transition) {
+      transition.ready.then(() => {
+        const clipPath = [
+          `circle(0px at ${x}px ${y}px)`,
+          `circle(${endRadius}px at ${x}px ${y}px)`
+        ];
+        document.documentElement.animate(
+          {
+            clipPath: isDark ? [...clipPath].reverse() : clipPath
+          },
+          {
+            duration: 400,
+            easing: 'ease-out',
+            pseudoElement: isDark
+              ? '::view-transition-old(root)'
+              : '::view-transition-new(root)'
+          }
+        );
+      });
+    }
+  };
 
   const starPaths = useMemo(() => {
     if (isDark)
@@ -76,18 +114,9 @@ export default function DarkToggle() {
         animate={{
           backgroundColor: isDark ? '#475569' : '#7dd3fc'
         }}
-        className="
-        relative 
-        h-[28px] 
-        w-[56px] 
-        cursor-pointer 
-        rounded-full 
-        p-[5px]
-      "
-        onClick={() => {
-          setTheme(isDark ? 'light' : 'dark');
-          isDark ? playOff() : playOn();
-        }}
+        role="button"
+        className="relative h-[28px] w-[56px] cursor-pointer rounded-full p-[5px]"
+        onClick={handleToggleTheme}
       >
         {starts}
         {clouds}
