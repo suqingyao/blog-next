@@ -25,23 +25,39 @@ const Hero = () => {
       className="py-10"
     >
       <div className="flex flex-col gap-3 text-5xl font-bold">
-        <motion.p
-          variants={{
-            initial: {
-              opacity: 0,
-              x: -50
-            },
-            animate: {
-              opacity: 1,
-              x: 0,
-              transition: {
-                ease: 'easeInOut'
+        <div className="flex items-center gap-2">
+          <motion.span
+            initial={{
+              rotate: -15
+            }}
+            animate={{
+              rotate: [15, -15, 15, -15, 0]
+            }}
+            transition={{
+              duration: 1
+            }}
+          >
+            👋
+          </motion.span>
+          <motion.p
+            variants={{
+              initial: {
+                opacity: 0,
+                x: -50
+              },
+              animate: {
+                opacity: 1,
+                x: 0,
+                transition: {
+                  ease: 'easeInOut'
+                }
               }
-            }
-          }}
-        >
-          👋 Hi, I&apos;m Cully Fung.
-        </motion.p>
+            }}
+          >
+            Hi, I&apos;m Cully Fung.
+          </motion.p>
+        </div>
+
         <motion.p
           variants={{
             initial: {
