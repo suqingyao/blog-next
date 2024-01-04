@@ -100,27 +100,9 @@ const Hero = () => {
             duration: 2,
             delay: 1
           }}
+          className="font-mono"
         >
-          Currently live in Chongqing.
-        </motion.p>
-        <motion.p
-          variants={{
-            initial: {
-              opacity: 0
-            },
-            animate: {
-              opacity: 1,
-              transition: {
-                ease: 'easeInOut'
-              }
-            }
-          }}
-          transition={{
-            duration: 2,
-            delay: 1
-          }}
-        >
-          Like listening to music and coding.
+          Loves music and programming and is introverted.
         </motion.p>
       </div>
     </motion.section>

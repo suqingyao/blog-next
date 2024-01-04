@@ -5,7 +5,7 @@ import { Inter } from 'next/font/google';
 
 import '@/styles/index.css';
 
-import Providers from '@/components/Providers';
+import Providers from '@/components/providers/Providers';
 import Plum from '@/components/Plum';
 import BackTop from '@/components/BackTop';
 import Main from '@/components/Main';

@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import useSoundBase from 'use-sound';
 import { HookOptions } from 'use-sound/dist/types';
-import { ConfigContext } from '../components/ConfigProvider';
+import { ConfigContext } from '../components/providers/ConfigProvider';
 
 export default function useSound<T = any>(
   url: string | string[],
