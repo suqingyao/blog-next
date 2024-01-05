@@ -4,6 +4,13 @@
   draft: false
 ---
 
+<LinkCard
+  title="图片懒加载"
+  href="https://github.com/cullyfung/blog-demo/tree/main/packages/lazy-load-image"
+  description="图片懒加载是一种网页优化技术，使图片只在用户需要查看时加载，而不是在页面加载时一次性加载所有图片。"
+  image="https://w.wallhaven.cc/full/jx/wallhaven-jxd1x5.jpg"
+/>
+
 ## 引言
 
 图片懒加载是一种网页优化技术，使图片只在用户需要查看时加载，而不是在页面加载时一次性加载所有图片。这种技术具有两大优点：提升页面性能和降低服务器负担。
@@ -74,30 +81,37 @@ imgs.forEach((img) => {
 ```typescript
 import { useEffect, useState, useRef } from 'react';
 
-function useLazyImage(src: string) {
+export function useLazyImage(src: string, options?: IntersectionObserverInit) {
   const [isLoaded, setIsLoaded] = useState(false);
   const imgRef = useRef<HTMLImageElement | null>(null);
+  const observerRef = useRef<IntersectionObserver | null>(null);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        imgRef.current!.src = src;
-        setIsLoaded(true);
-        observer.disconnect();
-      }
-    });
+    if (!observerRef.current) {
+      observerRef.current = new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting) {
+          if (imgRef.current) {
+            imgRef.current!.src = src;
+            setIsLoaded(true);
+            observerRef.current?.unobserve(imgRef.current!);
+          }
+        }
+      }, options);
+    }
 
-    observer.observe(imgRef.current!);
+    if (imgRef.current) {
+      observerRef.current.observe(imgRef.current);
+    }
 
     return () => {
-      observer.disconnect();
+      if (observerRef.current) {
+        observerRef.current.disconnect();
+      }
     };
-  }, [src]);
+  }, [src, options]);
 
   return { imgRef, isLoaded };
 }
-
-export default useLazyImage;
 ```
 
 封装组件`LazyImage`
