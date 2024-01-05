@@ -3,8 +3,7 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 
-import { IoLogoTwitter, IoLogoGithub } from 'react-icons/io';
-import { FaBilibili } from 'react-icons/fa6';
+import { FaBilibili, FaXTwitter, FaGithub } from 'react-icons/fa6';
 
 export default function Social() {
   return (
@@ -19,14 +18,16 @@ export default function Social() {
         className="
           rounded-md
           p-2
-          text-blue-400
+          text-black
           transition-all
-          hover:border-blue-400
-          hover:bg-blue-400
+          hover:bg-black
           hover:text-white
+          dark:text-white
+          dark:hover:bg-white
+          dark:hover:text-black
         "
       >
-        <IoLogoTwitter size={28} />
+        <FaXTwitter size={28} />
       </Link>
       <Link
         href="https://github.com/cullyfung"
@@ -42,7 +43,7 @@ export default function Social() {
           dark:hover:text-black
         "
       >
-        <IoLogoGithub size={28} />
+        <FaGithub size={28} />
       </Link>
       <Link
         href="https://space.bilibili.com/27022081"

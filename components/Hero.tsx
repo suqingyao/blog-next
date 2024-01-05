@@ -83,28 +83,27 @@ const Hero = () => {
           </span>
         </motion.p>
       </div>
-      <div className="mt-6 flex flex-col gap-1 text-base">
-        <motion.p
-          variants={{
-            initial: {
-              opacity: 0
-            },
-            animate: {
-              opacity: 1,
-              transition: {
-                ease: 'easeInOut'
-              }
+
+      <motion.p
+        variants={{
+          initial: {
+            opacity: 0
+          },
+          animate: {
+            opacity: 1,
+            transition: {
+              ease: 'easeInOut'
             }
-          }}
-          transition={{
-            duration: 2,
-            delay: 1
-          }}
-          className="font-mono"
-        >
-          Loves music and programming and is introverted.
-        </motion.p>
-      </div>
+          }
+        }}
+        transition={{
+          duration: 2,
+          delay: 1
+        }}
+        className="mt-6 font-mono text-base"
+      >
+        Loves music and programming and is introverted.
+      </motion.p>
     </motion.section>
   );
 };
