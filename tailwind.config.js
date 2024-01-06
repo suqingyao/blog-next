@@ -42,7 +42,7 @@ module.exports = {
         'slide-enter-in': 'slide-enter-in 1s both 1',
         'bounce-enter-in': 'bounce-enter-in 0.5s',
         'bounce-leave-out': 'bounce-leave-out 0.5s',
-        'skeleton-loading': 'skeleton-loading 2s ease infinite'
+        'skeleton-loading': 'skeleton-loading 2s linear infinite'
       }
     }
   },

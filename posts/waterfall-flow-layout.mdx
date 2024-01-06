@@ -1,18 +1,267 @@
 ---
-  title: 瀑布流布局
-  date: 2024-01-01 12:51:33
-  draft: true
+  title: 响应式瀑布流布局
+  date: 2024-01-07 01:04:05
 ---
 
-瀑布流布局经常出现在有大量图片的网站，比如: Instagram、小红书等网站。
+<LinkCard
+  title="响应式瀑布流布局"
+  href="https://github.com/cullyfung/blog-demo/tree/main/packages/waterfall-flow-layout"
+  description="Waterfall Flow Layout"
+  image="https://w.wallhaven.cc/full/x8/wallhaven-x8mvw3.png"
+/>
 
-## 实现原理
+瀑布流是一种流行的网页布局。这种效果的名称取自瀑布，悬挂在高处并自顶向下流淌，就像这种布局的视觉效果一样。瀑布流布局将元素按照垂直方向排列，以达到优化页面空间的效果，通常很受图片-heavy 网站的欢迎。
 
-瀑布流布局的实现原理是将图片按照一定的规则排列，每一行的图片数量不固定，而是根据屏幕宽度来动态计算。
+> 原理：对每个 item 都使用绝对定位，left 和 top 都是 0， 最后根据容器大小、item 的高度通过计算来得到 item 的 transform 值
 
-## 实现步骤
+## 初始化结构
 
-### 1. 确定每一行的图片数量
+我们先搭建一个简单的结构，然后为 container 设置一个 ref，在 `useEffect` 中获取所有 item 元素，并将其保存到 `items` 数组中。
 
-首先，我们需要确定每一行的图片数量。我们可以根据屏幕宽度来动态计算每一行的图片数量。
-我们可以使用 CSS 的 `calc()` 函数来动态计算每一行的图片数量。
+```tsx
+import { useRef } from'react';
+function App() {
+   const list = [
+    '/photo-1.avif',
+    '/photo-2.avif',
+    '/photo-3.avif',
+    '/photo-4.avif',
+    '/photo-5.avif',
+    '/photo-6.avif',
+    '/photo-7.avif',
+    '/photo-8.avif',
+    '/photo-9.avif',
+    '/photo-10.avif',
+    '/photo-11.avif',
+    '/photo-12.avif'
+  ];
+
+  const container = useRef<HTMLDivElement | null>((null);
+  const [items, setItems] = useState<HTMLDivElement[]>([]);
+
+  // 保存所有 items 元素
+  useEffect(() => {
+    if (container.current) {
+      setItems(Array.from(container.current.querySelectorAll('.item')));
+    }
+  }, [])
+
+  return (
+    <div
+      ref={container}
+      className="container"
+    >
+      {list.map((item) => (
+        <div
+          className="item"
+          key={item}
+        >
+          <img src={item} />
+        </div>
+      ))}
+    </div>
+  )
+}
+```
+
+```css
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+  --item-width: 0px;
+}
+
+.container {
+  position: relative;
+  width: 100%;
+}
+
+.item {
+  position: absolute;
+  width: var(--item-width);
+  top: 0;
+  left: 0;
+  padding: 10px;
+  border: 1px solid #eee;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  background-color: #fff;
+}
+
+.item img {
+  width: 100%;
+  object-fit: cover;
+}
+```
+
+## 监听窗口大小变化
+
+由于我们需要监听窗口大小变化，所以我们可以使用 `ResizeObserver` 监听容器的大小变化。
+主要逻辑在 `handleResize` 函数中。
+
+```tsx
+useEffect(() => {
+  const observer = new ResizeObserver(() => handleResize());
+
+  if (container.current) {
+    observer.observe(container.current);
+  }
+
+  return () => {
+    observer.disconnect();
+  };
+}, []);
+```
+
+## 计算 item 的 transform 值 和 item 的宽度
+
+1. 首先我们可以获取容器的宽度，然后根据宽度来计算每一行放置多少 item，并计算每一个 item 的宽度。
+2. 创建一个 columnsHeights 数组用来保存每一列的高度，初始化为 0。
+3. 遍历所有 item，根据 item 的宽度来计算 item 的 transform 值，同时更新 columnHeights 的值。
+
+```tsx
+function getColumns(containerWidth: number) {
+  if (containerWidth > 1200) {
+    return 6;
+  } else if (containerWidth > 768 && containerWidth <= 1200) {
+    return 4;
+  } else {
+    return 3;
+  }
+}
+
+const handleResize = () => {
+  if (container.current) {
+    const containerWidth = container.current.offsetWidth;
+    const columns = getColumns(containerWidth);
+    const columnWidth = containerWidth / columns;
+    container.current.style.setProperty('--item-width', columnWidth + 'px');
+    const columnHeights = new Array(columns).fill(0); // 初始化高度为 0
+
+    // 计算每个 item 的 transform 值
+    items.forEach((item) => {
+      const shortestColumn = columnHeights.indexOf(Math.min(...columnHeights));
+      item.style.transform = `translate(${columnWidth * shortestColumn}px, ${
+        columnHeights[shortestColumn]
+      }px)`;
+      // 更新 columnHeights 的值
+      columnHeights[shortestColumn] += item.offsetHeight;
+    });
+  }
+};
+```
+
+## 完整代码
+
+```tsx
+import { useCallback, useEffect, useRef, useState } from 'react';
+import './App.css';
+
+function getColumns(containerWidth: number) {
+  if (containerWidth > 1200) {
+    return 6;
+  } else if (containerWidth > 768 && containerWidth <= 1200) {
+    return 4;
+  } else {
+    return 3;
+  }
+}
+
+function App() {
+  const list = [
+    '/photo-1.avif',
+    '/photo-2.avif',
+    '/photo-3.avif',
+    '/photo-4.avif',
+    '/photo-5.avif',
+    '/photo-6.avif',
+    '/photo-7.avif',
+    '/photo-8.avif',
+    '/photo-9.avif',
+    '/photo-10.avif',
+    '/photo-11.avif',
+    '/photo-12.avif'
+  ];
+
+  const container = useRef<HTMLDivElement | null>(null);
+  const [items, setItems] = useState<HTMLDivElement[]>([]);
+
+  useEffect(() => {
+    if (container.current) {
+      const items = Array.from(
+        document.querySelectorAll('.item')
+      ) as HTMLDivElement[];
+      setItems(items);
+    }
+  }, []);
+
+  const handleResize = useCallback(() => {
+    if (container.current) {
+      const containerWidth = container.current.offsetWidth;
+      const columns = getColumns(containerWidth);
+      const columnWidth = containerWidth / columns;
+      container.current.style.setProperty('--item-width', columnWidth + 'px');
+      const columnHeights = new Array(columns).fill(0);
+
+      items.forEach((item) => {
+        const shortestColumn = columnHeights.indexOf(
+          Math.min(...columnHeights)
+        );
+        item.style.transform = `translate(${columnWidth * shortestColumn}px, ${
+          columnHeights[shortestColumn]
+        }px)`;
+
+        columnHeights[shortestColumn] += item.offsetHeight;
+      });
+    }
+  }, [items]);
+
+  useEffect(() => {
+    const observer = new ResizeObserver(() => handleResize());
+    if (container.current) {
+      observer.observe(container.current);
+    }
+
+    return () => {
+      if (observer) {
+        observer.disconnect();
+      }
+    };
+  }, [handleResize]);
+
+  return (
+    <div
+      ref={container}
+      className="container"
+    >
+      {list.map((item) => (
+        <div
+          className="item"
+          key={item}
+        >
+          <img src={item} />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export default App;
+```
+
+## 总结
+
+瀑布流布局主要就是需要计算每行最小高度，然后根据最小高度来计算每个 item 的位置。
+使用 transform 控制每个 item 的位置可以避免不必要的重排。
