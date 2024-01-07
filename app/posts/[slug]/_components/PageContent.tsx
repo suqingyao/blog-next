@@ -9,13 +9,16 @@ import { useHeaderAtom } from '@/hooks/useHeaderAtom';
 import { Pager } from './Pager';
 
 type ContentProps = {
-  frontmatter: Frontmatter;
+  frontmatter: Frontmatter & {
+    prev?: Frontmatter;
+    next?: Frontmatter;
+  };
   content: ReactNode;
 };
 
 export const PageContent: FC<ContentProps> = ({ frontmatter, content }) => {
   const { setHeaderAtom } = useHeaderAtom();
-  const pageTitleRef = useRef<HTMLHeadingElement>(null);
+  const pageTitleRef = useRef<HTMLHeadingElement | null>(null);
 
   useEffect(() => {
     setHeaderAtom({
