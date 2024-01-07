@@ -1,5 +1,3 @@
-'use client';
-
 import { createContext, FC, PropsWithChildren, useState } from 'react';
 
 export interface ConfigContext {
@@ -9,7 +7,7 @@ export interface ConfigContext {
 
 export const ConfigContext = createContext({} as ConfigContext);
 
-const ConfigProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
+export const ConfigProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
   const [soundEnabled, setSoundEnabled] = useState(true);
   return (
     <ConfigContext.Provider
@@ -22,5 +20,3 @@ const ConfigProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
     </ConfigContext.Provider>
   );
 };
-
-export default ConfigProvider;

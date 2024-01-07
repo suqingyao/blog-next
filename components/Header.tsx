@@ -1,5 +1,5 @@
 import dynamic from 'next/dynamic';
-import Navbar from './Navbar';
+import { Navbar } from './Navbar';
 
 const DarkToggle = dynamic(() => import('./DarkToggle'), { ssr: false });
 

@@ -16,6 +16,7 @@
     "clsx": "^1.2.1",
     "dayjs": "^1.11.9",
     "framer-motion": "^10.12.18",
+    "jotai": "^2.6.1",
     "next": "^14.0.2",
     "next-mdx-remote": "^4.4.1",
     "next-themes": "^0.2.1",

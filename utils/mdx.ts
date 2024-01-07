@@ -16,12 +16,13 @@ import components from '@/components/MDXComponents';
 
 const ROOT_PATH = process.cwd();
 
-const POSTS_DIR = join(ROOT_PATH, 'posts');
-
 export const getAllPostFiles = async () => await fg('posts/**/*.mdx');
 
 export const getPostBySlug = async (slug: string) => {
-  const raw = await fs.readFile(join(POSTS_DIR, `${slug}.mdx`), 'utf-8');
+  const raw = await fs.readFile(
+    join(ROOT_PATH, 'posts', `${slug}.mdx`),
+    'utf-8'
+  );
 
   const { content, frontmatter } = await compileMDX<Frontmatter>({
     source: raw,
@@ -103,8 +104,9 @@ export const getAllPostFrontMatter = async () => {
 export const getAdjacentPosts = async (slug: string) => {
   const posts = await getAllPostFrontMatter();
   const idx = posts.findIndex((post) => post.slug === slug);
-  const prev = idx > 0 ? posts[idx - 1] : null;
-  const next = idx !== -1 && idx < posts.length - 1 ? posts[idx + 1] : null;
+  const prev = idx > 0 ? posts[idx - 1] : undefined;
+  const next =
+    idx !== -1 && idx < posts.length - 1 ? posts[idx + 1] : undefined;
 
   return { prev, next };
 };

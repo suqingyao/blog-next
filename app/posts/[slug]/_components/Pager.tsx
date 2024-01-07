@@ -5,12 +5,12 @@ import { FiArrowLeft, FiArrowRight } from 'react-icons/fi';
 
 import { cn } from '@/lib/utils';
 
-interface PagerProps {
-  prev: Frontmatter;
-  next: Frontmatter;
-}
+type PagerProps = {
+  prev?: Frontmatter;
+  next?: Frontmatter;
+};
 
-export default function Pager({ prev, next }: PagerProps) {
+export const Pager = ({ prev, next }: PagerProps) => {
   const router = useRouter();
 
   const handleTogglePage = (post: Frontmatter) => {
@@ -18,30 +18,10 @@ export default function Pager({ prev, next }: PagerProps) {
   };
 
   return (
-    <div
-      className={cn(
-        `
-          my-10
-          flex
-        `,
-        prev ? 'justify-between' : 'justify-end'
-      )}
-    >
+    <div className={cn('my-10 flex', prev ? 'justify-between' : 'justify-end')}>
       {prev && (
         <button
-          className="
-            group
-            flex
-            w-64
-            cursor-pointer
-            gap-2 
-            rounded-md
-            border
-            border-gray-500/50
-            px-3
-            py-2
-            transition-colors
-          "
+          className="group flex w-64 cursor-pointer gap-2 rounded-md border border-gray-500/50 px-3 py-2 transition-colors"
           onClick={() => handleTogglePage(prev)}
         >
           <FiArrowLeft
@@ -59,20 +39,7 @@ export default function Pager({ prev, next }: PagerProps) {
 
       {next && (
         <button
-          className="
-            group
-            flex
-            w-64
-            cursor-pointer
-            justify-between
-            gap-2
-            rounded-md
-            border
-            border-gray-500/50
-            px-3
-            py-2
-            transition-colors
-          "
+          className="group flex w-64 cursor-pointer justify-between gap-2 rounded-md border border-gray-500/50 px-3 py-2 transition-colors"
           onClick={() => handleTogglePage(next)}
         >
           <span
@@ -89,4 +56,4 @@ export default function Pager({ prev, next }: PagerProps) {
       )}
     </div>
   );
-}
+};
