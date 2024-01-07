@@ -3,23 +3,17 @@
 import { useEffect, useRef } from 'react';
 import dayjs from 'dayjs';
 import { motion } from 'framer-motion';
-import type { FC, PropsWithChildren } from 'react';
+import type { FC, ReactNode } from 'react';
 
 import { useHeaderAtom } from '@/hooks/useHeaderAtom';
 import { Pager } from './Pager';
 
 type ContentProps = {
   frontmatter: Frontmatter;
-  prev?: Frontmatter;
-  next?: Frontmatter;
+  content: ReactNode;
 };
 
-export const PageContent: FC<PropsWithChildren<ContentProps>> = ({
-  frontmatter,
-  prev,
-  next,
-  children
-}) => {
+export const PageContent: FC<ContentProps> = ({ frontmatter, content }) => {
   const { setHeaderAtom } = useHeaderAtom();
   const pageTitleRef = useRef<HTMLHeadingElement>(null);
 
@@ -52,11 +46,11 @@ export const PageContent: FC<PropsWithChildren<ContentProps>> = ({
         transition={{ duration: 1 }}
         className="prose dark:prose-invert"
       >
-        {children}
+        {content}
       </motion.article>
       <Pager
-        prev={prev}
-        next={next}
+        prev={frontmatter.prev}
+        next={frontmatter.next}
       />
     </div>
   );

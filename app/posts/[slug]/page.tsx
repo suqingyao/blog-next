@@ -1,8 +1,4 @@
-import {
-  getAdjacentPosts,
-  getAllPostFrontMatter,
-  getPostBySlug
-} from '@/utils/mdx';
+import { getAllPostFrontMatter, getPostBySlug } from '@/utils/mdx';
 
 import { PageContent } from './_components/PageContent';
 
@@ -15,16 +11,11 @@ type PageParams = {
 export default async function Post({ params: { slug } }: PageParams) {
   const { content, frontmatter } = await getPostBySlug(slug);
 
-  const { prev, next } = await getAdjacentPosts(slug);
-
   return (
     <PageContent
       frontmatter={frontmatter}
-      prev={prev}
-      next={next}
-    >
-      {content}
-    </PageContent>
+      content={content}
+    />
   );
 }
 

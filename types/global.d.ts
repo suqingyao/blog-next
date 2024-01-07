@@ -7,6 +7,8 @@ interface Frontmatter {
   description?: string;
   readingTime?: string;
   draft?: boolean;
+  prev?: Frontmatter;
+  next?: Frontmatter;
 }
 
 interface Post {

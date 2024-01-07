@@ -18,11 +18,42 @@ const ROOT_PATH = process.cwd();
 
 export const getAllPostFiles = async () => await fg('posts/**/*.mdx');
 
+export const getAllPostFrontMatter = async () => {
+  const files = await getAllPostFiles();
+
+  const posts: Frontmatter[] = await Promise.all(
+    files.map(async (file) => {
+      // get filename not include file extension name
+      const slug = file.replace(/(.*\/)*([^.]+).*/gi, '$2');
+      const { frontmatter } = await getPostBySlug(slug);
+      return {
+        ...frontmatter
+      };
+    })
+  );
+
+  return posts
+    .filter((item) => !!!item.draft)
+    .sort((a, b) => +new Date(b.date) - +new Date(a.date));
+};
+
+export const getAdjacentPosts = async (slug: string) => {
+  const posts = await getAllPostFrontMatter();
+  const idx = posts.findIndex((post) => post.slug === slug);
+  const prev = idx > 0 ? posts[idx - 1] : undefined;
+  const next =
+    idx !== -1 && idx < posts.length - 1 ? posts[idx + 1] : undefined;
+
+  return { prev, next };
+};
+
 export const getPostBySlug = async (slug: string) => {
   const raw = await fs.readFile(
     join(ROOT_PATH, 'posts', `${slug}.mdx`),
     'utf-8'
   );
+
+  const { prev, next } = await getAdjacentPosts(slug);
 
   const { content, frontmatter } = await compileMDX<Frontmatter>({
     source: raw,
@@ -77,36 +108,9 @@ export const getPostBySlug = async (slug: string) => {
     frontmatter: {
       ...frontmatter,
       readingTime: readingTime(raw).text.split('read')[0],
-      slug
+      slug,
+      prev,
+      next
     } as Frontmatter
   };
-};
-
-export const getAllPostFrontMatter = async () => {
-  const files = await getAllPostFiles();
-
-  const posts: Frontmatter[] = await Promise.all(
-    files.map(async (file) => {
-      // get filename not include file extension name
-      const slug = file.replace(/(.*\/)*([^.]+).*/gi, '$2');
-      const { frontmatter } = await getPostBySlug(slug);
-      return {
-        ...frontmatter
-      };
-    })
-  );
-
-  return posts
-    .filter((item) => !!!item.draft)
-    .sort((a, b) => +new Date(b.date) - +new Date(a.date));
-};
-
-export const getAdjacentPosts = async (slug: string) => {
-  const posts = await getAllPostFrontMatter();
-  const idx = posts.findIndex((post) => post.slug === slug);
-  const prev = idx > 0 ? posts[idx - 1] : undefined;
-  const next =
-    idx !== -1 && idx < posts.length - 1 ? posts[idx + 1] : undefined;
-
-  return { prev, next };
 };
