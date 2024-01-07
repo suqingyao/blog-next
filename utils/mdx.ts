@@ -19,10 +19,13 @@ const ROOT_PATH = process.cwd();
 export const getAllPostFiles = async () => await fg('posts/**/*.mdx');
 
 export const getPostBySlug = async (slug: string) => {
-  const raw = await fs.readFile(
-    join(ROOT_PATH, 'posts', `${slug}.mdx`),
-    'utf-8'
-  );
+  let raw = '';
+
+  try {
+    raw = await fs.readFile(join(ROOT_PATH, 'posts', `${slug}.mdx`), 'utf-8');
+  } catch (error) {
+    return null;
+  }
 
   const { content, frontmatter } = await compileMDX<Frontmatter>({
     source: raw,
@@ -85,16 +88,17 @@ export const getPostBySlug = async (slug: string) => {
 export const getAllPostFrontMatter = async () => {
   const files = await getAllPostFiles();
 
-  const posts: Frontmatter[] = await Promise.all(
+  const posts: Frontmatter[] = (await Promise.all(
     files.map(async (file) => {
       // get filename not include file extension name
       const slug = file.replace(/(.*\/)*([^.]+).*/gi, '$2');
-      const { frontmatter } = await getPostBySlug(slug);
+      const post = await getPostBySlug(slug);
+      if (!post) return null;
       return {
-        ...frontmatter
+        ...post.frontmatter
       };
     })
-  );
+  )) as Frontmatter[];
 
   return posts
     .filter((item) => !!!item.draft)

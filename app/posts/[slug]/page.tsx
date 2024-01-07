@@ -5,6 +5,7 @@ import {
 } from '@/utils/mdx';
 
 import { PageContent } from './_components/PageContent';
+import { notFound } from 'next/navigation';
 
 type PageParams = {
   params: {
@@ -13,14 +14,17 @@ type PageParams = {
 };
 
 export default async function Post({ params: { slug } }: PageParams) {
-  const { content, frontmatter } = await getPostBySlug(slug);
+  const post = await getPostBySlug(slug);
+  if (!post) {
+    return notFound();
+  }
 
   const { prev, next } = await getAdjacentPosts(slug);
 
   return (
     <PageContent
-      frontmatter={{ ...frontmatter, prev, next }}
-      content={content}
+      frontmatter={{ ...post.frontmatter, prev, next }}
+      content={post.content}
     />
   );
 }

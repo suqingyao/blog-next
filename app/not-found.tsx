@@ -1,13 +1,29 @@
+'use client';
+
 import Link from 'next/link';
+import Lottie from 'react-lottie';
+import animationData from '@/lottie/animation404.json';
 
 export default function NotFound() {
   return (
-    <div className="">
-      <h1 className="text-4xl font-bold">404</h1>
-      <p className="mt-10 text-xl text-[#555]">
-        Sorry, the requested post does not exist.
-      </p>
-      <Link href="/" className="mt-20 text-xs underline opacity-50">
+    <div className="flex flex-col items-center justify-center">
+      <Lottie
+        options={{
+          loop: true,
+          autoplay: true,
+          animationData,
+          rendererSettings: {
+            preserveAspectRatio: 'xMidYMid slice'
+          }
+        }}
+        height={400}
+        width={400}
+      />
+
+      <Link
+        href="/"
+        className="text-link mt-10 text-xl opacity-40 hover:opacity-100"
+      >
         Back to Home
       </Link>
     </div>
