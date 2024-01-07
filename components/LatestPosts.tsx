@@ -1,7 +1,5 @@
 'use client';
 
-import React from 'react';
-
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { RiArrowRightUpLine } from 'react-icons/ri';
@@ -90,32 +88,11 @@ export function Card({ post, delay }: { post: Frontmatter; delay: number }) {
     >
       <Link
         href={`/posts/${post.slug}`}
-        className="
-        block
-        rounded-md
-        px-3
-        py-3
-        transition-colors
-        hover:bg-gray-100
-        dark:hover:bg-gray-50/10
-       "
+        className="block rounded-md px-3 py-3 transition-colors hover:bg-gray-100 dark:hover:bg-gray-50/10"
       >
-        <div
-          className="
-          flex 
-          items-center 
-          justify-between
-        "
-        >
+        <div className="flex items-center justify-between">
           <div className="flex-1">{post.title}</div>
-          <div
-            className="
-            hidden 
-            font-normal 
-            opacity-40 
-            sm:block
-          "
-          >
+          <div className="hidden font-normal opacity-40 sm:block">
             {dayjs(post.date).format('YYYY-MM-DD')}
           </div>
         </div>
