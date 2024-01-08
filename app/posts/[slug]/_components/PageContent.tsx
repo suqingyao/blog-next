@@ -25,6 +25,13 @@ export const PageContent: FC<ContentProps> = ({ frontmatter, content }) => {
       pageTitle: frontmatter.title,
       pageTitleElement: pageTitleRef.current
     });
+
+    return () => {
+      setHeaderAtom({
+        pageTitle: '',
+        pageTitleElement: null
+      });
+    };
   }, [frontmatter.title, setHeaderAtom]);
 
   return (
