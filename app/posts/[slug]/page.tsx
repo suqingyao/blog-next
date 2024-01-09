@@ -1,3 +1,5 @@
+import { notFound } from 'next/navigation';
+
 import {
   getAdjacentPosts,
   getAllPostFrontMatter,
@@ -5,7 +7,6 @@ import {
 } from '@/utils/mdx';
 
 import { PageContent } from './_components/PageContent';
-import { notFound } from 'next/navigation';
 
 type PageParams = {
   params: {

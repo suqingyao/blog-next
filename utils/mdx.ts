@@ -66,7 +66,7 @@ export const getPostBySlug = async (slug: string) => {
             // @ts-ignore
             rehypeToc,
             {
-              headings: ['h2', 'h3', 'h4']
+              headings: ['h2', 'h3']
             }
           ],
           // @ts-ignore

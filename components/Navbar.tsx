@@ -39,7 +39,7 @@ export const Navbar = () => {
         <motion.h2
           initial={{ opacity: 0, top: 60 }}
           animate={{ opacity: 1, top: 30 }}
-          className="fixed -translate-y-1/2"
+          className="fixed -translate-y-1/2 truncate font-sans text-[1.2rem] font-medium leading-[1.5]"
           style={{
             left: fixedLeft + 'px'
           }}
