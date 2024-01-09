@@ -1,12 +1,12 @@
 'use client';
 
 import ReactDOM from 'react-dom/client';
+import { toast } from 'sonner';
 
-import toast from 'react-hot-toast';
 import useClipboard from '@/hooks/useClipboard';
 
 const CodeBlock = ({ children, ...props }: any) => {
-  const { isSupported, text, copy } = useClipboard();
+  const { copy } = useClipboard();
 
   async function simpleRenderToString(element: React.ReactElement) {
     const container = document.createElement('div');
@@ -29,9 +29,11 @@ const CodeBlock = ({ children, ...props }: any) => {
       const dom = domParser.parseFromString(htmlString, 'text/html');
       // 提取文本内容
       const textContent = dom.body.textContent;
-      // 复制文本内容到剪贴板
+      // 复制文本内容到剪贴板s
       await copy(textContent!);
-      toast.success('Copy Success!');
+      toast.success('Copied!', {
+        position: 'top-right'
+      });
     } catch (error) {
       toast.error('Failed copy');
       console.error('Failed to copy text', (error as Error).message);

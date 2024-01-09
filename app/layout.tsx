@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
-import { Toaster } from 'react-hot-toast';
 import NextTopLoader from 'nextjs-toploader';
+import { Toaster } from 'sonner';
 import { Inter } from 'next/font/google';
 
 import '@/styles/index.css';
@@ -51,8 +51,8 @@ export default function RootLayout({
         <Providers>
           <Main>{children}</Main>
           <BackTop />
-          <Toaster />
           <Plum />
+          <Toaster />
         </Providers>
       </body>
     </html>
