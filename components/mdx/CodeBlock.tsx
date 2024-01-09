@@ -31,9 +31,7 @@ const CodeBlock = ({ children, ...props }: any) => {
       const textContent = dom.body.textContent;
       // 复制文本内容到剪贴板s
       await copy(textContent!);
-      toast.success('Copied!', {
-        position: 'top-right'
-      });
+      toast.success('Copied!');
     } catch (error) {
       toast.error('Failed copy');
       console.error('Failed to copy text', (error as Error).message);
