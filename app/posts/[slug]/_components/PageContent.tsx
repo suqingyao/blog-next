@@ -6,13 +6,9 @@ import { motion } from 'framer-motion';
 import type { FC, ReactNode } from 'react';
 
 import { useHeaderAtom } from '@/hooks/useHeaderAtom';
-import { Pager } from './Pager';
 
 type ContentProps = {
-  frontmatter: Frontmatter & {
-    prev?: Frontmatter;
-    next?: Frontmatter;
-  };
+  frontmatter: Frontmatter;
   content: ReactNode;
 };
 
@@ -58,10 +54,6 @@ export const PageContent: FC<ContentProps> = ({ frontmatter, content }) => {
       >
         {content}
       </motion.article>
-      <Pager
-        prev={frontmatter.prev}
-        next={frontmatter.next}
-      />
     </div>
   );
 };

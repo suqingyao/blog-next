@@ -7,6 +7,7 @@ import {
 } from '@/utils/mdx';
 
 import { PageContent } from './_components/PageContent';
+import { Pager } from './_components/Pager';
 
 type PageParams = {
   params: {
@@ -23,10 +24,16 @@ export default async function Post({ params: { slug } }: PageParams) {
   const { prev, next } = await getAdjacentPosts(slug);
 
   return (
-    <PageContent
-      frontmatter={{ ...post.frontmatter, prev, next }}
-      content={post.content}
-    />
+    <>
+      <PageContent
+        frontmatter={post.frontmatter}
+        content={post.content}
+      />
+      <Pager
+        prev={prev}
+        next={next}
+      />
+    </>
   );
 }
 
