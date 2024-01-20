@@ -3,7 +3,8 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 
-import { FaBilibili, FaXTwitter, FaGithub } from 'react-icons/fa6';
+import { FaXTwitter, FaGithub } from 'react-icons/fa6';
+import { IoLogoWechat, IoMail } from 'react-icons/io5';
 
 export default function Social() {
   return (
@@ -11,53 +12,34 @@ export default function Social() {
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 1, duration: 1 }}
-      className="flex items-center gap-5"
+      className="flex flex-col gap-5"
     >
-      <Link
-        href="https://twitter.com/cully_fung"
-        className="
-          rounded-md
-          p-2
-          text-black
-          transition-all
-          hover:bg-black
-          hover:text-white
-          dark:text-white
-          dark:hover:bg-white
-          dark:hover:text-black
-        "
-      >
-        <FaXTwitter size={28} />
-      </Link>
-      <Link
-        href="https://github.com/cullyfung"
-        className="
-          rounded-md
-          p-2
-          text-black
-          transition-all
-          hover:bg-black
-          hover:text-white
-          dark:text-white
-          dark:hover:bg-white
-          dark:hover:text-black
-        "
-      >
-        <FaGithub size={28} />
-      </Link>
-      <Link
-        href="https://space.bilibili.com/27022081"
-        className="
-          rounded-md
-          p-2
-          text-[#fb7299]
-          transition-all
-          hover:bg-[#fb7299]
-          hover:text-white
-        "
-      >
-        <FaBilibili size={28} />
-      </Link>
+      <div className="flex items-center">
+        <FaXTwitter size={24} />
+        <Link
+          href="https://twitter.com/cully_fung"
+          className="text-link ml-2"
+        >
+          https://twitter.com/cully_fung
+        </Link>
+      </div>
+      <div className="flex items-center">
+        <FaGithub size={24} />
+        <Link
+          href="https://github.com/cullyfung"
+          className="text-link ml-2"
+        >
+          https://github.com/cullyfung
+        </Link>
+      </div>
+      <div className="flex items-center">
+        <IoLogoWechat size={24} />
+        <span className="text-link ml-2">cullyfung</span>
+      </div>
+      <div className="flex items-center">
+        <IoMail size={24} />
+        <span className="text-link ml-2">cullyfung@gmail.com</span>
+      </div>
     </motion.div>
   );
 }
