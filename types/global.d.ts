@@ -7,4 +7,5 @@ interface Post {
   published: boolean;
   description?: string;
   readingTime?: string;
+  fromNotion?: boolean;
 }

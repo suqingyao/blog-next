@@ -1,4 +1,7 @@
+import { compileRawToPost } from '@/utils/mdx';
 import { Client } from '@notionhq/client';
+import { NotionToMarkdown } from 'notion-to-md';
+import readingTime from 'reading-time';
 
 const auth = process.env.NOTION_ACCESS_TOKEN;
 
@@ -7,6 +10,8 @@ const database_id = process.env.NOTION_DATABASE_ID ?? '';
 export type NotionPost = any;
 
 export const notionClient = new Client({ auth });
+
+export const notionToMarkDown = new NotionToMarkdown({ notionClient });
 
 export const queryNotionPosts = async () => {
   try {
@@ -32,6 +37,29 @@ export const queryNotionPostById = async (id: string) => {
   } catch (error) {
     return null;
   }
+};
+
+export const queryNotionByPostId = async (id: string) => {
+  const posts = await getAllNotionPost();
+
+  const post = posts.find((post) => post.id === id);
+
+  if (!post) {
+    return null;
+  }
+
+  const mdblocks = await notionToMarkDown.pageToMarkdown(id);
+  const { parent: raw } = notionToMarkDown.toMarkdownString(mdblocks);
+
+  const { content } = await compileRawToPost(raw);
+
+  return {
+    frontmatter: {
+      ...post,
+      readingTime: readingTime(raw).text.split('read')[0]
+    } as Post,
+    content
+  };
 };
 
 export function pageTransformer(page: NotionPost) {
@@ -68,29 +96,27 @@ export function pageTransformer(page: NotionPost) {
   };
 }
 
-export function blockTransformer(block: any) {}
-
 export const getAllNotionPost = async (): Promise<Post[]> => {
   return await fetch(
     `https://notion-api.splitbee.io/v1/table/${database_id}`
   ).then((res) => res.json());
 };
 
-export const getNotionPostById = async (id: string) => {
-  const posts = await getAllNotionPost();
-  const post = posts.find((t) => t.id === id);
-  if (!post) {
-    return null;
-  }
+// export const getNotionPostById = async (id: string) => {
+//   const posts = await getAllNotionPost();
+//   const post = posts.find((t) => t.id === id);
+//   if (!post) {
+//     return null;
+//   }
 
-  const response = await fetch(
-    `https://notion-api.splitbee.io/v1/page/${post.id}`
-  ).then((res) => res.json());
+//   const response = await fetch(
+//     `https://notion-api.splitbee.io/v1/page/${post.id}`
+//   ).then((res) => res.json());
 
-  return {
-    frontmatter: {
-      ...post
-    } as Post,
-    content: response
-  };
-};
+//   return {
+//     frontmatter: {
+//       ...post
+//     } as Post,
+//     content: response
+//   };
+// };
