@@ -1,7 +1,7 @@
 ---
   title: modal 组件的基础实现方式
   date: 2023-12-03 11:28:28
-  draft: true
+  published: false
 ---
 
 ## 如何手写一个 modal 组件
@@ -104,13 +104,12 @@ window.addEventListener('click', (e) => {
   if (e.target === modal) {
     modal.style.display = 'none';
   }
-}
+});
 
 // 4. 点击modal的任意位置，modal不消失
 modal.addEventListener('click', (e) => {
   e.stopPropagation();
 });
-
 ```
 
 ### 5. 优化
@@ -130,10 +129,10 @@ window.addEventListener('click', (e) => {
   if (e.target === modal) {
     modal.style.display = 'none';
   }
-}
+});
 
 // 4. 点击modal的任意位置，modal不消失
 modal.addEventListener('click', (e) => {
   e.stopPropagation();
-}
+});
 ```

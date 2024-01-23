@@ -1,6 +1,7 @@
 ---
   title: 前端常用下载文件方式汇总
   date: 2023-09-24 23:13:54
+  published: true
 ---
 
 常见文件下载方式
@@ -13,7 +14,10 @@ export function Demo() {
 
   return (
     <div>
-      <a href={imgUrl} download>
+      <a
+        href={imgUrl}
+        download
+      >
         下载文件
       </a>
     </div>
