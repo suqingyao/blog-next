@@ -6,7 +6,7 @@ import errorData from '@/lottie/error.json';
 import { useTheme } from 'next-themes';
 import { useEffect } from 'react';
 
-export default function Error({
+export default function GlobalError({
   error,
   reset
 }: {
