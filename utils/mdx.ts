@@ -16,18 +16,8 @@ import components from '@/components/MDXComponents';
 
 const ROOT_PATH = process.cwd();
 
-export const getAllPostFiles = async () => await fg('posts/**/*.mdx');
-
-export const getPostBySlug = async (slug: string) => {
-  let raw = '';
-
-  try {
-    raw = await fs.readFile(join(ROOT_PATH, 'posts', `${slug}.mdx`), 'utf-8');
-  } catch (error) {
-    return null;
-  }
-
-  const { content, frontmatter } = await compileMDX<Frontmatter>({
+export const compileRawToPost = async (raw: string) => {
+  const { content, frontmatter } = await compileMDX<Post>({
     source: raw,
     components,
     options: {
@@ -75,42 +65,87 @@ export const getPostBySlug = async (slug: string) => {
       }
     }
   });
+
+  return {
+    frontmatter,
+    content
+  };
+};
+
+export const getAllPostFiles = async () => await fg('posts/**/*.mdx');
+
+export const getPostById = async (id: string) => {
+  const posts = await getAllPost();
+  const post = posts.find((post) => {
+    return post!.id === id;
+  });
+  if (!post) {
+    return null;
+  }
+
+  return getLocalPostById(id);
+
+  // try {
+  //   return await getNotionPostById(id);
+  // } catch (error) {
+  //   return null;
+  // }
+};
+
+export const getLocalPostById = async (id: string) => {
+  let raw = '';
+
+  try {
+    raw = await fs.readFile(join(ROOT_PATH, 'posts', `${id}.mdx`), 'utf-8');
+  } catch (error) {
+    return null;
+  }
+
+  const { content, frontmatter } = await compileRawToPost(raw);
   return {
     content,
     frontmatter: {
       ...frontmatter,
-      readingTime: readingTime(raw).text.split('read')[0],
-      slug
-    } as Frontmatter
+      readingTime: readingTime(raw).text.split('read')[0]
+    } as Post
   };
 };
 
-export const getAllPostFrontMatter = async () => {
+export const getAllLocalPost = async () => {
   const files = await getAllPostFiles();
 
-  const posts: Frontmatter[] = (await Promise.all(
+  const localPosts = await Promise.all(
     files.map(async (file) => {
       // get filename not include file extension name
       const slug = file.replace(/(.*\/)*([^.]+).*/gi, '$2');
-      const post = await getPostBySlug(slug);
-      if (!post) return null;
+      const post = await getLocalPostById(slug);
       return {
-        ...post.frontmatter
+        ...post!.frontmatter
       };
     })
-  )) as Frontmatter[];
+  );
 
-  return posts
-    .filter((item) => !!!item.draft)
-    .sort((a, b) => +new Date(b.date) - +new Date(a.date));
+  return localPosts.filter(Boolean);
 };
 
-export const getAdjacentPosts = async (slug: string) => {
-  const posts = await getAllPostFrontMatter();
-  const idx = posts.findIndex((post) => post.slug === slug);
-  const prev = idx > 0 ? posts[idx - 1] : undefined;
-  const next =
-    idx !== -1 && idx < posts.length - 1 ? posts[idx + 1] : undefined;
+export const getAllPost = async () => {
+  const [localPosts] = await Promise.all([
+    getAllLocalPost()
+    // getAllNotionPost()
+  ]);
+
+  const posts = [...localPosts]
+    .filter((post) => post!.published)
+    .sort((a, b) => +new Date(b!.date) - +new Date(a!.date));
+
+  return posts;
+};
+
+export const getAdjacentPosts = async (id: string) => {
+  const posts = await getAllPost();
+  const idx = posts.findIndex((post) => post?.id === id);
+  const prev = idx > 0 ? posts[idx - 1] : null;
+  const next = idx !== -1 && idx < posts.length - 1 ? posts[idx + 1] : null;
 
   return { prev, next };
 };

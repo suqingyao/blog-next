@@ -3,13 +3,13 @@
 import { useEffect, useRef } from 'react';
 import dayjs from 'dayjs';
 import { motion } from 'framer-motion';
-import type { FC, ReactNode } from 'react';
+import type { FC } from 'react';
 
 import { useHeaderAtom } from '@/hooks/useHeaderAtom';
 
 type ContentProps = {
-  frontmatter: Frontmatter;
-  content: ReactNode;
+  frontmatter: Post;
+  content: any;
 };
 
 export const PageContent: FC<ContentProps> = ({ frontmatter, content }) => {

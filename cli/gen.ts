@@ -19,9 +19,10 @@ cli.command('create <filename> [title]').action(async (filename, title) => {
 
   const template = `
 ---
+  id: ${filename}
   title: ${title || filename}
-  date: ${dayjs().format('YYYY-MM-DD HH:mm:ss')}
-  draft: true
+  date: ${dayjs().format('YYYY-MM-DD')}
+  published: false
 ---
     `;
   const spinner = ora('Loading...').start();

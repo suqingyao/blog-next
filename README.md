@@ -12,5 +12,8 @@ My new [personal website and blog](https://blog-next-brmgh0q46-cullyfung.vercel.
 - [Prettier](https://prettier.io)
 - [Vercel](http://vercel.com)
 
+## References
+- [antfu.me](https://antfu.me)
+
 ## License
 <samp>code is licensed under <a href='./LICENSE'>MIT</a>,<br> words and images are licensed under <a href='https://creativecommons.org/licenses/by-nc-sa/4.0/'>CC BY-NC-SA 4.0</a></samp>.

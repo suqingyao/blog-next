@@ -37,3 +37,6 @@ next-env.d.ts
 .swc
 
 .idea
+
+.env*.local
+.env

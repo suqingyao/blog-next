@@ -5,14 +5,14 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 
 interface PostListProps {
-  posts: Frontmatter[];
+  posts: Post[];
 }
 
-export default function PostList({ posts }: PostListProps) {
+export const PostList = ({ posts }: PostListProps) => {
   const getYear = (a: Date | string | number) => new Date(a).getFullYear();
   const isSameYear = (a?: Date | string | number, b?: Date | string | number) =>
     a && b && getYear(a) === getYear(b);
-  function isSameGroup(a: Frontmatter, b?: Frontmatter) {
+  function isSameGroup(a: Post, b?: Post) {
     return !!isSameYear(a.date, b?.date);
   }
 
@@ -50,7 +50,7 @@ export default function PostList({ posts }: PostListProps) {
               }
             }
           }}
-          key={post.slug}
+          key={post.id}
         >
           {!isSameGroup(post, posts[idx - 1]) && (
             <motion.div className="pointer-events-none relative h-20 select-none">
@@ -60,7 +60,7 @@ export default function PostList({ posts }: PostListProps) {
             </motion.div>
           )}
           <Link
-            href={`/posts/${post.slug}`}
+            href={`/posts/${post.id}`}
             className="mb-6 mt-2 flex items-center gap-2 opacity-50 transition-opacity hover:opacity-100"
           >
             <span className="text-lg leading-[1.2em]">{post.title}</span>
@@ -75,4 +75,4 @@ export default function PostList({ posts }: PostListProps) {
       ))}
     </motion.ul>
   );
-}
+};

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { RiArrowRightUpLine } from 'react-icons/ri';
 import dayjs from 'dayjs';
 
-export default function LatestPosts({ posts }: { posts: Frontmatter[] }) {
+export default function LatestPosts({ posts }: { posts: Post[] }) {
   return (
     <div className="py-10">
       <motion.div
@@ -60,7 +60,7 @@ export default function LatestPosts({ posts }: { posts: Frontmatter[] }) {
           <Card
             post={post}
             delay={index * 0.06}
-            key={post.slug}
+            key={post.id}
           />
         ))}
       </motion.ul>
@@ -68,7 +68,7 @@ export default function LatestPosts({ posts }: { posts: Frontmatter[] }) {
   );
 }
 
-export function Card({ post, delay }: { post: Frontmatter; delay: number }) {
+export function Card({ post, delay }: { post: Post; delay: number }) {
   return (
     <motion.li
       variants={{
@@ -87,7 +87,7 @@ export function Card({ post, delay }: { post: Frontmatter; delay: number }) {
       }}
     >
       <Link
-        href={`/posts/${post.slug}`}
+        href={`/posts/${post.id}`}
         className="block rounded-md px-3 py-3 transition-colors hover:bg-gray-100 dark:hover:bg-gray-50/10"
       >
         <div className="flex items-center justify-between">

@@ -1,15 +1,10 @@
 type Fn = () => void;
 
-interface Frontmatter {
+interface Post {
+  id: string;
   title: string;
   date: string | Date;
-  slug: string;
+  published: boolean;
   description?: string;
   readingTime?: string;
-  draft?: boolean;
-}
-
-interface Post {
-  content: ReactElement<any, string | JSXElementConstructor<any>>;
-  frontmatter: Frontmatter;
 }
