@@ -143,3 +143,5 @@ export const DarkToggle = () => {
     </ClientOnly>
   );
 };
+
+export default DarkToggle;

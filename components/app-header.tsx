@@ -1,10 +1,7 @@
 import dynamic from 'next/dynamic';
 import { AppNavbar } from './app-navbar';
 
-const DarkToggle = dynamic(
-  () => import('./dark-toggle').then((mod) => mod.DarkToggle),
-  { ssr: false }
-);
+const DarkToggle = dynamic(() => import('./dark-toggle'), { ssr: false });
 
 export const AppHeader = () => {
   return (
