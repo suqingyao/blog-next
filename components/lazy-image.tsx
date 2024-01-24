@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import type { FC, ImgHTMLAttributes } from 'react';
 
 import { ClientOnly } from './client-only';
-import { Skeleton } from './app-skeleton';
+import { Skeleton } from './skeleton';
 
 import { cn } from '@/lib/utils';
 import { useInView } from '@/hooks/use-in-view';
