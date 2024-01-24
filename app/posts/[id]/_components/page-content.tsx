@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 import { motion } from 'framer-motion';
 import type { FC } from 'react';
 
-import { useHeaderAtom } from '@/hooks/useHeaderAtom';
+import { useHeaderAtom } from '@/hooks/use-header-atom';
 
 type ContentProps = {
   frontmatter: Post;

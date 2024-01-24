@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { useMount } from './useMount';
+import { useMount } from './use-mount';
 
 export default function useMountedRef() {
   const isMounted = useRef(false);

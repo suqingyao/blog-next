@@ -11,7 +11,7 @@ const defaultOptions: Options = {
   triggerOnce: false
 };
 
-export default function useInView(options = defaultOptions) {
+export const useInView = (options = defaultOptions) => {
   const { triggerOnce = false } = options;
   const [ref, setRef] = useState<HTMLElement | null>(null);
   const [inView, setInView] = useState(false);
@@ -46,4 +46,4 @@ export default function useInView(options = defaultOptions) {
   }, [ref]);
 
   return [setRef, inView] as const;
-}
+};

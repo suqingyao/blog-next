@@ -5,11 +5,11 @@ import { flushSync } from 'react-dom';
 import { motion } from 'framer-motion';
 import { useTheme } from 'next-themes';
 
-import useSound from '@/hooks/useSound';
+import { useSound } from '@/hooks/use-sound';
 import { transitionViewIfSupported } from '@/lib/dom';
-import ClientOnly from './ClientOnly';
+import { ClientOnly } from './client-only';
 
-export default function DarkToggle() {
+export const DarkToggle = () => {
   const { theme = 'light', setTheme } = useTheme();
   const [playOn] = useSound('/sounds/switch.mp3');
   const [playOff] = useSound('/sounds/switch.mp3', { playbackRate: 0.6 });
@@ -142,4 +142,4 @@ export default function DarkToggle() {
       </motion.div>
     </ClientOnly>
   );
-}
+};

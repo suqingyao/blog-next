@@ -4,11 +4,11 @@ import type { PropsWithChildren } from 'react';
 import { ThemeProvider } from 'next-themes';
 import { AnimatePresence } from 'framer-motion';
 
-import { ConfigProvider } from './ConfigProvider';
-import { ReactQueryProvider } from './ReactQueryProvider';
-import { JotaiProvider } from './JotaiProvider';
+import { ConfigProvider } from './config-provider';
+import { ReactQueryProvider } from './react-query-provider';
+import { JotaiProvider } from './jotai-provider';
 
-export default function Providers({ children }: PropsWithChildren) {
+export const AppProviders = ({ children }: PropsWithChildren) => {
   return (
     <ReactQueryProvider>
       <JotaiProvider>
@@ -23,4 +23,4 @@ export default function Providers({ children }: PropsWithChildren) {
       </JotaiProvider>
     </ReactQueryProvider>
   );
-}
+};

@@ -8,7 +8,7 @@ export type SkeletonProps = PropsWithChildren<{
   children?: React.ReactNode;
 }>;
 
-const Skeleton = (props: SkeletonProps) => {
+export const Skeleton = (props: SkeletonProps) => {
   const { isLoaded = false, className, children } = props;
 
   return (
@@ -23,5 +23,3 @@ const Skeleton = (props: SkeletonProps) => {
     </span>
   );
 };
-
-export default Skeleton;

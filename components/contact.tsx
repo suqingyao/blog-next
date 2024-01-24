@@ -13,7 +13,7 @@ type LinkText = {
   href?: string;
 };
 
-export default function Social() {
+export const Contact = () => {
   const linkText: LinkText[] = [
     {
       text: 'https://twitter.com/cully_fung',
@@ -90,4 +90,4 @@ export default function Social() {
       ))}
     </motion.ul>
   );
-}
+};

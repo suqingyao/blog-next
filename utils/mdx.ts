@@ -12,7 +12,7 @@ import rehypePrettyCode from 'rehype-pretty-code';
 import rehypeSlug from 'rehype-slug';
 import rehypeToc from 'rehype-toc';
 import rehypeKatex from 'rehype-katex';
-import components from '@/components/MDXComponents';
+import components from '@/components/mdx-components';
 import { getAllNotionPost, queryNotionByPostId } from '@/lib/notion';
 
 const ROOT_PATH = process.cwd();

@@ -3,12 +3,12 @@ import { FiArrowLeft, FiArrowRight } from 'react-icons/fi';
 
 import { cn } from '@/lib/utils';
 
-type PagerProps = {
+type PaginationProps = {
   prev?: Post;
   next?: Post;
 };
 
-export const Pager = ({ prev, next }: PagerProps) => {
+export const Pagination = ({ prev, next }: PaginationProps) => {
   return (
     <div
       className={cn(

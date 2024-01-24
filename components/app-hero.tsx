@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 
-const Hero = () => {
+export const AppHero = () => {
   return (
     <motion.section
       initial="initial"
@@ -107,5 +107,3 @@ const Hero = () => {
     </motion.section>
   );
 };
-
-export default Hero;

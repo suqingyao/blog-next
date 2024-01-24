@@ -3,9 +3,9 @@
 import ReactDOM from 'react-dom/client';
 import { toast } from 'sonner';
 
-import useClipboard from '@/hooks/useClipboard';
+import { useClipboard } from '@/hooks/use-clipboard';
 
-const CodeBlock = ({ children, ...props }: any) => {
+export const CodeBlock = ({ children, ...props }: any) => {
   const { copy } = useClipboard();
 
   async function simpleRenderToString(element: React.ReactElement) {
@@ -62,5 +62,3 @@ const CodeBlock = ({ children, ...props }: any) => {
     </pre>
   );
 };
-
-export default CodeBlock;

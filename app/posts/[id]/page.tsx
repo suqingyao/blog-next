@@ -2,16 +2,16 @@ import { notFound } from 'next/navigation';
 
 import { getAdjacentPosts, getAllPost, getPostById } from '@/utils/mdx';
 
-import { PageContent } from './_components/PageContent';
-import { Pager } from './_components/Pager';
+import { PageContent } from './_components/page-content';
+import { Pagination } from './_components/pagination';
 
-type PageParams = {
+type PostPageParams = {
   params: {
     id: string;
   };
 };
 
-export default async function Post({ params: { id } }: PageParams) {
+const PostPage = async ({ params: { id } }: PostPageParams) => {
   const post = await getPostById(id);
 
   if (!post) {
@@ -26,13 +26,13 @@ export default async function Post({ params: { id } }: PageParams) {
         frontmatter={post.frontmatter}
         content={post.content}
       />
-      <Pager
+      <Pagination
         prev={prev!}
         next={next!}
       />
     </>
   );
-}
+};
 
 export async function generateStaticParams() {
   const posts = await getAllPost();
@@ -42,7 +42,7 @@ export async function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata({ params: { id } }: PageParams) {
+export async function generateMetadata({ params: { id } }: PostPageParams) {
   const post = await getPostById(id);
 
   if (!post) {
@@ -55,3 +55,5 @@ export async function generateMetadata({ params: { id } }: PageParams) {
     title: post.frontmatter.title
   };
 }
+
+export default PostPage;

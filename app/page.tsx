@@ -1,6 +1,6 @@
-import Hero from '@/components/Hero';
-import Social from '@/components/Social';
-import LatestPosts from '@/components/LatestPosts';
+import { AppHero } from '@/components/app-hero';
+import { Contact } from '@/components/contact';
+import { LatestPosts } from '@/components/latest-posts';
 import { getAllPost } from '@/utils/mdx';
 
 export default async function Home() {
@@ -10,8 +10,8 @@ export default async function Home() {
 
   return (
     <>
-      <Hero />
-      <Social />
+      <AppHero />
+      <Contact />
       <LatestPosts posts={latestPosts} />
     </>
   );

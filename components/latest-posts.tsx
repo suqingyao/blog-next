@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { RiArrowRightUpLine } from 'react-icons/ri';
 import dayjs from 'dayjs';
 
-export default function LatestPosts({ posts }: { posts: Post[] }) {
+export const LatestPosts = ({ posts }: { posts: Post[] }) => {
   return (
     <div className="py-10">
       <motion.div
@@ -66,7 +66,7 @@ export default function LatestPosts({ posts }: { posts: Post[] }) {
       </motion.ul>
     </div>
   );
-}
+};
 
 export function Card({ post, delay }: { post: Post; delay: number }) {
   return (

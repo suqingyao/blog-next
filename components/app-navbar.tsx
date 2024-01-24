@@ -6,8 +6,8 @@ import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
 
 import { cn } from '@/lib/utils';
-import { useHeaderAtom } from '@/hooks/useHeaderAtom';
-import { useScrollTop } from '@/hooks/useScrollTop';
+import { useHeaderAtom } from '@/hooks/use-header-atom';
+import { useScrollTop } from '@/hooks/us-scroll-top';
 
 const links = [
   {
@@ -20,7 +20,7 @@ const links = [
   }
 ];
 
-export const Navbar = () => {
+export const AppNavbar = () => {
   const pathname = usePathname();
 
   const { headerAtom } = useHeaderAtom();

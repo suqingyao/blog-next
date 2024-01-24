@@ -1,12 +1,12 @@
 import type { FC, PropsWithChildren } from 'react';
 
-import useInView from '@/hooks/useInView';
+import { useInView } from '@/hooks/use-in-view';
 
 type LazyLoadProps = PropsWithChildren & {
   placeholder?: React.ReactNode;
 };
 
-const LazyLoad: FC<LazyLoadProps> = ({ children, placeholder }) => {
+export const LazyLoad: FC<LazyLoadProps> = ({ children, placeholder }) => {
   const [targetRef, isInView] = useInView({
     triggerOnce: true
   });
@@ -21,5 +21,3 @@ const LazyLoad: FC<LazyLoadProps> = ({ children, placeholder }) => {
     </>
   );
 };
-
-export default LazyLoad;

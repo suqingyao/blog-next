@@ -1,4 +1,4 @@
-export default function Footer() {
+export const AppFooter = () => {
   return (
     <footer className="h-[var(--footer-height)] text-center text-sm">
       <p className="opacity-80">
@@ -23,4 +23,4 @@ export default function Footer() {
       <p className="mt-2 text-sm opacity-80">&copy;2023&nbsp;cullyfung</p>
     </footer>
   );
-}
+};

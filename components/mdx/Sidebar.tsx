@@ -3,7 +3,7 @@
 import { useRef } from 'react';
 import type { FC, PropsWithChildren } from 'react';
 
-import { useMount } from '@/hooks/useMount';
+import { useMount } from '@/hooks/use-mount';
 // import { isArrayLike } from '@/utils/is';
 
 export type SidebarProps = PropsWithChildren & {};
@@ -38,7 +38,7 @@ export type SidebarProps = PropsWithChildren & {};
 //   return anchors;
 // }
 
-const Sidebar: FC<SidebarProps> = ({ children, ...props }) => {
+export const Sidebar: FC<SidebarProps> = ({ children, ...props }) => {
   const tocAnchorsRef = useRef<HTMLAnchorElement[]>([]);
   const headingAnchorsRef = useRef<HTMLAnchorElement[]>([]);
   const observerRef = useRef<IntersectionObserver | null>(null);
@@ -123,5 +123,3 @@ const Sidebar: FC<SidebarProps> = ({ children, ...props }) => {
 
   return <nav {...props}>{children}</nav>;
 };
-
-export default Sidebar;

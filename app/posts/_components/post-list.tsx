@@ -1,8 +1,8 @@
 'use client';
 
+import Link from 'next/link';
 import dayjs from 'dayjs';
 import { motion } from 'framer-motion';
-import Link from 'next/link';
 
 interface PostListProps {
   posts: Post[];

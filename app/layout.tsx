@@ -5,10 +5,10 @@ import { Inter } from 'next/font/google';
 
 import '@/styles/index.css';
 
-import Providers from '@/providers';
-import Plum from '@/components/Plum';
-import BackTop from '@/components/BackTop';
-import Main from '@/components/Main';
+import { AppProviders } from '@/providers';
+import { PlumContainer } from '@/components/plum-container';
+import { BackTop } from '@/components/back-top';
+import { AppMain } from '@/components/app-main';
 
 import { cn } from '@/lib/utils';
 import { sansFont, serifFont } from '@/lib/fonts';
@@ -48,12 +48,12 @@ export default function RootLayout({
           color="var(--color-primary)"
           showSpinner={false}
         />
-        <Providers>
-          <Main>{children}</Main>
+        <AppProviders>
+          <AppMain>{children}</AppMain>
           <BackTop />
-          <Plum />
+          <PlumContainer />
           <Toaster />
-        </Providers>
+        </AppProviders>
       </body>
     </html>
   );

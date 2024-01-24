@@ -3,9 +3,9 @@
 import Link from 'next/link';
 import { motion, useMotionTemplate } from 'framer-motion';
 
-import useSpotlight from '@/hooks/useSpotlight';
+import { useSpotlight } from '@/hooks/use-spotlight';
 
-import LazyImage from './LazyImage';
+import { LazyImage } from './lazy-image';
 
 interface LinkCardProps {
   title: string;
@@ -14,7 +14,12 @@ interface LinkCardProps {
   image?: string;
 }
 
-const LinkCard = ({ title, description, href, image }: LinkCardProps) => {
+export const LinkCard = ({
+  title,
+  description,
+  href,
+  image
+}: LinkCardProps) => {
   const [{ x: spotX, y: spotY, r: spotR }, onMouseMove] = useSpotlight();
 
   const background = useMotionTemplate`radial-gradient(${spotR}px circle at ${spotX}px ${spotX}px, currentColor, transparent 65%)`;
@@ -65,5 +70,3 @@ const LinkCard = ({ title, description, href, image }: LinkCardProps) => {
     </Link>
   );
 };
-
-export default LinkCard;

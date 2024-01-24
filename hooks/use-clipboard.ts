@@ -1,8 +1,8 @@
 import { useCallback, useState } from 'react';
-import { useMount } from './useMount';
-import { useEventListener } from './useEventListener';
+import { useMount } from './use-mount';
+import { useEventListener } from './use-event-listener';
 
-const useClipboard = () => {
+export const useClipboard = () => {
   const [text, setText] = useState('');
   const [isSupported, setIsSupported] = useState(false);
 
@@ -35,5 +35,3 @@ const useClipboard = () => {
     copy
   };
 };
-
-export default useClipboard;

@@ -1,7 +1,7 @@
 import { MouseEvent, useCallback, useMemo } from 'react';
 import { useMotionValue } from 'framer-motion';
 
-const useSpotlight = () => {
+export const useSpotlight = () => {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const r = useMotionValue(0);
@@ -19,5 +19,3 @@ const useSpotlight = () => {
 
   return useMemo(() => [{ x, y, r }, movement] as const, []);
 };
-
-export default useSpotlight;

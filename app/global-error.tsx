@@ -1,10 +1,10 @@
 'use client';
 
+import { useEffect } from 'react';
+import { useTheme } from 'next-themes';
 import Lottie from 'react-lottie';
 import errorDarkData from '@/lottie/error-dark.json';
 import errorData from '@/lottie/error.json';
-import { useTheme } from 'next-themes';
-import { useEffect } from 'react';
 
 export default function GlobalError({
   error,

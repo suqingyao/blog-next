@@ -1,7 +1,7 @@
 import { getAllPost } from '@/utils/mdx';
-import { PostList } from './_components/PostList';
+import { PostList } from './_components/post-list';
 
-export default async function Posts() {
+const PostsPage = async () => {
   const posts = await getAllPost();
 
   return (
@@ -9,4 +9,6 @@ export default async function Posts() {
       <PostList posts={posts} />
     </>
   );
-}
+};
+
+export default PostsPage;

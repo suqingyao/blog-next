@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import type { FC, PropsWithChildren } from 'react';
 
-const ClientOnly: FC<PropsWithChildren> = ({ children }) => {
+export const ClientOnly: FC<PropsWithChildren> = ({ children }) => {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -12,5 +12,3 @@ const ClientOnly: FC<PropsWithChildren> = ({ children }) => {
 
   return isMounted ? <>{children}</> : null;
 };
-
-export default ClientOnly;

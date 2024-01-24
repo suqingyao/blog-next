@@ -1,11 +1,11 @@
 'use client';
 
 import { useMemo, useRef } from 'react';
-import useRafFn from '@/hooks/useRafFn';
-import useWindowSize from '@/hooks/useWindowSize';
-import { useMount } from '@/hooks/useMount';
+import { useRafFn } from '@/hooks/use-raf-fn';
+import { useWindowSize } from '@/hooks/use-window-size';
+import { useMount } from '@/hooks/use-mount';
 
-export default function Plum() {
+export const PlumContainer = () => {
   const r180 = Math.PI;
   const r90 = Math.PI / 2;
   const r15 = Math.PI / 12;
@@ -141,4 +141,4 @@ export default function Plum() {
       />
     </div>
   );
-}
+};

@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 
-export default function useRafFn(fn: Fn) {
+export const useRafFn = (fn: Fn) => {
   const isActive = useRef(false);
   let rafId: null | number = null;
 
@@ -31,4 +31,4 @@ export default function useRafFn(fn: Fn) {
     pause,
     resume
   };
-}
+};

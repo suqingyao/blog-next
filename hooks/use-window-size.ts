@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 import { isBrowser } from '../utils/is';
-import { useRafState } from './useRafState';
+import { useRafState } from './use-raf-state';
 
-export default function useWindowSize(
+export const useWindowSize = (
   initialWidth = Infinity,
   initialHeight = Infinity
-) {
+) => {
   const [state, setState] = useRafState<{
     width: number;
     height: number;
@@ -29,4 +29,4 @@ export default function useWindowSize(
   }, []);
 
   return state;
-}
+};

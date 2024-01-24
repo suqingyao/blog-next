@@ -1,9 +1,9 @@
-import CodeBlock from './mdx/CodeBlock';
-import Sidebar from './mdx/Sidebar';
+import { CodeBlock } from './mdx/code-block';
+import { Sidebar } from './mdx/sidebar';
 
-import DarkToggle from './DarkToggle';
-import LinkCard from './LinkCard';
-import LazyImage from './LazyImage';
+import { DarkToggle } from './dark-toggle';
+import { LinkCard } from './link-card';
+import { LazyImage } from './lazy-image';
 
 const components = {
   nav: (props: any) => <Sidebar {...props} />,
