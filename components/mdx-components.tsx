@@ -1,12 +1,12 @@
 import { CodeBlock } from './mdx/code-block';
-import { Sidebar } from './mdx/sidebar';
+import { TableOfContents } from './mdx/table-of-contents';
 
 import { DarkToggle } from './dark-toggle';
 import { LinkCard } from './link-card';
 import { LazyImage } from './lazy-image';
 
 const components = {
-  nav: (props: any) => <Sidebar {...props} />,
+  nav: (props: any) => <TableOfContents {...props} />,
   DarkToggle,
   LinkCard,
   pre: (props: any) => <CodeBlock {...props} />,

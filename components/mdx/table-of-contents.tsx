@@ -6,7 +6,7 @@ import type { FC, PropsWithChildren } from 'react';
 import { useMount } from '@/hooks/use-mount';
 // import { isArrayLike } from '@/utils/is';
 
-export type SidebarProps = PropsWithChildren & {};
+export type TableOfContentsProps = PropsWithChildren & {};
 
 // type Children = {
 //   type?: string;
@@ -38,7 +38,10 @@ export type SidebarProps = PropsWithChildren & {};
 //   return anchors;
 // }
 
-export const Sidebar: FC<SidebarProps> = ({ children, ...props }) => {
+export const TableOfContents: FC<TableOfContentsProps> = ({
+  children,
+  ...props
+}) => {
   const tocAnchorsRef = useRef<HTMLAnchorElement[]>([]);
   const headingAnchorsRef = useRef<HTMLAnchorElement[]>([]);
   const observerRef = useRef<IntersectionObserver | null>(null);
