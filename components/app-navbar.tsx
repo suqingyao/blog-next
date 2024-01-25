@@ -7,7 +7,7 @@ import { motion } from 'framer-motion';
 
 import { cn } from '@/lib/utils';
 import { useHeaderAtom } from '@/hooks/use-header-atom';
-import { useScrollTop } from '@/hooks/us-scroll-top';
+import { useScrollTop } from '@/hooks/use-scroll-top';
 
 const links = [
   {
