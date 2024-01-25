@@ -1,7 +1,12 @@
-import { compileRawToPost } from '@/utils/mdx';
 import { Client } from '@notionhq/client';
 import { NotionToMarkdown } from 'notion-to-md';
 import readingTime from 'reading-time';
+import type {
+  PageObjectResponse,
+  TextRichTextItemResponse
+} from '@notionhq/client/build/src/api-endpoints';
+import dayjs from 'dayjs';
+import { compileRawToPost } from '@/utils/mdx';
 
 const auth = process.env.NOTION_ACCESS_TOKEN;
 
@@ -13,33 +18,35 @@ export const notionClient = new Client({ auth });
 
 export const notionToMarkDown = new NotionToMarkdown({ notionClient });
 
-export const queryNotionPosts = async () => {
+export const queryAllNotionPost = async () => {
   try {
     const response = await notionClient.databases.query({
       database_id
     });
 
-    return response.results.map(pageTransformer);
+    return (response.results as PageObjectResponse[]).map(
+      pageTransformer
+    ) as Post[];
   } catch (error) {
-    return null;
+    return [];
   }
 };
+
+// export const queryNotionPostById = async (id: string) => {
+//   try {
+//     const { results } = await notionClient.blocks.children.list({
+//       block_id: id
+//     });
+
+//     return {
+//       data: results
+//     };
+//   } catch (error) {
+//     return null;
+//   }
+// };
 
 export const queryNotionPostById = async (id: string) => {
-  try {
-    const { results } = await notionClient.blocks.children.list({
-      block_id: id
-    });
-
-    return {
-      data: results
-    };
-  } catch (error) {
-    return null;
-  }
-};
-
-export const queryNotionByPostId = async (id: string) => {
   const posts = await getAllNotionPost();
 
   const post = posts.find((post) => post.id === id);
@@ -62,7 +69,7 @@ export const queryNotionByPostId = async (id: string) => {
   };
 };
 
-export function pageTransformer(page: NotionPost) {
+export function pageTransformer(page: PageObjectResponse): Record<string, any> {
   const properties = page.properties;
 
   function getFieldValue(field: string) {
@@ -73,12 +80,23 @@ export function pageTransformer(page: NotionPost) {
       case 'select':
         return fieldObj?.[filedType]?.name;
       case 'title':
-      case 'rich_text':
-        return fieldObj?.[filedType]?.reduce((pre: any, cur: any) => {
-          return (pre += cur.text.content);
+        return fieldObj?.[filedType].reduce((pre, cur) => {
+          return pre + cur.plain_text;
         }, '');
+      case 'rich_text':
+        return (fieldObj[filedType] as TextRichTextItemResponse[])?.reduce(
+          (pre, cur) => {
+            return pre + cur.text.content;
+          },
+          ''
+        );
+      case 'status':
+        return fieldObj[filedType]?.name;
+      case 'checkbox':
+        return fieldObj[filedType];
+      // TODO parse reset type
       default:
-        return fieldObj?.[filedType];
+        return fieldObj;
     }
   }
   let restObj: any = {};
@@ -88,10 +106,13 @@ export function pageTransformer(page: NotionPost) {
 
   return {
     id: page.id,
-    created_time: page.created_time,
-    last_edited_time: page.last_edited_time,
-    cover: page.cover[page.cover.type].url,
-    url: page.url,
+    createdTime: dayjs(page.created_time).format('YYYY-MM-DD hh:mm:ss'),
+    lastEditedTime: dayjs(page.last_edited_time).format('YYYY-MM-DD hh:mm:ss'),
+    cover:
+      page.cover && page.cover.type === 'external'
+        ? page.cover?.external?.url
+        : page.cover?.file.url,
+    url: page.url ?? undefined,
     ...restObj
   };
 }

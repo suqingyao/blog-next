@@ -13,7 +13,7 @@ export const PostList = ({ posts }: PostListProps) => {
   const isSameYear = (a?: Date | string | number, b?: Date | string | number) =>
     a && b && getYear(a) === getYear(b);
   function isSameGroup(a: Post, b?: Post) {
-    return !!isSameYear(a.date, b?.date);
+    return !!isSameYear(a.createdTime, b?.createdTime);
   }
 
   return (
@@ -55,7 +55,7 @@ export const PostList = ({ posts }: PostListProps) => {
           {!isSameGroup(post, posts[idx - 1]) && (
             <motion.div className="pointer-events-none relative h-20 select-none">
               <span className="text-stroke absolute -left-[3rem] -top-[2rem] text-[8em] font-bold text-transparent opacity-10">
-                {getYear(post.date)}
+                {getYear(post.createdTime)}
               </span>
             </motion.div>
           )}
@@ -65,7 +65,7 @@ export const PostList = ({ posts }: PostListProps) => {
           >
             <span className="text-lg leading-[1.2em]">{post.title}</span>
             <span className="whitespace-nowrap text-sm opacity-50">
-              {dayjs(post.date).format('MMM DD, YYYY')}
+              {dayjs(post.createdTime).format('MMM DD, YYYY')}
             </span>
             <span className="whitespace-nowrap text-sm opacity-40">
               {post.readingTime}

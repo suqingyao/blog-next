@@ -93,7 +93,7 @@ export function Card({ post, delay }: { post: Post; delay: number }) {
         <div className="flex items-center justify-between">
           <div className="flex-1">{post.title}</div>
           <div className="hidden font-normal opacity-40 sm:block">
-            {dayjs(post.date).format('YYYY-MM-DD')}
+            {dayjs(post.createdTime).format('YYYY-MM-DD')}
           </div>
         </div>
       </Link>

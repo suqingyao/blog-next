@@ -21,7 +21,7 @@ cli.command('create <filename> [title]').action(async (filename, title) => {
 ---
   id: ${filename}
   title: ${title || filename}
-  date: ${dayjs().format('YYYY-MM-DD')}
+  createdTime: ${dayjs().format('YYYY-MM-DD hh:mm:ss')}
   published: false
 ---
     `;

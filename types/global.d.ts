@@ -3,8 +3,9 @@ type Fn = () => void;
 interface Post {
   id: string;
   title: string;
-  date: string | Date;
+  createdTime: string | Date;
   published: boolean;
+  cover?: string;
   description?: string;
   readingTime?: string;
   fromNotion?: boolean;

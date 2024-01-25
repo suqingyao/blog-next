@@ -40,7 +40,7 @@ export const PageContent: FC<ContentProps> = ({ frontmatter, content }) => {
         {frontmatter.title}
       </h1>
       <p className="flex animate-slide-enter-in flex-row gap-2 text-[#555]">
-        <span>{dayjs(frontmatter.date).format('MMM DD, YYYY')}</span>
+        <span>{dayjs(frontmatter.createdTime).format('MMM DD, YYYY')}</span>
         <span className="flex flex-row items-center">
           · {frontmatter.readingTime}
         </span>
