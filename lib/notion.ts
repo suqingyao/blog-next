@@ -12,8 +12,6 @@ const auth = process.env.NOTION_ACCESS_TOKEN;
 
 const database_id = process.env.NOTION_DATABASE_ID ?? '';
 
-export type NotionPost = any;
-
 export const notionClient = new Client({ auth });
 
 export const notionToMarkDown = new NotionToMarkdown({ notionClient });
