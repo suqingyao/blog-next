@@ -1,4 +1,4 @@
-import { Manrope, Noto_Serif_SC, Gaegu } from 'next/font/google';
+import { Manrope, Noto_Serif_SC } from 'next/font/google';
 
 const sansFont = Manrope({
   subsets: ['latin'],
@@ -16,11 +16,4 @@ const serifFont = Noto_Serif_SC({
   fallback: ['Noto Serif SC']
 });
 
-const proseFont = Gaegu({
-  subsets: ['latin'],
-  weight: ['300', '400', '700'],
-  variable: '--font-prose',
-  display: 'swap'
-});
-
-export { sansFont, serifFont, proseFont };
+export { sansFont, serifFont };

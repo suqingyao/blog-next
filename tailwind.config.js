@@ -10,8 +10,7 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: 'var(--font-sans)',
-        serif: 'var(--font-serif)',
-        prose: 'var(--font-prose)'
+        serif: 'var(--font-serif)'
       },
       colors: {
         primary: 'var(--color-primary)',
