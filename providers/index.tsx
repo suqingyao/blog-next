@@ -1,8 +1,8 @@
 'use client';
 
-import type { PropsWithChildren } from 'react';
 import { ThemeProvider } from 'next-themes';
 import { AnimatePresence } from 'framer-motion';
+import type { PropsWithChildren } from 'react';
 
 import { ConfigProvider } from './config-provider';
 import { ReactQueryProvider } from './react-query-provider';
@@ -14,6 +14,7 @@ export const AppProviders = ({ children }: PropsWithChildren) => {
       <JotaiProvider>
         <ThemeProvider
           attribute="class"
+          storageKey="blog-theme"
           defaultTheme="light"
         >
           <AnimatePresence mode="wait">

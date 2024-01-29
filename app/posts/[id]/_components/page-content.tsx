@@ -31,7 +31,7 @@ export const PageContent: FC<ContentProps> = ({ frontmatter, content }) => {
   }, [frontmatter.title, setHeaderAtom]);
 
   return (
-    <div className="font-mono">
+    <div className="font-prose">
       <h1
         ref={pageTitleRef}
         data-title="page-title"
