@@ -37,7 +37,7 @@ export const LazyImage: FC<LazyImageProps> = (props) => {
           {visible && (
             <img
               className={cn(
-                'rounded-md object-cover opacity-0 transition-opacity',
+                'w-full rounded-md object-cover opacity-0 transition-opacity',
                 isLoaded && 'opacity-100',
                 className
               )}
