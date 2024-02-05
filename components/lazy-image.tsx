@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import type { FC, ImgHTMLAttributes } from 'react';
+import type { ImgHTMLAttributes } from 'react';
 
 import { ClientOnly } from './client-only';
 import { Skeleton } from './skeleton';
@@ -11,7 +11,7 @@ import { useInView } from '@/hooks/use-in-view';
 
 export type LazyImageProps = ImgHTMLAttributes<HTMLImageElement>;
 
-export const LazyImage: FC<LazyImageProps> = (props) => {
+export const LazyImage = (props: LazyImageProps) => {
   const { className, src, ...rest } = props;
 
   const [visible, setVisible] = useState(false);

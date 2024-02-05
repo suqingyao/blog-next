@@ -1,12 +1,10 @@
-import type { PropsWithChildren } from 'react';
-
 import { cn } from '@/lib/utils';
 
-export type SkeletonProps = PropsWithChildren<{
+export type SkeletonProps = {
   isLoaded?: boolean;
   className?: string;
   children?: React.ReactNode;
-}>;
+};
 
 export const Skeleton = (props: SkeletonProps) => {
   const { isLoaded = false, className, children } = props;

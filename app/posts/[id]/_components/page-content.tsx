@@ -3,16 +3,15 @@
 import { useEffect, useRef } from 'react';
 import dayjs from 'dayjs';
 import { motion } from 'framer-motion';
-import type { FC } from 'react';
 
 import { useHeaderAtom } from '@/hooks/use-header-atom';
 
-type ContentProps = {
+type PageContentProps = {
   frontmatter: Post;
   content: any;
 };
 
-export const PageContent: FC<ContentProps> = ({ frontmatter, content }) => {
+export const PageContent = ({ frontmatter, content }: PageContentProps) => {
   const { setHeaderAtom } = useHeaderAtom();
   const pageTitleRef = useRef<HTMLHeadingElement | null>(null);
 

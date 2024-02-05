@@ -1,12 +1,13 @@
 'use client';
 
 import { useRef } from 'react';
-import type { FC, PropsWithChildren } from 'react';
 
 import { useMount } from '@/hooks/use-mount';
 // import { isArrayLike } from '@/utils/is';
 
-export type TableOfContentsProps = PropsWithChildren & {};
+export type TableOfContentsProps = {
+  children: React.ReactNode;
+};
 
 // type Children = {
 //   type?: string;
@@ -38,10 +39,10 @@ export type TableOfContentsProps = PropsWithChildren & {};
 //   return anchors;
 // }
 
-export const TableOfContents: FC<TableOfContentsProps> = ({
+export const TableOfContents = ({
   children,
   ...props
-}) => {
+}: TableOfContentsProps) => {
   const tocAnchorsRef = useRef<HTMLAnchorElement[]>([]);
   const headingAnchorsRef = useRef<HTMLAnchorElement[]>([]);
   const observerRef = useRef<IntersectionObserver | null>(null);
