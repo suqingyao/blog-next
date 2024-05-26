@@ -13,7 +13,6 @@ import rehypeSlug from 'rehype-slug';
 import rehypeToc from 'rehype-toc';
 import rehypeKatex from 'rehype-katex';
 import components from '@/components/mdx-components';
-import { queryAllNotionPost, queryNotionPostById } from '@/lib/notion';
 
 const ROOT_PATH = process.cwd();
 
@@ -84,15 +83,7 @@ export const getPostById = async (id: string) => {
     return null;
   }
 
-  if (post.fromNotion) {
-    try {
-      return await queryNotionPostById(id);
-    } catch (error) {
-      return null;
-    }
-  } else {
-    return getLocalPostById(id);
-  }
+  return getLocalPostById(id);
 };
 
 export const getLocalPostById = async (id: string) => {
@@ -132,12 +123,12 @@ export const getAllLocalPost = async () => {
 };
 
 export const getAllPost = async () => {
-  const [localPosts, notionPosts] = await Promise.all([
+  const [localPosts] = await Promise.all([
     getAllLocalPost(),
-    queryAllNotionPost()
+
   ]);
 
-  const posts = [...localPosts, ...notionPosts]
+  const posts = [...localPosts]
     .filter((post) => post!.published)
     .sort((a, b) => +new Date(b!.createdTime) - +new Date(a!.createdTime));
 
