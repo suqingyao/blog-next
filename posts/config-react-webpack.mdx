@@ -1,0 +1,282 @@
+
+---
+  id: config-react-webpack
+  title: 使用webpack搭建react项目
+  createdTime: 2024-05-27 01:27:49
+  published: true
+---
+
+## 初始化目录
+
+```bash
+mkdir webpack-react-template && cd webpack-react-template
+```
+
+在使用`pnpm`初始化`package.json`
+
+```bash
+pnpm init
+```
+
+接下来我们安装一些react必要的包
+
+```bash
+pnpm i react react-dom
+pnpm i webpack webpack-cli -D
+```
+
+```xml
+.
+├── package.json
+├── pnpm-lock.yaml
+├── src
+│   ├── App.tsx
+│   └── main.tsx
+├── tsconfig.json
+└── webpack.config.js
+```
+
+## 将ES6语法降级为ES5
+
+目前市面上大多使用babel来处理的，`babel`是一个`javascript`编译器，主要是将es6或更新的语法转换成向后兼容的javascript版本，以便在低版本的浏览器或环境中运行。
+
+首先我们先安装必要的npm包
+
+```bash
+pnpm i -D @babel/core @babel/preset-env babel-loader
+```
+
+- `@babel/core` - Babel的核心包
+- `@babel/preset-env` - Babel的预设包，用于将ES6语法降级为ES5语法
+- `babel-loader` - Webpack 的加载器，用于`babel`和`webpack`之间通信
+
+## 处理`ts`、`tsx`
+
+浏览器是不能直接运行ts文件的，于是我们需要将ts文件编译成js文件，在webpack配置中有两种方案，一种是通过babel转译，另一种是通过`ts-loader`转译，下面我将介绍这两种方案的具体配置
+
+### 使用`babel`
+
+首先，我们需要安装一些必要的npm包来处理TypeScript和React JSX文件。这些包包括：
+
+```bash
+pnpm i -D @babel/preset-react @babel/preset-typescript
+
+```
+
+接下来，在根目录下创建一个`.babelrc`文件，并添加以下配置：
+
+```json
+{
+  "presets": [
+		"@babel/preset-env",
+		[
+			"@babel/preset-react",
+			{
+				runtime: "automatic"
+			}
+		]
+		"@babel/preset-typescript"
+	]
+}
+```
+
+现在，我们已经配置好了使用Babel来转译TypeScript和React JSX文件的环境。
+
+### 使用`ts-loader`
+
+如果选择使用`ts-loader`来处理TypeScript文件，我们需要安装一些必要的npm包：
+
+```bash
+pnpm i -D ts-loader typescript
+```
+
+接下来，在webpack配置文件中，添加以下规则：
+
+```jsx
+module: {
+  rules: [
+    {
+      test: /\\.tsx?$/,
+      use: 'ts-loader',
+      exclude: /node_modules/,
+    },
+  ],
+},
+resolve: {
+  extensions: ['.tsx', '.ts', '.js'],
+},
+```
+
+这样，我们就可以使用`ts-loader`来处理TypeScript文件了。
+
+## 处理CSS
+
+### 使用CSS模块化
+
+要使用CSS模块化，我们需要安装`css-loader`和`style-loader`这两个npm包：
+
+```bash
+pnpm i -D css-loader style-loader
+```
+
+然后，在webpack配置文件中，添加以下规则：
+
+```jsx
+module: {
+  rules: [
+    {
+      test: /\\.css$/,
+      use: ['style-loader', 'css-loader'],
+    },
+  ],
+},
+```
+
+这样，我们就可以在React组件中引入CSS文件，并使用CSS模块化的特性了。
+
+### 使用Sass
+
+如果我们想要使用Sass来编写CSS，我们需要安装`sass-loader`和`node-sass`这两个npm包：
+
+```bash
+pnpm i -D sass-loader node-sass
+```
+
+然后，在webpack配置文件中，添加以下规则：
+
+```jsx
+module: {
+  rules: [
+    {
+      test: /\\.scss$/,
+      use: ['style-loader', 'css-loader', 'sass-loader'],
+    },
+  ],
+},
+```
+
+这样，我们就可以在React组件中引入Sass文件，并使用Sass来编写样式了。
+
+## 静态资源
+
+### 处理图片和字体文件
+
+如果我们想要在项目中使用图片和字体文件，我们需要安装`file-loader`这个npm包：
+
+```bash
+pnpm i -D file-loader
+```
+
+然后，在webpack配置文件中，添加以下规则：
+
+```jsx
+module: {
+  rules: [
+    {
+      test: /\\.(png|jpe?g|gif|woff2?|eot|ttf|otf)$/,
+      use: ['file-loader'],
+    },
+  ],
+},
+```
+
+这样，我们就可以在React组件中引入并使用图片和字体文件了。
+
+### 处理SVG文件
+
+如果我们想要在项目中使用SVG文件，我们需要安装`url-loader`和`svgo-loader`这两个npm包：
+
+```bash
+pnpm i -D url-loader svgo-loader
+```
+
+然后，在webpack配置文件中，添加以下规则：
+
+```jsx
+module: {
+  rules: [
+    {
+      test: /\\.svg$/,
+      use: [
+        'url-loader',
+        {
+          loader: 'svgo-loader',
+          options: {
+            plugins: [
+              { removeTitle: true },
+              { convertColors: { shorthex: false } },
+              { convertPathData: false },
+            ],
+          },
+        },
+      ],
+    },
+  ],
+},
+
+```
+
+这样，我们就可以在React组件中引入并使用SVG文件了。
+
+## 运行项目
+
+首先，我们需要安装 `webpack-dev-server` 和 `html-webpack-plugin`。
+
+```bash
+pnpm i webpack-dev-server html-webpack-plugin -D
+```
+
+新建模版文件 `src/index.html`
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
+```
+
+并在`webpack.config.js` 中添加以下配置：
+
+```jsx
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+module.exports = {
+	// ...省略其他配置
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './src/index.html',
+    }),
+  ],
+  devServer: {
+    port: 3000, // 端口号
+		hot: true, // 启用HMR
+		open: true // 自动打开默认浏览器
+  },
+};
+```
+
+接下来，我们可以使用以下命令来运行项目：
+
+```bash
+pnpm dev
+```
+
+这将以开发模式启动项目，并自动打开浏览器。
+
+如果需要构建生产版本的项目，可以运行以下命令：
+
+```bash
+pnpm build
+```
+
+这将使用生产模式构建项目，并生成优化后的文件用于部署。

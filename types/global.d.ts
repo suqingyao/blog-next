@@ -9,4 +9,5 @@ interface Post {
   description?: string;
   readingTime?: string;
   fromNotion?: boolean;
+  categories?: string[];
 }

@@ -105,10 +105,16 @@ export const getLocalPostById = async (id: string) => {
   };
 };
 
+export const cachedAllPosts = [] as Post[];
+
 export const getAllLocalPost = async () => {
+  if (cachedAllPosts.length > 0) {
+    return cachedAllPosts;
+  }
+
   const files = await getAllPostFiles();
 
-  const localPosts = await Promise.all(
+  const localPosts = (await Promise.all(
     files.map(async (file) => {
       // get filename not include file extension name
       const slug = file.replace(/(.*\/)*([^.]+).*/gi, '$2');
@@ -117,19 +123,18 @@ export const getAllLocalPost = async () => {
         ...post!.frontmatter
       };
     })
-  );
+  )).filter(Boolean);
 
-  return localPosts.filter(Boolean);
+  return localPosts;
 };
 
 export const getAllPost = async () => {
   const [localPosts] = await Promise.all([
     getAllLocalPost(),
-
   ]);
 
   const posts = [...localPosts]
-    .filter((post) => post!.published)
+    .filter((post) => post.published)
     .sort((a, b) => +new Date(b!.createdTime) - +new Date(a!.createdTime));
 
   return posts;

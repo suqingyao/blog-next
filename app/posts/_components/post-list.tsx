@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import dayjs from 'dayjs';
+import dateUtil from '@/utils/dateUtil';
 import { motion } from 'framer-motion';
 
 interface PostListProps {
@@ -65,7 +65,7 @@ export const PostList = ({ posts }: PostListProps) => {
           >
             <span className="text-lg leading-[1.2em]">{post.title}</span>
             <span className="whitespace-nowrap text-sm opacity-50">
-              {dayjs(post.createdTime).format('MMM DD, YYYY')}
+              {dateUtil(post.createdTime).format('MMM DD, YYYY')}
             </span>
             <span className="whitespace-nowrap text-sm opacity-40">
               {post.readingTime}

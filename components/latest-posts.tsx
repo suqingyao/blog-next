@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { RiArrowRightUpLine } from 'react-icons/ri';
-import dayjs from 'dayjs';
+import dateUtil from '@/utils/dateUtil';
 
 export const LatestPosts = ({ posts }: { posts: Post[] }) => {
   return (
@@ -93,7 +93,7 @@ export function Card({ post, delay }: { post: Post; delay: number }) {
         <div className="flex items-center justify-between">
           <div className="flex-1">{post.title}</div>
           <div className="hidden font-normal opacity-40 sm:block">
-            {dayjs(post.createdTime).format('YYYY-MM-DD')}
+            {dateUtil(post.createdTime).format('YYYY-MM-DD')}
           </div>
         </div>
       </Link>

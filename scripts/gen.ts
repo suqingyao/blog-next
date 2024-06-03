@@ -5,7 +5,7 @@ import ora from 'ora';
 import fs from 'fs-extra';
 import path from 'path';
 import chalk from 'chalk';
-import dayjs from 'dayjs';
+import dateUtil from '@/utils/dateUtil';
 
 const cli = cac();
 
@@ -21,7 +21,7 @@ cli.command('create <filename> [title]').action(async (filename, title) => {
 ---
   id: ${filename}
   title: ${title || filename}
-  createdTime: ${dayjs().format('YYYY-MM-DD HH:mm:ss')}
+  createdTime: ${dateUtil().format('YYYY-MM-DD HH:mm:ss')}
   published: false
 ---
     `;
