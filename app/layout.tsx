@@ -7,8 +7,8 @@ import '@/styles/index.css';
 
 import { AppProviders } from '@/providers';
 import { PlumContainer } from '@/components/plum-container';
-import { BackTop } from '@/components/back-top';
-import { AppMain } from '@/components/app-main';
+import { AppMain } from '@/components/application';
+import { Backtop } from '@/components/backtop';
 
 import { cn } from '@/lib/utils';
 import { sansFont, serifFont } from '@/lib/fonts';
@@ -50,7 +50,7 @@ export default function RootLayout({
         />
         <AppProviders>
           <AppMain>{children}</AppMain>
-          <BackTop />
+          <Backtop />
           <PlumContainer />
           <Toaster />
         </AppProviders>

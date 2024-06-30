@@ -13,7 +13,7 @@ type LinkText = {
   href?: string;
 };
 
-export const Contact = () => {
+export const AppContact = () => {
   const linkText: LinkText[] = [
     {
       text: 'https://twitter.com/cully_fung',
@@ -41,11 +41,15 @@ export const Contact = () => {
       animate="animate"
       variants={{
         initial: {
+          // opacity: 0,
+          y: 20,
           transition: {
             when: 'afterChildren'
           }
         },
         animate: {
+          // opacity: 1,
+          y: 0,
           transition: {
             when: 'beforeChildren',
             staggerChildren: 0.3,
@@ -55,7 +59,7 @@ export const Contact = () => {
           }
         }
       }}
-      className="flex flex-col gap-5"
+      className="flex gap-5"
     >
       {linkText.map(({ href, text, icon: Icon }, index) => (
         <motion.li
@@ -74,18 +78,15 @@ export const Contact = () => {
           }}
           className="flex items-center"
         >
-          <Icon size={24} />
-          {href ? (
-            <Link
-              href={href}
-              target="_blank"
-              className="text-link ml-2"
-            >
-              {text}
-            </Link>
-          ) : (
-            <span className="text-link ml-2">{text}</span>
-          )}
+          <Link
+            href={href ?? ''}
+            target="_blank"
+            onClick={(e) => {
+              !!!href && e.preventDefault();
+            }}
+          >
+            <Icon size={24} />
+          </Link>
         </motion.li>
       ))}
     </motion.ul>

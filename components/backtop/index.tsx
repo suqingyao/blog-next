@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { TbCircleArrowUpFilled } from 'react-icons/tb';
 import { cn } from '@/lib/utils';
 
-export const BackTop = () => {
+export const Backtop = () => {
   const [show, setShow] = useState(false);
 
   const handleScroll = () => {

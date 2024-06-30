@@ -5,7 +5,7 @@ import { motion, useMotionTemplate } from 'framer-motion';
 
 import { useSpotlight } from '@/hooks/use-spotlight';
 
-import { LazyImage } from './lazy-image';
+import { LazyImage } from '@/components/lazy-image';
 
 interface LinkCardProps {
   title: string;

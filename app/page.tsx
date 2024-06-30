@@ -1,6 +1,5 @@
-import { AppHero } from '@/components/app-hero';
-import { Contact } from '@/components/contact';
-import { LatestPosts } from '@/components/latest-posts';
+import { AppHero } from '@/components/application/app-hero';
+import { AppContact, AppLatestPosts } from '@/components/application';
 import { getAllPost } from '@/utils/mdx';
 
 export default async function Home() {
@@ -11,8 +10,8 @@ export default async function Home() {
   return (
     <>
       <AppHero />
-      <Contact />
-      <LatestPosts posts={latestPosts} />
+      <AppContact />
+      <AppLatestPosts posts={latestPosts} />
     </>
   );
 }

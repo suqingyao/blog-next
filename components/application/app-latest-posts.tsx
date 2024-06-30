@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { RiArrowRightUpLine } from 'react-icons/ri';
 import dateUtil from '@/utils/dateUtil';
 
-export const LatestPosts = ({ posts }: { posts: Post[] }) => {
+export const AppLatestPosts = ({ posts }: { posts: Post[] }) => {
   return (
     <div className="py-10">
       <motion.div

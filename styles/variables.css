@@ -5,9 +5,10 @@
   --font-sans: theme('fontFamily.sans');
 
   --color-primary: #3d8aa9;
-  --color-primary-dark: #0070f3;
-  --color-primary-light: #66d3ff;
-  --color-primary-lighter: #a0f0ff;
+  --color-primary-dark: #1a5674;
+  --color-primary-light: #68b3c9;
+  --color-primary-lighter: #a0e2f0;
+  --color-primary-lightest: #e8ffff;
 
   --color-secondary: #ff4d4f;
   --color-secondary-dark: #c51a20;
