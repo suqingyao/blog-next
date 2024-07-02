@@ -5,7 +5,7 @@ import { flushSync } from 'react-dom';
 import { motion } from 'framer-motion';
 import { useTheme } from 'next-themes';
 
-import { useSound } from '@/hooks/use-sound';
+import { useSound } from 'use-sound';
 import { transitionViewIfSupported } from '@/lib/dom';
 import { ClientOnly } from '@/components/client-only';
 
