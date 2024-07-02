@@ -1,8 +1,6 @@
 'use client';
 
-import { ThemeProvider } from 'next-themes';
-
-import { ConfigProvider } from './config-provider';
+import { ThemeProvider as NextThemeProvider } from 'next-themes';
 import { ReactQueryProvider } from './react-query-provider';
 import { JotaiProvider } from './jotai-provider';
 
@@ -10,13 +8,13 @@ export const AppProviders = ({ children }: { children: React.ReactNode }) => {
   return (
     <ReactQueryProvider>
       <JotaiProvider>
-        <ThemeProvider
+        <NextThemeProvider
           attribute="class"
           storageKey="blog-theme"
           defaultTheme="light"
         >
-          <ConfigProvider>{children}</ConfigProvider>
-        </ThemeProvider>
+          {children}
+        </NextThemeProvider>
       </JotaiProvider>
     </ReactQueryProvider>
   );
