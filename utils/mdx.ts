@@ -9,10 +9,13 @@ import remarkAdmonitions from '@/lib/remark-admonitions';
 import remarkMath from 'remark-math';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypePrettyCode from 'rehype-pretty-code';
+// import { transformerCopyButton } from '@rehype-pretty/transformers';
 import rehypeSlug from 'rehype-slug';
 import rehypeToc from 'rehype-toc';
 import rehypeKatex from 'rehype-katex';
+import rehypeStringify from 'rehype-stringify';
 import components from '@/components/mdx-components';
+import { visit } from 'unist-util-visit';
 
 const ROOT_PATH = process.cwd();
 
@@ -31,6 +34,17 @@ export const compileRawToPost = async (raw: string) => {
           remarkMath
         ],
         rehypePlugins: [
+          () => (tree) => {
+            visit(tree, (node) => {
+              if (node?.type === 'element' && node?.tagName === 'pre') {
+                const [codeEl] = node.children;
+
+                if (codeEl.tagName !== 'code') return;
+
+                node.raw = codeEl.children?.[0].value;
+              }
+            });
+          },
           [
             // @ts-ignore
             rehypePrettyCode,
@@ -40,8 +54,28 @@ export const compileRawToPost = async (raw: string) => {
                 light: 'vitesse-light',
                 dark: 'vitesse-dark'
               }
+              // transformers: [
+              //   transformerCopyButton({
+              //     visibility: 'always',
+              //     feedbackDuration: 3_000
+              //   })
+              // ]
             }
           ],
+          () => (tree) => {
+            visit(tree, (node) => {
+              if (node?.type === 'element' && node.tagName === 'figure') {
+                if (!('data-rehype-pretty-code-figure' in node.properties)) {
+                  return;
+                }
+                for (const child of node.children) {
+                  if (child.tagName === 'pre') {
+                    child.properties['raw'] = node.raw;
+                  }
+                }
+              }
+            });
+          },
           rehypeSlug,
           [
             rehypeAutolinkHeadings,
@@ -60,7 +94,8 @@ export const compileRawToPost = async (raw: string) => {
             }
           ],
           // @ts-ignore
-          rehypeKatex
+          rehypeKatex,
+          rehypeStringify
         ]
       }
     }
@@ -114,24 +149,24 @@ export const getAllLocalPost = async () => {
 
   const files = await getAllPostFiles();
 
-  const localPosts = (await Promise.all(
-    files.map(async (file) => {
-      // get filename not include file extension name
-      const slug = file.replace(/(.*\/)*([^.]+).*/gi, '$2');
-      const post = await getLocalPostById(slug);
-      return {
-        ...post!.frontmatter
-      };
-    })
-  )).filter(Boolean);
+  const localPosts = (
+    await Promise.all(
+      files.map(async (file) => {
+        // get filename not include file extension name
+        const slug = file.replace(/(.*\/)*([^.]+).*/gi, '$2');
+        const post = await getLocalPostById(slug);
+        return {
+          ...post!.frontmatter
+        };
+      })
+    )
+  ).filter(Boolean);
 
   return localPosts;
 };
 
 export const getAllPost = async () => {
-  const [localPosts] = await Promise.all([
-    getAllLocalPost(),
-  ]);
+  const [localPosts] = await Promise.all([getAllLocalPost()]);
 
   const posts = [...localPosts]
     .filter((post) => post.published)
