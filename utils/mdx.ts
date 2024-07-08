@@ -90,9 +90,26 @@ export const compileRawToPost = async (raw: string) => {
             // @ts-ignore
             rehypeToc,
             {
-              headings: ['h2', 'h3']
+              headings: ['h2', 'h3'],
+              cssClasses: {
+                toc: 'toc',
+                list: 'toc-list',
+                listItem: 'toc-item',
+                link: 'toc-link'
+              }
             }
           ],
+          () => (tree) => {
+            visit(tree, (node) => {
+              if (node?.type === 'element' && node.tagName === 'nav') {
+                if (!node.properties.className?.includes('toc')) {
+                  return;
+                }
+                const results = extractTocLinks(node);
+                node.properties['toc'] = JSON.stringify(results);
+              }
+            });
+          },
           // @ts-ignore
           rehypeKatex,
           rehypeStringify
@@ -106,6 +123,65 @@ export const compileRawToPost = async (raw: string) => {
     content
   };
 };
+
+interface TocItem {
+  title: string;
+  href: string;
+  key: string;
+  children?: TocItem[];
+}
+
+interface Node {
+  type: string;
+  tagName: string;
+  properties?: { [key: string]: any };
+  children?: Node[];
+  value?: string;
+}
+
+function extractTocLinks(node: Node): TocItem[] {
+  const result: TocItem[] = [];
+
+  function traverse(nodes: Node[], parent: TocItem | null = null): void {
+    for (const node of nodes) {
+      if (
+        node.type === 'element' &&
+        node.tagName === 'a' &&
+        node.properties?.className?.includes('toc-link')
+      ) {
+        const newItem: TocItem = {
+          title:
+            node.children?.[0]?.type === 'text'
+              ? node.children?.[0]?.value!
+              : '',
+          href: node.properties.href || '',
+          key: node.properties.href || ''
+        };
+
+        if (parent) {
+          parent.children = parent.children || [];
+          parent.children.push(newItem);
+        } else {
+          result.push(newItem);
+        }
+
+        parent = newItem; // Set the current item as the parent for further traversals
+      }
+
+      if (node.children) {
+        traverse(node.children, parent);
+      }
+    }
+
+    // Remove empty children arrays
+    if (parent && parent.children && parent.children.length === 0) {
+      delete parent.children;
+    }
+  }
+
+  traverse(node.children || []);
+  return result;
+}
 
 export const getAllPostFiles = async () => await fg('posts/**/*.mdx');
 
