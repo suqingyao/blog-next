@@ -41,7 +41,7 @@ export const PageContent = ({ frontmatter, content }: PageContentProps) => {
       <p className="flex animate-slide-enter-in flex-row gap-2 text-[#555]">
         <span>{dateUtil(frontmatter.createdTime).format('MMM DD, YYYY')}</span>
         <span className="flex flex-row items-center">
-          · {frontmatter.readingTime}
+          · {frontmatter.readingTime} read
         </span>
       </p>
       <motion.article
