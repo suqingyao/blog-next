@@ -59,7 +59,7 @@ export const AppContact = () => {
           }
         }
       }}
-      className="flex gap-5"
+      className="flex gap-5 py-5"
     >
       {linkText.map(({ href, text, icon: Icon }, index) => (
         <motion.li

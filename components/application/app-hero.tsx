@@ -1,6 +1,13 @@
 'use client';
 
+import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
+import { Outfit } from 'next/font/google';
+
+const fontMono = Outfit({
+  subsets: ['latin'],
+  style: 'normal'
+});
 
 export const AppHero = () => {
   return (
@@ -22,65 +29,60 @@ export const AppHero = () => {
           }
         }
       }}
-      className="py-10"
+      className={cn(fontMono.className, 'py-10')}
     >
-      <div className="flex flex-col gap-5 text-5xl">
-        <div className="flex items-center gap-2">
-          <motion.span
-            initial={{
-              rotate: 0,
-              opacity: 0
-            }}
-            animate={{
-              rotate: [15, -15, 15, -15, 0],
-              opacity: 1
-            }}
-            transition={{
-              duration: 1,
-              delay: 1
-            }}
-            className="origin-bottom"
-          >
-            👋
-          </motion.span>
-          <motion.span
-            variants={{
-              initial: {
-                opacity: 0,
-                x: -50
-              },
-              animate: {
-                opacity: 1,
-                x: 0,
-                transition: {
-                  ease: 'easeInOut'
-                }
-              }
-            }}
-          >
-            Hi, I&apos;m <span className="font-semibold">Cully Fung</span>.
-          </motion.span>
-        </div>
-
-        <motion.p
+      <div className="flex flex-col gap-2 text-5xl font-extrabold">
+        <motion.h1
           variants={{
             initial: {
               opacity: 0,
-              x: -50
+              y: 50
             },
             animate: {
               opacity: 1,
-              x: 0,
+              y: 0,
               transition: {
                 ease: 'easeInOut'
               }
             }
           }}
         >
-          A FrontEnd
-          <span className="ml-2 rounded-lg p-1 font-mono font-semibold transition-colors hover:bg-[var(--highlighted-bg-color)]">
-            &lt;Developer /&gt;
-          </span>
+          {`Hi, `}
+        </motion.h1>
+        <motion.h1
+          variants={{
+            initial: {
+              opacity: 0,
+              y: 50
+            },
+            animate: {
+              opacity: 1,
+              y: 0,
+              transition: {
+                ease: 'easeInOut'
+              }
+            }
+          }}
+        >
+          {`I'm Cully Fung .`}
+        </motion.h1>
+
+        <motion.p
+          variants={{
+            initial: {
+              opacity: 0,
+              y: 50
+            },
+            animate: {
+              opacity: 1,
+              y: 0,
+              transition: {
+                ease: 'easeInOut'
+              }
+            }
+          }}
+        >
+          FrontEnd Developer
         </motion.p>
       </div>
 
@@ -96,11 +98,23 @@ export const AppHero = () => {
             }
           }
         }}
-        transition={{
-          duration: 2,
-          delay: 1
+        className="mt-2 text-base"
+      >
+        Currently live in Chongqin, China.
+      </motion.p>
+      <motion.p
+        variants={{
+          initial: {
+            opacity: 0
+          },
+          animate: {
+            opacity: 1,
+            transition: {
+              ease: 'easeInOut'
+            }
+          }
         }}
-        className="mt-6 font-mono text-base"
+        className="mt-2 text-base"
       >
         Loves music and programming and is introverted.
       </motion.p>

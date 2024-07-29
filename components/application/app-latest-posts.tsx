@@ -1,13 +1,20 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
+import { Outfit } from 'next/font/google';
 import { RiArrowRightUpLine } from 'react-icons/ri';
 import dateUtil from '@/utils/dateUtil';
+import { cn } from '@/lib/utils';
+
+const fontMono = Outfit({
+  subsets: ['latin'],
+  style: 'normal'
+});
 
 export const AppLatestPosts = ({ posts }: { posts: Post[] }) => {
   return (
-    <div className="py-10">
+    <div className={cn(fontMono.className, 'py-10')}>
       <motion.div
         layout
         className="flex items-center justify-between"
