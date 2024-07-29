@@ -24,7 +24,7 @@ export const AppHero = () => {
         animate: {
           transition: {
             when: 'beforeChildren',
-            staggerChildren: 0.3,
+            staggerChildren: 0.2,
             ease: 'easeInOut'
           }
         }
@@ -82,7 +82,7 @@ export const AppHero = () => {
             }
           }}
         >
-          FrontEnd Developer
+          FrontEnd Developer .
         </motion.p>
       </div>
 
@@ -98,9 +98,9 @@ export const AppHero = () => {
             }
           }
         }}
-        className="mt-2 text-base"
+        className="mt-6 text-base"
       >
-        Currently live in Chongqin, China.
+        Currently live in Chongqing, China.
       </motion.p>
       <motion.p
         variants={{
@@ -114,7 +114,7 @@ export const AppHero = () => {
             }
           }
         }}
-        className="mt-2 text-base"
+        className="text-base"
       >
         Loves music and programming and is introverted.
       </motion.p>
