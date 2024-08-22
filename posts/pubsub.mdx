@@ -1,0 +1,87 @@
+---
+  id: pubsub
+  title: 实现发布订阅模式
+  createdTime: 2024-08-22 16:58:42
+  published: true
+---
+
+## 什么是发布订阅模式
+
+发布订阅模式（Publish-Subscribe），简称“Pub-Sub”，是一种消息传递模式，发送者（发布者）发送消息时无需了解接收者（订阅者），
+而订阅者在接收到消息时也无需了解是谁发送的。这种模式实现了组件之间的解耦，使它们可以在不直接依赖对方的情况下进行通信。
+该模式广泛应用于事件驱动的架构中，其中事件触发了应用程序中不同部分的动作。
+
+## 发布者与订阅者
+
+发布者（Publisher）是消息的发送者，它将消息发送给订阅者（Subscriber）。订阅者（Subscriber）是消息接收者，
+它注册了感兴趣的消息类型，当发布者发送消息时，订阅者将接收到消息。
+
+在发布订阅模式中：
+
+- 发布者：发送消息或事件的主体。
+- 订阅者：监听并响应特定事件或消息的主体。
+
+这种模式允许多个订阅者对同一事件作出响应，同时发布者可以将事件广播给任何数量的订阅者。
+
+## 实现发布订阅模式
+
+```ts
+type Callback = (...args: any[]) => void;
+
+class EventEmitter {
+  private listeners: Record<string, Function[]> = new Map();
+
+  on(eventName: string, callback: Callback) {
+    if (!this.listeners.has(eventName)) {
+      this.listeners.set(eventName, new Set());
+    }
+    this.listeners.get(eventName).add(callback);
+  }
+
+  emit(eventName: string, ...args: any[]) {
+    if (this.listeners.has(eventName)) {
+      this.listeners.get(eventName).forEach((callback) => {
+        callback(...args);
+      });
+    }
+  }
+
+  off(eventName: string, callback: Callback) {
+    if (this.listeners.has(eventName)) {
+      this.listeners.get(eventName).delete(callback);
+    }
+  }
+
+  once(eventName: string, callback: Callback) {
+    const onceCallback = (...args: any[]) => {
+      callback(...args);
+      this.off(eventName, onceCallback);
+    };
+    this.on(eventName, onceCallback);
+  }
+}
+```
+
+这是一个简单的发布订阅模式的实现，它使用一个对象来存储事件和相应的回调函数。
+`on` 方法用于注册一个事件，`emit` 方法用于触发一个事件，`off` 方法用于取消注册一个事件，`once` 方法用于注册一个一次性的事件。
+
+在实现中，我们使用一个 Map 对象来存储事件和相应的回调函数，其中键是事件名称，值是一个 Set 对象，用于存储回调函数。
+当触发一个事件时，我们遍历该事件的回调函数，并调用它们。
+
+## 使用发布订阅模式
+
+```ts
+const emitter = new EventEmitter();
+
+emitter.on('event', (data) => {
+  console.log('Received event:', data);
+});
+
+emitter.emit('event', 'Hello, world!');
+// Output: Received event: Hello, world!
+```
+
+## 结论
+
+发布订阅模式是一种常用的消息传递模式，它允许多个订阅者对同一事件作出响应，同时发布者可以将事件广播给任何数量的订阅者。
+通过使用发布订阅模式，我们可以实现松耦合的组件之间的通信，使得代码更加灵活和可维护。

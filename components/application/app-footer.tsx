@@ -20,7 +20,7 @@ export const AppFooter = () => {
           Vercel
         </a>
       </p>
-      <p className="mt-2 text-sm opacity-80">&copy;2023&nbsp;cullyfung</p>
+      <p className="mt-2 text-sm opacity-80">&copy;2023&nbsp;suyungqing</p>
     </footer>
   );
 };

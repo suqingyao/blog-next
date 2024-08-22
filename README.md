@@ -1,6 +1,6 @@
 # Personal website and blog
 
-My new [personal website and blog](https://blog-next-brmgh0q46-cullyfung.vercel.app) built with Next.js, MDX, Tailwind CSS and hosted on Vercel.
+My new [personal website and blog](https://blog-next-brmgh0q46-suyungqing.vercel.app) built with Next.js, MDX, Tailwind CSS and hosted on Vercel.
 
 ## Stack
 

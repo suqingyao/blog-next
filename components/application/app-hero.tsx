@@ -64,7 +64,7 @@ export const AppHero = () => {
             }
           }}
         >
-          {`I'm Cully Fung .`}
+          {`I'm SuYungqing .`}
         </motion.h1>
 
         <motion.p

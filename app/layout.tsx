@@ -16,8 +16,8 @@ import { sansFont, serifFont } from '@/lib/fonts';
 const font = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'blog',
-  description: `cullyfung's blog`,
+  title: 'suyunqing',
+  description: `suyunqing's blog`,
   icons: [
     {
       url: '/favicon.svg',

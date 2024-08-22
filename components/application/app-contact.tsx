@@ -5,12 +5,12 @@ import Link from 'next/link';
 import { IconType } from 'react-icons';
 
 import { FaXTwitter, FaGithub } from 'react-icons/fa6';
-import { IoLogoWechat, IoMail } from 'react-icons/io5';
+import { IoMail } from 'react-icons/io5';
 
 type LinkText = {
   text: string;
   icon: IconType;
-  href?: string;
+  href: string;
 };
 
 export const AppContact = () => {
@@ -21,16 +21,13 @@ export const AppContact = () => {
       icon: (props) => <FaXTwitter {...props} />
     },
     {
-      text: 'https://github.com/cullyfung',
-      href: 'https://github.com/cullyfung',
+      text: 'https://github.com/suyungqing',
+      href: 'https://github.com/suyungqing',
       icon: (props) => <FaGithub {...props} />
     },
     {
-      text: 'cullyfung',
-      icon: (props) => <IoLogoWechat {...props} />
-    },
-    {
-      text: 'cullyfung@gmail.com',
+      text: 'suyungqing@gmail.com',
+      href: 'mailto:suyungqing@gmail.com',
       icon: (props) => <IoMail {...props} />
     }
   ];
@@ -79,11 +76,8 @@ export const AppContact = () => {
           className="flex items-center"
         >
           <Link
-            href={href ?? ''}
+            href={href}
             target="_blank"
-            onClick={(e) => {
-              !!!href && e.preventDefault();
-            }}
           >
             <Icon size={24} />
           </Link>
