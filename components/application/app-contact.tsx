@@ -21,8 +21,8 @@ export const AppContact = () => {
       icon: (props) => <FaXTwitter {...props} />
     },
     {
-      text: 'https://github.com/suyungqing',
-      href: 'https://github.com/suyungqing',
+      text: 'https://github.com/suqingyao',
+      href: 'https://github.com/suqingyao',
       icon: (props) => <FaGithub {...props} />
     },
     {
