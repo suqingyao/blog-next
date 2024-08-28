@@ -26,8 +26,8 @@ export const AppContact = () => {
       icon: (props) => <FaGithub {...props} />
     },
     {
-      text: 'suyungqing@gmail.com',
-      href: 'mailto:suyungqing@gmail.com',
+      text: 'suqingyao333@gmail.com',
+      href: 'mailto:suqingyao333@gmail.com',
       icon: (props) => <IoMail {...props} />
     }
   ];
