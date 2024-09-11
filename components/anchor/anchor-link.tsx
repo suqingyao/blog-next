@@ -4,6 +4,7 @@ import React from 'react';
 import AnchorContext from './context';
 import type { Anchor } from './anchor';
 import { cn } from '@/lib/utils';
+import './style/anchor-link.css';
 
 export interface AnchorLinkBaseProps {
   href: string;

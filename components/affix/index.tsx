@@ -8,7 +8,7 @@ import {
   useRef,
   useState
 } from 'react';
-import { isFunction, isUndefined } from 'lodash-es';
+import { isFunction, isUndefined } from '@/utils/is';
 import { AffixProps, AffixRef, AffixState } from './type';
 import ResizeObserver from '@/components/resize-observer';
 
