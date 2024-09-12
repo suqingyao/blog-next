@@ -14,8 +14,9 @@ import rehypeSlug from 'rehype-slug';
 import rehypeToc from 'rehype-toc';
 import rehypeKatex from 'rehype-katex';
 import rehypeStringify from 'rehype-stringify';
-import components from '@/components/mdx-components';
 import { visit } from 'unist-util-visit';
+import components from '@/components/mdx-components';
+import { isProd } from './env';
 
 const ROOT_PATH = process.cwd();
 
@@ -245,7 +246,7 @@ export const getAllPost = async () => {
   const [localPosts] = await Promise.all([getAllLocalPost()]);
 
   const posts = [...localPosts]
-    .filter((post) => post.published)
+    .filter((post) => (isProd ? post.published : true))
     .sort((a, b) => +new Date(b!.createdTime) - +new Date(a!.createdTime));
 
   return posts;
