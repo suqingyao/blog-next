@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import NextTopLoader from 'nextjs-toploader';
 import { Toaster } from 'sonner';
 import { Inter } from 'next/font/google';
-
+import { Analytics } from '@vercel/analytics/react';
 import '@/styles/index.css';
 
 import { AppProviders } from '@/providers';
@@ -20,8 +20,8 @@ export const metadata: Metadata = {
   description: `suqingyao's blog`,
   icons: [
     {
-      url: '/favicon.svg',
-      type: 'image/svg+xml'
+      url: '/avatar.png',
+      type: 'image/png'
     }
   ]
 };
@@ -53,6 +53,7 @@ export default function RootLayout({
           <Backtop />
           <PlumContainer />
           <Toaster />
+          <Analytics />
         </AppProviders>
       </body>
     </html>
