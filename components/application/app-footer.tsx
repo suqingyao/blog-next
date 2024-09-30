@@ -1,7 +1,7 @@
 export const AppFooter = () => {
   return (
-    <footer className="h-[var(--footer-height)] text-center text-sm">
-      <p className="opacity-80">
+    <footer className="flex h-[var(--footer-height)] items-center justify-center gap-2 text-center text-sm opacity-80">
+      <p>
         Built with &nbsp;
         <a
           href="https://nextjs.org"
@@ -20,7 +20,18 @@ export const AppFooter = () => {
           Vercel
         </a>
       </p>
-      <p className="mt-2 text-sm opacity-80">&copy;2023&nbsp;suqingyao</p>
+      <span className="select-none whitespace-pre opacity-50">|</span>
+      <p>
+        <a
+          href="https://icp.gov.moe/?keyword=20240127"
+          target="_blank"
+          className="text-primary"
+        >
+          萌ICP备20240127号
+        </a>
+      </p>
+      <span className="select-none whitespace-pre opacity-50">|</span>
+      <p>&copy;2023&nbsp;suqingyao</p>
     </footer>
   );
 };
