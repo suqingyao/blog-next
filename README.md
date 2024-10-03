@@ -13,7 +13,8 @@ My new [personal website and blog](https://blog-next-gray-rho.vercel.app) built 
 - [Vercel](http://vercel.com)
 
 ## References
-- [antfu.me](https://antfu.me)
+- [Anthony Fu](https://antfu.me)
+- [Diu](https://ddiu.io)
 
 ## License
 <samp>code is licensed under <a href='./LICENSE'>MIT</a>,<br> words and images are licensed under <a href='https://creativecommons.org/licenses/by-nc-sa/4.0/'>CC BY-NC-SA 4.0</a></samp>.
