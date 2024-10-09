@@ -11,7 +11,7 @@ import { useScrollTop } from '@/hooks/use-scroll-top';
 
 const links = [
   {
-    label: 'Home',
+    label: 'Portfolio',
     path: '/'
   },
   {

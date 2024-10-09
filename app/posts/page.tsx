@@ -5,9 +5,7 @@ const PostsPage = async () => {
   const posts = await getAllPost();
 
   return (
-    <>
       <PostList posts={posts} />
-    </>
   );
 };
 
