@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "new-post": "esno ./scripts/new-post.ts",
+    "new:post": "esno ./scripts/new-post.ts",
     "update": "npx taze -w"
   },
   "dependencies": {

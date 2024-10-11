@@ -19,7 +19,7 @@ cli.command('create <filename> [title]').action(async (filename, title) => {
 
   const template = `
 ---
-  id: ${dateUtil().format('YYYY-MM-DD') + filename}
+  id: ${dateUtil().format('YYYY-MM-DD') + '_' + filename}
   title: ${title || filename}
   createdTime: ${dateUtil().format('YYYY-MM-DD HH:mm:ss')}
   published: false
