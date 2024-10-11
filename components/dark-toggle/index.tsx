@@ -7,7 +7,6 @@ import { useTheme } from 'next-themes';
 
 import { useSound } from 'use-sound';
 import { transitionViewIfSupported } from '@/lib/dom';
-import { ClientOnly } from '@/components/client-only';
 
 export const DarkToggle = () => {
   const { theme = 'light', setTheme } = useTheme();
@@ -83,7 +82,7 @@ export const DarkToggle = () => {
             rotate: -30,
             opacity: 1
           }}
-          transition={{ delay: 0.15, duration: 0.5 }}
+          transition={{ delay: 0.4, duration: 0.5 }}
           key={path}
           style={{ transformBox: 'fill-box', transformOrigin: 'center' }}
           d={path}
@@ -100,7 +99,8 @@ export const DarkToggle = () => {
         x: isDark ? -5 : 0
       }}
       transition={{
-        delay: isDark ? 0 : 0.15
+        delay: isDark ? 0 : 0.4,
+        duration: 0.5
       }}
       className="absolute right-[10px] top-[10px]"
       width="15"
@@ -117,38 +117,36 @@ export const DarkToggle = () => {
   );
 
   return (
-    <ClientOnly>
+    <motion.div
+      animate={{
+        backgroundColor: isDark ? '#475569' : '#7dd3fc'
+      }}
+      role="button"
+      className="relative h-[28px] w-[56px] cursor-pointer rounded-full p-[5px]"
+      onClick={handleToggleTheme}
+    >
+      {starts}
+      {clouds}
       <motion.div
         animate={{
-          backgroundColor: isDark ? '#475569' : '#7dd3fc'
+          x: isDark ? 28 : 0,
+          rotate: isDark ? 0 : 180,
+          backgroundColor: isDark ? '#c6d0d1' : '#fde047'
         }}
-        role="button"
-        className="relative h-[28px] w-[56px] cursor-pointer rounded-full p-[5px]"
-        onClick={handleToggleTheme}
+        className="relative h-[18px] w-[18px] rounded-full"
       >
-        {starts}
-        {clouds}
         <motion.div
           animate={{
-            x: isDark ? 28 : 0,
-            rotate: isDark ? 0 : 180,
-            backgroundColor: isDark ? '#c6d0d1' : '#fde047'
+            opacity: isDark ? 1 : 0
           }}
-          className="relative h-[18px] w-[18px] rounded-full"
+          className="relative h-full w-full"
         >
-          <motion.div
-            animate={{
-              opacity: isDark ? 1 : 0
-            }}
-            className="relative h-full w-full"
-          >
-            <div className="absolute left-[4px] top-[6px] h-[4px] w-[4px] rounded-full bg-slate-400/50 shadow-inner" />
-            <div className="absolute left-[11px] top-[8px] h-[1px] w-[1px] rounded-full bg-slate-400/50 shadow-inner" />
-            <div className="absolute left-[9px] top-[11px] h-[2px] w-[2px] rounded-full bg-slate-400/50 shadow-inner" />
-          </motion.div>
+          <div className="absolute left-[4px] top-[6px] h-[4px] w-[4px] rounded-full bg-slate-400/50 shadow-inner" />
+          <div className="absolute left-[11px] top-[8px] h-[1px] w-[1px] rounded-full bg-slate-400/50 shadow-inner" />
+          <div className="absolute left-[9px] top-[11px] h-[2px] w-[2px] rounded-full bg-slate-400/50 shadow-inner" />
         </motion.div>
       </motion.div>
-    </ClientOnly>
+    </motion.div>
   );
 };
 
