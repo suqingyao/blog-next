@@ -1,6 +1,6 @@
 ---
-  id: handwritten-debounce-throttle
-  title: 手写防抖节流
+  id: debounce-throttle
+  title: 防抖与节流
   createdTime: 2024-05-26 10:24:54
   published: true
 ---
@@ -17,7 +17,7 @@
 
 节流：用于控制某个函数在单位时间内的执行频率。与防抖不同，节流不会取消函数执行，而是保证函数在固定的时间间隔内执行。当连续频繁地触发函数时，节流可以降低函数的执行频率，提高性能。
 
-理解：如果你玩过Data类游戏的话，在游戏中节流就相当于释放了一个技能后，技能进入了冷却CD，在CD冷却完成之前是没法再次释放技能的，而防抖就是你一直按回城技能，只会以最后一次为准开始计时。（现在是云玩家了，印象中是这样的机制）
+理解：如果你玩过 Data 类游戏的话，在游戏中节流就相当于释放了一个技能后，技能进入了冷却 CD，在 CD 冷却完成之前是没法再次释放技能的，而防抖就是你一直按回城技能，只会以最后一次为准开始计时。（现在是云玩家了，印象中是这样的机制）
 
 简而言之，防抖是在事件停止触发后延迟执行函数，而节流是按照固定的时间间隔执行函数。
 
@@ -31,7 +31,7 @@
 
 实现原理：实现防抖基本方式就是利用定时器，每次触发事件清除上次定时器重新开始计时。
 
-首先先实现一个js基础版本的
+首先先实现一个 js 基础版本的
 
 ```jsx
 function debounce(fn, wait = 300) {
@@ -80,7 +80,7 @@ function debounce(fn, wait = 300, immediate = false) {
 
 ![iShot_2024-02-02_20.17.40.gif](https://prod-files-secure.s3.us-west-2.amazonaws.com/9869198d-673f-4bfb-bdc4-d1300440dbc9/221da8cf-7732-43c4-8b75-c2f192ad5cc0/iShot_2024-02-02_20.17.40.gif)
 
- Typescript版本：
+Typescript 版本：
 
 ```tsx
 function debounce<T extends (...args: any[]) => any>(
@@ -96,7 +96,7 @@ function debounce<T extends (...args: any[]) => any>(
       if (!immediate) {
         func.apply(this, args);
       }
-    }
+    };
 
     const shouldCallNow = immediate && !timeoutId;
 
@@ -109,7 +109,7 @@ function debounce<T extends (...args: any[]) => any>(
     if (shouldCallNow) {
       func.apply(this, args);
     }
-  }
+  };
 }
 ```
 
@@ -120,7 +120,7 @@ function debounce<T extends (...args: any[]) => any>(
 1. 滚动事件：监听滚动事件并执行相应操作时，可以使用节流来减少操作的执行频率，提高性能。
 2. 鼠标移动事件：当鼠标在页面上移动时，我们可能需要根据鼠标位置实时执行一些操作，使用节流可以降低这些操作的执行频率。
 
-实现原理：如果未定义定时器就创建定时器，执行完定时器回调函数时再将定时器清空并执行真正的handler
+实现原理：如果未定义定时器就创建定时器，执行完定时器回调函数时再将定时器清空并执行真正的 handler
 
 ```jsx
 function throttle(fn, wait = 300, immediate = false) {
@@ -158,24 +158,24 @@ function throttle(fn, wait = 300, immediate = false) {
 
 ![iShot_2024-02-02_20.30.58.gif](https://prod-files-secure.s3.us-west-2.amazonaws.com/9869198d-673f-4bfb-bdc4-d1300440dbc9/a0f15050-72a8-4a93-aea5-4b02387257e9/iShot_2024-02-02_20.30.58.gif)
 
-Typescript版本
+Typescript 版本
 
 ```tsx
 function throttle<T extends (...args: any[]) => any>(
-	fn: T,
-	wait = 300,
-	immediate = false
+  fn: T,
+  wait = 300,
+  immediate = false
 ): (...args: Parameters<T>) => void {
   let timeout: ReturnType<typeof setTimeout> | null = null;
 
-  return function(this: ThisParameterType<T>, ...args: Parameters<T>) {
+  return function (this: ThisParameterType<T>, ...args: Parameters<T>) {
     const later = () => {
-	    timeout = null;
-	    if (!immediate) {
-	      fn.apply(this, args);
-	    }
-	  };
-		const shouldCallNow = immediate && !timeout;
+      timeout = null;
+      if (!immediate) {
+        fn.apply(this, args);
+      }
+    };
+    const shouldCallNow = immediate && !timeout;
 
     if (!timeout) {
       timeout = setTimeout(later, wait);
