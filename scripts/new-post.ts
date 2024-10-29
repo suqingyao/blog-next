@@ -5,12 +5,16 @@ import ora from 'ora';
 import fs from 'fs-extra';
 import path from 'path';
 import chalk from 'chalk';
-import dateUtil from '@/utils/dateUtil';
+import dayjs from '@/lib/dayjs';
 
 const cli = cac();
 
 cli.command('<filename> [title]').action(async (filename, title) => {
-  const filePath = path.join(process.cwd(), 'posts', dateUtil().format('YYYY-MM-DD') + '_' + filename + '.mdx');
+  const filePath = path.join(
+    process.cwd(),
+    'posts',
+    dayjs().format('YYYYMMDD') + '_' + filename + '.mdx'
+  );
 
   if (await fs.pathExists(filePath)) {
     console.error(chalk.red('Error: File already exists.'));
@@ -19,18 +23,19 @@ cli.command('<filename> [title]').action(async (filename, title) => {
 
   const template = `
 ---
-  id: ${dateUtil().format('YYYY-MM-DD') + '_' + filename}
+  id: ${dayjs().format('YYYYMMDD') + '_' + filename}
   title: ${title || filename}
-  createdTime: ${dateUtil().format('YYYY-MM-DD HH:mm:ss')}
+  createdTime: ${dayjs().format('YYYY-MM-DD HH:mm:ss')}
   published: false
 ---
     `;
   try {
     const spinner = ora('🚀🚀🚀 start create...').start();
     await fs.writeFile(filePath, template, 'utf-8');
-    spinner.succeed(chalk.green(`🎉🎉🎉 File [${filename}] created successfully.`));
-  } catch (error) {
-  }
+    spinner.succeed(
+      chalk.green(`🎉🎉🎉 File [${filename}] created successfully.`)
+    );
+  } catch (error) {}
 });
 
 cli.parse();

@@ -1,0 +1,432 @@
+---
+  id: 20231222164536_how-to-config-webpack
+  title: Webpack基本使用
+  createdTime: 2023-12-22 16:45:36
+  published: true
+---
+
+## 简介
+
+webpack 是前端构建工具，主要用于打包 js、css、图片等资源。
+
+webpack 主要分为四个阶段：
+
+- 解析：webpack 会将代码解析成抽象语法树（AST），然后通过 loader 进行处理
+- 编译：通过 loader 处理完代码后，会将代码编译成目标代码
+- 优化：通过插件对编译后的代码进行优化
+- 打包：将编译后的代码打包成一个或多个文件
+
+## 打包 js
+
+首先安装必要的 loader
+
+```bash
+pnpm install babel-loader @babel/preset-env -D
+```
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'babel-loader'
+            options: {
+              presets: ['@babel/preset-env']
+            }
+          }
+        ]
+      }
+    ]
+  }
+};
+```
+
+### 如何处理 ts
+
+处理 ts 可以利用 babel 也可以利用 ts-loader
+
+#### ts-loader
+
+```bash
+pnpm install ts-loader -D
+```
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.ts$/,
+        use: ['babel-loader', 'ts-loader']
+      }
+    ]
+  }
+};
+```
+
+#### babel
+
+```bash
+pnpm install @babel/preset-typescript -D
+```
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.ts$/,
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-env', '@babel/preset-typescript']
+            }
+          }
+        ]
+      }
+    ]
+  }
+};
+```
+
+## 处理 css 文件
+
+需要使用到的 loader
+
+- style-loader
+- css-loader
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
+      }
+    ]
+  }
+};
+```
+
+这里 loader 的顺序是从右到左，从后往前执行，所以先执行 css-loader，然后执行 style-loader。
+
+css-loader 的作用是将 css 文件转化为 js 模块，然后通过 style-loader 将 js 模块插入到 head 标签中。
+
+### 如何处理 less/sass/stylus
+
+只需要安装对应的 loader 即可
+
+- less-loader
+- sass-loader
+- stylus-loader
+
+以 less 为例
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.less$/,
+        use: ['style-loader', 'css-loader', 'less-loader']
+      }
+    ]
+  }
+};
+```
+
+### PostCSS
+
+PostCSS 是一款强大的 css 预处理器，它可以帮助我们实现很多功能，比如：
+
+- 自动添加浏览器前缀
+- 自动处理 css 兼容性问题
+- 自动处理 css 优化问题
+- ...
+
+:::tip
+预处理器之于 CSS，就像 TypeScript 与 JavaScript 的关系；而 PostCSS 之于 CSS，则更像 Babel 与 JavaScript。
+:::
+
+安装
+
+```bash
+npm install postcss postcss-loader -D
+
+# 安装插件
+npm install autoprefixer -D
+```
+
+使用
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1
+            }
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              // 添加 autoprefixer 插件
+              plugins: [require('autoprefixer')]
+            }
+          }
+        ]
+      }
+    ]
+  }
+};
+```
+
+PostCSS 也支持单独配置
+
+```js
+// webpack.config.js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1
+            }
+          },
+          'postcss-loader'
+        ]
+      }
+    ]
+  }
+};
+```
+
+```js
+// postcss.config.js
+module.exports = {
+  plugins: [require('autoprefixer')]
+};
+```
+
+常用的插件
+
+- autoprefixer 自动添加浏览器前缀
+- postcss-preset-env 允许使用最新 css 特性
+- postcss-less 兼容 less 语法 类似的还有 postcss-sass 、poststylus
+
+postcss 与 预处理器是可以同时使用的
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.less$/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1
+            }
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: [require('autoprefixer')]
+            }
+          }
+          'less-loader'
+        ]
+      }
+    ]
+  }
+};
+```
+
+## 处理静态资源
+
+### 处理图片
+
+首先安装必要的 npm 包
+
+```bash
+pnpm i -D url-loader file-loader
+```
+
+然后在 webpack 配置中添加如下配置
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 1024 * 10, // 10kb 以下的图片会被转为 base64 格式
+              name: 'images/[name].[hash:8].[ext]',
+              fallback: 'file-loader'
+            }
+          }
+        ]
+      }
+    ]
+  }
+};
+```
+
+### 处理字体
+
+字体文件文件需要借助 file-loader 来处理，因为字体文件本身是无法被 webpack 处理的。
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+        // 指定字体文件的目录
+        include: [path.resolve(__dirname, 'src/assets/fonts')],
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: 'fonts/[name].[hash:8].[ext]',
+              esModule: false
+            },
+            type: 'javascript/auto'
+          }
+        ]
+      }
+    ]
+  }
+};
+```
+
+## 如何处理 vue 文件
+
+在 vue 项目中编写的代码都是.vue 后缀结尾的文件
+
+```vue
+<script lang="ts" setup>
+import { ref } from 'vue';
+
+const msg = ref('hello');
+</script>
+
+<template>
+  <h1 class="hello">{{ msg }}</h1>
+</template>
+
+<style>
+.hello {
+  color: red;
+}
+</style>
+```
+
+原生 Webpack 并不能处理这种内容格式的文件，为此我们需要引入专用于 Vue SFC 的加载器
+
+```bash
+npm install vue-loader -D
+```
+
+使用
+
+```js
+const { VueLoaderPlugin } = require('vue-loader');
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.vue$/,
+        use: ['vue-loader']
+      }
+    ]
+  },
+  plugins: [new VueLoaderPlugin()]
+};
+```
+
+:::warning
+vue-loader 库同时提供用于处理 SFC 代码转译的 Loader 组件，与用于处理上下文兼容性的 Plugin 组件，两者需要同时配置才能正常运行。
+:::
+
+经过 vue-loader 处理后，SFC 各个模块会被等价转换为普通的 Javascript 模块
+其中`<template>`内容会被转换为用于构造 `Virtual DOM` 结构的 `render` 函数;
+`<script>`标签导出的对象会被转译成 Javascript 对象字面量形式。
+
+## 运行页面
+
+`vue-loader`让 webpack 可以处理 vue 文件，我们需要将页面真正运行起来的话还需要以下插件
+
+- `html-webpack-plugin` 自动生成 html
+- `webpack-dev-server` 让页面真正运行起来，并具备热更新能力
+
+```bash
+npm install html-webpack-plugin webpack-dev-server -D
+```
+
+### 配置
+
+```js
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+module.exports = {
+  // ...省略其他配置
+  plugins: [new HtmlWebpackPlugin()]
+};
+```
+
+## Loader 与 Plugin 的区别
+
+- Loader 用于转换资源，比如将 es6 转换为 es5
+- Plugin 用于扩展 webpack 的功能，比如添加打包前的插件，添加打包后的插件
+
+### 如何使用插件
+
+```js
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+module.exports = {
+  plugins: [new HtmlWebpackPlugin()]
+};
+```
+
+### 如何使用 loader
+
+```js
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: [MiniCssExtractPlugin.loader, 'css-loader']
+      }
+    ]
+  }
+};
+```

@@ -1,0 +1,139 @@
+---
+  id: 20231203112828_basic-modal
+  title: 如何手写一个modal
+  createdTime: 2023-12-03 11:28:28
+  published: false
+---
+
+## 如何手写一个 modal 组件
+
+### 1. 基本结构
+
+```html
+<div class="modal-mask">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Modal Title</div>
+    </div>
+    <div class="modal-body">
+      <p>Modal Body</p>
+    </div>
+    <div class="modal-footer">
+      <button class="modal-close-btn">Close</button>
+    </div>
+  </div>
+</div>
+```
+
+### 2. 样式
+
+```css
+.modal-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+  padding: 15px 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.modal-title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.modal-body {
+  padding: 20px;
+}
+
+.modal-footer {
+}
+
+.modal-close-btn {
+  padding: 10px 20px;
+  border: none;
+  background: #ccc;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+}
+```
+
+### 3. 功能实现
+
+```js
+// 1. 点击遮罩层关闭modal
+
+// 2. 点击modal的关闭按钮关闭modal
+
+// 3. 点击modal外的区域关闭modal
+
+// 4. 点击modal的任意位置，modal不消失
+```
+
+### 4. 代码实现
+
+```js
+// 1. 点击遮罩层关闭modal
+const modalMask = document.querySelector('.modal-mask');
+modalMask.addEventListener('click', () => {
+  modal.style.display = 'none';
+});
+
+// 2. 点击modal的关闭按钮关闭modal
+const modalCloseBtn = document.querySelector('.modal-close-btn');
+modalCloseBtn.addEventListener('click', () => {
+  modal.style.display = 'none';
+});
+
+// 3. 点击modal外的区域关闭modal
+window.addEventListener('click', (e) => {
+  if (e.target === modal) {
+    modal.style.display = 'none';
+  }
+});
+
+// 4. 点击modal的任意位置，modal不消失
+modal.addEventListener('click', (e) => {
+  e.stopPropagation();
+});
+```
+
+### 5. 优化
+
+```js
+// 1. 点击遮罩层关闭modal
+const modalMask = document.querySelector('.modal-mask');
+modalMask.addEventListener('click', () => {
+  modal.style.display = 'none';
+});
+
+// 2. 点击modal的关闭按钮关闭modal
+const modalCloseBtn = document.querySelector('.modal-close-btn');
+
+// 3. 点击modal外的区域关闭modal
+window.addEventListener('click', (e) => {
+  if (e.target === modal) {
+    modal.style.display = 'none';
+  }
+});
+
+// 4. 点击modal的任意位置，modal不消失
+modal.addEventListener('click', (e) => {
+  e.stopPropagation();
+});
+```

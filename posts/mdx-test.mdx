@@ -35,6 +35,8 @@ https://mdxjs.com/
 
 Here's a simple footnote,[^1] and here's a longer one.[^bignote]
 
+<DarkToggle> </DarkToggle>
+
 | Command      | Description                                        |
 | ------------ | -------------------------------------------------- |
 | `git status` | List all _new or modified_ files                   |
@@ -65,17 +67,20 @@ function Counter() {
 - [ ] Second item
 - [ ] Third item
 
-:::tip
-tip
-:::
+> [!NOTE]
+> Highlights information that users should take into account, even when skimming.
 
-:::danger
-danger
-:::
+> [!TIP]
+> Optional information to help a user be more successful.
 
-:::warning
-warning
-:::
+> [!IMPORTANT]
+> Crucial information necessary for users to succeed.
+
+> [!WARNING]
+> Critical content demanding immediate user attention due to potential risks.
+
+> [!CAUTION]
+> Negative potential consequences of an action.
 
 [^1]: This is the first footnote.
 [^bignote]: Here's one with multiple paragraphs and code.
@@ -85,5 +90,3 @@ warning
     `{ my code }`
 
     Add as many paragraphs as you like.
-
-<DarkToggle />

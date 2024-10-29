@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply !text-zinc-800;
+    @apply !fill-zinc-800;
+    font-family: var(--font-sans);
+  }
+}
+
+@layer utilities {
+  .flex-center {
+    @apply flex items-center justify-center;
+  }
+  .focus-ring {
+    @apply focus-visible:outline focus-visible:outline-accent;
+  }
+  .text-stroke {
+    -webkit-text-stroke-width: 2px;
+    -webkit-text-stroke-color: #aaa;
+  }
+  .text-link {
+    @apply cursor-pointer border-b border-[#7D7D7D4C] no-underline transition-colors duration-300 hover:border-[#555] dark:hover:border-[#bbb];
+  }
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
+.post-toc .katex {
+  font: unset;
+  line-height: unset;
+}

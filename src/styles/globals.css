@@ -1,0 +1,32 @@
+html,
+body,
+:root {
+  height: 100%;
+  scroll-behavior: smooth;
+  @apply transition-colors;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+.dark::view-transition-old(root) {
+  z-index: 1;
+}
+.dark::view-transition-new(root) {
+  z-index: 99999;
+}
+
+::view-transition-old(root) {
+  z-index: 99999;
+}
+::view-transition-new(root) {
+  z-index: 1;
+}
+
+::selection {
+  @apply bg-accent;
+  color: theme(colors.white);
+}
