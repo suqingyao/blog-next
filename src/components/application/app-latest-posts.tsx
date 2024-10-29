@@ -1,10 +1,9 @@
 'use client';
 
-import { useMemo } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Outfit } from 'next/font/google';
-import { RiArrowRightUpLine } from 'react-icons/ri';
+import { ExternalLinkIcon } from '@/components/icons';
 import dayjs from '@/lib/dayjs';
 import { cn } from '@/lib/utils';
 
@@ -39,7 +38,10 @@ export const AppLatestPosts = ({ posts }: { posts: Post[] }) => {
             href={'/posts'}
             className="opacity-50 hover:opacity-100"
           >
-            <RiArrowRightUpLine size={28} />
+            <ExternalLinkIcon
+              width={28}
+              height={28}
+            />
           </Link>
         </motion.div>
       </motion.div>
