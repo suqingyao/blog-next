@@ -41,14 +41,14 @@ export const AppContact = () => {
       animate="animate"
       variants={{
         initial: {
-          // opacity: 0,
+          opacity: 0,
           y: 20,
           transition: {
             when: 'afterChildren'
           }
         },
         animate: {
-          // opacity: 1,
+          opacity: 1,
           y: 0,
           transition: {
             when: 'beforeChildren',
@@ -59,7 +59,7 @@ export const AppContact = () => {
           }
         }
       }}
-      className="flex gap-6"
+      className="flex gap-6 py-6"
     >
       {linkText.map(({ href, text, icon: Icon }, index) => (
         <motion.li

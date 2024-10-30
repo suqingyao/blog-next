@@ -1,8 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import dayjs from '@/lib/dayjs';
 import { motion } from 'framer-motion';
+import dayjs from '@/lib/dayjs';
 
 export const PostList = ({ posts }: { posts: Record<string, any>[] }) => {
   const getYear = (a: Date | string | number) => new Date(a).getFullYear();

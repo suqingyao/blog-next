@@ -1,3 +1,3 @@
 export const AppMain = ({ children }: { children: React.ReactNode }) => {
-  return <div className="flex flex-1 items-center justify-center"></div>;
+  return <main className="mt-[var(--header-height)] w-[75ch]">{children}</main>;
 };

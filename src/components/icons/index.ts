@@ -19,3 +19,5 @@ export * from './UTurnLeftIcon';
 export * from './UTurnLeftIcon';
 export * from './PencilSwooshIcon';
 export * from './ExternalLinkIcon';
+export * from './DashboardIcon';
+export * from './CircleArrowUpIcon';

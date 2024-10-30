@@ -5,4 +5,4 @@ export * from './app-footer';
 export * from './app-hero';
 export * from './app-contact';
 export * from './app-latest-posts';
-export * from './content';
+export * from './app-content';

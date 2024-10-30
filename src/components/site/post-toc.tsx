@@ -46,9 +46,6 @@ const PostToc = ({ data }: { data: TocResult }) => {
   return (
     <div className="post-toc absolute left-full top-0 hidden h-full pl-14 lg:block">
       <div className="sticky top-14 max-h-[calc(100vh-theme('spacing.28'))] overflow-y-auto truncate whitespace-nowrap text-sm leading-loose">
-        <h2 className="mb-2 text-base font-medium uppercase tracking-[2px] text-zinc-700">
-          Table of Content
-        </h2>
         <PostTocItems items={data?.map} />
       </div>
     </div>

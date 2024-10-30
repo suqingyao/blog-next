@@ -3,7 +3,8 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Outfit } from 'next/font/google';
-import { ExternalLinkIcon } from '@/components/icons';
+import { RiArrowRightUpLine } from 'react-icons/ri';
+
 import dayjs from '@/lib/dayjs';
 import { cn } from '@/lib/utils';
 
@@ -38,10 +39,7 @@ export const AppLatestPosts = ({ posts }: { posts: Post[] }) => {
             href={'/posts'}
             className="opacity-50 hover:opacity-100"
           >
-            <ExternalLinkIcon
-              width={28}
-              height={28}
-            />
+            <RiArrowRightUpLine size={28} />
           </Link>
         </motion.div>
       </motion.div>
@@ -64,7 +62,7 @@ export const AppLatestPosts = ({ posts }: { posts: Post[] }) => {
             }
           }
         }}
-        className="mt-8 flex flex-col gap-2"
+        className="my-4 flex flex-col gap-2"
       >
         {posts.map((post, index) => (
           <Card
@@ -98,7 +96,7 @@ export function Card({ post, delay }: { post: Post; delay: number }) {
     >
       <Link
         href={`/posts/${post.id}`}
-        className="block rounded-md px-3 py-3 transition-colors hover:bg-gray-100 dark:hover:bg-gray-50/10"
+        className="block rounded-md px-3 py-3 transition-colors hover:bg-neutral-400/10 dark:hover:bg-gray-50/10"
       >
         <div className="flex items-center justify-between">
           <div className="flex-1">{post.title}</div>

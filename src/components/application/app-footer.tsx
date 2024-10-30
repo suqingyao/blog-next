@@ -1,6 +1,6 @@
 export const AppFooter = () => {
   return (
-    <footer className="flex h-[var(--footer-height)] items-center justify-center gap-2 text-center text-sm opacity-80">
+    <footer className="mt-auto flex h-[var(--footer-height)] w-full items-center justify-center gap-2 py-6 text-center text-sm opacity-80">
       <p>
         Built with &nbsp;
         <a

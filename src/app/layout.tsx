@@ -5,8 +5,9 @@ import { Inter } from 'next/font/google';
 import NextTopLoader from 'nextjs-toploader';
 import { Toaster } from 'sonner';
 
-import { Content } from '@/components/application';
+import { AppContent } from '@/components/application';
 import { Backtop } from '@/components/ui/backtop';
+import { PlumContainer } from '@/components/plum-container';
 import { AppProviders } from '@/providers';
 
 import { sansFont, serifFont } from '@/lib/fonts';
@@ -40,7 +41,7 @@ export default function RootLayout({
           font.className,
           sansFont.variable,
           serifFont.variable,
-          'h-full min-h-screen w-full overflow-y-auto bg-[var(--c-bg)]'
+          'min-h-screen w-full bg-neutral-50 text-zinc-200'
         )}
       >
         <NextTopLoader
@@ -48,10 +49,11 @@ export default function RootLayout({
           showSpinner={false}
         />
         <AppProviders>
-          <Content>{children}</Content>
+          <AppContent>{children}</AppContent>
           <Backtop />
           <Toaster />
           <Analytics />
+          <PlumContainer />
         </AppProviders>
       </body>
     </html>
