@@ -1,5 +1,5 @@
 ---
-  id: enter-scroll-animation
+  id: 231202204857_enter-scroll-animation
   title: IntersectionObserver 实现滚动进入动画
   createdTime: 2023-12-02 20:48:57
   published: true
@@ -11,11 +11,11 @@
   image="https://w.wallhaven.cc/full/3l/wallhaven-3l7eoy.jpg"
 />
 
-### 1. 前言
+### 前言
 
 `IntersectionObserver` 是一个新的 API，它允许我们监听一个元素是否进入或离开视口。
 
-### 2. 基本用法
+### 基本用法
 
 `IntersectionObserver` 是一个构造函数，它接收一个 2 个参数。 第一个参数是回调函数，第二个是配置对象。
 
@@ -57,7 +57,7 @@ animatedItems.forEach((item) => {
 }
 ```
 
-### 3. 在 React 中使用
+### 在 React 中使用
 
 ```jsx
 // App.tsx
@@ -176,8 +176,5 @@ body,
 }
 ```
 
-:::warning
-
-注意：使用 IntersectionObserver 的浏览器兼容性可能因浏览器版本不同而存在差异，使用时需要确保目标浏览器支持 IntersectionObserver API。也可通过 polyfills 来扩展对老版本浏览器的兼容性。
-
-:::
+> [!WARNING]
+> 注意：使用 IntersectionObserver 的浏览器兼容性可能因浏览器版本不同而存在差异，使用时需要确保目标浏览器支持 IntersectionObserver API。也可通过 polyfills 来扩展对老版本浏览器的兼容性。
