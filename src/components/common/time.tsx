@@ -1,16 +1,11 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-
 import { useDate } from '@/hooks/use-date';
+import { useIsMounted } from '@/hooks/use-is-mounted';
 
 export const Time = ({ isoString }: { isoString?: string }) => {
   const date = useDate();
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  const isMounted = useIsMounted();
 
   if (!isoString) {
     return null;
