@@ -10,5 +10,5 @@ interface Post {
   cover?: string;
   description?: string;
   readingTime?: string;
-  categories?: string[];
+  tags?: string[];
 }

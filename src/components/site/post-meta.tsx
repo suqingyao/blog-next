@@ -4,6 +4,7 @@ import { Time } from '@/components/common/time';
 import PostTag from '@/components/site/post-tag';
 import { UniLink } from '@/components/ui/uni-link';
 import { RESERVED_TAGS } from '@/lib/constants';
+import { CalendarIcon } from '../icons';
 // import { CSB_SCAN } from '@/lib/env';
 // import { ExpandedCharacter, ExpandedNote, NoteType } from "@/lib/types"
 
@@ -23,7 +24,14 @@ export default async function PostMeta({
   return (
     <div className="post-meta">
       <div className="mt-5 flex items-center justify-center space-x-5 text-zinc-400">
-        <Time isoString={post?.createdTime} />
+        <div className="flex items-center">
+          <CalendarIcon
+            width="1em"
+            height="1em"
+            className="mr-2"
+          />
+          <Time isoString={post?.createdTime} />
+        </div>
         {post?.tags?.filter((tag) => !RESERVED_TAGS.includes(tag)).length ? (
           <>
             <span className="post-tags min-w-0 space-x-1 truncate">
