@@ -82,10 +82,7 @@ export const AppContact = () => {
             href={href}
             target="_blank"
           >
-            <Icon
-              width="1.5em"
-              height="1.5em"
-            />
+            <Icon className="h-6 w-6" />
           </Link>
         </motion.li>
       ))}

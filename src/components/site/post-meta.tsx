@@ -25,11 +25,7 @@ export default async function PostMeta({
     <div className="post-meta">
       <div className="mt-5 flex items-center justify-center space-x-5 text-zinc-400">
         <div className="flex items-center">
-          <CalendarIcon
-            width="1em"
-            height="1em"
-            className="mr-2"
-          />
+          <CalendarIcon className="mr-2 h-4 w-4" />
           <Time isoString={post?.createdTime} />
         </div>
         {post?.tags?.filter((tag) => !RESERVED_TAGS.includes(tag)).length ? (

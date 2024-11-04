@@ -10,10 +10,8 @@ import { iconsPlugin } from '@egoist/tailwindcss-icons';
 const config = {
   darkMode: ['class', 'html.dark'],
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}'
+    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/app/**/*.{js,ts,jsx,tsx,mdx}'
   ],
   prefix: '',
   theme: {
