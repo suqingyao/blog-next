@@ -138,7 +138,7 @@ const Affix = forwardRef<AffixRef, AffixProps>((props, ref) => {
       >
         {affixState.isFixed && <div style={affixState.placeholderStyle} />}
         <div
-          className={cn('affix' && affixState.isFixed, affixClassName)}
+          className={cn(affixState.isFixed && 'affix', affixClassName)}
           style={{ ...affixState.affixStyle, ...affixStyle }}
         >
           <ResizeObserver onResize={updatePosition}>{children}</ResizeObserver>
