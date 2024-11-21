@@ -24,6 +24,7 @@ import rehypeSanitize from 'rehype-sanitize';
 import rehypeInferDescriptionMeta from 'rehype-infer-description-meta';
 import rehypeKatex from 'rehype-katex';
 import rehypeStringify from 'rehype-stringify';
+// @ts-ignore
 import { Fragment, jsx, jsxs } from 'react/jsx-runtime';
 import { toast } from 'sonner';
 import { toc } from 'mdast-util-toc';
