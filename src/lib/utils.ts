@@ -44,7 +44,7 @@ export const getQuery = (req: Request) => {
       if (Array.isArray(obj[key])) {
         (obj[key] as string[]).push(value);
       } else {
-        obj[key] = [obj[key], value];
+        obj[key] = [obj[key] as string, value];
       }
     } else {
       obj[key] = value;
