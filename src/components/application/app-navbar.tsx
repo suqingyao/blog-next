@@ -39,7 +39,7 @@ export const AppNavbar = () => {
         <motion.h2
           initial={{ opacity: 0, top: 60 }}
           animate={{ opacity: 1, top: 30 }}
-          className="fixed -translate-y-1/2 truncate font-sans text-[1.2rem] font-medium leading-[1.5]"
+          className="fixed -translate-y-1/2 truncate font-sans text-[1.2rem] font-medium leading-normal"
           style={{
             left: fixedLeft + 'px'
           }}
@@ -53,7 +53,7 @@ export const AppNavbar = () => {
             href={`${link.path}`}
             key={link.path}
             className={cn(
-              'flex h-full w-20 cursor-pointer items-center justify-center hover:text-primary',
+              'hover:text-primary flex h-full w-20 cursor-pointer items-center justify-center',
               pathname === link.path && 'text-primary'
             )}
           >

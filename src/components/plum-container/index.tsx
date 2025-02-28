@@ -131,7 +131,7 @@ export const PlumContainer = () => {
   const mask = useMemo(() => 'radial-gradient(circle, transparent, black)', []);
   return (
     <div
-      className="pointer-events-none fixed bottom-0 left-0 right-0 top-0"
+      className="pointer-events-none fixed inset-0"
       style={{ zIndex: -1, maskImage: `${mask}`, WebkitMaskImage: `${mask}` }}
     >
       <canvas

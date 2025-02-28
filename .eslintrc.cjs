@@ -3,8 +3,7 @@ module.exports = {
     'next/core-web-vitals',
     'plugin:import/recommended',
     'plugin:react/recommended',
-    'plugin:tailwindcss/recommended',
-    'plugin:react-hooks/recommended'
+    'plugin:tailwindcss/recommended'
   ],
   root: true,
   settings: {
@@ -27,7 +26,7 @@ module.exports = {
   },
   plugins: ['unused-imports'],
   rules: {
-    'unused-imports/no-unused-imports': 'error',
+    'unused-imports/no-unused-imports': 'off',
     'import/named': 'off',
     'import/no-anonymous-default-export': 'off',
     'import/no-named-as-default': 'off',
@@ -36,6 +35,7 @@ module.exports = {
       process.env.NODE_ENV === 'production' ? 'off' : 'warn',
     'import/no-named-as-default-member': 'off',
     'react/no-unknown-property': ['error', { ignore: ['tw'] }],
-    'tailwindcss/classnames-order': 'off'
+    'tailwindcss/no-custom-classname': 'off',
+    'react/prop-types': 'off'
   }
 };

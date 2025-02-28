@@ -26,6 +26,7 @@ export const AppFooter = () => {
           href="https://icp.gov.moe/?keyword=20240127"
           target="_blank"
           className="text-primary"
+          rel="noreferrer"
         >
           萌ICP备20240127号
         </a>

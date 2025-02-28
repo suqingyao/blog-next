@@ -142,7 +142,7 @@ export const DarkToggle = () => {
           className="relative h-full w-full"
         >
           <div className="absolute left-[4px] top-[6px] h-[4px] w-[4px] rounded-full bg-slate-400/50 shadow-inner" />
-          <div className="absolute left-[11px] top-[8px] h-[1px] w-[1px] rounded-full bg-slate-400/50 shadow-inner" />
+          <div className="absolute left-[11px] top-[8px] h-px w-px rounded-full bg-slate-400/50 shadow-inner" />
           <div className="absolute left-[9px] top-[11px] h-[2px] w-[2px] rounded-full bg-slate-400/50 shadow-inner" />
         </motion.div>
       </motion.div>

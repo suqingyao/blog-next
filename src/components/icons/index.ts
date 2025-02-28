@@ -16,7 +16,6 @@ export * from './CursorIcon';
 export * from './CursorClickIcon';
 export * from './BriefcaseIcon';
 export * from './UTurnLeftIcon';
-export * from './UTurnLeftIcon';
 export * from './PencilSwooshIcon';
 export * from './ExternalLinkIcon';
 export * from './DashboardIcon';

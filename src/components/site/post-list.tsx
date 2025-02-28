@@ -50,7 +50,7 @@ export const PostList = ({ posts }: { posts: Record<string, any>[] }) => {
         >
           {!isSameGroup(post as Post, posts[idx - 1] as Post | undefined) && (
             <motion.div className="pointer-events-none relative h-20 select-none">
-              <span className="text-stroke absolute -left-[3rem] -top-[2rem] text-[8em] font-bold text-transparent opacity-10">
+              <span className="text-stroke absolute -left-12 -top-8 text-[8em] font-bold text-transparent opacity-10">
                 {getYear(post.createdTime)}
               </span>
             </motion.div>
