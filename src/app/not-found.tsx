@@ -1,8 +1,12 @@
 'use client';
 
 import Link from 'next/link';
-import Lottie from 'react-lottie';
 import animationData from '@/lottie/animation404.json';
+import dynamic from 'next/dynamic';
+
+const Lottie = dynamic(() => import('react-lottie'), {
+  ssr: false // 禁用服务端渲染
+});
 
 export default function NotFound() {
   return (

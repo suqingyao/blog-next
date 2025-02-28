@@ -32,15 +32,21 @@ import { toHtml } from 'hast-util-to-html';
 import { visit } from 'unist-util-visit';
 import jsYaml from 'js-yaml';
 
-import ShikiRemark from '@/components/ui/shiki-remark';
+// import ShikiRemark from '@/components/ui/shiki-remark';
 import { isServer } from '@/lib/is';
 import sanitizeScheme from './sanitize-schema';
 import { remarkPangu } from './remark-pangu';
 import { rehypeTable } from './rehype-table';
 import { rehypeWrapCode } from './rehype-wrap-code';
 import { mdxComponents } from './components';
+import dynamic from 'next/dynamic';
 
 const memoedPreComponentMap = {} as Record<string, any>;
+
+const ShikiRemark = dynamic(
+  () => import('@/components/ui/shiki-remark').then((mod) => mod.default),
+  { ssr: false }
+);
 
 const hashCodeThemeKey = (codeTheme?: Record<string, any>): string => {
   if (!codeTheme) return 'default';
@@ -133,7 +139,7 @@ export const renderMarkdown = ({
       toJsxRuntime(hastTree, {
         Fragment,
         components: {
-          // @ts-expect-error
+          // @ts-ignore
           pre: Pre,
           ...mdxComponents
         },

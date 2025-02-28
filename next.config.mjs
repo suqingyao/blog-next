@@ -16,6 +16,10 @@ const nextConfig = {
     config.externals = [...config.externals, 'jsdom', 'sharp'];
 
     return config;
+  },
+  transpilePackages: ['react-lottie'],
+  experimental: {
+    optimizePackageImports: ['react-lottie']
   }
 };
 
