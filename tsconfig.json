@@ -21,13 +21,15 @@
     ],
     "baseUrl": "./",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["src/*"]
     }
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
+    "typings/*.d.ts",
+    "src/**/*.ts",
     ".next/types/**/*.ts",
     "dist/types/**/*.ts"
   ],
