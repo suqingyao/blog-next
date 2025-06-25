@@ -1,17 +1,11 @@
 ---
   id: 20240921103346_axios-usage
-  title: 基于axios二次封装
+  title: axios二次封装
   createdTime: 2024-09-21 10:33:46
-  published: false
+  published: true
   tags:
     - axios
 ---
-
-## 安装
-
-```bash
-npm install axios
-```
 
 ## 基本使用
 
@@ -31,38 +25,33 @@ axios
 ## 请求配置
 
 ```javascript
-axios({
-  method: 'get',
-  url: 'https://api.example.com/data',
-  params: {
-    id: 1
-  },
-  headers: {
-    'Content-Type': 'application/json'
-  }
+import axios from 'axios';
+
+const instance = axios.create({
+  baseURL: 'https://api.example.com',
+  timeout: 1000
 });
-```
 
-## 响应处理
+instance.interceptors.request.use((config) => {
+  // 从本地存储中获取token
+  const token = 'xxxx';
 
-```javascript
-axios
-  .get('https://api.example.com/data')
-  .then((response) => {
-    console.log(response.data);
-  })
-  .catch((error) => {
-    console.error(error);
-  });
-```
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
 
-## 拦截器
-
-```javascript
-axios.interceptors.request.use((config) => {
-  console.log('Request:', config);
   return config;
 });
+
+instance.interceptors.response.use((response) => {
+  if (response.type === 'blob') {
+    return response;
+  }
+
+  return response.data;
+});
+
+export default instance;
 ```
 
 ## 取消请求
@@ -83,24 +72,122 @@ axios
 source.cancel('Operation canceled by the user.');
 ```
 
-## 错误处理
+## 进阶封装
+
+以下是一个更实用的 axios 封装方案，支持：
+
+- 错误自动重试
+- 同一时间段多次调用接口只发起一次请求（请求合并）
+- 返回 loading、data、error 信息，适合前端 hooks 场景
+- 支持取消请求
 
 ```javascript
-axios
-  .get('https://api.example.com/data')
-  .then((response) => {
-    console.log(response.data);
-  })
-  .catch((error) => {
-    console.error(error);
-  });
+import axios from 'axios';
+
+// 请求缓存池（用于请求合并）
+const requestCache = new Map();
+
+function serializeConfig(config) {
+  // 可根据实际需求自定义 key 生成方式
+  return `${config.method}-${config.url}-${JSON.stringify(
+    config.params || {}
+  )}-${JSON.stringify(config.data || {})}`;
+}
+
+export function useRequest(config, options = {}) {
+  const { manual = false, retry = 0 } = options;
+  let cancel;
+  let retryCount = 0;
+
+  const state = {
+    loading: false,
+    data: null,
+    error: null,
+    cancel: () => {
+      if (cancel) cancel('用户主动取消请求');
+    }
+  };
+
+  async function run(overrideConfig = {}) {
+    const finalConfig = { ...config, ...overrideConfig };
+    const cacheKey = serializeConfig(finalConfig);
+
+    if (requestCache.has(cacheKey)) {
+      return requestCache.get(cacheKey);
+    }
+
+    state.loading = true;
+    state.error = null;
+    state.data = null;
+
+    const source = axios.CancelToken.source();
+    cancel = source.cancel;
+    finalConfig.cancelToken = source.token;
+
+    const requestPromise = new Promise(async (resolve, reject) => {
+      while (retryCount <= retry) {
+        try {
+          const res = await axios(finalConfig);
+          state.data = res.data || res;
+          state.loading = false;
+          requestCache.delete(cacheKey);
+          resolve(state.data);
+          return;
+        } catch (err) {
+          if (axios.isCancel(err)) {
+            state.error = '请求已取消';
+            state.loading = false;
+            requestCache.delete(cacheKey);
+            reject(err);
+            return;
+          }
+          retryCount++;
+          if (retryCount > retry) {
+            state.error = err;
+            state.loading = false;
+            requestCache.delete(cacheKey);
+            reject(err);
+            return;
+          }
+        }
+      }
+    });
+
+    requestCache.set(cacheKey, requestPromise);
+    return requestPromise;
+  }
+
+  if (!manual) run();
+
+  return { ...state, run };
+}
 ```
 
-## 并发请求
+### 使用示例
 
 ```javascript
-axios.all([
-  axios.get('https://api.example.com/data1'),
-  axios.get('https://api.example.com/data2')
-]);
+// 自动请求，失败重试 2 次
+const { loading, data, error, run, cancel } = useRequest(
+  {
+    url: '/api/user',
+    method: 'get'
+  },
+  { retry: 2 }
+);
+
+// 手动请求
+// const { loading, data, error, run, cancel } = useRequest({ url: '/api/user' }, { manual: true });
+// run();
+
+// 取消请求
+// cancel();
 ```
+
+### 说明
+
+- **错误重试**：通过 retry 参数控制最大重试次数。
+- **请求合并**：同一参数的请求在未完成前只会发起一次，后续请求会复用 Promise。
+- **loading/data/error**：适合 hooks 场景，便于组件中直接使用。
+- **取消请求**：通过 cancel 方法可随时取消。
+
+你可以根据实际业务进一步扩展，比如支持全局 loading、全局错误提示等。

@@ -1,0 +1,78 @@
+---
+  id: 20250625_manual-implement-pinia
+  title: 手动实现Pinia
+  createdTime: 2025-06-25 22:47:16
+  published: false
+---
+
+### 代码实现
+
+```js
+import { ref, effectScope } from 'vue';
+
+function defineStore(fn) {
+  let state;
+
+  return () => {
+    if (state) return state;
+    const scope = effectScope(true);
+
+    return (state = scope.run(fn));
+  };
+}
+
+export const useCounterStore = defineStore(() => {
+  const count = ref(0);
+
+  function inc() {
+    count.value++;
+  }
+
+  return {
+    count,
+    inc
+  };
+});
+```
+
+### 思路说明
+
+上面的代码实现了一个简单的 Pinia 状态管理核心：
+
+- `defineStore` 是一个工厂函数，接收一个返回 state 的函数 `fn`。
+- 内部通过闭包缓存了 `state`，保证每次调用返回同一个响应式状态。
+- 使用 `effectScope` 创建独立的响应式作用域，避免状态污染。
+- `useCounterStore` 就是一个具体的 store，包含 `count` 和 `inc` 方法。
+
+组件中只需调用 `useCounterStore()`，即可获得全局唯一的响应式状态。
+
+#### effectScope API 介绍
+
+`effectScope` 是 Vue 3 提供的 API，用于创建独立的响应式副作用作用域。它的主要作用是：
+
+- **作用域隔离**：在 scope 内注册的响应式副作用（如 watch、computed、ref 等）可以统一管理和销毁，避免内存泄漏。
+- **资源释放**：通过 `scope.stop()` 可以一键停止该作用域下的所有副作用。
+- **嵌套作用域**：支持作用域嵌套，便于复杂场景下的资源管理。
+
+#### 常见使用场景
+
+- **组件外的响应式状态管理**（如 Pinia、VueUse 等库的实现）
+- **需要手动管理副作用生命周期的场景**，如在插件、工具库中动态创建和销毁响应式对象
+- **避免全局污染**，让响应式副作用只在特定作用域内生效
+
+简单示例：
+
+```js
+import { effectScope, ref, watch } from 'vue';
+
+const scope = effectScope();
+const state = scope.run(() => {
+  const count = ref(0);
+  watch(count, (v) => console.log('count:', v));
+  return { count };
+});
+
+// 释放所有副作用	scope.stop();
+```
+
+这样可以灵活地管理响应式资源，提升代码健壮性。
