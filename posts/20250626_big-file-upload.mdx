@@ -1,0 +1,250 @@
+---
+  id: 20250626_big-file-upload
+  title: 大文件上传
+  createdTime: 2025-06-26 10:55:17
+  published: false
+---
+
+### 一、核心技术点与作用
+
+#### 1. 分片上传
+
+- **作用**：将大文件切分为多个小块（chunk），每块单独上传，降低单次上传失败的影响，提升上传成功率。
+
+#### 2. 断点续传
+
+- **作用**：上传过程中如遇网络中断，仅需补传未完成的分片，无需重头再来，极大提升用户体验。
+
+#### 3. 秒传
+
+- **作用**：同一文件已上传过，直接返回结果，无需重复上传，节省带宽和时间。
+
+#### 4. 异步 hash（Web Worker）
+
+- **作用**：前端用 Web Worker 多线程异步计算文件 hash，避免主线程卡顿，提升大文件处理体验。
+
+#### 5. 分片合并
+
+- **作用**：所有分片上传完毕后，服务端负责将分片按顺序合并为完整文件。
+
+---
+
+### 二、完整 DEMO 实现
+
+#### 1. 前端实现
+
+**1.1 hash.worker.js（Web Worker 计算 hash）**
+
+```js
+// public/hash.worker.js
+importScripts('https://cdn.jsdelivr.net/npm/spark-md5@3.0.2/spark-md5.min.js');
+self.onmessage = async (e) => {
+  const file = e.data;
+  const chunkSize = 2 * 1024 * 1024;
+  let cur = 0;
+  const spark = new self.SparkMD5.ArrayBuffer();
+  while (cur < file.size) {
+    const chunk = file.slice(cur, cur + chunkSize);
+    const buffer = await chunk.arrayBuffer();
+    spark.append(buffer);
+    cur += chunkSize;
+  }
+  self.postMessage(spark.end());
+};
+```
+
+**1.2 前端上传主逻辑（HTML + JS）**
+
+```html
+<input
+  type="file"
+  id="file"
+/>
+<button id="upload">上传</button>
+<div id="progress"></div>
+<script>
+  const fileInput = document.getElementById('file');
+  const uploadBtn = document.getElementById('upload');
+  let file, hash, chunks;
+
+  function createChunks(file, chunkSize = 2 * 1024 * 1024) {
+    const chunks = [];
+    let cur = 0;
+    while (cur < file.size) {
+      chunks.push(file.slice(cur, cur + chunkSize));
+      cur += chunkSize;
+    }
+    return chunks;
+  }
+
+  uploadBtn.onclick = async () => {
+    file = fileInput.files[0];
+    if (!file) return alert('请选择文件');
+    // 1. 计算 hash
+    const worker = new Worker('/hash.worker.js');
+    hash = await new Promise((resolve) => {
+      worker.postMessage(file);
+      worker.onmessage = (e) => resolve(e.data);
+    });
+    // 2. 秒传判断
+    const { exists } = await fetch(`/api/upload/exists?hash=${hash}`).then(
+      (r) => r.json()
+    );
+    if (exists) return alert('文件已秒传！');
+    // 3. 分片
+    chunks = createChunks(file);
+    // 4. 查询已上传分片
+    const { uploaded = [] } = await fetch(
+      `/api/upload/status?hash=${hash}`
+    ).then((r) => r.json());
+    // 5. 上传未上传分片
+    let uploadedCount = 0;
+    await Promise.all(
+      chunks.map((chunk, idx) => {
+        if (uploaded.includes(idx)) {
+          uploadedCount++;
+          return;
+        }
+        const form = new FormData();
+        form.append('file', chunk);
+        form.append('hash', hash);
+        form.append('index', idx);
+        return fetch('/api/upload/chunk', { method: 'POST', body: form }).then(
+          () => {
+            uploadedCount++;
+            document.getElementById('progress').innerText = `进度: ${(
+              (uploadedCount / chunks.length) *
+              100
+            ).toFixed(2)}%`;
+          }
+        );
+      })
+    );
+    // 6. 合并
+    await fetch('/api/upload/merge', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ hash, total: chunks.length, filename: file.name })
+    });
+    alert('上传完成！');
+  };
+</script>
+```
+
+---
+
+#### 2. 后端实现（Express）
+
+**2.1 安装依赖**
+
+```bash
+npm i express multer cors
+```
+
+**2.2 目录结构建议**
+
+- uploads/ // 存储所有分片
+- uploads/merge/ // 存储合并后的文件
+
+**2.3 主要接口实现**
+
+```js
+// server.js
+const express = require('express');
+const multer = require('multer');
+const fs = require('fs');
+const path = require('path');
+const cors = require('cors');
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+const UPLOAD_DIR = path.resolve(__dirname, 'uploads');
+const MERGE_DIR = path.resolve(UPLOAD_DIR, 'merge');
+if (!fs.existsSync(UPLOAD_DIR)) fs.mkdirSync(UPLOAD_DIR);
+if (!fs.existsSync(MERGE_DIR)) fs.mkdirSync(MERGE_DIR);
+
+// 1. 查询文件是否已上传（秒传）
+app.get('/api/upload/exists', (req, res) => {
+  const { hash } = req.query;
+  const filePath = path.join(MERGE_DIR, hash);
+  res.json({ exists: fs.existsSync(filePath) });
+});
+
+// 2. 查询已上传分片
+app.get('/api/upload/status', (req, res) => {
+  const { hash } = req.query;
+  const dir = path.join(UPLOAD_DIR, hash);
+  let uploaded = [];
+  if (fs.existsSync(dir)) {
+    uploaded = fs.readdirSync(dir).map((name) => Number(name));
+  }
+  res.json({ uploaded });
+});
+
+// 3. 上传分片
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const hash = req.body.hash;
+    const dir = path.join(UPLOAD_DIR, hash);
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir);
+    cb(null, dir);
+  },
+  filename: (req, file, cb) => {
+    cb(null, req.body.index);
+  }
+});
+const upload = multer({ storage });
+app.post('/api/upload/chunk', upload.single('file'), (req, res) => {
+  res.json({ ok: 1 });
+});
+
+// 4. 合并分片
+app.post('/api/upload/merge', async (req, res) => {
+  const { hash, total, filename } = req.body;
+  const dir = path.join(UPLOAD_DIR, hash);
+  const filePath = path.join(MERGE_DIR, hash);
+  const writeStream = fs.createWriteStream(filePath);
+  for (let i = 0; i < total; i++) {
+    const chunkPath = path.join(dir, String(i));
+    const data = fs.readFileSync(chunkPath);
+    writeStream.write(data);
+    fs.unlinkSync(chunkPath);
+  }
+  writeStream.end();
+  fs.rmdirSync(dir);
+  res.json({ ok: 1, url: `/uploads/merge/${hash}` });
+});
+
+// 静态服务
+app.use('/uploads/merge', express.static(MERGE_DIR));
+
+app.listen(3001, () => {
+  console.log('server running at http://localhost:3001');
+});
+```
+
+---
+
+### 三、完整流程总结
+
+1. 用户选择文件，前端分片并用 Web Worker 异步计算 hash。
+2. 用 hash 向服务端查询：
+   - 文件是否已上传（秒传）
+   - 已上传哪些分片（断点续传）
+3. 上传未完成的分片，全部上传后通知服务端合并。
+4. 上传过程中可展示进度。
+
+---
+
+### 四、常见问题与优化建议
+
+- **hash 计算慢？** 用 Web Worker 并分片 hash，体验更好。
+- **上传中断？** 断点续传只需补传未完成分片。
+- **如何实现秒传？** hash 唯一标识文件，服务端查 hash 即可。
+- **如何支持多文件并发、暂停/恢复、失败重试？** 可在前端进一步扩展。
+
+---
+
+大文件上传的核心是"分片+hash+断点+秒传"。前端实现并不复杂，关键在于和后端配合好接口。实际项目中可结合 UI 展示进度、支持多文件并发上传、失败重试等。
