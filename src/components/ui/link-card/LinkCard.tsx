@@ -61,7 +61,9 @@ export const LinkCard = ({
         </div>
         {image && (
           <LazyImage
-            className="block h-[64px] w-[96px]"
+            className="block"
+            width={64}
+            height={64}
             src={image}
             alt="og"
           />

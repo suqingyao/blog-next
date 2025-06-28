@@ -1,51 +1,75 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import type { ImgHTMLAttributes } from 'react';
+import { useState } from 'react';
+import type { ImgHTMLAttributes, ReactNode } from 'react';
 
-import { ClientOnly } from './common/client-only';
 import { Skeleton } from './ui/skeleton';
 
 import { cn } from '@/lib/utils';
 import { useInView } from '@/hooks/use-in-view';
 
-export type LazyImageProps = ImgHTMLAttributes<HTMLImageElement>;
+export type LazyImageProps = ImgHTMLAttributes<HTMLImageElement> & {
+  placeholder?: ReactNode;
+  fallbackSrc?: string;
+};
+
+const DEFAULT_FALLBACK = '/broken-image.png';
 
 export const LazyImage = (props: LazyImageProps) => {
-  const { className, src, ...rest } = props;
+  const {
+    className,
+    src,
+    alt,
+    placeholder,
+    fallbackSrc = DEFAULT_FALLBACK,
+    width,
+    height,
+    ...rest
+  } = props;
 
-  const [visible, setVisible] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [hasError, setHasError] = useState(false);
 
   const [targetRef, isInView] = useInView({
-    triggerOnce: true
+    triggerOnce: true,
+    rootMargin: '200px',
+    threshold: 0.1
   });
 
-  useEffect(() => {
-    if (isInView) {
-      setVisible(true);
-    }
-  }, [isInView]);
+  const imgSrc = hasError ? fallbackSrc : src;
 
   return (
-    <ClientOnly>
-      <span ref={targetRef}>
-        <Skeleton className="rounded-md">
-          {visible && (
-            <img
-              className={cn(
-                'w-full rounded-md object-cover opacity-0 transition-opacity',
-                isLoaded && 'opacity-100',
-                className
-              )}
-              onLoad={() => setIsLoaded(true)}
-              src={src}
-              {...rest}
-              alt="og"
-            />
-          )}
-        </Skeleton>
-      </span>
-    </ClientOnly>
+    <span
+      ref={targetRef}
+      style={{ display: 'inline-block', width, height }}
+    >
+      <Skeleton
+        type="image"
+        width={width}
+        height={height}
+      >
+        {isInView ? (
+          <img
+            className={cn(
+              'h-full w-full rounded-md object-cover opacity-0 transition-opacity duration-500',
+              isLoaded && 'opacity-100'
+            )}
+            onLoad={() => setIsLoaded(true)}
+            onError={() => {
+              setHasError(true);
+              setIsLoaded(true);
+            }}
+            src={imgSrc}
+            alt={alt}
+            width={width}
+            height={height}
+            loading="lazy"
+            {...rest}
+          />
+        ) : (
+          placeholder || null
+        )}
+      </Skeleton>
+    </span>
   );
 };
