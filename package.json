@@ -81,6 +81,7 @@
     "@tanstack/eslint-plugin-query": "^5.81.2",
     "@types/fs-extra": "^11.0.4",
     "@types/js-yaml": "^4.0.9",
+    "@types/next": "^9.0.0",
     "@types/node": "20.3.3",
     "@types/pangu": "^4.0.2",
     "@types/react": "18.2.14",

@@ -41,7 +41,7 @@ export async function getAllPosts() {
   )
     .filter(Boolean)
     .filter((post) => (IS_PROD ? post.published : true))
-    .sort((a, b) => +new Date(b!.createdTime) - +new Date(a!.createdTime));
+    .sort((a, b) => +new Date(b.createdTime) - +new Date(a.createdTime));
 
   memoedAllPosts = posts;
 

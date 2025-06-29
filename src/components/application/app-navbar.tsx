@@ -2,7 +2,6 @@
 
 import { useMemo } from 'react';
 import Link from 'next/link';
-// @ts-ignore
 import { usePathname } from 'next/navigation';
 import { motion } from 'motion/react';
 

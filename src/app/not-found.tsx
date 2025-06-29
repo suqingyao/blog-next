@@ -2,7 +2,9 @@
 
 import Link from 'next/link';
 import animationData from '@/lottie/animation404.json';
-import Lottie from 'react-lottie';
+import dynamic from 'next/dynamic';
+
+const Lottie = dynamic(() => import('react-lottie'), { ssr: false });
 
 export default function NotFound() {
   return (

@@ -13,7 +13,6 @@ export const transitionViewIfSupported = (callback: () => void) => {
     return;
   }
 
-  // @ts-expect-error Transition API
   return document.startViewTransition(callback);
 };
 
