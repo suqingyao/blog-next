@@ -2,7 +2,8 @@
 
 import { useMemo } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+// @ts-ignore
+import { usePathname } from 'next/navigation';
 import { motion } from 'motion/react';
 
 import { cn } from '@/lib/utils';
@@ -21,7 +22,7 @@ const links = [
 ];
 
 export const AppNavbar = () => {
-  const router = useRouter();
+  const pathname = usePathname();
 
   const { headerAtom } = useHeaderAtom();
 
@@ -54,7 +55,7 @@ export const AppNavbar = () => {
             key={link.path}
             className={cn(
               'hover:text-primary flex h-full w-20 cursor-pointer items-center justify-center',
-              router.pathname === link.path && 'text-primary'
+              pathname === link.path && 'text-primary'
             )}
           >
             {link.label}

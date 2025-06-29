@@ -53,9 +53,7 @@ export const AppContact = () => {
           transition: {
             when: 'beforeChildren',
             staggerChildren: 0.3,
-            transition: {
-              ease: 'easeInOut'
-            }
+            ease: 'easeInOut'
           }
         }
       }}
