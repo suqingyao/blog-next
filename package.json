@@ -9,8 +9,6 @@
     "start": "next start",
     "lint": "next lint",
     "new:post": "node ./scripts/new-post.js",
-    "hot-refresh": "node ./scripts/hot-refresh.js",
-    "dev:hot": "pnpm hot-refresh & pnpm dev",
     "update": "npx taze -w"
   },
   "dependencies": {

@@ -2,7 +2,7 @@ import { IS_PROD } from '@/lib/constants';
 import { renderMarkdown } from '@/markdown';
 import fg from 'fast-glob';
 import fs from 'fs-extra';
-import { join } from 'node:path';
+import path, { join } from 'node:path';
 
 export const getAllPostFiles = async () => await fg('posts/**/*.mdx');
 
@@ -49,9 +49,17 @@ export async function getAllPosts() {
 }
 
 export async function getPostBySlug(slug: string) {
-  const posts = await getAllPosts();
+  if(IS_PROD) {
+    const posts = await getAllPosts();
+    const post = posts.find((post) => post.slug === slug);
+    return post;
+  }
 
-  const post = posts.find((post) => post.slug === slug);
-
-  return post;
+  const filePath = path.join(process.cwd(), 'posts', `${slug}.mdx`);
+  if (!fs.existsSync(filePath)) return null;
+  const code = fs.readFileSync(filePath, 'utf-8');
+  const rendered = renderMarkdown({ content: code });
+  const renderedMetadata = rendered.toMetadata();
+  const frontMatter = renderedMetadata.frontMatter;
+  return { slug, code, ...frontMatter };
 }
