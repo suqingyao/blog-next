@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "new:post": "esno ./scripts/new-post.ts",
+    "new:post": "node ./scripts/new-post.js",
+    "hot-refresh": "node ./scripts/hot-refresh.js",
+    "dev:hot": "pnpm hot-refresh & pnpm dev",
     "update": "npx taze -w"
   },
   "dependencies": {
@@ -86,6 +88,7 @@
     "autoprefixer": "10.4.14",
     "cac": "^6.7.14",
     "chalk": "^5.4.1",
+    "chokidar": "^4.0.3",
     "eslint": "8",
     "eslint-config-next": "^14.2.30",
     "eslint-plugin-import": "^2.32.0",
@@ -93,7 +96,6 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-tailwindcss": "^3.18.0",
     "eslint-plugin-unused-imports": "^4.1.4",
-    "esno": "^4.8.0",
     "ora": "^7.0.1",
     "postcss": "8.4.24",
     "postcss-nested": "^6.2.0",
