@@ -5,9 +5,7 @@
   published: false
 ---
 
-## JavaScript 原型链详解与理解
-
-### 什么是原型和原型链？
+## 什么是原型和原型链
 
 - **原型（prototype）**：每个 JS 对象（函数也是对象）都有一个内部属性 `[[Prototype]]`，可以通过 `__proto__` 访问。函数有 `prototype` 属性，普通对象没有。
 - **原型链**：对象通过 `__proto__` 指向其原型对象，原型对象也有自己的原型……最终指向 `null`。这条链路就是原型链。
@@ -17,7 +15,7 @@
 - **属性查找机制**：当访问对象属性时，JS 会先在自身查找，找不到就沿着原型链向上查找，直到 `null`。
 - **继承实现**：构造函数的实例可以继承原型上的方法和属性。
 
-### 代码示例
+## 代码示例
 
 ```js
 function Person(name) {
@@ -34,11 +32,11 @@ console.log(Person.prototype.__proto__ === Object.prototype); // true
 console.log(Object.prototype.__proto__); // null
 ```
 
-### 原型链图解
+## 原型链图解
 
 - p → Person.prototype → Object.prototype → null
 
-### 常见问题
+## 常见问题
 
 1. **为什么实例能访问原型上的方法？**
    因为查找属性时会沿原型链查找。
@@ -54,9 +52,8 @@ console.log(Object.prototype.__proto__); // null
    p.hasOwnProperty('sayHello'); // false
    ```
 
-### 总结
+## 总结
 
 - 原型链是 JS 实现继承和属性查找的基础机制。
 - 理解原型链有助于深入掌握 JS 对象、继承、类等高级特性。
 
----

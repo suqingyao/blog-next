@@ -3,8 +3,6 @@
 import type { Result as TocResult } from 'mdast-util-toc';
 import { createElement, useEffect, useRef, useState } from 'react';
 
-import { scrollTo } from '@/lib/utils';
-
 interface ItemsProps {
   items: TocResult['map'];
   activeId?: string | null;
@@ -92,7 +90,7 @@ function Items(props: ItemsProps) {
             }}
           >
             {item.children.map((child: any, i) => {
-              const content = `${prefix}${index + 1}. ${child.content}`;
+              const content = `${prefix} ${child.content}`;
 
               return (
                 <span key={index + '-' + i}>
@@ -119,7 +117,7 @@ function Items(props: ItemsProps) {
                     createElement(Items, {
                       items: child,
                       activeId,
-                      prefix: `${prefix}${index + 1}.`
+                      prefix: `${prefix}`
                     })}
                 </span>
               );
