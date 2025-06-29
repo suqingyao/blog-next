@@ -1,5 +1,5 @@
 import { MouseEvent, useCallback, useMemo } from 'react';
-import { useMotionValue } from 'framer-motion';
+import { useMotionValue } from 'motion/react';
 
 export const useSpotlight = () => {
   const x = useMotionValue(0);

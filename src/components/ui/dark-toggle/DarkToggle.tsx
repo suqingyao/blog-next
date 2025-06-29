@@ -2,7 +2,7 @@
 
 import { MouseEvent, useMemo } from 'react';
 import { flushSync } from 'react-dom';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { useTheme } from 'next-themes';
 
 import { useSound } from 'use-sound';

@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { Outfit } from 'next/font/google';
 import { RiArrowRightUpLine } from 'react-icons/ri';
 

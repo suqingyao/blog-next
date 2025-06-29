@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import dayjs from '@/lib/dayjs';
 
 export const PostList = ({ posts }: { posts: Record<string, any>[] }) => {

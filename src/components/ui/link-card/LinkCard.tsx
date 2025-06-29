@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { motion, useMotionTemplate } from 'framer-motion';
+import { motion, useMotionTemplate } from 'motion/react';
 
 import { useSpotlight } from '@/hooks/use-spotlight';
 
@@ -62,7 +62,6 @@ export const LinkCard = ({
         {image && (
           <LazyImage
             className="block"
-            width={64}
             height={64}
             src={image}
             alt="og"

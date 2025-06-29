@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import Link from 'next/link';
 
 import { XIcon, GitHubIcon, MailIcon, BilibiliIcon } from '@/components/icons';
