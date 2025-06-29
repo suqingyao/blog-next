@@ -2,6 +2,7 @@
   "name": "blog-next",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev -p 2323",
     "build": "next build",

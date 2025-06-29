@@ -5,7 +5,7 @@ import ora from 'ora';
 import fs from 'fs-extra';
 import path from 'path';
 import chalk from 'chalk';
-import dayjs from '@/lib/dayjs';
+import dayjs from 'dayjs';
 
 const cli = cac();
 
