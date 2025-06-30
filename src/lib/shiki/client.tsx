@@ -4,7 +4,7 @@ import { Suspense, use, useMemo, useRef, type FC } from 'react';
 import {
   bundledLanguages,
   bundledThemes,
-  getHighlighter,
+  createHighlighter as _createHighlighter,
   type BundledLanguage,
   type BundledTheme,
   type DynamicImportLanguageRegistration,
@@ -19,7 +19,7 @@ import type { ShikiCodeProps } from './types';
 let highlighter: Highlighter | undefined;
 export const createHighlighter = async () => {
   if (!highlighter) {
-    highlighter = await getHighlighter({
+    highlighter = await _createHighlighter({
       themes: Object.keys(bundledThemes),
       langs: Object.keys(bundledLanguages)
     });
@@ -30,12 +30,12 @@ export const createHighlighter = async () => {
 let highlighterCore: HighlighterCore | null = null;
 const codeHighlighterPromise = (async () => {
   if (highlighterCore) return highlighterCore;
-  const [{ getHighlighterCore }, getWasm] = await Promise.all([
+  const [{ createHighlighterCore }, getWasm] = await Promise.all([
     import('shiki/core'),
     import('shiki/wasm').then((m) => m.default)
   ]);
 
-  const core = await getHighlighterCore({
+  const core = await createHighlighterCore({
     themes: [
       import('shiki/themes/github-light.mjs'),
       import('shiki/themes/github-dark.mjs')

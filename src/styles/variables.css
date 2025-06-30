@@ -30,6 +30,8 @@ html {
   --hover-color: var(--auto-hover-color, theme('colors.zinc.100'));
   --header-height: 60px;
   --footer-height: 60px;
+  --prose-code-color: oklch(0% 0 0 / 1);
+  --prose-code-bg-color: oklch(0% 0 0 / .1)
   /* Accent color for form controls */
   accent-color: var(--theme-color);
 
@@ -43,6 +45,8 @@ html {
 html.dark {
   --border-color: #333;
   --theme-color: var(--auto-theme-color, theme('colors.orange.600'));
+  --prose-code-color: oklch(1 0 0 / 0.8);
+  --prose-code-bg-color: oklch(100% 0 0 / .1);
 }
 
 html.dark body {

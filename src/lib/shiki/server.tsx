@@ -1,49 +1,49 @@
-import type { FC } from "react"
+import type { FC } from 'react';
 import {
   bundledLanguages,
   bundledThemes,
-  getHighlighter,
-  type Highlighter,
-} from "shiki"
+  createHighlighter as _createHighlighter,
+  type Highlighter
+} from 'shiki';
 
-import { shikiTransformers } from "./shared"
-import type { ShikiCodeProps } from "./types"
+import { shikiTransformers } from './shared';
+import type { ShikiCodeProps } from './types';
 
 export const ShikiRender: FC<ShikiCodeProps> = async ({
   code,
   codeTheme,
-  language,
+  language
 }) => {
   if (!code) {
-    return null
+    return null;
   }
 
-  const highlighter = await createHighlighter()
+  const highlighter = await createHighlighter();
 
-  if (!Object.keys(bundledLanguages).includes(language || "")) {
-    language = "text"
+  if (!Object.keys(bundledLanguages).includes(language || '')) {
+    language = 'text';
   }
 
   const rendered = highlighter.codeToHtml(code, {
-    lang: language || "text",
+    lang: language || 'text',
     themes: codeTheme || {
-      light: "github-light-default",
-      dark: "github-dark-default",
+      light: 'github-light-default',
+      dark: 'github-dark-default'
     },
-    transformers: shikiTransformers,
-  })
+    transformers: shikiTransformers
+  });
 
-  return <div dangerouslySetInnerHTML={{ __html: rendered }} />
-}
+  return <div dangerouslySetInnerHTML={{ __html: rendered }} />;
+};
 
-let highlighter: Highlighter | undefined
+let highlighter: Highlighter | undefined;
 
 export const createHighlighter = async () => {
   if (!highlighter) {
-    highlighter = await getHighlighter({
+    highlighter = await _createHighlighter({
       themes: Object.keys(bundledThemes),
-      langs: Object.keys(bundledLanguages),
-    })
+      langs: Object.keys(bundledLanguages)
+    });
   }
-  return highlighter
-}
+  return highlighter;
+};

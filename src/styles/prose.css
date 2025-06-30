@@ -135,10 +135,9 @@
 }
 
 .prose :where(code:not(pre code)):not(:where([class~='not-prose'])) {
-  @apply rounded-md;
-  @apply bg-zinc-200 text-neutral-800 dark:bg-neutral-800 dark:text-zinc-200;
-  @apply mx-1 p-1;
-  @apply font-mono;
+  color: var(--prose-code-color);
+  background-color: var(--prose-code-bg-color);
+  @apply rounded-md px-[7px] font-mono font-normal py-[1px];
 }
 
 .prose .code-wrapper {
