@@ -7,6 +7,7 @@ import { useTheme } from 'next-themes';
 
 import { useSound } from 'use-sound';
 import { transitionViewIfSupported } from '@/lib/dom';
+import { useIsMounted } from '@/hooks/use-is-mounted';
 
 export const DarkToggle = () => {
   const { theme = 'light', setTheme } = useTheme();
@@ -14,6 +15,7 @@ export const DarkToggle = () => {
   const [playOff] = useSound('/sounds/switch.mp3', { playbackRate: 0.6 });
 
   const isDark = useMemo(() => theme === 'dark', [theme]);
+  const isMounted = useIsMounted();
 
   const handleToggleTheme = (event: MouseEvent<HTMLDivElement>) => {
     const x = event.clientX;
@@ -115,6 +117,8 @@ export const DarkToggle = () => {
       />
     </motion.svg>
   );
+
+  if (!isMounted) return null;
 
   return (
     <motion.div
