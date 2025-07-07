@@ -25,6 +25,7 @@ const config = {
     },
     extend: {
       colors: {
+        primary: 'var(--primary-color)',
         border: 'var(--border-color)',
         accent: 'var(--theme-color)',
         hover: 'var(--hover-color)',

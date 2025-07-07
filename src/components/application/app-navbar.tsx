@@ -12,15 +12,18 @@ import { useScrollTop } from '@/hooks/use-scroll-top';
 const links = [
   {
     label: 'Portfolio',
-    path: '/'
+    path: '/',
+    icon: 'i-mingcute-home-5-fill'
   },
   {
     label: 'Posts',
-    path: '/posts'
+    path: '/posts',
+    icon: 'i-mingcute-notebook-2-fill'
   },
   {
     label: 'Photos',
-    path: '/photos'
+    path: '/photos',
+    icon: 'i-mingcute-camera-2-ai-fill'
   }
 ];
 
@@ -51,17 +54,17 @@ export const AppNavbar = () => {
           {headerAtom.pageTitle}
         </motion.h2>
       )}
-      <nav className="flex h-full items-center">
+      <nav className="mr-4 flex h-full items-center gap-4">
         {links.map((link) => (
           <Link
             href={`${link.path}`}
             key={link.path}
             className={cn(
-              'hover:text-primary flex h-full w-20 cursor-pointer items-center justify-center',
+              'flex cursor-pointer items-center justify-center p-2',
               pathname === link.path && 'text-primary'
             )}
           >
-            {link.label}
+            <i className={cn(link.icon, 'text-xl')}></i>
           </Link>
         ))}
       </nav>

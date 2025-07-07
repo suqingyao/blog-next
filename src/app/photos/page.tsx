@@ -17,7 +17,7 @@ const PhotosPage = async () => {
               <Link
                 key={img}
                 href={`/photos/${img}`}
-                className="block p-4 text-lg font-semibold text-gray-800 no-underline"
+                className="block text-lg font-semibold text-gray-800 no-underline"
               >
                 <LazyImage
                   key={img}
