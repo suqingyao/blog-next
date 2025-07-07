@@ -4,7 +4,6 @@ import { isWindow } from './is';
 
 export const transitionViewIfSupported = (callback: () => void) => {
   const isAppearanceTransition =
-    // @ts-expect-error experimental API
     document.startViewTransition &&
     !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -13,7 +12,7 @@ export const transitionViewIfSupported = (callback: () => void) => {
     return;
   }
 
-  return document.startViewTransition(callback);
+  return document.startViewTransition?.(callback);
 };
 
 export const stopPropagation: ReactEventHandler<any> = (e) =>

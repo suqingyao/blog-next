@@ -21,4 +21,8 @@ declare global {
     readingTime?: string;
     tags?: string[];
   }
+
+  interface Document {
+    startViewTransition?: (callback: () => void) => void;
+  }
 }
