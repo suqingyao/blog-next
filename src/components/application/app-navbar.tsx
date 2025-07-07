@@ -17,6 +17,10 @@ const links = [
   {
     label: 'Posts',
     path: '/posts'
+  },
+  {
+    label: 'Photos',
+    path: '/photos'
   }
 ];
 

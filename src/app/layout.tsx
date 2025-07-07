@@ -27,9 +27,11 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-  children
+  children,
+  modal
 }: {
   children: React.ReactNode;
+  modal: React.ReactNode;
 }) {
   return (
     <html
@@ -49,7 +51,10 @@ export default function RootLayout({
           showSpinner={false}
         />
         <AppProviders>
-          <AppContent>{children}</AppContent>
+          <AppContent>
+            {children}
+            {modal}
+          </AppContent>
           <Backtop />
           <Toaster />
           <Analytics />
