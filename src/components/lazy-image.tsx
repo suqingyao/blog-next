@@ -52,7 +52,8 @@ export const LazyImage = (props: LazyImageProps) => {
           <img
             className={cn(
               'h-full w-full rounded-md object-cover opacity-0 transition-opacity duration-500',
-              isLoaded && 'opacity-100'
+              isLoaded && 'opacity-100',
+              className
             )}
             onLoad={() => setIsLoaded(true)}
             onError={() => {
