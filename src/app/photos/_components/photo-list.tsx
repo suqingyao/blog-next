@@ -2,7 +2,8 @@
 
 import { LazyImage } from '@/components/lazy-image';
 import { MasonryX } from '@/components/masonry-x';
-import Link from 'next/link';
+import { useModalRectAtom } from '@/hooks/use-modal-rect-atom';
+import { useRouter } from 'next/navigation';
 import { useRef, Fragment } from 'react';
 
 interface PhotoListProps {
@@ -21,26 +22,39 @@ export const getOssImageId = (path: string) => {
 };
 
 function PhotoItem({ photo, album, onImgLoad }: PhotoItemProps) {
+  const router = useRouter();
   const containerRef = useRef<HTMLDivElement>(null);
+  const { setModalRectAtom } = useModalRectAtom();
 
   return (
     <div
       ref={containerRef}
       className="w-full"
     >
-      <Link href={`/photos/${album}/${getOssImageId(photo)}`}>
-        <LazyImage
-          src={photo}
-          alt={photo}
-          className="w-full rounded-sm"
-          onLoad={(e) => {
-            const img = e.target as HTMLImageElement;
-            const width = containerRef.current?.clientWidth || img.width;
-            const h = img.naturalHeight * (width / img.naturalWidth);
-            onImgLoad(h);
-          }}
-        />
-      </Link>
+      <LazyImage
+        src={photo}
+        alt={photo}
+        className="w-full cursor-pointer rounded-sm"
+        onLoad={(e) => {
+          const img = e.target as HTMLImageElement;
+          const width = containerRef.current?.clientWidth || img.width;
+          const h = img.naturalHeight * (width / img.naturalWidth);
+          onImgLoad(h);
+        }}
+        onClick={(e: React.MouseEvent<HTMLImageElement>) => {
+          const rect = (e.target as HTMLImageElement).getBoundingClientRect();
+          if (rect) {
+            setModalRectAtom({
+              left: rect.left,
+              top: rect.top,
+              width: rect.width,
+              height: rect.height,
+              scrollY: window.scrollY
+            });
+          }
+          router.push(`/photos/${album}/${getOssImageId(photo)}`);
+        }}
+      />
     </div>
   );
 }
