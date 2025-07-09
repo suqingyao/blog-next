@@ -24,6 +24,8 @@ export const LazyImage = (props: LazyImageProps) => {
     fallbackSrc = DEFAULT_FALLBACK,
     width,
     height,
+    onLoad,
+    onError,
     ...rest
   } = props;
 
@@ -51,14 +53,18 @@ export const LazyImage = (props: LazyImageProps) => {
         {isInView ? (
           <img
             className={cn(
-              'h-full w-full rounded-md object-cover opacity-0 transition-opacity duration-500',
+              'h-full w-full object-cover opacity-0 transition-opacity duration-500',
               isLoaded && 'opacity-100',
               className
             )}
-            onLoad={() => setIsLoaded(true)}
-            onError={() => {
+            onLoad={(e) => {
+              setIsLoaded(true);
+              onLoad?.(e);
+            }}
+            onError={(e) => {
               setHasError(true);
               setIsLoaded(true);
+              onError?.(e);
             }}
             src={imgSrc}
             alt={alt}

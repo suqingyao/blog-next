@@ -58,8 +58,3 @@ export async function getOssPhotos() {
 
   return result;
 }
-
-export const getOssImageId = (path: string) => {
-  const parts = path.split('/');
-  return parts[parts.length - 1];
-};
