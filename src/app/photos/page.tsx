@@ -5,9 +5,12 @@ import { getOssImageId, getOssPhotos } from '@/lib/oss';
 const PhotosPage = async () => {
   const photos = await getOssPhotos();
 
+  if (photos.size === 0) {
+    return <div>暂无相册</div>;
+  }
+
   return (
     <div className="flex flex-wrap gap-8">
-      {photos.size === 0 && <div>暂无相册</div>}
       {Array.from(photos.keys()).map((album) => (
         <div key={album}>
           <h2 className="mb-3 text-lg font-semibold uppercase text-gray-800">
