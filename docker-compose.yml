@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   blog-next:
-    image: registry.cn-chengdu.aliyuncs.com/suqingyao/blog-next:latest
+    image: crpi-xc0zmevg27znkp2g.cn-chengdu.personal.cr.aliyuncs.com/suqingyao/blog-next:latest
     container_name: blog-next
     restart: always
     ports:
