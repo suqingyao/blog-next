@@ -3,21 +3,24 @@ name: Build, Push Docker Image and Trigger Compose Deploy
 on:
   push:
     branches:
-      - main
+      - main # 只有 main 分支有 push 时才会触发 workflow
 
 jobs:
   build-push-deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest # 使用 GitHub 托管的 Ubuntu 虚拟机
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        # 拉取你的仓库代码到 runner 环境
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
+        # 设置 QEMU，支持多平台构建（如 ARM 架构）
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
+        # 设置 Docker Buildx，支持更高级的构建功能
 
       - name: Login to Aliyun Registry
         uses: docker/login-action@v2
@@ -25,6 +28,7 @@ jobs:
           registry: ${{ secrets.ALIYUN_REGISTRY }}
           username: ${{ secrets.ALIYUN_USERNAME }}
           password: ${{ secrets.ALIYUN_PASSWORD }}
+        # 登录到阿里云容器镜像服务（ACR），以便后续推送镜像
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
@@ -32,11 +36,15 @@ jobs:
           context: .
           push: true
           tags: ${{ secrets.ALIYUN_REGISTRY }}/${{ secrets.ALIYUN_NAMESPACE }}/${{ secrets.ALIYUN_REPO }}:latest
+          build-args: |
+            OSS_ACCESS_KEY_ID=${{ secrets.OSS_ACCESS_KEY_ID }}
+            OSS_ACCESS_KEY_SECRET=${{ secrets.OSS_ACCESS_KEY_SECRET }}
         env:
           NEXT_PUBLIC_OSS_REGION: ${{ secrets.NEXT_PUBLIC_OSS_REGION }}
           NEXT_PUBLIC_OSS_BUCKET: ${{ secrets.NEXT_PUBLIC_OSS_BUCKET }}
-          OSS_ACCESS_KEY_ID: ${{ secrets.OSS_ACCESS_KEY_ID }}
-          OSS_ACCESS_KEY_SECRET: ${{ secrets.OSS_ACCESS_KEY_SECRET }}
+        # 构建 Docker 镜像并推送到阿里云镜像仓库，同时传递构建所需的环境变量
+
       - name: Trigger server deploy webhook
         run: |
           curl -X POST ${{ secrets.WEBHOOK_URL }}
+        # 构建和推送完成后，调用你服务器上的 webhook，通知服务器自动拉取新镜像并用 docker-compose 重启服务
