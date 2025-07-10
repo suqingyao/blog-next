@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  blog-next:
+    image: registry.cn-chengdu.aliyuncs.com/suqingyao/blog-next:latest
+    container_name: blog-next
+    restart: always
+    ports:
+      - '80:2323'
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_OSS_REGION=${NEXT_PUBLIC_OSS_REGION}
+      - NEXT_PUBLIC_OSS_BUCKET=${NEXT_PUBLIC_OSS_BUCKET}
+      - OSS_ACCESS_KEY_ID=${OSS_ACCESS_KEY_ID}
+      - OSS_ACCESS_KEY_SECRET=${OSS_ACCESS_KEY_SECRET}
+    # 如有需要可挂载卷
+    # volumes:
+    #   - ./public:/app/public
