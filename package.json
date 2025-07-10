@@ -33,6 +33,7 @@
     "jotai": "^2.12.5",
     "js-yaml": "^4.1.0",
     "katex": "^0.16.22",
+    "mdast-util-to-hast": "^13.2.0",
     "mdast-util-toc": "^7.1.0",
     "mini-svg-data-uri": "^1.4.4",
     "motion": "^12.19.2",

@@ -71,6 +71,9 @@ importers:
       katex:
         specifier: ^0.16.22
         version: 0.16.22
+      mdast-util-to-hast:
+        specifier: ^13.2.0
+        version: 13.2.0
       mdast-util-toc:
         specifier: ^7.1.0
         version: 7.1.0
