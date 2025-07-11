@@ -1,11 +1,10 @@
-version: '3.8'
 services:
   blog-next:
     image: crpi-xc0zmevg27znkp2g.cn-chengdu.personal.cr.aliyuncs.com/suqingyao/blog-next:latest
     container_name: blog-next
     restart: always
     ports:
-      - '2323:2323'
+      - '3000:3000'
     environment:
       - NODE_ENV=production
       - NEXT_PUBLIC_OSS_REGION=${NEXT_PUBLIC_OSS_REGION}

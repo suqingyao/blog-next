@@ -46,13 +46,12 @@ jobs:
       - name: Generate docker-compose.yml with secrets
         run: |
           cat > docker-compose.yml <<EOF
-          version: '3.8'
           services:
             blog-next:
               image: ${{ secrets.ALIYUN_REGISTRY }}/${{ secrets.ALIYUN_NAMESPACE }}/${{ secrets.ALIYUN_REPO }}:latest
               restart: always
               ports:
-                - '2323:2323'
+                - '3000:3000'
               environment:
                 - NEXT_PUBLIC_OSS_REGION=${{ secrets.NEXT_PUBLIC_OSS_REGION }}
                 - NEXT_PUBLIC_OSS_BUCKET=${{ secrets.NEXT_PUBLIC_OSS_BUCKET }}
