@@ -1,5 +1,5 @@
 # 选择官方 Node 镜像
-FROM node:18-alpine AS builder
+FROM node:22-alpine AS builder
 
 ARG OSS_ACCESS_KEY_ID
 ARG OSS_ACCESS_KEY_SECRET
@@ -22,7 +22,7 @@ COPY . .
 RUN pnpm build
 
 # 生产环境镜像
-FROM node:18-alpine AS runner
+FROM node:22-alpine AS runner
 
 WORKDIR /app
 
@@ -34,6 +34,6 @@ COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
 
 ENV NODE_ENV=production
-EXPOSE 2323
+EXPOSE 3000
 
-CMD ["pnpm", "start"]
+CMD ["npm", "start"]
