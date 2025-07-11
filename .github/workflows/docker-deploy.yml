@@ -52,7 +52,7 @@ jobs:
               image: ${{ secrets.ALIYUN_REGISTRY }}/${{ secrets.ALIYUN_NAMESPACE }}/${{ secrets.ALIYUN_REPO }}:latest
               restart: always
               ports:
-                - '80:2323'
+                - '2323:2323'
               environment:
                 - NEXT_PUBLIC_OSS_REGION=${{ secrets.NEXT_PUBLIC_OSS_REGION }}
                 - NEXT_PUBLIC_OSS_BUCKET=${{ secrets.NEXT_PUBLIC_OSS_BUCKET }}
