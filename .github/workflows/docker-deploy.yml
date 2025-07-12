@@ -1,4 +1,4 @@
-name: Build, Push Docker Image and Trigger Compose Deploy
+name: Build and Push Docker Image
 
 on:
   push:
@@ -13,10 +13,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         # 拉取你的仓库代码到 runner 环境
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-        # 设置 QEMU，支持多平台构建（如 ARM 架构）
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -35,39 +31,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.ALIYUN_REGISTRY }}/${{ secrets.ALIYUN_NAMESPACE }}/${{ secrets.ALIYUN_REPO }}:latest
-          # 传递构建所需的环境变量
-          build-args: |
-            OSS_ACCESS_KEY_ID=${{ secrets.OSS_ACCESS_KEY_ID }}
-            OSS_ACCESS_KEY_SECRET=${{ secrets.OSS_ACCESS_KEY_SECRET }}
-            NEXT_PUBLIC_OSS_REGION=${{ secrets.NEXT_PUBLIC_OSS_REGION }}
-            NEXT_PUBLIC_OSS_BUCKET=${{ secrets.NEXT_PUBLIC_OSS_BUCKET }}
-
-      - name: Generate docker-compose.yml with secrets
-        run: |
-          cat > docker-compose.yml <<EOF
-          services:
-            blog-next:
-              image: ${{ secrets.ALIYUN_REGISTRY }}/${{ secrets.ALIYUN_NAMESPACE }}/${{ secrets.ALIYUN_REPO }}:latest
-              restart: always
-              ports:
-                - '3000:3000'
-              environment:
-                - NEXT_PUBLIC_OSS_REGION=${{ secrets.NEXT_PUBLIC_OSS_REGION }}
-                - NEXT_PUBLIC_OSS_BUCKET=${{ secrets.NEXT_PUBLIC_OSS_BUCKET }}
-                - OSS_ACCESS_KEY_ID=${{ secrets.OSS_ACCESS_KEY_ID }}
-                - OSS_ACCESS_KEY_SECRET=${{ secrets.OSS_ACCESS_KEY_SECRET }}
-          EOF
-
-      - name: Upload docker-compose.yml to server
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.SERVER_IP }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
-          source: 'docker-compose.yml'
-          target: '/root/workspace/blog-next' # 改成你的服务器项目目录
-
+          tags: suqingyao/blog-next:latest
       - name: Trigger server deploy webhook
         run: |
           curl -X POST ${{ secrets.WEBHOOK_URL }}

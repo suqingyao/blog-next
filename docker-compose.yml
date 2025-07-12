@@ -1,16 +1,12 @@
 services:
   blog-next:
-    image: crpi-xc0zmevg27znkp2g.cn-chengdu.personal.cr.aliyuncs.com/suqingyao/blog-next:latest
     container_name: blog-next
+    image: suqingyao/blog-next:latest
+    volumes:
+      - ./.env:/app/.env
+      - ./public:/app/public
     restart: always
     ports:
-      - '3000:3000'
+      - '2323:2323'
     environment:
       - NODE_ENV=production
-      - NEXT_PUBLIC_OSS_REGION=${NEXT_PUBLIC_OSS_REGION}
-      - NEXT_PUBLIC_OSS_BUCKET=${NEXT_PUBLIC_OSS_BUCKET}
-      - OSS_ACCESS_KEY_ID=${OSS_ACCESS_KEY_ID}
-      - OSS_ACCESS_KEY_SECRET=${OSS_ACCESS_KEY_SECRET}
-    # 如有需要可挂载卷
-    # volumes:
-    #   - ./public:/app/public
