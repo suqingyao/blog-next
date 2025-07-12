@@ -3,7 +3,6 @@ services:
     container_name: blog-next
     image: suqingyao/blog-next:latest
     volumes:
-      - ./.env:/app/.env
       - ./public:/app/public
     restart: always
     ports:
