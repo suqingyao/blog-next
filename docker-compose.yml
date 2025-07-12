@@ -1,7 +1,7 @@
 services:
   blog-next:
     container_name: blog-next
-    image: suqingyao/blog-next:latest
+    image: crpi-xc0zmevg27znkp2g.cn-chengdu.personal.cr.aliyuncs.com/suqingyao/blog-next:latest
     volumes:
       - ./public:/app/public
     restart: always
