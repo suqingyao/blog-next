@@ -13,7 +13,7 @@ interface PhotoListProps {
 interface PhotoItemProps {
   photo: string;
   album: string;
-  onImgLoad: (height: number) => void;
+  onImgLoad: (height: number, src?: string) => void;
 }
 
 export const getOssImageId = (path: string) => {
@@ -21,7 +21,13 @@ export const getOssImageId = (path: string) => {
   return parts[parts.length - 1];
 };
 
-function PhotoItem({ photo, album, onImgLoad }: PhotoItemProps) {
+function PhotoItem({
+  photo,
+  album,
+  onImgLoad,
+  width,
+  height
+}: PhotoItemProps & { width?: number; height?: number }) {
   const router = useRouter();
   const containerRef = useRef<HTMLDivElement>(null);
   const { setModalRectAtom } = useModalRectAtom();
@@ -35,11 +41,14 @@ function PhotoItem({ photo, album, onImgLoad }: PhotoItemProps) {
         src={photo}
         alt={photo}
         className="w-full cursor-pointer rounded-sm"
+        width={width}
+        height={height}
         onLoad={(e) => {
           const img = e.target as HTMLImageElement;
-          const width = containerRef.current?.clientWidth || img.width;
-          const h = img.naturalHeight * (width / img.naturalWidth);
-          onImgLoad(h);
+          const h =
+            (img.naturalHeight * (width || img.width)) /
+            (img.naturalWidth || 1);
+          onImgLoad(h, photo);
         }}
         onClick={(e: React.MouseEvent<HTMLImageElement>) => {
           const rect = (e.target as HTMLImageElement).getBoundingClientRect();
@@ -71,12 +80,17 @@ export const PhotoList = ({ photos }: PhotoListProps) => {
             items={photos.get(album) || []}
             columnCount={3}
             gap={16}
-            renderItem={(photo, idx, onImgLoad) => (
+            getItemHeight={(photo, idx) => {
+              return 200;
+            }}
+            renderItem={(photo, idx, onImgLoad, width, height) => (
               <PhotoItem
                 key={photo}
                 photo={photo}
                 album={album}
                 onImgLoad={onImgLoad}
+                width={width}
+                height={height}
               />
             )}
           />

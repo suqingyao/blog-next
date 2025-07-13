@@ -11,6 +11,7 @@ import { useInView } from '@/hooks/use-in-view';
 export type LazyImageProps = ImgHTMLAttributes<HTMLImageElement> & {
   placeholder?: ReactNode;
   fallbackSrc?: string;
+  loadedSrcs?: Set<string>;
 };
 
 const DEFAULT_FALLBACK = '/broken-image.png';
@@ -26,6 +27,7 @@ export const LazyImage = (props: LazyImageProps) => {
     height,
     onLoad,
     onError,
+    loadedSrcs,
     ...rest
   } = props;
 
@@ -34,14 +36,16 @@ export const LazyImage = (props: LazyImageProps) => {
 
   const [targetRef, isInView] = useInView({
     triggerOnce: true,
-    rootMargin: '200px',
+    rootMargin: '0px',
     threshold: 0.1
   });
+
+  const alreadyLoaded = src && loadedSrcs?.has(src);
 
   const imgSrc = hasError ? fallbackSrc : src;
 
   return (
-    <span
+    <div
       ref={targetRef}
       style={{ display: 'inline-block', width, height }}
     >
@@ -50,7 +54,7 @@ export const LazyImage = (props: LazyImageProps) => {
         width={width}
         height={height}
       >
-        {isInView ? (
+        {alreadyLoaded || isInView ? (
           <img
             className={cn(
               'h-full w-full object-cover opacity-0 transition-opacity duration-500',
@@ -77,6 +81,6 @@ export const LazyImage = (props: LazyImageProps) => {
           placeholder || null
         )}
       </Skeleton>
-    </span>
+    </div>
   );
 };

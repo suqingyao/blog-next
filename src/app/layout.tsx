@@ -1,5 +1,4 @@
 import '@/styles/main.css';
-import { Analytics } from '@vercel/analytics/react';
 import { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import NextTopLoader from 'nextjs-toploader';
@@ -57,7 +56,6 @@ export default function RootLayout({
           </AppContent>
           <Backtop />
           <Toaster />
-          <Analytics />
           <PlumContainer />
         </AppProviders>
       </body>
