@@ -22,3 +22,8 @@ declare global {
     tags?: string[];
   }
 }
+
+declare module '*.json' {
+  const value: unknown;
+  export default value;
+}

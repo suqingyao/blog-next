@@ -1,10 +1,11 @@
 'use client';
 
+import { useRef, Fragment } from 'react';
+import { useRouter } from 'next/navigation';
 import { LazyImage } from '@/components/lazy-image';
 import { MasonryX } from '@/components/masonry-x';
 import { useModalRectAtom } from '@/hooks/use-modal-rect-atom';
-import { useRouter } from 'next/navigation';
-import { useRef, Fragment } from 'react';
+import cityAlbums from '@/data/city-albums.json';
 
 interface PhotoListProps {
   photos: Map<string, string[]>;
@@ -74,7 +75,7 @@ export const PhotoList = ({ photos }: PhotoListProps) => {
       {Array.from(photos.keys()).map((album: string) => (
         <Fragment key={album}>
           <h2 className="mb-3 text-lg font-semibold uppercase text-gray-800">
-            {album}
+            {cityAlbums[album as keyof typeof cityAlbums]?.zh_tw || album}
           </h2>
           <MasonryX
             items={photos.get(album) || []}

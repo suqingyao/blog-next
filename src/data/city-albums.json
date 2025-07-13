@@ -1,0 +1,207 @@
+{
+  "beijing": {
+    "pinyin": "beijing",
+    "zh": "北京",
+    "zh_tw": "北京"
+  },
+  "shanghai": {
+    "pinyin": "shanghai",
+    "zh": "上海",
+    "zh_tw": "上海"
+  },
+  "guangzhou": {
+    "pinyin": "guangzhou",
+    "zh": "广州",
+    "zh_tw": "廣州"
+  },
+  "shenzhen": {
+    "pinyin": "shenzhen",
+    "zh": "深圳",
+    "zh_tw": "深圳"
+  },
+  "chengdu": {
+    "pinyin": "chengdu",
+    "zh": "成都",
+    "zh_tw": "成都"
+  },
+  "chongqing": {
+    "pinyin": "chongqing",
+    "zh": "重庆",
+    "zh_tw": "重慶"
+  },
+  "wuhan": {
+    "pinyin": "wuhan",
+    "zh": "武汉",
+    "zh_tw": "武漢"
+  },
+  "xian": {
+    "pinyin": "xian",
+    "zh": "西安",
+    "zh_tw": "西安"
+  },
+  "hangzhou": {
+    "pinyin": "hangzhou",
+    "zh": "杭州",
+    "zh_tw": "杭州"
+  },
+  "nanjing": {
+    "pinyin": "nanjing",
+    "zh": "南京",
+    "zh_tw": "南京"
+  },
+  "suzhou": {
+    "pinyin": "suzhou",
+    "zh": "苏州",
+    "zh_tw": "蘇州"
+  },
+  "tianjin": {
+    "pinyin": "tianjin",
+    "zh": "天津",
+    "zh_tw": "天津"
+  },
+  "qingdao": {
+    "pinyin": "qingdao",
+    "zh": "青岛",
+    "zh_tw": "青島"
+  },
+  "dalian": {
+    "pinyin": "dalian",
+    "zh": "大连",
+    "zh_tw": "大連"
+  },
+  "xiamen": {
+    "pinyin": "xiamen",
+    "zh": "厦门",
+    "zh_tw": "廈門"
+  },
+  "changsha": {
+    "pinyin": "changsha",
+    "zh": "长沙",
+    "zh_tw": "長沙"
+  },
+  "kunming": {
+    "pinyin": "kunming",
+    "zh": "昆明",
+    "zh_tw": "昆明"
+  },
+  "haerbin": {
+    "pinyin": "haerbin",
+    "zh": "哈尔滨",
+    "zh_tw": "哈爾濱"
+  },
+  "shenyang": {
+    "pinyin": "shenyang",
+    "zh": "沈阳",
+    "zh_tw": "瀋陽"
+  },
+  "zhengzhou": {
+    "pinyin": "zhengzhou",
+    "zh": "郑州",
+    "zh_tw": "鄭州"
+  },
+  "fuzhou": {
+    "pinyin": "fuzhou",
+    "zh": "福州",
+    "zh_tw": "福州"
+  },
+  "sanya": {
+    "pinyin": "sanya",
+    "zh": "三亚",
+    "zh_tw": "三亞"
+  },
+  "lasa": {
+    "pinyin": "lasa",
+    "zh": "拉萨",
+    "zh_tw": "拉薩"
+  },
+  "urumqi": {
+    "pinyin": "urumqi",
+    "zh": "乌鲁木齐",
+    "zh_tw": "烏魯木齊"
+  },
+  "ningbo": {
+    "pinyin": "ningbo",
+    "zh": "宁波",
+    "zh_tw": "寧波"
+  },
+  "changchun": {
+    "pinyin": "changchun",
+    "zh": "长春",
+    "zh_tw": "長春"
+  },
+  "taiyuan": {
+    "pinyin": "taiyuan",
+    "zh": "太原",
+    "zh_tw": "太原"
+  },
+  "hefei": {
+    "pinyin": "hefei",
+    "zh": "合肥",
+    "zh_tw": "合肥"
+  },
+  "jinan": {
+    "pinyin": "jinan",
+    "zh": "济南",
+    "zh_tw": "濟南"
+  },
+  "shijiazhuang": {
+    "pinyin": "shijiazhuang",
+    "zh": "石家庄",
+    "zh_tw": "石家莊"
+  },
+  "nanning": {
+    "pinyin": "nanning",
+    "zh": "南宁",
+    "zh_tw": "南寧"
+  },
+  "guiyang": {
+    "pinyin": "guiyang",
+    "zh": "贵阳",
+    "zh_tw": "貴陽"
+  },
+  "hohhot": {
+    "pinyin": "hohhot",
+    "zh": "呼和浩特",
+    "zh_tw": "呼和浩特"
+  },
+  "haikou": {
+    "pinyin": "haikou",
+    "zh": "海口",
+    "zh_tw": "海口"
+  },
+  "yinchuan": {
+    "pinyin": "yinchuan",
+    "zh": "银川",
+    "zh_tw": "銀川"
+  },
+  "xining": {
+    "pinyin": "xining",
+    "zh": "西宁",
+    "zh_tw": "西寧"
+  },
+  "lanzhou": {
+    "pinyin": "lanzhou",
+    "zh": "兰州",
+    "zh_tw": "蘭州"
+  },
+  "wulumuqi": {
+    "pinyin": "wulumuqi",
+    "zh": "乌鲁木齐",
+    "zh_tw": "烏魯木齊"
+  },
+  "macau": {
+    "pinyin": "macau",
+    "zh": "澳门",
+    "zh_tw": "澳門"
+  },
+  "hongkong": {
+    "pinyin": "hongkong",
+    "zh": "香港",
+    "zh_tw": "香港"
+  },
+  "taipei": {
+    "pinyin": "taipei",
+    "zh": "台北",
+    "zh_tw": "臺北"
+  }
+}
