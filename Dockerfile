@@ -26,6 +26,9 @@ FROM node:22-alpine AS runner
 
 WORKDIR /app
 
+# 安装 pnpm
+RUN npm install -g pnpm
+
 # 只拷贝生产依赖和构建产物
 COPY --from=builder /app/package.json ./
 COPY --from=builder /app/pnpm-lock.yaml ./
