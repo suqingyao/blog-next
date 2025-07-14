@@ -2,9 +2,7 @@
 
 import { useState } from 'react';
 import type { ImgHTMLAttributes, ReactNode } from 'react';
-
 import { Skeleton } from './ui/skeleton';
-
 import { cn } from '@/lib/utils';
 import { useInView } from '@/hooks/use-in-view';
 
@@ -41,46 +39,47 @@ export const LazyImage = (props: LazyImageProps) => {
   });
 
   const alreadyLoaded = src && loadedSrcs?.has(src);
-
   const imgSrc = hasError ? fallbackSrc : src;
 
   return (
     <div
       ref={targetRef}
-      style={{ display: 'inline-block', width, height }}
+      style={{ position: 'relative', display: 'inline-block', width, height }}
     >
-      <Skeleton
-        type="image"
-        width={width}
-        height={height}
-      >
-        {alreadyLoaded || isInView ? (
-          <img
-            className={cn(
-              'h-full w-full object-cover opacity-0 transition-opacity duration-500',
-              isLoaded && 'opacity-100',
-              className
-            )}
-            onLoad={(e) => {
-              setIsLoaded(true);
-              onLoad?.(e);
-            }}
-            onError={(e) => {
-              setHasError(true);
-              setIsLoaded(true);
-              onError?.(e);
-            }}
-            src={imgSrc}
-            alt={alt}
-            width={width}
-            height={height}
-            loading="lazy"
-            {...rest}
-          />
-        ) : (
-          placeholder || null
-        )}
-      </Skeleton>
+      {!(alreadyLoaded || isLoaded) && (
+        <Skeleton
+          type="image"
+          width={width}
+          height={height || 220}
+          className="absolute inset-0 h-full w-full"
+        />
+      )}
+      {(alreadyLoaded || isInView) && (
+        <img
+          className={cn(
+            'h-full w-full object-cover transition-opacity duration-500',
+            isLoaded ? 'opacity-100' : 'opacity-0',
+            className
+          )}
+          onLoad={(e) => {
+            setIsLoaded(true);
+            onLoad?.(e);
+          }}
+          onError={(e) => {
+            setHasError(true);
+            setIsLoaded(true);
+            onError?.(e);
+          }}
+          src={imgSrc}
+          alt={alt}
+          width={width}
+          height={height}
+          loading="lazy"
+          style={{ position: 'absolute', inset: 0 }}
+          {...rest}
+        />
+      )}
+      {placeholder && !(alreadyLoaded || isInView) && placeholder}
     </div>
   );
 };

@@ -15,6 +15,7 @@ interface MasonryXProps<T> {
     loadedSrcs?: Set<string>
   ) => React.ReactNode;
   getItemHeight?: (item: T, idx: number) => number;
+  enableVirtualScroll?: boolean; // 新增参数
 }
 
 interface MasonryItemLayout {
@@ -29,7 +30,8 @@ export function MasonryX<T>({
   columnCount = 3,
   gap = 16,
   renderItem,
-  getItemHeight
+  getItemHeight,
+  enableVirtualScroll = true // 默认开启虚拟滚动
 }: MasonryXProps<T>) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [itemHeights, setItemHeights] = useState<number[]>(
@@ -65,7 +67,7 @@ export function MasonryX<T>({
 
   // 计算每个图片的布局
   useEffect(() => {
-    if (!containerWidth) return;
+    if (!containerWidth || !columnCount) return;
     const colWidth = (containerWidth - gap * (columnCount - 1)) / columnCount;
     const colHeights = Array(columnCount).fill(0);
     const layouts: MasonryItemLayout[] = [];
@@ -100,6 +102,8 @@ export function MasonryX<T>({
     ? Math.max(...layouts.map((l) => l.y + l.height))
     : 0;
 
+  if (!columnCount || columnCount < 1) return null; // 渲染阶段提前返回
+
   // 图片加载后回调
   const handleImgLoad = (idx: number, h: number, src?: string) => {
     setItemHeights((prev) => {
@@ -120,13 +124,15 @@ export function MasonryX<T>({
 
   // 虚拟滚动：只渲染可视区域的 items
   const buffer = 500; // 预加载 buffer
-  const visibleItems = layouts
-    .map((layout, idx) => ({ layout, idx }))
-    .filter(
-      ({ layout }) =>
-        layout.y + layout.height > scrollTop - buffer &&
-        layout.y < scrollTop + windowHeight + buffer
-    );
+  const visibleItems = enableVirtualScroll
+    ? layouts
+        .map((layout, idx) => ({ layout, idx }))
+        .filter(
+          ({ layout }) =>
+            layout.y + layout.height > scrollTop - buffer &&
+            layout.y < scrollTop + windowHeight + buffer
+        )
+    : layouts.map((layout, idx) => ({ layout, idx }));
 
   return (
     <div
@@ -134,7 +140,7 @@ export function MasonryX<T>({
       style={{
         position: 'relative',
         width: '100%',
-        height: containerHeight,
+        height: containerHeight + 'px',
         minHeight: 100
       }}
     >

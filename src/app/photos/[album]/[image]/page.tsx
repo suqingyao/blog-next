@@ -1,11 +1,11 @@
-import { OSS_URL_PREFIX } from '@/lib/constants';
+import { GITHUB_CDN } from '@/constants';
 
 interface Props {
   params: { album: string; image: string };
 }
 
 const PhotosAlbumPage = async ({ params }: Props) => {
-  const imageUrl = `${OSS_URL_PREFIX}/${params.album}/${params.image}`;
+  const imageUrl = `${GITHUB_CDN}/${params.album}/${params.image}`;
   return (
     <>
       <img

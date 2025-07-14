@@ -49,7 +49,7 @@ export async function getAllPosts() {
 }
 
 export async function getPostBySlug(slug: string) {
-  if(IS_PROD) {
+  if (IS_PROD) {
     const posts = await getAllPosts();
     const post = posts.find((post) => post.slug === slug);
     return post;

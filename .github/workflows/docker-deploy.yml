@@ -34,6 +34,7 @@ jobs:
             OSS_ACCESS_KEY_SECRET=${{ secrets.OSS_ACCESS_KEY_SECRET }}
             NEXT_PUBLIC_OSS_REGION=${{ secrets.NEXT_PUBLIC_OSS_REGION }}
             NEXT_PUBLIC_OSS_BUCKET=${{ secrets.NEXT_PUBLIC_OSS_BUCKET }}
+            GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload nginx config to server
         uses: appleboy/scp-action@v0.1.7

@@ -7,6 +7,7 @@ import { Toaster } from 'sonner';
 import { AppContent } from '@/components/application';
 import { Backtop } from '@/components/ui/backtop';
 import { PlumContainer } from '@/components/plum-container';
+import { AppContextProvider } from '@/contexts';
 import { AppProviders } from '@/providers';
 
 import { sansFont, serifFont } from '@/lib/fonts';
@@ -50,10 +51,12 @@ export default function RootLayout({
           showSpinner={false}
         />
         <AppProviders>
-          <AppContent>
-            {children}
-            {modal}
-          </AppContent>
+          <AppContextProvider>
+            <AppContent>
+              {children}
+              {modal}
+            </AppContent>
+          </AppContextProvider>
           <Backtop />
           <Toaster />
           <PlumContainer />

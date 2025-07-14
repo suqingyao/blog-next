@@ -3,7 +3,7 @@
 import { LazyImage } from '@/components/lazy-image';
 import { useEventListener } from '@/hooks/use-event-listener';
 import { useModalRectAtom } from '@/hooks/use-modal-rect-atom';
-import { OSS_URL_PREFIX } from '@/lib/constants';
+import { GITHUB_CDN } from '@/constants';
 import { AnimatePresence, motion, scale } from 'motion/react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -96,7 +96,7 @@ export default function PhotosModalPage({ params }: Props) {
             ></button>
           </div>
           <motion.img
-            src={`${OSS_URL_PREFIX}/${params.album}/${params.image}`}
+            src={`${GITHUB_CDN}/${params.album}/${params.image}`}
             alt={params.image}
             className="h-full w-full rounded-sm shadow-lg"
             variants={imageVariants}

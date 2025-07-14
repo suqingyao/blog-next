@@ -9,7 +9,8 @@
     "start": "next start",
     "lint": "next lint",
     "new:post": "node ./scripts/new-post.js",
-    "update": "npx taze -w"
+    "update": "npx taze -w",
+    "compress:images": "node ./scripts/compress-images.js"
   },
   "dependencies": {
     "@egoist/tailwindcss-icons": "^1.9.0",
@@ -111,6 +112,7 @@
     "postcss-preset-env": "^9.6.0",
     "prettier": "^2.8.8",
     "prettier-plugin-tailwindcss": "^0.3.0",
+    "sharp": "^0.34.3",
     "tailwindcss": "3.3.2",
     "typescript": "5.1.6"
   }

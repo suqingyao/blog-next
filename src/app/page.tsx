@@ -8,10 +8,10 @@ export default async function Home() {
   const latestPosts = posts.slice(0, 5) as any[];
 
   return (
-    <>
+    <div className="mx-auto w-[75ch]">
       <AppHero />
       <AppContact />
       <AppLatestPosts posts={latestPosts} />
-    </>
+    </div>
   );
 }
