@@ -146,7 +146,7 @@ export function MasonryX<T>({
     >
       {visibleItems.map(({ layout, idx }) => (
         <div
-          key={typeof items[idx] === 'string' ? items[idx] : idx}
+          key={idx}
           style={{
             position: 'absolute',
             left: 0,
