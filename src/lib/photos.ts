@@ -24,7 +24,7 @@ export const getPhotos = async (): Promise<PhotoFile[]> => {
       `${GITHUB_API_URL}/${dir}?ref=${GITHUB_BRANCH}`,
       {
         headers: {
-          Authorization: `Bearer ${process.env.GITHUB_TOKEN}`
+          Authorization: `Bearer ${process.env.GIT_TOKEN}`
         }
       }
     );
