@@ -24,7 +24,7 @@ const PostPage = async ({ params: { slug } }: PostPageParams) => {
   // const { prev, next } = await getAdjacentPosts(slug);
 
   return (
-    <>
+    <div className="mx-auto w-[75ch]">
       <PostTitle
         title={post?.title}
         center={true}
@@ -41,7 +41,7 @@ const PostPage = async ({ params: { slug } }: PostPageParams) => {
         }}
         withToc
       ></MarkdownContentServer>
-    </>
+    </div>
   );
 };
 
