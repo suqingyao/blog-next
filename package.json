@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "next dev -p 2323",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 2323",
     "lint": "next lint",
     "new:post": "node ./scripts/new-post.js",
     "update": "npx taze -w",
