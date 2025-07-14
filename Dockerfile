@@ -39,4 +39,4 @@ COPY --from=builder /app/public ./public
 ENV NODE_ENV=production
 EXPOSE 2323
 
-CMD ["pnpm", "start"]
+CMD ["pnpm", "start", "-p", "2323"]
