@@ -31,6 +31,10 @@ const config = {
         hover: 'var(--hover-color)',
         always: getDefaultColors() as any
       },
+      fontFamily: {
+        sans: ['var(--font-sans)'],
+        serif: ['var(--font-serif)']
+      },
       keyframes: {
         'accordion-down': {
           from: { height: '0' },

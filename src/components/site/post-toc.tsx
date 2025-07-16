@@ -46,8 +46,8 @@ const PostToc = ({ data }: { data: TocResult }) => {
   generateContent(data?.map);
 
   return (
-    <div className="post-toc absolute left-full top-0 hidden h-full pl-14 lg:block">
-      <div className="sticky top-1/3 max-h-[calc(100vh-theme('spacing.28'))] -translate-y-1/2 truncate whitespace-nowrap text-sm leading-loose">
+    <div className="post-toc absolute left-full top-0 hidden h-full pl-14 font-sans lg:block">
+      <div className="sticky top-32 max-h-[calc(100vh-theme('spacing.28'))] -translate-y-1/2 truncate whitespace-nowrap text-sm leading-loose">
         <PostTocItems items={data?.map} />
       </div>
     </div>
