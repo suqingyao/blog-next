@@ -1,12 +1,16 @@
 'use client';
 
 import type { Result as TocResult } from 'mdast-util-toc';
-import { createElement, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { scrollTo } from '@/lib/utils';
+import { APP_HEADER_HEIGHT } from '@/constants';
+import { throttle } from '@/lib/throttle';
 
 interface ItemsProps {
   items: TocResult['map'];
-  activeId?: string | null;
+  activeId?: string;
   prefix?: string;
+  setActiveId?: (id: string) => void;
 }
 
 function getIds(items: TocResult['map']) {
@@ -15,9 +19,10 @@ function getIds(items: TocResult['map']) {
       item.children.forEach((child) => {
         if (child.type === 'paragraph' && (child.children[0] as any).url) {
           acc.push((child.children[0] as any).url.slice(1));
-        } else if (child.type === 'list') {
-          acc.push(...getIds(child));
         }
+        // else if (child.type === 'list') {
+        //   acc.push(...getIds(child));
+        // }
       });
       return acc;
     }, []) || []
@@ -29,38 +34,42 @@ function getElement(id: string) {
 }
 
 function useActiveId(itemIds: string[]) {
-  const [activeId, setActiveId] = useState<string | null>();
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveId(entry.target.id.replace('user-content-', ''));
-          }
-        });
-      },
-      { rootMargin: `0% 0% -80% 0%` }
-    );
-    itemIds.forEach((id) => {
-      const element = getElement(id);
-      if (element) {
-        observer.observe(element);
-      }
-    });
-    return () => {
-      itemIds.forEach((id) => {
-        const element = getElement(id);
-        if (element) {
-          observer.unobserve(element);
+  const [activeId, setActiveId] = useState<string>('');
+
+  const handleScroll = throttle((e: Event) => {
+    const scrollBottom =
+      window.innerHeight + window.scrollY >= document.body.scrollHeight - 2;
+    if (scrollBottom) {
+      setActiveId(itemIds[itemIds.length - 1]);
+      return;
+    }
+    for (let i = itemIds.length - 1; i >= 0; i--) {
+      const el = getElement(itemIds[i]);
+      if (el) {
+        const rect = el.getBoundingClientRect();
+        if (rect.top <= APP_HEADER_HEIGHT) {
+          setActiveId(itemIds[i]);
+          scrollTo(itemIds[i], false, APP_HEADER_HEIGHT);
+          return;
         }
-      });
-    };
+      }
+    }
+    setActiveId(itemIds[0]);
+    scrollTo(itemIds[0], false, APP_HEADER_HEIGHT);
+  }, 100);
+
+  useEffect(() => {
+    if (!itemIds.length) return;
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, [itemIds]);
-  return activeId;
+
+  return [activeId, setActiveId] as const;
 }
 
 function Items(props: ItemsProps) {
-  const { items, activeId, prefix = '' } = props;
+  const { items, activeId, prefix = '', setActiveId } = props;
   const [maxWidth, setMaxWidth] = useState(0);
   const anchorRef = useRef<HTMLLIElement>(null);
   useEffect(() => {
@@ -97,7 +106,14 @@ function Items(props: ItemsProps) {
                   {child.type === 'paragraph' && child.children?.[0]?.url && (
                     <span
                       data-url={child.children[0].url}
-                      onClick={() => scrollTo(child.children[0].url)}
+                      onClick={() => {
+                        scrollTo(
+                          child.children[0].url,
+                          false,
+                          APP_HEADER_HEIGHT
+                        );
+                        setActiveId?.(child.children[0].url.slice(1));
+                      }}
                       title={content}
                       className={
                         (`#${activeId}` === child.children[0].url
@@ -113,12 +129,14 @@ function Items(props: ItemsProps) {
                       />
                     </span>
                   )}
-                  {child.type === 'list' &&
-                    createElement(Items, {
-                      items: child,
-                      activeId,
-                      prefix: `${prefix}`
-                    })}
+                  {/* {child.type === 'list' && (
+                    <Items
+                      items={child}
+                      activeId={activeId}
+                      prefix={`${prefix}`}
+                      setActiveId={setActiveId}
+                    />
+                  )} */}
                 </span>
               );
             })}
@@ -130,14 +148,14 @@ function Items(props: ItemsProps) {
 
 function PostTocItems(props: ItemsProps) {
   const { items } = props;
-
   const idList = getIds(items);
-  const activeId = useActiveId(idList);
+  const [activeId, setActiveId] = useActiveId(idList);
 
   return (
     <Items
       items={items}
       activeId={activeId}
+      setActiveId={setActiveId}
     />
   );
 }

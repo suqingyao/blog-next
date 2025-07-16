@@ -1,7 +1,7 @@
 import {
   bundledLanguages,
   bundledThemes,
-  getHighlighter,
+  createHighlighter as _createHighlighter,
   type Highlighter
 } from 'shiki';
 
@@ -9,7 +9,7 @@ let highlighter: Highlighter | undefined;
 
 export const createHighlighter = async () => {
   if (!highlighter) {
-    highlighter = await getHighlighter({
+    highlighter = await _createHighlighter({
       themes: Object.keys(bundledThemes),
       langs: Object.keys(bundledLanguages)
     });

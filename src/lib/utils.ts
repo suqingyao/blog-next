@@ -5,7 +5,17 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const scrollTo = (hash: string, notUserContent?: boolean) => {
+/**
+ * 滚动到指定位置
+ * @param hash 锚点 hash
+ * @param notUserContent 是否不使用 user-content 前缀，默认使用
+ * @returns 无返回值
+ */
+export const scrollTo = (
+  hash: string,
+  notUserContent: boolean = false,
+  offsetTop: number = 20
+) => {
   const calculateElementTop = (el: HTMLElement) => {
     let top = 0;
     while (el) {
@@ -29,11 +39,16 @@ export const scrollTo = (hash: string, notUserContent?: boolean) => {
   if (!targetElement) return;
 
   window.scrollTo({
-    top: calculateElementTop(targetElement) - 20,
+    top: calculateElementTop(targetElement) - offsetTop,
     behavior: 'smooth'
   });
 };
 
+/**
+ * 获取请求参数
+ * @param req 请求对象
+ * @returns 参数对象
+ */
 export const getQuery = (req: Request) => {
   const url = new URL(req.url);
   const searchParams = url.searchParams;
