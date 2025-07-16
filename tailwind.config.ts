@@ -9,6 +9,7 @@ import { iconsPlugin } from '@egoist/tailwindcss-icons';
 
 const config = {
   darkMode: ['class', 'html.dark'],
+  safelist: ['i-mingcute-copy-2-line'],
   content: [
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}'

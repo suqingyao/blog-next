@@ -17,7 +17,7 @@ export const rehypeWrapCode: Plugin<Array<void>, Root> = () => {
               tagName: 'button',
               properties: {
                 type: 'button',
-                className: 'copy-button'
+                className: 'copy-button flex items-center space-x-1'
               },
               children: [
                 u('element', {
