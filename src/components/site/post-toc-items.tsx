@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import { scrollTo } from '@/lib/utils';
 import { APP_HEADER_HEIGHT } from '@/constants';
 import { throttle } from '@/lib/throttle';
+import { useMount } from '@/hooks/use-mount';
 
 interface ItemsProps {
   items: TocResult['map'];
@@ -58,12 +59,16 @@ function useActiveId(itemIds: string[]) {
     scrollTo(itemIds[0], false, APP_HEADER_HEIGHT);
   }, 100);
 
+  useMount(() => {
+    handleScroll(new Event('scroll'));
+  });
+
   useEffect(() => {
     if (!itemIds.length) return;
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [itemIds]);
+  }, []);
 
   return [activeId, setActiveId] as const;
 }

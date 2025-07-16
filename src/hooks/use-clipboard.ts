@@ -7,7 +7,12 @@ export const useClipboard = () => {
   const [isSupported, setIsSupported] = useState(false);
 
   useMount(() => {
-    setIsSupported(navigator && 'clipboard' in navigator);
+    setIsSupported(
+      typeof window !== 'undefined' &&
+        typeof navigator !== 'undefined' &&
+        !!navigator.clipboard &&
+        typeof navigator.clipboard.writeText === 'function'
+    );
   });
 
   const updateText = async () => {
