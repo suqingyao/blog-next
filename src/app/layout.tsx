@@ -1,6 +1,5 @@
 import '@/styles/main.css';
 import { Metadata } from 'next';
-import { Inter } from 'next/font/google';
 import NextTopLoader from 'nextjs-toploader';
 import { Toaster } from 'sonner';
 
@@ -10,14 +9,13 @@ import { PlumContainer } from '@/components/plum-container';
 import { AppContextProvider } from '@/contexts';
 import { AppProviders } from '@/providers';
 
-import { sansFont, serifFont } from '@/lib/fonts';
+import { interFont, monoFont, sansFont, serifFont } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
-
-const font = Inter({ subsets: ['latin'] });
+import { APP_DESCRIPTION, APP_NAME } from '@/constants';
 
 export const metadata: Metadata = {
-  title: 'suqingyao',
-  description: `suqingyao's blog`,
+  title: APP_NAME,
+  description: APP_DESCRIPTION,
   icons: [
     {
       url: '/avatar.png',
@@ -40,9 +38,10 @@ export default function RootLayout({
     >
       <body
         className={cn(
-          font.className,
           sansFont.variable,
           serifFont.variable,
+          monoFont.variable,
+          interFont.variable,
           'min-h-screen w-full bg-neutral-50 text-zinc-200'
         )}
       >

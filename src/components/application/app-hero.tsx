@@ -2,12 +2,6 @@
 
 import { cn } from '@/lib/utils';
 import { motion } from 'motion/react';
-import { Outfit } from 'next/font/google';
-
-const fontMono = Outfit({
-  subsets: ['latin'],
-  style: 'normal'
-});
 
 export const AppHero = () => {
   return (
@@ -29,7 +23,7 @@ export const AppHero = () => {
           }
         }
       }}
-      className={cn(fontMono.className, 'py-6')}
+      className={cn('py-6 font-mono')}
     >
       <div className="flex flex-col gap-5 text-5xl font-extrabold">
         <motion.h1

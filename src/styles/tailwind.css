@@ -1,30 +1,132 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+@config '../../tailwind.config.ts';
+
+@utility text-link {
+  @apply cursor-pointer border-b border-[--color-hover] no-underline transition-colors duration-300 hover:border-[#555] dark:hover:border-[#bbb];
+}
 
 @layer base {
   body {
     @apply !text-zinc-800;
     @apply !fill-zinc-800;
-    font-family: var(--font-sans);
+    @apply font-sans;
   }
 }
 
 @layer utilities {
-  .flex-center {
-    @apply flex items-center justify-center;
+  .animate-bounce-enter-in {
+    animation: bounce-enter-in 0.5s;
   }
-  .focus-ring {
-    @apply focus-visible:outline focus-visible:outline-accent;
+  .animate-bounce-leave-out {
+    animation: bounce-leave-out 0.5s;
   }
-  .text-stroke {
-    -webkit-text-stroke-width: 2px;
-    -webkit-text-stroke-color: #aaa;
+  .animate-fade-in {
+    animation: fade-in 0.5s;
   }
-  .text-link {
-    @apply cursor-pointer border-b border-[#7D7D7D4C] no-underline transition-colors duration-300 hover:border-[#555] dark:hover:border-[#bbb];
+  .animate-fade-out {
+    animation: fade-out 0.5s;
+  }
+  .animate-slide-enter-in {
+    animation: slide-enter-in 1s both 1;
+  }
+  .animate-accordion-down {
+    animation: accordion-down 0.2s ease-out;
+  }
+  .animate-accordion-up {
+    animation: accordion-up 0.2s ease-out;
+  }
+  .animate-bounce-enter-in {
+    animation: bounce-enter-in 0.5s;
+  }
+  .animate-bounce-leave-out {
+    animation: bounce-leave-out 0.5s;
+  }
+  .animate-fade-in {
+    animation: fade-in 0.5s;
+  }
+  .animate-fade-out {
+    animation: fade-out 0.5s;
   }
 }
+
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+}
+
+@keyframes slide-enter-in {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes bounce-enter-in {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes bounce-leave-out {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(100px);
+    opacity: 0;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@theme {
+  --color-primary: var(--auto-theme-color, #f29d2f);
+  --color-accent: var(--auto-theme-color, var(--color-primary));
+  --color-hover: var(--auto-hover-color, #f29d2f4c);
+  --color-border: var(--auto-border-color, #f29d2f);
+  --color-theme: var(--auto-theme-color, var(--color-primary));
+}
+
+@safelist i-mingcute-copy-2-line;
 
 html.dark {
   color-scheme: dark;

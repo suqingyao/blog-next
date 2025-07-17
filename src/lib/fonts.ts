@@ -1,4 +1,4 @@
-import { Manrope, Noto_Serif_SC } from 'next/font/google';
+import { Manrope, Noto_Serif_SC, Outfit, Inter } from 'next/font/google';
 
 const sansFont = Manrope({
   subsets: ['latin'],
@@ -16,4 +16,18 @@ const serifFont = Noto_Serif_SC({
   fallback: ['Noto Serif SC']
 });
 
-export { sansFont, serifFont };
+const monoFont = Outfit({
+  subsets: ['latin'],
+  weight: ['400'],
+  variable: '--font-mono',
+  display: 'swap'
+});
+
+const interFont = Inter({
+  subsets: ['latin'],
+  weight: ['400'],
+  variable: '--font-inter',
+  display: 'swap'
+});
+
+export { sansFont, serifFont, monoFont, interFont };

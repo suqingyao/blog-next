@@ -2,20 +2,14 @@
 
 import Link from 'next/link';
 import { motion } from 'motion/react';
-import { Outfit } from 'next/font/google';
 import { RiArrowRightUpLine } from 'react-icons/ri';
 
 import dayjs from '@/lib/dayjs';
 import { cn } from '@/lib/utils';
 
-const fontMono = Outfit({
-  subsets: ['latin'],
-  style: 'normal'
-});
-
 export const AppLatestPosts = ({ posts }: { posts: Post[] }) => {
   return (
-    <div className={cn(fontMono.className, 'py-4')}>
+    <div className={cn('py-4 font-mono')}>
       <motion.div
         layout
         className="flex items-center justify-between"

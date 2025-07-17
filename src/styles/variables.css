@@ -25,9 +25,8 @@
 } */
 
 html {
-  --primary-color: var(--auto-primary-color, theme('colors.orange.500'));
   --border-color: #eee;
-  --theme-color: var(--auto-theme-color, theme('colors.orange.500'));
+  --theme-color: var(--auto-theme-color, var(--color-primary));
   --hover-color: var(--auto-hover-color, theme('colors.zinc.100'));
   --header-height: 60px;
   --footer-height: 60px;
