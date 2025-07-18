@@ -12,7 +12,6 @@ export const transitionViewIfSupported = (callback: () => void) => {
     callback();
     return;
   }
-  // @ts-ignore
   return document.startViewTransition(callback);
 };
 

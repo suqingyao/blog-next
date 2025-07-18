@@ -14,7 +14,8 @@ type PostPageParams = {
 // 生产环境自动缓存，开发环境强制动态
 export const dynamic = IS_PROD ? 'auto' : 'force-dynamic';
 
-const PostPage = async ({ params: { slug } }: PostPageParams) => {
+const PostPage = async ({ params }: PostPageParams) => {
+  const { slug } = await params;
   const post = await getPostBySlug(slug);
 
   if (!post) {
@@ -53,7 +54,8 @@ export async function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata({ params: { slug } }: PostPageParams) {
+export async function generateMetadata({ params }: PostPageParams) {
+  const { slug } = await params;
   const post = await getPostBySlug(slug);
 
   if (!post) {

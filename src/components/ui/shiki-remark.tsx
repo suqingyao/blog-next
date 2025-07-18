@@ -1,13 +1,13 @@
-import { type FC, type ReactNode } from 'react';
+
 import type { BundledTheme } from 'shiki/themes';
 import { ShikiRender } from '@/lib/shiki/client';
 
-const ShikiRemark: FC<{
+export const ShikiRemark: React.FC<{
   codeTheme?: {
     light?: BundledTheme;
     dark?: BundledTheme;
   };
-  children?: ReactNode;
+  children?: React.ReactNode;
 }> = (props) => {
   const code = pickMdAstCode(props);
   const language = pickCodeLanguage(props);
@@ -22,14 +22,14 @@ const ShikiRemark: FC<{
 };
 
 const pickMdAstCode = (props: any) => {
-  return props.children.type === 'code'
+  return props.children?.type === 'code'
     ? (props.children.props.children as string)
     : '';
 };
 
 const pickCodeLanguage = (props: any) => {
   const className =
-    props.children.type === 'code'
+    props.children?.type === 'code'
       ? (props.children.props.className as string)
       : '';
 
@@ -38,5 +38,3 @@ const pickCodeLanguage = (props: any) => {
   }
   return '';
 };
-
-export default ShikiRemark;

@@ -1,16 +1,13 @@
-import { GITHUB_CDN } from '@/constants';
+import Image from 'next/image';
 
-interface Props {
-  params: { album: string; image: string };
-}
-
-const PhotosAlbumPage = async ({ params }: Props) => {
-  const imageUrl = `${GITHUB_CDN}/${params.album}/${params.image}`;
+const PhotosAlbumPage = async ({ params }: { params: { album: string; image: string } }) => {
+  const { album, image } = await params;
+  const imageUrl = `/photos/${album}/${image}`;
   return (
     <>
-      <img
+      <Image
         src={imageUrl}
-        alt={params.image}
+        alt={image}
         className="w-full rounded-lg shadow-md transition-transform"
         loading="lazy"
       />

@@ -1,31 +1,35 @@
+import { LazyImage } from '@/components/lazy-image';
 import type { ExtraProps } from 'hast-util-to-jsx-runtime';
-import React, {
-  type ClassAttributes,
-  type FC,
-  type HTMLAttributes
-} from 'react';
 
 export const createMarkdownHeaderComponent = (tag: string) => {
-  const MarkdownHeader: FC<
-    ClassAttributes<HTMLHeadingElement> &
-      HTMLAttributes<HTMLHeadingElement> &
+  const MarkdownHeader: React.FC<
+    React.ClassAttributes<HTMLHeadingElement> &
+      React.HTMLAttributes<HTMLHeadingElement> &
       ExtraProps
   > = ({ children, ...rest }) => {
     const Tag = tag as any;
 
     return (
-      <Tag {...rest}>
+      <Tag {...rest} className="flex items-center">
         {children}
         <a
-          className="anchor"
+          className="anchor flex items-center"
           tabIndex={-1}
           href={rest.id ? `#${rest.id}` : undefined}
         >
-          #
+          <i className="i-mingcute-hashtag-fill icon-hashtag" />
         </a>
       </Tag>
     );
   };
 
   return MarkdownHeader;
+};
+
+export const createMarkdownImageComponent = () => {
+  const MarkdownImage: React.FC<React.ClassAttributes<HTMLImageElement> & React.ImgHTMLAttributes<HTMLImageElement> & ExtraProps> = ({ children, ...rest }) => {
+    return <LazyImage {...rest} />;
+  };
+
+  return MarkdownImage;
 };

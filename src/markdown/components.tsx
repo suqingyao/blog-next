@@ -1,5 +1,5 @@
 import dynamic from 'next/dynamic';
-import { createMarkdownHeaderComponent } from '@/components/ui/markdown-render';
+import { createMarkdownHeaderComponent, createMarkdownImageComponent } from '@/components/ui/markdown-render';
 
 export const mdxComponents = {
   darktoggle: dynamic(
@@ -12,5 +12,5 @@ export const mdxComponents = {
   h2: createMarkdownHeaderComponent('h3'),
   h3: createMarkdownHeaderComponent('h4'),
   h4: createMarkdownHeaderComponent('h5'),
-  h5: createMarkdownHeaderComponent('h6')
+  h5: createMarkdownHeaderComponent('h6'),
 };

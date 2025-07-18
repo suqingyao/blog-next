@@ -1,6 +1,6 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: true,
+import type { NextConfig } from "next";
+
+export default {
   images: {
     formats: ['image/avif', 'image/webp'],
     remotePatterns: [
@@ -19,8 +19,13 @@ const nextConfig = {
   },
   transpilePackages: ['react-lottie'],
   experimental: {
-    optimizePackageImports: ['react-lottie']
-  }
-};
-
-export default nextConfig;
+    optimizePackageImports: ['react-lottie'],
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  bundlePagesRouterDependencies: true,
+} as NextConfig

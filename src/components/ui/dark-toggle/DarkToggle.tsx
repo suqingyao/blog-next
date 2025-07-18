@@ -121,35 +121,35 @@ export const DarkToggle = () => {
   if (!isMounted) return null;
 
   return (
-    <motion.div
+    <motion.span
       animate={{
         backgroundColor: isDark ? '#475569' : '#7dd3fc'
       }}
       role="button"
-      className="relative h-[28px] w-[56px] cursor-pointer rounded-full p-[5px]"
+      className="relative h-[28px] w-[56px] cursor-pointer rounded-full p-[5px] block"
       onClick={handleToggleTheme}
     >
       {starts}
       {clouds}
-      <motion.div
+      <motion.span
         animate={{
           x: isDark ? 28 : 0,
           rotate: isDark ? 0 : 180,
           backgroundColor: isDark ? '#c6d0d1' : '#fde047'
         }}
-        className="relative h-[18px] w-[18px] rounded-full"
+        className="relative h-[18px] w-[18px] rounded-full block"
       >
-        <motion.div
+        <motion.span
           animate={{
             opacity: isDark ? 1 : 0
           }}
-          className="relative h-full w-full"
+          className="relative h-full w-full block"
         >
-          <div className="absolute left-[4px] top-[6px] h-[4px] w-[4px] rounded-full bg-slate-400/50 shadow-inner" />
-          <div className="absolute left-[11px] top-[8px] h-px w-px rounded-full bg-slate-400/50 shadow-inner" />
-          <div className="absolute left-[9px] top-[11px] h-[2px] w-[2px] rounded-full bg-slate-400/50 shadow-inner" />
-        </motion.div>
-      </motion.div>
-    </motion.div>
+          <span className="absolute left-[4px] top-[6px] h-[4px] w-[4px] rounded-full bg-slate-400/50 shadow-inner block" />
+          <span className="absolute left-[11px] top-[8px] h-px w-px rounded-full bg-slate-400/50 shadow-inner block" />
+          <span className="absolute left-[9px] top-[11px] h-[2px] w-[2px] rounded-full bg-slate-400/50 shadow-inner block" />
+        </motion.span>
+      </motion.span>
+    </motion.span>
   );
 };

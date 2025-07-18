@@ -1,8 +1,0 @@
-[
-  {
-    "id": "deploy-blog-next",
-    "execute-command": "/root/workspace/blog-next/deploy.sh",
-    "command-working-directory": "/root/workspace/blog-next",
-    "response-message": "Deploy started!"
-  }
-]

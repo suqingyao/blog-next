@@ -32,25 +32,25 @@ export const LinkCard = ({
       onMouseMove={onMouseMove}
     >
       {/* Border layer */}
-      <motion.div
-        className="pointer-events-none absolute inset-0 text-white/10 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+      <motion.span
+        className="pointer-events-none absolute inset-0 text-white/10 opacity-0 transition-opacity duration-500 group-hover:opacity-100 block"
         style={{
           background: `radial-gradient(${spotR}px circle at ${spotX}px ${spotY}px, currentColor, transparent)`
         }}
-      ></motion.div>
+      ></motion.span>
 
       {/* Spotlight layer */}
-      <motion.div
-        className="pointer-events-none absolute inset-0 z-[1] text-black/5 opacity-0 transition-opacity duration-500 group-hover:opacity-100 dark:text-white/10"
+      <motion.span
+        className="pointer-events-none absolute inset-0 z-[1] text-black/5 opacity-0 transition-opacity duration-500 group-hover:opacity-100 dark:text-white/10 block"
         style={{
           background
         }}
         aria-hidden
-      ></motion.div>
+      ></motion.span>
 
       {/* Content layer */}
-      <div className="absolute inset-px flex items-center rounded-[11px] bg-zinc-50 p-2 dark:bg-zinc-900">
-        <div className="relative z-[1] w-0 flex-1 px-3">
+      <span className="absolute inset-px flex items-center rounded-[11px] bg-zinc-50 p-2 dark:bg-zinc-900 block">
+        <span className="relative z-[1] w-0 flex-1 px-3">
           <span className="block truncate text-lg leading-tight">{title}</span>
           <span
             className="mt-1 block truncate text-sm leading-tight	text-zinc-500"
@@ -58,7 +58,7 @@ export const LinkCard = ({
           >
             {description}
           </span>
-        </div>
+        </span>
         {image && (
           <LazyImage
             className="block"
@@ -67,7 +67,7 @@ export const LinkCard = ({
             alt="og"
           />
         )}
-      </div>
+      </span>
     </Link>
   );
 };

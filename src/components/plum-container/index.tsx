@@ -15,7 +15,7 @@ export const PlumContainer = () => {
 
   const el = useRef<HTMLCanvasElement | null>(null);
 
-  const start = useRef<Fn>();
+  const start = useRef<Fn>(() => {});
   const init = useRef(4);
   const len = useRef(6);
   const stopped = useRef(false);
@@ -29,15 +29,15 @@ export const PlumContainer = () => {
     const ctx = canvas.getContext('2d');
     const dpr = window.devicePixelRatio || 1;
     const bsr =
-      // @ts-ignore
+      // @ts-expect-error canvas.getContext('2d')
       ctx!.webkitBackingStorePixelRatio ||
-      // @ts-ignore
+      // @ts-expect-error canvas.getContext('2d')
       ctx!.mozBackingStorePixelRatio ||
-      // @ts-ignore
+      // @ts-expect-error canvas.getContext('2d')
       ctx!.msBackingStorePixelRatio ||
-      // @ts-ignore
+      // @ts-expect-error canvas.getContext('2d')
       ctx!.oBackingStorePixelRatio ||
-      // @ts-ignore
+      // @ts-expect-error canvas.getContext('2d')
       ctx!.backingStorePixelRatio ||
       1;
     const dpi = _dpi || dpr / bsr;
@@ -61,7 +61,7 @@ export const PlumContainer = () => {
 
   let lastTime = performance.now();
   const interval = 1000 / 40;
-  let controls: ReturnType<typeof useRafFn>;
+  let controls = useRafFn(() => {});
   const frame = () => {
     if (performance.now() - lastTime < interval) return;
     iterations += 1;
@@ -84,13 +84,13 @@ export const PlumContainer = () => {
     const step = (x: number, y: number, rad: number) => {
       const length = random() * len.current;
       const [nx, ny] = polar2cart(x, y, length, rad);
-      // @ts-ignore
+      // @ts-expect-error canvas.getContext('2d')
       ctx.beginPath();
-      // @ts-ignore
+      // @ts-expect-error canvas.getContext('2d')
       ctx.moveTo(x, y);
-      // @ts-ignore
+      // @ts-expect-error canvas.getContext('2d')
       ctx.lineTo(nx, ny);
-      // @ts-ignore
+      // @ts-expect-error canvas.getContext('2d')
       ctx.stroke();
       const rad1 = rad + random() * r15;
       const rad2 = rad - random() * r15;

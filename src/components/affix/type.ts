@@ -15,7 +15,7 @@ export interface AffixProps {
 
 export interface AffixState {
   status: 'MEASURE_START' | 'MEASURE_DONE';
-  isFixed: Boolean;
+  isFixed: boolean;
   affixStyle: React.CSSProperties;
   placeholderStyle: React.CSSProperties;
 }

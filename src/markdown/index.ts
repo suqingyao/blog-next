@@ -24,29 +24,22 @@ import rehypeSanitize from 'rehype-sanitize';
 import rehypeInferDescriptionMeta from 'rehype-infer-description-meta';
 import rehypeKatex from 'rehype-katex';
 import rehypeStringify from 'rehype-stringify';
-// @ts-ignore
+
 import { Fragment, jsx, jsxs } from 'react/jsx-runtime';
 import { toast } from 'sonner';
 import { toc } from 'mdast-util-toc';
 import { toHtml } from 'hast-util-to-html';
 import { visit } from 'unist-util-visit';
 import jsYaml from 'js-yaml';
-
-// import ShikiRemark from '@/components/ui/shiki-remark';
 import { isServer } from '@/lib/is';
 import sanitizeScheme from './sanitize-schema';
 import { remarkPangu } from './remark-pangu';
 import { rehypeTable } from './rehype-table';
 import { rehypeWrapCode } from './rehype-wrap-code';
 import { mdxComponents } from './components';
-import dynamic from 'next/dynamic';
+import { ShikiRemarkServer } from '@/components/ui/shiki-remark-server';
 
 const memoedPreComponentMap = {} as Record<string, any>;
-
-const ShikiRemark = dynamic(
-  () => import('@/components/ui/shiki-remark').then((mod) => mod.default),
-  { ssr: false }
-);
 
 const hashCodeThemeKey = (codeTheme?: Record<string, any>): string => {
   if (!codeTheme) return 'default';
@@ -117,7 +110,7 @@ export const renderMarkdown = ({
   if (!Pre) {
     Pre = function Pre(props: any) {
       return createElement(
-        ShikiRemark,
+        ShikiRemarkServer,
         { ...props, codeTheme },
         props.children
       );
@@ -139,7 +132,7 @@ export const renderMarkdown = ({
       toJsxRuntime(hastTree, {
         Fragment,
         components: {
-          // @ts-ignore
+          // @ts-expect-error toJsxRuntime
           pre: Pre,
           ...mdxComponents
         },
@@ -149,7 +142,7 @@ export const renderMarkdown = ({
         passNode: true
       }),
     toMetadata: () => {
-      let metadata = {
+      const metadata = {
         frontMatter: undefined,
         images: [],
         audio: undefined,

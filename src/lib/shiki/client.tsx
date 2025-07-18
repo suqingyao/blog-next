@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense, use, useMemo, useRef, type FC } from 'react';
+import { Suspense, use, useMemo, useRef, type FC, useEffect, useState } from 'react';
 import {
   bundledLanguages,
   bundledThemes,
@@ -77,80 +77,98 @@ const ShikiRenderInternal: FC<ShikiCodeProps> = ({
   },
   language
 }) => {
-  const shiki = use(codeHighlighterPromise);
+  const [shiki, setShiki] = useState<HighlighterCore | null>(null);
+  const [ready, setReady] = useState(false);
   const loadThemesRef = useRef([] as string[]);
   const loadLanguagesRef = useRef([] as string[]);
 
-  use(
-    useMemo(() => {
-      async function register() {
-        if (!language || !codeTheme) return;
+  // 加载 highlighter
+  useEffect(() => {
+    let mounted = true;
+    codeHighlighterPromise.then((core) => {
+      if (mounted) setShiki(core);
+    });
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
-        async function loadShikiLanguage(
-          language: string,
-          languageModule: any
-        ) {
-          if (!shiki) return;
-          if (!shiki.getLoadedLanguages().includes(language)) {
-            await shiki.loadLanguage(await languageModule());
-          }
+  // 注册语言和主题
+  useEffect(() => {
+    if (!shiki || !language || !codeTheme) return;
+    let cancelled = false;
+    async function register() {
+      async function loadShikiLanguage(language: string, languageModule: any) {
+        if (!shiki) return;
+        if (!shiki.getLoadedLanguages().includes(language)) {
+          await shiki.loadLanguage(await languageModule());
         }
-        async function loadShikiTheme(theme: string, themeModule: any) {
-          if (!shiki) return;
-          if (!shiki.getLoadedThemes().includes(theme)) {
-            await shiki.loadTheme(await themeModule());
-          }
+      }
+      async function loadShikiTheme(theme: string, themeModule: any) {
+        if (!shiki) return;
+        if (!shiki.getLoadedThemes().includes(theme)) {
+          await shiki.loadTheme(await themeModule());
         }
-        const [{ bundledLanguages }, { bundledThemes }] =
-          langModule && themeModule
-            ? [
-                {
-                  bundledLanguages: langModule
-                },
-                { bundledThemes: themeModule }
-              ]
-            : await Promise.all([
-                import('shiki/langs'),
-                import('shiki/themes')
-              ]);
+      }
+      const [{ bundledLanguages }, { bundledThemes }] =
+        langModule && themeModule
+          ? [
+              {
+                bundledLanguages: langModule
+              },
+              { bundledThemes: themeModule }
+            ]
+          : await Promise.all([
+              import('shiki/langs'),
+              import('shiki/themes')
+            ]);
 
-        langModule = bundledLanguages;
-        themeModule = bundledThemes;
+      langModule = bundledLanguages;
+      themeModule = bundledThemes;
 
-        if (
-          language &&
-          loadLanguagesRef.current.includes(language) &&
-          codeTheme &&
-          loadThemesRef.current.includes(codeTheme)
-        )
-          return;
-        return Promise.all([
-          (async () => {
-            if (language) {
-              const importFn = (bundledLanguages as any)[language];
-              if (!importFn) return;
-              await loadShikiLanguage(language || '', importFn);
-              loadLanguagesRef.current.push(language);
-            }
-          })(),
-          (async () => {
-            if (codeTheme) {
-              const themes = [codeTheme.light, codeTheme.dark];
-              return themes.map(async (theme) => {
+      if (
+        language &&
+        loadLanguagesRef.current.includes(language) &&
+        codeTheme &&
+        loadThemesRef.current.includes(codeTheme)
+      ) {
+        if (!cancelled) setReady(true);
+        return;
+      }
+      await Promise.all([
+        (async () => {
+          if (language) {
+            const importFn = (bundledLanguages as any)[language];
+            if (!importFn) return;
+            await loadShikiLanguage(language || '', importFn);
+            loadLanguagesRef.current.push(language);
+          }
+        })(),
+        (async () => {
+          if (codeTheme) {
+            const themes = [codeTheme.light, codeTheme.dark];
+            await Promise.all(
+              themes.map(async (theme) => {
                 const importFn = (bundledThemes as any)[theme];
                 if (!importFn) return;
                 await loadShikiTheme(theme || '', importFn);
                 loadThemesRef.current.push(theme);
-              });
-            }
-          })()
-        ]);
-      }
-      return register();
-    }, [codeTheme, language, shiki])
-  );
+              })
+            );
+          }
+        })()
+      ]);
+      if (!cancelled) setReady(true);
+    }
+    setReady(false);
+    register();
+    return () => {
+      cancelled = true;
+    };
+  }, [shiki, codeTheme, language]);
 
   const rendered = useMemo(() => {
+    if (!shiki || !ready) return null;
     try {
       return shiki.codeToHtml(code, {
         lang: language!,
@@ -160,7 +178,7 @@ const ShikiRenderInternal: FC<ShikiCodeProps> = ({
     } catch {
       return null;
     }
-  }, [shiki, code, language, codeTheme]);
+  }, [shiki, code, language, codeTheme, ready]);
 
   if (!rendered)
     return (

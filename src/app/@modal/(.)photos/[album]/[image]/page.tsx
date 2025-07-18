@@ -1,18 +1,13 @@
 'use client';
 
-import { LazyImage } from '@/components/lazy-image';
 import { useEventListener } from '@/hooks/use-event-listener';
 import { useModalRectAtom } from '@/hooks/use-modal-rect-atom';
-import { GITHUB_CDN } from '@/constants';
-import { AnimatePresence, motion, scale } from 'motion/react';
-import { useRouter } from 'next/navigation';
+import { AnimatePresence, motion } from 'motion/react';
+import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-interface Props {
-  params: { album: string; image: string };
-}
-
-export default function PhotosModalPage({ params }: Props) {
+export default function PhotosModalPage() {
+  const { album, image } = useParams();
   const router = useRouter();
 
   const { modalRectAtom } = useModalRectAtom();
@@ -22,7 +17,7 @@ export default function PhotosModalPage({ params }: Props) {
     'keydown',
     (e) => {
       if ((e as KeyboardEvent).key === 'Escape') {
-        handleClose();
+        handleClose()
       }
     },
     window
@@ -96,8 +91,8 @@ export default function PhotosModalPage({ params }: Props) {
             ></button>
           </div>
           <motion.img
-            src={`${GITHUB_CDN}/${params.album}/${params.image}`}
-            alt={params.image}
+            src={`/photos/${album}/${image}`}
+            alt={image as string}
             className="h-full w-full rounded-sm shadow-lg"
             variants={imageVariants}
             initial="initial"

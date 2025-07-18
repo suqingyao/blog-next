@@ -2,7 +2,7 @@
 
 import type { Result as TocResult } from 'mdast-util-toc';
 import type { BundledTheme } from 'shiki/themes';
-import { memo, useEffect, type MutableRefObject } from 'react';
+import { memo, useEffect } from 'react';
 
 import PostToc from '@/components/site/post-toc';
 import { cn, scrollTo } from '@/lib/utils';
@@ -29,7 +29,7 @@ const MarkdownContent = memo(function PageContent({
   content?: string;
   className?: string;
   withToc?: boolean;
-  inputRef?: MutableRefObject<HTMLDivElement | null>;
+  inputRef?: React.RefObject<HTMLDivElement> | null;
   onScroll?: (scrollTop: number) => void;
   onMouseEnter?: () => void;
   parsedContent?: ReturnType<typeof renderMarkdown>;
@@ -93,20 +93,20 @@ const MarkdownContent = memo(function PageContent({
 
   useEffect(() => {
     const anchors = document.querySelectorAll('.post-content .anchor');
-    const handleClick = (e: MouseEvent) => {
+    const handleClick = (e: Event, anchor: HTMLAnchorElement) => {
       e.preventDefault();
-      const target = (e.target as HTMLAnchorElement).getAttribute('href');
+      const target = anchor.getAttribute('href');
       if (target) {
         scrollTo(target, true, APP_HEADER_HEIGHT);
       }
     };
     anchors.forEach((anchor) => {
-      anchor?.addEventListener('click', handleClick as EventListener);
+      anchor?.querySelector('.icon-hashtag')?.addEventListener('click', (e: Event) => handleClick(e, anchor as HTMLAnchorElement));
     });
 
     return () => {
       anchors.forEach((anchor) => {
-        anchor?.removeEventListener('click', handleClick as EventListener);
+        anchor?.querySelector('.icon-hashtag')?.removeEventListener('click', (e: Event) => handleClick(e, anchor as HTMLAnchorElement));
       });
     };
   }, []);
