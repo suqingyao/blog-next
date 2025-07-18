@@ -29,7 +29,8 @@ jobs:
           context: .
           push: true
           tags: ${{ secrets.ALIYUN_REGISTRY }}/${{ secrets.ALIYUN_NAMESPACE }}/${{ secrets.ALIYUN_REPO }}:latest
-          # build-args: |
+          build-args: |
+            NEXT_PUBLIC_DYNAMIC_MODE=${{ secrets.NEXT_PUBLIC_DYNAMIC_MODE }}
           #   OSS_ACCESS_KEY_ID=${{ secrets.OSS_ACCESS_KEY_ID }}
           #   OSS_ACCESS_KEY_SECRET=${{ secrets.OSS_ACCESS_KEY_SECRET }}
           #   NEXT_PUBLIC_OSS_REGION=${{ secrets.NEXT_PUBLIC_OSS_REGION }}
