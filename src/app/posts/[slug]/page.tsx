@@ -10,9 +10,6 @@ type PostPageParams = {
   };
 };
 
-// 生产环境自动缓存，开发环境强制动态
-export const dynamic = 'auto';
-
 const PostPage = async ({ params }: PostPageParams) => {
   const { slug } = await params;
   const post = await getPostBySlug(slug);

@@ -2,7 +2,7 @@ import { IS_PROD } from '@/lib/constants';
 import { renderMarkdown } from '@/markdown';
 import fg from 'fast-glob';
 import fs from 'fs-extra';
-import path, { join } from 'node:path';
+import { join } from 'node:path';
 
 export const getAllPostFiles = async () => await fg('posts/**/*.mdx');
 

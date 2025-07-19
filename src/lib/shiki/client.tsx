@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense, use, useMemo, useRef, type FC, useEffect, useState } from 'react';
+import { Suspense, useMemo, useRef, type FC, useEffect, useState } from 'react';
 import {
   bundledLanguages,
   bundledThemes,
@@ -118,10 +118,7 @@ const ShikiRenderInternal: FC<ShikiCodeProps> = ({
               },
               { bundledThemes: themeModule }
             ]
-          : await Promise.all([
-              import('shiki/langs'),
-              import('shiki/themes')
-            ]);
+          : await Promise.all([import('shiki/langs'), import('shiki/themes')]);
 
       langModule = bundledLanguages;
       themeModule = bundledThemes;
@@ -130,7 +127,8 @@ const ShikiRenderInternal: FC<ShikiCodeProps> = ({
         language &&
         loadLanguagesRef.current.includes(language) &&
         codeTheme &&
-        loadThemesRef.current.includes(codeTheme)
+        loadThemesRef.current.includes(codeTheme.light) &&
+        loadThemesRef.current.includes(codeTheme.dark)
       ) {
         if (!cancelled) setReady(true);
         return;

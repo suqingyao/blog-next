@@ -65,7 +65,7 @@ export const DarkToggle = () => {
 
   const starts = (
     <svg
-      className="absolute left-[8px] top-[7px]"
+      className="absolute top-[7px] left-[8px]"
       width="16"
       height="14"
       viewBox="0 0 89 77"
@@ -104,7 +104,7 @@ export const DarkToggle = () => {
         delay: isDark ? 0 : 0.4,
         duration: 0.5
       }}
-      className="absolute right-[10px] top-[10px]"
+      className="absolute top-[10px] right-[10px]"
       width="15"
       height="8"
       viewBox="0 0 104 54"
@@ -118,7 +118,14 @@ export const DarkToggle = () => {
     </motion.svg>
   );
 
-  if (!isMounted) return null;
+  // 在服务器端渲染一个占位符，避免水合错误
+  if (!isMounted) {
+    return (
+      <span className="relative block h-[28px] w-[56px] rounded-full bg-gray-200 p-[5px]">
+        <span className="relative block h-[18px] w-[18px] rounded-full bg-gray-300" />
+      </span>
+    );
+  }
 
   return (
     <motion.span
@@ -126,7 +133,7 @@ export const DarkToggle = () => {
         backgroundColor: isDark ? '#475569' : '#7dd3fc'
       }}
       role="button"
-      className="relative h-[28px] w-[56px] cursor-pointer rounded-full p-[5px] block"
+      className="relative block h-[28px] w-[56px] cursor-pointer rounded-full p-[5px]"
       onClick={handleToggleTheme}
     >
       {starts}
@@ -137,17 +144,17 @@ export const DarkToggle = () => {
           rotate: isDark ? 0 : 180,
           backgroundColor: isDark ? '#c6d0d1' : '#fde047'
         }}
-        className="relative h-[18px] w-[18px] rounded-full block"
+        className="relative block h-[18px] w-[18px] rounded-full"
       >
         <motion.span
           animate={{
             opacity: isDark ? 1 : 0
           }}
-          className="relative h-full w-full block"
+          className="relative block h-full w-full"
         >
-          <span className="absolute left-[4px] top-[6px] h-[4px] w-[4px] rounded-full bg-slate-400/50 shadow-inner block" />
-          <span className="absolute left-[11px] top-[8px] h-px w-px rounded-full bg-slate-400/50 shadow-inner block" />
-          <span className="absolute left-[9px] top-[11px] h-[2px] w-[2px] rounded-full bg-slate-400/50 shadow-inner block" />
+          <span className="absolute top-[6px] left-[4px] block h-[4px] w-[4px] rounded-full bg-slate-400/50 shadow-inner" />
+          <span className="absolute top-[8px] left-[11px] block h-px w-px rounded-full bg-slate-400/50 shadow-inner" />
+          <span className="absolute top-[11px] left-[9px] block h-[2px] w-[2px] rounded-full bg-slate-400/50 shadow-inner" />
         </motion.span>
       </motion.span>
     </motion.span>

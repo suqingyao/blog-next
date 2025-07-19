@@ -1,4 +1,3 @@
-
 import type { BundledTheme } from 'shiki/themes';
 import { ShikiRender } from '@/lib/shiki/client';
 
