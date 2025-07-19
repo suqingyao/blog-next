@@ -9,6 +9,11 @@ export const getAllPostFiles = async () => await fg('posts/**/*.mdx');
 let memoedAllPosts: Record<string, any>[] = [];
 
 export async function getAllPosts() {
+  // 开发环境每次都重新读取文件
+  if (!IS_PROD) {
+    memoedAllPosts = [];
+  }
+
   if (memoedAllPosts.length) {
     return memoedAllPosts;
   }
@@ -18,12 +23,8 @@ export async function getAllPosts() {
   const posts = (
     await Promise.all(
       postFiles.map(async (file) => {
-        // get filename not include file extension name
-        const slug = file.replace(/(.*\/)*([^.]+).*/gi, '$2');
-        const code = await fs.readFile(
-          join(process.cwd(), 'posts', `${slug}.mdx`),
-          'utf-8'
-        );
+        const slug = file.replace(/^posts\/(.+)\.mdx$/, '$1');
+        const code = await fs.readFile(join(process.cwd(), file), 'utf-8');
 
         const rendered = renderMarkdown({ content: code });
 
@@ -55,9 +56,16 @@ export async function getPostBySlug(slug: string) {
     return post;
   }
 
-  const filePath = path.join(process.cwd(), 'posts', `${slug}.mdx`);
-  if (!fs.existsSync(filePath)) return null;
-  const code = fs.readFileSync(filePath, 'utf-8');
+  // 开发环境：查找匹配的文件（支持子目录）
+  const postFiles = await getAllPostFiles();
+  const targetFile = postFiles.find((file) => {
+    const fileSlug = file.replace(/^posts\/(.+)\.mdx$/, '$1');
+    return fileSlug === slug;
+  });
+
+  if (!targetFile) return null;
+
+  const code = fs.readFileSync(join(process.cwd(), targetFile), 'utf-8');
   const rendered = renderMarkdown({ content: code });
   const renderedMetadata = rendered.toMetadata();
   const frontMatter = renderedMetadata.frontMatter;
