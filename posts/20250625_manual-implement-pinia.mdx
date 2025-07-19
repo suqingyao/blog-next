@@ -5,7 +5,7 @@
   published: false
 ---
 
-### 代码实现
+## 代码实现
 
 ```js
 import { ref, effectScope } from 'vue';
@@ -35,7 +35,7 @@ export const useCounterStore = defineStore(() => {
 });
 ```
 
-### 思路说明
+## 思路说明
 
 上面的代码实现了一个简单的 Pinia 状态管理核心：
 
@@ -46,7 +46,7 @@ export const useCounterStore = defineStore(() => {
 
 组件中只需调用 `useCounterStore()`，即可获得全局唯一的响应式状态。
 
-#### effectScope API 介绍
+### effectScope API 介绍
 
 `effectScope` 是 Vue 3 提供的 API，用于创建独立的响应式副作用作用域。它的主要作用是：
 
@@ -54,7 +54,7 @@ export const useCounterStore = defineStore(() => {
 - **资源释放**：通过 `scope.stop()` 可以一键停止该作用域下的所有副作用。
 - **嵌套作用域**：支持作用域嵌套，便于复杂场景下的资源管理。
 
-#### 常见使用场景
+### 常见使用场景
 
 - **组件外的响应式状态管理**（如 Pinia、VueUse 等库的实现）
 - **需要手动管理副作用生命周期的场景**，如在插件、工具库中动态创建和销毁响应式对象

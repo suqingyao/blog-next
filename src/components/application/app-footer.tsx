@@ -1,14 +1,11 @@
 export const AppFooter = () => {
   return (
-    <footer className="mt-auto flex h-[var(--footer-height)] w-full items-center justify-center gap-2 py-6 text-center text-sm opacity-80">
+    <footer className="h-footer mt-auto flex w-full items-center justify-center gap-2 py-6 text-center text-sm opacity-80">
       <p>
         Built with &nbsp;
         <a
           href="https://nextjs.org"
-          className="
-            text-primary
-            no-underline
-          "
+          className="text-primary no-underline"
         >
           Next.js
         </a>
@@ -20,7 +17,7 @@ export const AppFooter = () => {
           Vercel
         </a>
       </p>
-      <span className="select-none whitespace-pre opacity-50">|</span>
+      <span className="whitespace-pre opacity-50 select-none">|</span>
       <p>
         <a
           href="https://icp.gov.moe/?keyword=20240127"
@@ -31,7 +28,7 @@ export const AppFooter = () => {
           萌ICP备20240127号
         </a>
       </p>
-      <span className="select-none whitespace-pre opacity-50">|</span>
+      <span className="whitespace-pre opacity-50 select-none">|</span>
       <p>&copy;2023&nbsp;suqingyao</p>
     </footer>
   );

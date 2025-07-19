@@ -101,12 +101,20 @@ const MarkdownContent = memo(function PageContent({
       }
     };
     anchors.forEach((anchor) => {
-      anchor?.querySelector('.icon-hashtag')?.addEventListener('click', (e: Event) => handleClick(e, anchor as HTMLAnchorElement));
+      anchor
+        ?.querySelector('.icon-hashtag')
+        ?.addEventListener('click', (e: Event) =>
+          handleClick(e, anchor as HTMLAnchorElement)
+        );
     });
 
     return () => {
       anchors.forEach((anchor) => {
-        anchor?.querySelector('.icon-hashtag')?.removeEventListener('click', (e: Event) => handleClick(e, anchor as HTMLAnchorElement));
+        anchor
+          ?.querySelector('.icon-hashtag')
+          ?.removeEventListener('click', (e: Event) =>
+            handleClick(e, anchor as HTMLAnchorElement)
+          );
       });
     };
   }, []);
@@ -119,7 +127,7 @@ const MarkdownContent = memo(function PageContent({
     >
       <>
         <div
-          className="post-content prose"
+          className="post-content prose dark:prose-invert"
           ref={inputRef}
         >
           {inParsedContent?.toElement()}

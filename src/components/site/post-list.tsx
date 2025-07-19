@@ -50,20 +50,20 @@ export const PostList = ({ posts }: { posts: Record<string, any>[] }) => {
         >
           {!isSameGroup(post as Post, posts[idx - 1] as Post | undefined) && (
             <motion.div className="pointer-events-none relative h-20 select-none">
-              <span className="absolute -left-12 -top-8 text-stroke text-[8em] font-bold text-black/100 opacity-10 font-inter">
+              <span className="text-stroke font-inter absolute -top-8 -left-12 text-[8em] font-bold text-black/200 opacity-10">
                 {getYear(post.createdTime)}
               </span>
             </motion.div>
           )}
           <Link
             href={`/posts/${post.id}`}
-            className="mb-6 mt-2 flex items-center gap-2 opacity-50 transition-opacity hover:opacity-100"
+            className="mt-2 mb-6 flex items-center gap-2 opacity-50 transition-opacity hover:opacity-100"
           >
             <span className="text-lg leading-[1.2em]">{post.title}</span>
-            <span className="whitespace-nowrap text-sm opacity-50">
+            <span className="text-sm whitespace-nowrap opacity-50">
               {dayjs(post.createdTime).format('MMM DD, YYYY')}
             </span>
-            <span className="whitespace-nowrap text-sm opacity-40">
+            <span className="text-sm whitespace-nowrap opacity-40">
               {post.readingTime}
             </span>
           </Link>

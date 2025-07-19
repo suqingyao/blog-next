@@ -96,8 +96,8 @@
 }
 
 .prose .table-wrapper {
-  @apply my-7 min-w-full overflow-auto whitespace-nowrap rounded-xl text-sm;
-  @apply border border-border;
+  @apply my-7 min-w-full overflow-auto rounded-xl text-sm whitespace-nowrap;
+  @apply border-border border;
 }
 
 .prose table {
@@ -135,9 +135,9 @@
 }
 
 .prose :where(code:not(pre code)):not(:where([class~='not-prose'])) {
-  color: var(--prose-code-color);
-  background-color: var(--prose-code-bg-color);
   @apply rounded-md px-[7px] py-[1px] font-mono text-sm font-normal;
+  /* @apply bg-neutral-900 text-neutral-50; */
+  /* @apply dark:bg-neutral-50 dark:text-neutral-900; */
 }
 
 .prose .code-wrapper {
@@ -145,13 +145,12 @@
 }
 
 .prose .code-wrapper .copy-button {
-  @apply absolute right-3 top-3 flex cursor-pointer items-center gap-1 text-sm font-medium;
+  @apply absolute top-3 right-3 flex cursor-pointer items-center gap-1 text-sm font-medium;
   @apply h-8 rounded-xl px-3;
   @apply border border-transparent bg-white/10 text-black/100 shadow-sm backdrop-blur-sm;
   @apply pointer-events-none opacity-0 transition-all duration-200;
   @apply hover:bg-white/80;
   @apply active:scale-95;
-  @apply dark:bg-black/10 dark:text-black/100 dark:hover:bg-black/20;
 }
 
 .prose .code-wrapper:hover .copy-button,
@@ -160,5 +159,5 @@
 }
 
 .prose .math {
-  @apply inline-block max-w-full overflow-auto align-bottom scrollbar-hide;
+  @apply scrollbar-hide inline-block max-w-full overflow-auto align-bottom;
 }

@@ -1,7 +1,3 @@
-import 'remark-gh-alerts/styles/github-colors-light.css';
-import 'remark-gh-alerts/styles/github-colors-dark-media.css';
-import 'remark-gh-alerts/styles/github-base.css';
-
 import { ClassAttributes, createElement, FC, HTMLAttributes } from 'react';
 import type { Root as HashRoot } from 'hast';
 import type { Root as MdashRoot } from 'mdast';

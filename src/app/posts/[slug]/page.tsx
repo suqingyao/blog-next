@@ -3,7 +3,6 @@ import { getAllPosts, getPostBySlug } from '@/models/post.model';
 import MarkdownContentServer from '@/components/common/markdown-content-server';
 import PostTitle from '@/components/site/post-title';
 import PostMeta from '@/components/site/post-meta';
-import { DYNAMIC_MODE } from '@/constants';
 
 type PostPageParams = {
   params: {
@@ -12,7 +11,7 @@ type PostPageParams = {
 };
 
 // 生产环境自动缓存，开发环境强制动态
-export const dynamic = DYNAMIC_MODE;
+export const dynamic = 'auto';
 
 const PostPage = async ({ params }: PostPageParams) => {
   const { slug } = await params;

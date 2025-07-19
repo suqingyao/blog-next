@@ -71,14 +71,15 @@ export const Skeleton = ({
   };
 
   return (
-    <Fragment
+    <span
       aria-busy="true"
       aria-live="polite"
+      className="block"
     >
       {Array.from({ length: count }).map((_, i) => (
         <React.Fragment key={i}>{getSkeleton()}</React.Fragment>
       ))}
       <span className="sr-only">Loading...</span>
-    </Fragment>
+    </span>
   );
 };

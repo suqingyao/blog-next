@@ -122,9 +122,9 @@ function Items(props: ItemsProps) {
                       title={content}
                       className={
                         (`#${activeId}` === child.children[0].url
-                          ? 'font-bold text-accent'
+                          ? 'text-accent font-bold'
                           : 'font-medium text-zinc-400') +
-                        ' inline-block max-w-full cursor-pointer truncate align-bottom hover:text-accent'
+                        ' hover:text-accent inline-block max-w-full cursor-pointer truncate align-bottom'
                       }
                     >
                       <span

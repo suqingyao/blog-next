@@ -1,75 +1,12 @@
-/* :root {
-  --c-bg: #fefefe;
-  --c-scrollbar: #e5e5e5;
-  --c-scrollbar-hover: #999;
-  --font-sans: theme('fontFamily.sans');
-
-
-  --highlighted-bg-color: #b1b1fd1a;
-  --highlighted-color: var(--color-primary);
-
-  --header-height: 60px;
-  --footer-height: 60px;
-} */
-
-/* html.dark {
-  --c-bg: #050505;
-  --c-scrollbar: #111;
-  --c-scrollbar-hover: #222;
-
-  --skeleton-color: #111;
-  --skeleton-to-color: #222;
-
-  --highlighted-bg-color: #b1b1fd1a;
-  --highlighted-color: var(--color-primary);
-} */
-
 html {
-  --border-color: #eee;
-  --theme-color: var(--auto-theme-color, var(--color-primary));
-  --hover-color: var(--auto-hover-color, theme('colors.zinc.100'));
-  --header-height: 60px;
-  --footer-height: 60px;
-  --prose-code-color: oklch(0% 0 0 / 1);
-  --prose-code-bg-color: oklch(0% 0 0 / .1)
+  /* --prose-code-color: oklch(0% 0 0 / 1); */
+  /* --prose-code-bg-color: oklch(0% 0 0 / 0.1) */
   /* Accent color for form controls */
-  accent-color: var(--theme-color);
+  accent-color: var(--color-primary);
 
   /* make app like native app in mobile */
   -webkit-tap-highlight-color: transparent;
   /*  for firefox */
-  scrollbar-color: var(--theme-color) transparent;
+  scrollbar-color: var(--color-primary) transparent;
   scrollbar-width: thin;
-}
-
-html.dark {
-  --border-color: #333;
-  --theme-color: var(--auto-theme-color, theme('colors.orange.600'));
-  --prose-code-color: oklch(1 0 0 / 0.8);
-  --prose-code-bg-color: oklch(100% 0 0 / .1);
-}
-
-html.dark body {
-  --tw-color-zinc-400: var(--tw-color-zinc-500);
-  --tw-color-zinc-500: var(--tw-color-zinc-600);
-  --tw-color-zinc-600: var(--tw-color-zinc-700);
-  --tw-color-gray-400: var(--tw-color-gray-500);
-  --tw-color-gray-500: var(--tw-color-gray-600);
-  --tw-color-gray-600: var(--tw-color-gray-700);
-  --tw-color-stone-400: var(--tw-color-stone-500);
-  --tw-color-stone-500: var(--tw-color-stone-600);
-  --tw-color-stone-600: var(--tw-color-stone-700);
-}
-
-@media (prefers-color-scheme: dark) {
-  html.not(.light) {
-    --border-color: #333;
-    --theme-color: var(--auto-theme-color, theme('colors.orange.600'));
-  }
-}
-
-@media (prefers-color-scheme: light) {
-  html.not(.dark) {
-    --border-color: #eee;
-  }
 }

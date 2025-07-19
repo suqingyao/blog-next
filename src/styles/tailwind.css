@@ -1,16 +1,9 @@
 @import 'tailwindcss';
+@import 'tailwind-scrollbar-hide/v4';
 @config '../../tailwind.config.ts';
 
 @utility text-link {
   @apply cursor-pointer border-b border-[--color-hover] no-underline transition-colors duration-300 hover:border-[#555] dark:hover:border-[#bbb];
-}
-
-@layer base {
-  body {
-    @apply !text-zinc-800;
-    @apply !fill-zinc-800;
-    @apply font-sans;
-  }
 }
 
 @layer utilities {
@@ -119,11 +112,11 @@
 }
 
 @theme {
-  --color-primary: var(--auto-theme-color, #f29d2f);
+  --color-primary: var(--auto-theme-color, theme('colors.orange.500'));
   --color-accent: var(--auto-theme-color, var(--color-primary));
-  --color-hover: var(--auto-hover-color, #f29d2f4c);
-  --color-border: var(--auto-border-color, #f29d2f);
-  --color-theme: var(--auto-theme-color, var(--color-primary));
+  --color-hover: var(--auto-hover-color, theme('colors.orange.500'));
+  --color-border: var(--auto-border-color, theme('colors.zinc.600'));
+  --color-theme: var(--auto-theme-color, theme('colors.orange.500'));
 }
 
 @safelist i-mingcute-copy-2-line;

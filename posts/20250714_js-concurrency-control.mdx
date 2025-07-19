@@ -1,0 +1,124 @@
+---
+  id: 20250714_js-concurrency-control
+  title: JS 并发控制
+  createdTime: 2025-07-14 22:50:19
+  published: true
+---
+
+## 并发与并行的区别
+
+- **并发**：同一时间段内处理多个任务，但不一定同时进行。
+- **并行**：同一时刻多个任务真正同时执行（多核/多线程）。
+
+JS 是单线程模型，主要通过事件循环和异步机制实现“并发”。
+
+## JS 的单线程模型
+
+JavaScript 运行在单线程环境（如浏览器主线程），但可以通过异步任务（如 setTimeout、Promise、fetch）实现任务切换。
+
+## 常见的并发场景
+
+- 批量请求接口
+- 文件批量上传
+- 批量图片处理
+
+如果不加控制，可能导致瞬时请求数过多，服务器压力大或被限流。
+
+## Promise 并发相关 API
+
+- `Promise.all`：并发执行所有任务，全部成功才 resolve。
+- `Promise.race`：并发执行，最先完成的任务 resolve。
+- `Promise.allSettled`：并发执行，所有任务完成后返回每个任务的结果。
+
+**注意**：这些 API 本身不会限制并发数。
+
+## 并发数限制的实现
+
+### 使用第三方库 p-limit
+
+```js
+import pLimit from 'p-limit';
+
+const limit = pLimit(3); // 最多3个并发
+
+const tasks = urls.map((url) => limit(() => fetch(url)));
+const results = await Promise.all(tasks);
+```
+
+### 手写并发
+
+```js
+class Task {
+  limit = 0;
+  executing = 0;
+  queue = [];
+
+  constructor(limit = 4) {
+    this.limit = limit;
+  }
+
+  run() {
+    while (this.executing < this.limit && this.queue.length > 0) {
+      const taskFn = this.queue.shift();
+      this.executing++;
+      taskFn().finally(() => {
+        this.executing--;
+      })
+    }
+  }
+
+  add(taskFn) {
+    this.queue.push(taskFn)
+    this.run()
+  }
+}
+
+const createRequest(delay, name) {
+  return () => {
+    return new Promise((resolve) => {
+      console.time(name)
+      setTimeout(() => {
+        resolve()
+        console.timeEnd(name)
+      }, delay)
+  })
+  }
+}
+
+const task = new Task(2)
+
+const r1 = createRequest(1000, 'r1')
+const r2 = createRequest(2000, 'r2')
+const r3 = createRequest(3000, 'r3')
+const r4 = createRequest(4000, 'r4')
+
+task.add(r1)
+task.add(r2)
+task.add(r3)
+task.add(r4)
+
+task.run()
+```
+
+## 实战场景
+
+比如你要批量上传 100 张图片，但每次只允许 5 个并发：
+
+```js
+import pLimit from 'p-limit';
+
+const limit = pLimit(5);
+const uploadTasks = files.map((file) => limit(() => uploadFile(file)));
+await Promise.all(uploadTasks);
+```
+
+## 总结与最佳实践
+
+- 并发控制能有效防止接口被限流、浏览器卡顿。
+- 推荐用 p-limit、promise-pool 等库，简单可靠。
+- 复杂场景可手写并发池，灵活控制。
+
+**参考资料：**
+
+- [p-limit](https://github.com/sindresorhus/p-limit)
+- [Promise concurrency patterns](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises#concurrency_patterns)

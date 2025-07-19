@@ -1,4 +1,4 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 export default {
   images: {
@@ -19,13 +19,13 @@ export default {
   },
   transpilePackages: ['react-lottie'],
   experimental: {
-    optimizePackageImports: ['react-lottie'],
+    optimizePackageImports: ['react-lottie']
   },
   eslint: {
-    ignoreDuringBuilds: true,
+    ignoreDuringBuilds: true
   },
   typescript: {
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: true
   },
-  bundlePagesRouterDependencies: true,
-} as NextConfig
+  bundlePagesRouterDependencies: true
+} as NextConfig;

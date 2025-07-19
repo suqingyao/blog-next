@@ -42,11 +42,11 @@ export default function RootLayout({
           serifFont.variable,
           monoFont.variable,
           interFont.variable,
-          'min-h-screen w-full bg-neutral-50 text-zinc-200'
+          'min-h-screen w-full'
         )}
       >
         <NextTopLoader
-          color="var(--theme-color)"
+          color="var(--color-primary)"
           showSpinner={false}
         />
         <AppProviders>

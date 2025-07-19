@@ -33,7 +33,7 @@ export const LinkCard = ({
     >
       {/* Border layer */}
       <motion.span
-        className="pointer-events-none absolute inset-0 text-white/10 opacity-0 transition-opacity duration-500 group-hover:opacity-100 block"
+        className="pointer-events-none absolute inset-0 block text-white/10 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
         style={{
           background: `radial-gradient(${spotR}px circle at ${spotX}px ${spotY}px, currentColor, transparent)`
         }}
@@ -41,7 +41,7 @@ export const LinkCard = ({
 
       {/* Spotlight layer */}
       <motion.span
-        className="pointer-events-none absolute inset-0 z-[1] text-black/5 opacity-0 transition-opacity duration-500 group-hover:opacity-100 dark:text-white/10 block"
+        className="pointer-events-none absolute inset-0 z-[1] block text-black/5 opacity-0 transition-opacity duration-500 group-hover:opacity-100 dark:text-white/10"
         style={{
           background
         }}
@@ -49,11 +49,13 @@ export const LinkCard = ({
       ></motion.span>
 
       {/* Content layer */}
-      <span className="absolute inset-px flex items-center rounded-[11px] bg-zinc-50 p-2 dark:bg-zinc-900 block">
+      <span className="absolute inset-px flex items-center rounded-[11px] bg-zinc-50 p-2 dark:bg-zinc-900">
         <span className="relative z-[1] w-0 flex-1 px-3">
-          <span className="block truncate text-lg leading-tight">{title}</span>
+          <span className="block truncate text-lg leading-tight font-semibold text-zinc-800">
+            {title}
+          </span>
           <span
-            className="mt-1 block truncate text-sm leading-tight	text-zinc-500"
+            className="mt-1 block truncate text-sm leading-tight text-zinc-500"
             title={description}
           >
             {description}
@@ -61,8 +63,9 @@ export const LinkCard = ({
         </span>
         {image && (
           <LazyImage
-            className="block"
+            className="block rounded-lg"
             height={64}
+            width={64}
             src={image}
             alt="og"
           />

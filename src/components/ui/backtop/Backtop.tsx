@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { TbCircleArrowUpFilled } from 'react-icons/tb';
+
 import { cn } from '@/lib/utils';
 
 export const Backtop = () => {
@@ -33,22 +33,12 @@ export const Backtop = () => {
       role="button"
       onClick={scrollTop}
       className={cn(
-        `
-        fixed
-        bottom-10
-        right-10
-        z-[9999]
-        cursor-pointer
-        rounded-full
-        opacity-0
-        drop-shadow-sm
-        transition
-      `,
+        `fixed right-10 bottom-10 z-[9999] cursor-pointer rounded-full opacity-0 drop-shadow-sm transition`,
         show && 'animate-bounce-enter-in opacity-100',
-        !show && 'pointer-events-none animate-bounce-leave-out'
+        !show && 'animate-bounce-leave-out pointer-events-none'
       )}
     >
-      <TbCircleArrowUpFilled size={32} />
+      <span className="i-mingcute-arrow-up-circle-fill text-3xl" />
     </div>
   );
 };

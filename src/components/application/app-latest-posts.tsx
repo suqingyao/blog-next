@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import { motion } from 'motion/react';
-import { RiArrowRightUpLine } from 'react-icons/ri';
 
 import dayjs from '@/lib/dayjs';
 import { cn } from '@/lib/utils';
@@ -33,7 +32,7 @@ export const AppLatestPosts = ({ posts }: { posts: Post[] }) => {
             href={'/posts'}
             className="opacity-50 hover:opacity-100"
           >
-            <RiArrowRightUpLine size={28} />
+            <span className="i-mingcute-arrow-right-up-line text-2xl" />
           </Link>
         </motion.div>
       </motion.div>
