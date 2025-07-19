@@ -2,9 +2,10 @@
 
 import { useEventListener } from '@/hooks/use-event-listener';
 import { useModalRectAtom } from '@/hooks/use-modal-rect-atom';
+import { useOutsideClick } from '@/hooks/use-outside-click';
 import { AnimatePresence, motion } from 'motion/react';
 import { useParams, useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export default function PhotosModalPage() {
   const { album, image } = useParams();
@@ -13,11 +14,15 @@ export default function PhotosModalPage() {
   const { modalRectAtom } = useModalRectAtom();
   const [show, setShow] = useState(true);
 
+  const imageRef = useRef<HTMLImageElement>(null);
+
+  useOutsideClick(imageRef, handleClose);
+
   useEventListener(
     'keydown',
     (e) => {
       if ((e as KeyboardEvent).key === 'Escape') {
-        handleClose()
+        handleClose();
       }
     },
     window
@@ -85,12 +90,13 @@ export default function PhotosModalPage() {
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/10 backdrop-blur-sm">
             {/* 关闭按钮 */}
             <button
-              className="i-mingcute-close-fill absolute left-2 top-2 z-10 rounded-full bg-black/60 p-2 text-3xl text-white transition hover:bg-black/80"
+              className="i-mingcute-close-fill absolute top-2 left-2 z-10 rounded-full bg-black/60 p-2 text-3xl text-white transition hover:bg-black/80 dark:bg-white/60 dark:text-white"
               onClick={handleClose}
               aria-label="关闭"
             ></button>
           </div>
           <motion.img
+            ref={imageRef}
             src={`/photos/${album}/${image}`}
             alt={image as string}
             className="h-full w-full rounded-sm shadow-lg"
