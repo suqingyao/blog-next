@@ -37,7 +37,9 @@ function getElement(id: string) {
 function useActiveId(itemIds: string[]) {
   const [activeId, setActiveId] = useState<string>('');
 
-  const handleScroll = throttle((e: Event) => {
+  const handleScroll = throttle(() => {
+    if (itemIds.length === 0) return;
+
     const scrollBottom =
       window.innerHeight + window.scrollY >= document.body.scrollHeight - 2;
     if (scrollBottom) {
@@ -60,7 +62,7 @@ function useActiveId(itemIds: string[]) {
   }, 100);
 
   useMount(() => {
-    handleScroll(new Event('scroll'));
+    handleScroll();
   });
 
   useEffect(() => {
