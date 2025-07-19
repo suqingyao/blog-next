@@ -15,10 +15,14 @@ const scheme = deepmerge(defaultSchema, {
     'mermaid',
     'aside',
     'rss',
-    'darktoggle',
     'linkcard',
+    'darktoggle',
     ...['svg', 'path', 'circle']
   ],
+  // ancestors: {
+  //   linkcard: ['root', 'section', 'div', 'article', 'blockquote'], // 允许出现在这些父级下
+  //   darktoggle: ['root', 'section', 'div', 'article', 'blockquote']
+  // },
   attributes: {
     '*': ['className', 'style'],
     video: ['src', 'controls', 'loop', 'muted', 'autoPlay', 'playsInline'],
@@ -49,7 +53,8 @@ const scheme = deepmerge(defaultSchema, {
     path: ['d', 'fill'],
     circle: ['cx', 'cy', 'r', 'fill'],
     rss: ['src', 'limit'],
-    linkcard: ['title', 'href', 'image']
+    linkcard: ['title', 'href', 'image', 'description'],
+    darktoggle: []
   },
   protocols: {
     href: ['magnet', 'ed2k']

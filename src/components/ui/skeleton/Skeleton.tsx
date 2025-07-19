@@ -41,29 +41,29 @@ export const Skeleton = ({
     switch (type) {
       case 'circle':
         return (
-          <span
-            className={cn(baseClass, 'block')}
+          <div
+            className={cn(baseClass)}
             style={{ ...style, aspectRatio: '1/1' }}
           />
         );
       case 'text':
         return (
-          <span
-            className={cn(baseClass, 'mb-2 block h-4 w-full last:mb-0')}
+          <div
+            className={cn(baseClass, 'mb-2 h-4 w-full last:mb-0')}
             style={style}
           />
         );
       case 'image':
         return (
-          <span
-            className={cn(baseClass, 'block h-full w-full')}
+          <div
+            className={cn(baseClass, 'h-full w-full')}
             style={style}
           />
         );
       default:
         return (
-          <span
-            className={cn(baseClass, 'block h-full')}
+          <div
+            className={cn(baseClass, 'h-full')}
             style={style}
           />
         );
@@ -71,15 +71,14 @@ export const Skeleton = ({
   };
 
   return (
-    <span
+    <div
       aria-busy="true"
       aria-live="polite"
-      className="block"
     >
       {Array.from({ length: count }).map((_, i) => (
         <React.Fragment key={i}>{getSkeleton()}</React.Fragment>
       ))}
       <span className="sr-only">Loading...</span>
-    </span>
+    </div>
   );
 };

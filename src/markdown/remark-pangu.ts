@@ -1,7 +1,7 @@
 import type { Root } from 'mdast';
-import pangu from 'pangu';
 import type { Plugin } from 'unified';
 import { visit } from 'unist-util-visit';
+import pangu from 'pangu';
 
 interface Options {
   text?: boolean;

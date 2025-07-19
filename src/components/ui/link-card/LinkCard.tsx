@@ -32,35 +32,35 @@ export const LinkCard = ({
       onMouseMove={onMouseMove}
     >
       {/* Border layer */}
-      <motion.span
-        className="pointer-events-none absolute inset-0 block text-white/10 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+      <motion.div
+        className="pointer-events-none absolute inset-0 text-white/10 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
         style={{
           background: `radial-gradient(${spotR}px circle at ${spotX}px ${spotY}px, currentColor, transparent)`
         }}
-      ></motion.span>
+      ></motion.div>
 
       {/* Spotlight layer */}
-      <motion.span
-        className="pointer-events-none absolute inset-0 z-[1] block text-black/5 opacity-0 transition-opacity duration-500 group-hover:opacity-100 dark:text-white/10"
+      <motion.div
+        className="pointer-events-none absolute inset-0 z-[1] text-black/5 opacity-0 transition-opacity duration-500 group-hover:opacity-100 dark:text-white/10"
         style={{
           background
         }}
         aria-hidden
-      ></motion.span>
+      ></motion.div>
 
       {/* Content layer */}
-      <span className="absolute inset-px flex items-center rounded-[11px] bg-zinc-50 p-2 dark:bg-zinc-900">
-        <span className="relative z-[1] w-0 flex-1 px-3">
-          <span className="block truncate text-lg leading-tight font-semibold text-zinc-800">
+      <div className="absolute inset-px flex items-center rounded-[11px] bg-zinc-50 p-2 dark:bg-zinc-900">
+        <div className="relative z-[1] w-0 flex-1 px-3">
+          <div className="truncate text-lg leading-tight font-semibold">
             {title}
-          </span>
-          <span
-            className="mt-1 block truncate text-sm leading-tight text-zinc-500"
+          </div>
+          <div
+            className="mt-1 truncate text-sm leading-tight text-zinc-500"
             title={description}
           >
             {description}
-          </span>
-        </span>
+          </div>
+        </div>
         {image && (
           <LazyImage
             className="block rounded-lg"
@@ -70,7 +70,7 @@ export const LinkCard = ({
             alt="og"
           />
         )}
-      </span>
+      </div>
     </Link>
   );
 };

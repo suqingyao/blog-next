@@ -12,10 +12,7 @@ export const LazyLoad = ({ children, placeholder }: LazyLoadProps) => {
 
   return (
     <>
-      <span
-        ref={targetRef}
-        className="block"
-      ></span>
+      <div ref={targetRef}></div>
       {isInView ? <>{children}</> : <>{placeholder}</>}
     </>
   );

@@ -1,5 +1,5 @@
 import type { Root } from 'hast';
-import { Plugin } from 'unified';
+import type { Plugin } from 'unified';
 import { visit } from 'unist-util-visit';
 
 export const rehypeTable: Plugin<Array<void>, Root> = () => (tree: Root) => {

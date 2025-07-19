@@ -42,10 +42,9 @@ export const LazyImage = (props: LazyImageProps) => {
   const imgSrc = hasError ? fallbackSrc : src;
 
   return (
-    <span
+    <div
       ref={targetRef}
       style={{ position: 'relative', width, height }}
-      className="block"
     >
       {!(alreadyLoaded || isLoaded) && (
         <Skeleton
@@ -81,6 +80,6 @@ export const LazyImage = (props: LazyImageProps) => {
         />
       )}
       {placeholder && !(alreadyLoaded || isInView) && placeholder}
-    </span>
+    </div>
   );
 };

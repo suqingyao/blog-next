@@ -32,8 +32,9 @@ import sanitizeScheme from './sanitize-schema';
 import { remarkPangu } from './remark-pangu';
 import { rehypeTable } from './rehype-table';
 import { rehypeWrapCode } from './rehype-wrap-code';
-import { mdxComponents } from './components';
+import { rehypeFixBlock } from './rehype-fix-block';
 import { ShikiRemarkServer } from '@/components/ui/shiki-remark-server';
+import { mdxComponents } from './components';
 
 const memoedPreComponentMap = {} as Record<string, any>;
 
@@ -74,12 +75,15 @@ export const renderMarkdown = ({
         singleDollarTextMath: false
       })
       .use(remarkPangu)
-      .use(remarkRehype, { allowDangerousHtml: true })
+      .use(remarkRehype, {
+        allowDangerousHtml: true
+      })
       .use(rehypeRaw)
       .use(rehypeSlug)
       .use(rehypeSanitize, strictMode ? undefined : sanitizeScheme)
       .use(rehypeTable)
       .use(rehypeWrapCode)
+      .use(rehypeFixBlock)
       .use(rehypeInferDescriptionMeta)
       .use(rehypeKatex, {
         strict: false

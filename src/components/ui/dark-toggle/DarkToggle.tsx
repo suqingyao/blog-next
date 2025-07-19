@@ -121,42 +121,42 @@ export const DarkToggle = () => {
   // 在服务器端渲染一个占位符，避免水合错误
   if (!isMounted) {
     return (
-      <span className="relative block h-[28px] w-[56px] rounded-full bg-gray-200 p-[5px]">
-        <span className="relative block h-[18px] w-[18px] rounded-full bg-gray-300" />
-      </span>
+      <div className="relative h-[28px] w-[56px] rounded-full bg-gray-200 p-[5px]">
+        <div className="relative h-[18px] w-[18px] rounded-full bg-gray-300" />
+      </div>
     );
   }
 
   return (
-    <motion.span
+    <motion.div
       animate={{
         backgroundColor: isDark ? '#475569' : '#7dd3fc'
       }}
       role="button"
-      className="relative block h-[28px] w-[56px] cursor-pointer rounded-full p-[5px]"
+      className="relative h-[28px] w-[56px] cursor-pointer rounded-full p-[5px]"
       onClick={handleToggleTheme}
     >
       {starts}
       {clouds}
-      <motion.span
+      <motion.div
         animate={{
           x: isDark ? 28 : 0,
           rotate: isDark ? 0 : 180,
           backgroundColor: isDark ? '#c6d0d1' : '#fde047'
         }}
-        className="relative block h-[18px] w-[18px] rounded-full"
+        className="relative h-[18px] w-[18px] rounded-full"
       >
-        <motion.span
+        <motion.div
           animate={{
             opacity: isDark ? 1 : 0
           }}
-          className="relative block h-full w-full"
+          className="relative h-full w-full"
         >
-          <span className="absolute top-[6px] left-[4px] block h-[4px] w-[4px] rounded-full bg-slate-400/50 shadow-inner" />
-          <span className="absolute top-[8px] left-[11px] block h-px w-px rounded-full bg-slate-400/50 shadow-inner" />
-          <span className="absolute top-[11px] left-[9px] block h-[2px] w-[2px] rounded-full bg-slate-400/50 shadow-inner" />
-        </motion.span>
-      </motion.span>
-    </motion.span>
+          <div className="absolute top-[6px] left-[4px] h-[4px] w-[4px] rounded-full bg-slate-400/50 shadow-inner" />
+          <div className="absolute top-[8px] left-[11px] h-px w-px rounded-full bg-slate-400/50 shadow-inner" />
+          <div className="absolute top-[11px] left-[9px] h-[2px] w-[2px] rounded-full bg-slate-400/50 shadow-inner" />
+        </motion.div>
+      </motion.div>
+    </motion.div>
   );
 };
