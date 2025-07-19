@@ -22,6 +22,12 @@ export default function PostTitle({
       pageTitle: post.title,
       pageTitleElement: document.querySelector('.post-title') as HTMLHeadElement
     });
+    return () => {
+      setHeaderAtom({
+        pageTitle: '',
+        pageTitleElement: null
+      });
+    };
   }, [post.title]);
 
   return (
