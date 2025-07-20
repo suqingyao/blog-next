@@ -34,10 +34,10 @@ const config: Config = {
         css: {
           '--tw-prose-body': theme('colors.zinc.400'),
           '--tw-prose-headings': theme('colors.zinc.200'),
-          '--tw-prose-links': theme('colors.teal.400'),
-          '--tw-prose-links-hover': theme('colors.teal.400'),
-          '--tw-prose-underline': theme('colors.teal.400 / 0.3'),
-          '--tw-prose-underline-hover': theme('colors.teal.400'),
+          '--tw-prose-links': theme('colors.green.400'),
+          '--tw-prose-links-hover': theme('colors.green.400'),
+          '--tw-prose-underline': theme('colors.green.400 / 0.3'),
+          '--tw-prose-underline-hover': theme('colors.green.400'),
           '--tw-prose-bold': theme('colors.zinc.200'),
           '--tw-prose-counters': theme('colors.zinc.200'),
           '--tw-prose-bullets': theme('colors.zinc.200'),
@@ -58,10 +58,10 @@ const config: Config = {
           // 使用 Tailwind 颜色系统，支持主题切换
           '--tw-prose-body': theme('colors.zinc.600'),
           '--tw-prose-headings': theme('colors.zinc.900'),
-          '--tw-prose-links': theme('colors.teal.500'),
-          '--tw-prose-links-hover': theme('colors.teal.600'),
-          '--tw-prose-underline': theme('colors.teal.500 / 0.2'),
-          '--tw-prose-underline-hover': theme('colors.teal.500'),
+          '--tw-prose-links': theme('colors.green.500'),
+          '--tw-prose-links-hover': theme('colors.green.600'),
+          '--tw-prose-underline': theme('colors.green.500 / 0.2'),
+          '--tw-prose-underline-hover': theme('colors.green.500'),
           '--tw-prose-bold': theme('colors.zinc.900'),
           '--tw-prose-counters': theme('colors.zinc.900'),
           '--tw-prose-bullets': theme('colors.zinc.900'),
@@ -94,13 +94,13 @@ const config: Config = {
             fontWeight: theme('fontWeight.semibold')
           },
           h2: {
-            fontSize: theme('fontSize.2xl')[0],
+            fontSize: theme('fontSize.lg')[0],
             lineHeight: theme('lineHeight.7'),
             marginTop: theme('spacing.16'),
             marginBottom: theme('spacing.4')
           },
           h3: {
-            fontSize: theme('fontSize.xl')[0],
+            fontSize: theme('fontSize.base')[0],
             lineHeight: theme('lineHeight.7'),
             marginTop: theme('spacing.12'),
             marginBottom: theme('spacing.4')

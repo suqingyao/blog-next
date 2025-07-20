@@ -33,7 +33,7 @@ export default function PostTitle({
   return (
     <h2
       className={cn(
-        'post-title relative my-4 flex items-center text-3xl font-extrabold',
+        'post-title relative my-4 flex items-center text-xl font-extrabold',
         {
           'justify-center': center,
           'text-center': center
