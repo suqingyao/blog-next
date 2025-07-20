@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, useMemo, memo } from 'react';
 import { useRouter } from 'next/navigation';
 import { LazyImage } from '@/components/lazy-image';
 import { MasonryX } from '@/components/masonry-x';
@@ -19,7 +19,7 @@ export const getOssImageId = (path: string) => {
   return parts[parts.length - 1];
 };
 
-function PhotoItem({
+const PhotoItem = memo(function PhotoItem({
   photo,
   album,
   onImgLoad,
@@ -57,21 +57,62 @@ function PhotoItem({
       }}
     />
   );
-}
+});
 
 export const PhotoList = ({ photos }: { photos: PhotoFile[] }) => {
   const [currentAlbum, setCurrentAlbum] = useState(photos[0].album);
   const [columnCount, setColumnCount] = useState(3);
   const containerRef = useRef<HTMLDivElement>(null);
 
+  // 使用 useMemo 缓存所有相册的照片列表，避免重复过滤
+  const albumPhotosMap = useMemo(() => {
+    const map = new Map<string, string[]>();
+    photos.forEach((photo) => {
+      if (!map.has(photo.album)) {
+        map.set(photo.album, []);
+      }
+      map.get(photo.album)!.push(photo.url);
+    });
+    return map;
+  }, [photos]);
+
+  // 使用 useMemo 缓存当前相册的照片列表
+  const filteredPhotos = useMemo(() => {
+    return albumPhotosMap.get(currentAlbum) || [];
+  }, [albumPhotosMap, currentAlbum]);
+
+  // 使用 useMemo 缓存 renderItem 函数
+  const renderItem = useMemo(() => {
+    return (
+      photo: string,
+      idx: number,
+      onImgLoad: (height: number, src?: string) => void,
+      width?: number,
+      height?: number
+    ) => (
+      <PhotoItem
+        key={photo}
+        photo={photo}
+        album={currentAlbum}
+        onImgLoad={onImgLoad}
+        width={width}
+        height={height}
+      />
+    );
+  }, [currentAlbum]);
+
   useEffect(() => {
     function handleResize() {
       const width = containerRef.current?.clientWidth;
       if (!width) return;
-      if (width >= 1440) setColumnCount(6); // 2xl
-      else if (width >= 1280) setColumnCount(5); // xl
-      else if (width >= 1024) setColumnCount(4); // lg
-      else if (width >= 768) setColumnCount(3); // sm/md
+      if (width >= 1440)
+        setColumnCount(6); // 2xl
+      else if (width >= 1280)
+        setColumnCount(5); // xl
+      else if (width >= 1024)
+        setColumnCount(4); // lg
+      else if (width >= 768)
+        setColumnCount(3); // sm/md
       else setColumnCount(2); // xs
     }
 
@@ -89,25 +130,14 @@ export const PhotoList = ({ photos }: { photos: PhotoFile[] }) => {
       />
       {currentAlbum && (
         <MasonryX
-          items={photos
-            .filter((photo) => photo.album === currentAlbum)
-            .map((photo) => photo.url)}
+          items={filteredPhotos}
           columnCount={columnCount}
           gap={16}
           enableVirtualScroll={false}
           getItemHeight={(photo, idx) => {
             return 300;
           }}
-          renderItem={(photo, idx, onImgLoad, width, height) => (
-            <PhotoItem
-              key={photo}
-              photo={photo}
-              album={currentAlbum}
-              onImgLoad={onImgLoad}
-              width={width}
-              height={height}
-            />
-          )}
+          renderItem={renderItem}
         />
       )}
     </div>

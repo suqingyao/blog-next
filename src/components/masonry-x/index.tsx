@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState, useEffect, useLayoutEffect } from 'react';
+import { useRef, useState, useEffect, useLayoutEffect, useMemo } from 'react';
 
 interface MasonryXProps<T> {
   items: T[];
@@ -94,7 +94,6 @@ export function MasonryX<T>({
     } else {
       setItemHeights(Array(items.length).fill(300));
     }
-     
   }, [items, getItemHeight]);
 
   // 容器高度 = 最高的那一列
@@ -121,6 +120,11 @@ export function MasonryX<T>({
       });
     }
   };
+
+  // 使用 useMemo 缓存已加载的图片高度，避免重复计算
+  const memoizedItemHeights = useMemo(() => {
+    return itemHeights;
+  }, [itemHeights]);
 
   // 虚拟滚动：只渲染可视区域的 items
   const buffer = 500; // 预加载 buffer
