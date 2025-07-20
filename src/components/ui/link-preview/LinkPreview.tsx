@@ -86,6 +86,7 @@ export const LinkPreview = ({
             layout={layout}
             priority={true}
             alt="hidden image"
+            unoptimized
           />
         </div>
       ) : null}
@@ -136,14 +137,11 @@ export const LinkPreview = ({
                   className="block rounded-xl border-2 border-transparent bg-white p-1 shadow hover:border-neutral-200 dark:hover:border-neutral-800"
                   style={{ fontSize: 0 }}
                 >
-                  <Image
+                  <img
                     src={isStatic ? imageSrc : src}
                     width={width}
                     height={height}
-                    quality={quality}
-                    layout={layout}
-                    priority={true}
-                    className="rounded-lg"
+                    className="h-full w-full rounded-lg object-cover"
                     alt="preview image"
                   />
                 </Link>

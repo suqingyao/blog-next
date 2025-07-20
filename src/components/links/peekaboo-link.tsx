@@ -104,6 +104,7 @@ export function PeekabooLink({
               layout="fixed"
               priority={true}
               alt="hidden image"
+              unoptimized
             />
           </div>
         ) : null}
@@ -152,6 +153,7 @@ export function PeekabooLink({
                       priority={true}
                       className="rounded-lg"
                       alt="preview image"
+                      unoptimized
                     />
                   </Link>
                 </motion.div>
