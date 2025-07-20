@@ -20,3 +20,5 @@ export * from './PencilSwooshIcon';
 export * from './ExternalLinkIcon';
 export * from './DashboardIcon';
 export * from './CircleArrowUpIcon';
+export * from './TelegramIcon';
+export * from './AtomIcon';
