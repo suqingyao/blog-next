@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import {
   bundledLanguages,
   bundledThemes,
-  createHighlighter as _createHighlighter,
+  createHighlighter as createHighlighterPrimitive,
   type Highlighter
 } from 'shiki';
 
@@ -40,7 +40,7 @@ let highlighter: Highlighter | undefined;
 
 export const createHighlighter = async () => {
   if (!highlighter) {
-    highlighter = await _createHighlighter({
+    highlighter = await createHighlighterPrimitive({
       themes: Object.keys(bundledThemes),
       langs: Object.keys(bundledLanguages)
     });

@@ -33,7 +33,7 @@ import { remarkPangu } from './remark-pangu';
 import { rehypeTable } from './rehype-table';
 import { rehypeWrapCode } from './rehype-wrap-code';
 import { rehypeFixBlock } from './rehype-fix-block';
-import { rehypeLinkPreview } from './rehype-link-preview';
+import { rehypePeekabooLink } from './rehype-peekaboo-link';
 import { ShikiRemarkServer } from '@/components/ui/shiki-remark-server';
 import { mdxComponents } from './components';
 
@@ -84,7 +84,7 @@ export const renderMarkdown = ({
       .use(rehypeSanitize, strictMode ? undefined : sanitizeScheme)
       .use(rehypeTable)
       .use(rehypeWrapCode)
-      .use(rehypeLinkPreview)
+      .use(rehypePeekabooLink)
       .use(rehypeFixBlock) // 必须放在其他 rehype 插件之后
       .use(rehypeInferDescriptionMeta)
       .use(rehypeKatex, {

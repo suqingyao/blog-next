@@ -52,7 +52,8 @@ export const rehypeLinkPreview: Plugin<Array<void>, Root> = () => {
           type: 'element' as const,
           tagName: 'linkpreview',
           properties: {
-            url: href
+            url: href,
+            title
           },
           children: node.children // 保留原始链接文本作为 children
         };
