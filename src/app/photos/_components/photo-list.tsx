@@ -7,6 +7,11 @@ import { PhotoAlbumTabs } from './photo-album-tabs';
 import { type Item, Masonry } from '@/components/ui/masonry';
 import { type PhotoFile } from '@/lib/photos';
 
+function getPhotoId(url: string) {
+  const arr = url.split('/');
+  return arr[arr.length - 1].split('.')[0];
+}
+
 export const PhotoList = ({ photos }: { photos: PhotoFile[] }) => {
   const [currentAlbum, setCurrentAlbum] = useState(photos[0].album);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -42,7 +47,8 @@ export const PhotoList = ({ photos }: { photos: PhotoFile[] }) => {
       height: rect.height
     });
 
-    router.push(`/photos/${item.id}`);
+    const photo = getPhotoId(item.url);
+    router.push(`/photos/${photo}?url=${encodeURIComponent(item.url)}`);
   }
 
   return (

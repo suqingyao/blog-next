@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { AnimatePresence, motion } from 'motion/react';
 
 import { useEventListener } from '@/hooks/use-event-listener';
@@ -9,13 +9,15 @@ import { useModalRectAtom } from '@/hooks/use-modal-rect-atom';
 import { useOutsideClick } from '@/hooks/use-outside-click';
 
 export default function PhotosModalPage() {
-  const { album, image } = useParams();
+  const { image } = useParams();
+  const searchParams = useSearchParams();
+  const url = decodeURIComponent(searchParams.get('url') || '');
   const router = useRouter();
   const { modalRectAtom, setModalRectAtom } = useModalRectAtom();
   const [show, setShow] = useState(true);
   const imageRef = useRef<HTMLImageElement>(null);
 
-  useOutsideClick(imageRef, handleClose);
+  useOutsideClick(imageRef, (e) => handleClose(e as any));
 
   useEventListener(
     'keydown',
@@ -36,7 +38,8 @@ export default function PhotosModalPage() {
     };
   }, []);
 
-  function handleClose() {
+  function handleClose(e?: React.MouseEvent<HTMLDivElement>) {
+    e?.stopPropagation();
     setShow(false);
   }
 
@@ -74,7 +77,7 @@ export default function PhotosModalPage() {
         position: 'fixed',
         zIndex: 100,
         opacity: 1,
-        transition: { type: 'spring' as const, stiffness: 200, damping: 30 }
+        transition: { type: 'spring' as const, stiffness: 200, damping: 15 }
       },
       exit: {
         width,
@@ -86,7 +89,7 @@ export default function PhotosModalPage() {
         position: 'fixed',
         zIndex: 100,
         opacity: 1,
-        transition: { type: 'spring' as const, stiffness: 200, damping: 30 }
+        transition: { type: 'spring' as const, stiffness: 200, damping: 15 }
       }
     };
   } else {
@@ -99,10 +102,16 @@ export default function PhotosModalPage() {
   }
 
   return (
-    <AnimatePresence onExitComplete={handleExitComplete}>
+    <>
+      {/* Backdrop 直接显示/隐藏，不参与 AnimatePresence 动画 */}
       {show && (
-        <>
-          <div className="fixed inset-0 z-100 flex items-center justify-center bg-black/40 backdrop-blur-sm"></div>
+        <div
+          className="fixed inset-0 z-100 flex items-center justify-center bg-black/40 backdrop-blur-sm"
+          onClick={handleClose}
+        />
+      )}
+      <AnimatePresence onExitComplete={handleExitComplete}>
+        {show && (
           <motion.div
             variants={containerVariants}
             initial="initial"
@@ -112,13 +121,13 @@ export default function PhotosModalPage() {
           >
             <img
               ref={imageRef}
-              src={`/photos/${album}/${image}`}
+              src={url}
               alt={image as string}
               className="h-full rounded-xl object-contain"
             />
           </motion.div>
-        </>
-      )}
-    </AnimatePresence>
+        )}
+      </AnimatePresence>
+    </>
   );
 }
