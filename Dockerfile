@@ -19,6 +19,7 @@ RUN npm install -g pnpm && pnpm install
 
 # 拷贝全部代码并构建
 COPY . .
+RUN rm -rf .next node_modules/.cache
 RUN pnpm build
 
 # 生产环境镜像
