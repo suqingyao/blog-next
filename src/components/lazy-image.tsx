@@ -1,13 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import type { ImgHTMLAttributes, ReactNode } from 'react';
 import { Skeleton } from './ui/skeleton';
 import { cn } from '@/lib/utils';
 import { useInView } from '@/hooks/use-in-view';
 
-export type LazyImageProps = ImgHTMLAttributes<HTMLImageElement> & {
-  placeholder?: ReactNode;
+export type LazyImageProps = React.ImgHTMLAttributes<HTMLImageElement> & {
+  placeholder?: React.ReactNode;
   fallbackSrc?: string;
   loadedSrcs?: Set<string>;
 };
@@ -44,7 +43,7 @@ export const LazyImage = (props: LazyImageProps) => {
   return (
     <div
       ref={targetRef}
-      style={{ position: 'relative', width, height }}
+      className="relative"
     >
       {!(alreadyLoaded || isLoaded) && (
         <Skeleton
@@ -57,7 +56,7 @@ export const LazyImage = (props: LazyImageProps) => {
       {(alreadyLoaded || isInView) && (
         <img
           className={cn(
-            'h-full w-full object-cover transition-opacity duration-500',
+            'object-cover transition-opacity duration-500',
             isLoaded ? 'opacity-100' : 'opacity-0',
             className
           )}

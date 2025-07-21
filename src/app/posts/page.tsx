@@ -1,5 +1,5 @@
 import { getAllPosts } from '@/models/post.model';
-import { PostList } from '@/components/site/post-list';
+import { PostList } from '@/components/site/PostList';
 
 const PostsPage = async () => {
   const posts = await getAllPosts();

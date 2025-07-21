@@ -4,16 +4,16 @@ import type { Result as TocResult } from 'mdast-util-toc';
 import type { BundledTheme } from 'shiki/themes';
 import { memo, useEffect } from 'react';
 
-import PostToc from '@/components/site/post-toc';
+import PostToc from '@/components/site/PostToc';
 import { cn, scrollTo } from '@/lib/utils';
 import { renderMarkdown } from '@/markdown';
 import { useClipboard } from '@/hooks/use-clipboard';
 
-import { MarkdownContentContainer } from './markdown-content-container';
+import { MarkdownContentContainer } from './MarkdownContentContainer';
 import { toast } from 'sonner';
 import { APP_HEADER_HEIGHT } from '@/constants';
 
-const MarkdownContent = memo(function PageContent({
+export const MarkdownContent = memo(function PageContent({
   className,
   content,
   withToc,
@@ -137,5 +137,3 @@ const MarkdownContent = memo(function PageContent({
     </MarkdownContentContainer>
   );
 });
-
-export default MarkdownContent;

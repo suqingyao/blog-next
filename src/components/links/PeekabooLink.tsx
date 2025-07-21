@@ -8,7 +8,7 @@ import React from 'react';
 import { encode } from 'qss';
 
 import { HoverCard } from '../ui/hover-card';
-import { RichLink } from './rich-link';
+import { RichLink } from './RichLink';
 
 type PeekabooLinkProps = LinkProps &
   React.ComponentPropsWithoutRef<'a'> & {

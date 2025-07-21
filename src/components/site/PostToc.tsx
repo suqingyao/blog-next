@@ -7,7 +7,7 @@ import type { List } from 'mdast';
 import { toHast } from 'mdast-util-to-hast';
 import type { Result as TocResult } from 'mdast-util-toc';
 
-import PostTocItems from './post-toc-items';
+import PostTocItems from './PostTocItems';
 
 const inlineElements = ['delete', 'strong', 'emphasis', 'inlineCode'];
 
@@ -46,8 +46,8 @@ const PostToc = ({ data }: { data: TocResult }) => {
   generateContent(data?.map);
 
   return (
-    <div className="post-toc absolute left-full top-0 hidden h-full pl-14 font-sans lg:block">
-      <div className="sticky top-42 max-h-[calc(100vh-theme('spacing.28'))] -translate-y-1/2 truncate whitespace-nowrap text-sm leading-loose">
+    <div className="post-toc absolute top-0 left-full hidden h-full pl-14 font-sans lg:block">
+      <div className="sticky top-42 max-h-[calc(100vh-theme('spacing.28'))] -translate-y-1/2 truncate text-sm leading-loose whitespace-nowrap">
         <PostTocItems items={data?.map} />
       </div>
     </div>

@@ -5,5 +5,4 @@ export const modalRectAtom = atom<{
   top: number;
   width: number;
   height: number;
-  scrollY: number;
 } | null>(null);

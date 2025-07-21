@@ -1,19 +1,18 @@
 'use client';
 
+import { useEffect, useRef, useState } from 'react';
+import { useParams, useRouter } from 'next/navigation';
+import { AnimatePresence, motion } from 'motion/react';
+
 import { useEventListener } from '@/hooks/use-event-listener';
 import { useModalRectAtom } from '@/hooks/use-modal-rect-atom';
 import { useOutsideClick } from '@/hooks/use-outside-click';
-import { AnimatePresence, motion } from 'motion/react';
-import { useParams, useRouter } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
 
 export default function PhotosModalPage() {
   const { album, image } = useParams();
   const router = useRouter();
-
-  const { modalRectAtom } = useModalRectAtom();
+  const { modalRectAtom, setModalRectAtom } = useModalRectAtom();
   const [show, setShow] = useState(true);
-
   const imageRef = useRef<HTMLImageElement>(null);
 
   useOutsideClick(imageRef, handleClose);
@@ -32,7 +31,6 @@ export default function PhotosModalPage() {
     // 禁止滚动
     const originalOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
-
     return () => {
       document.body.style.overflow = originalOverflow;
     };
@@ -43,68 +41,82 @@ export default function PhotosModalPage() {
   }
 
   function handleExitComplete() {
+    setModalRectAtom(null);
     router.back();
   }
 
-  const imageVariants = modalRectAtom
-    ? {
-        initial: {
-          width: modalRectAtom.width,
-          height: modalRectAtom.height,
-          left: modalRectAtom.left,
-          top: modalRectAtom.top,
-          position: 'fixed',
-          zIndex: 100,
-          origin: 'center',
-          scale: 1
-        },
-        animate: {
-          width: modalRectAtom.width,
-          height: modalRectAtom.height,
-          left: '50%',
-          top: '50%',
-          transform: 'translate(-50%, -50%) scale(2)',
-          position: 'fixed',
-          zIndex: 100,
-          transition: { duration: 0.3 },
-          origin: 'center'
-        },
-        exit: {
-          width: modalRectAtom.width,
-          height: modalRectAtom.height,
-          left: modalRectAtom.left,
-          top: modalRectAtom.top,
-          transform: 'translate(0, 0) scale(1)',
-          position: 'fixed',
-          zIndex: 100,
-          transition: { duration: 0.3 },
-          origin: 'center'
-        }
+  // 动画 variants
+  let containerVariants;
+  if (modalRectAtom) {
+    const { left, top, width, height } = modalRectAtom;
+    const centerX = left + width / 2;
+    const centerY =
+      top + height / 2 - (typeof window !== 'undefined' ? window.scrollY : 0);
+    containerVariants = {
+      initial: {
+        width,
+        height,
+        left: centerX,
+        top: centerY,
+        x: '-50%',
+        y: '-50%',
+        position: 'fixed',
+        zIndex: 100,
+        opacity: 1
+      },
+      animate: {
+        width: '80vw',
+        height: '80vh',
+        left: '50vw',
+        top: '50vh',
+        x: '-50%',
+        y: '-50%',
+        position: 'fixed',
+        zIndex: 100,
+        opacity: 1,
+        transition: { type: 'spring' as const, stiffness: 200, damping: 30 }
+      },
+      exit: {
+        width,
+        height,
+        left: centerX,
+        top: centerY,
+        x: '-50%',
+        y: '-50%',
+        position: 'fixed',
+        zIndex: 100,
+        opacity: 1,
+        transition: { type: 'spring' as const, stiffness: 200, damping: 30 }
       }
-    : { initial: {}, animate: {}, exit: {} };
+    };
+  } else {
+    // fallback: 居中显示
+    containerVariants = {
+      initial: { opacity: 0 },
+      animate: { opacity: 1, transition: { duration: 0.2 } },
+      exit: { opacity: 0, transition: { duration: 0.2 } }
+    };
+  }
 
   return (
     <AnimatePresence onExitComplete={handleExitComplete}>
       {show && (
         <>
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/10 backdrop-blur-sm">
-            {/* 关闭按钮 */}
-            <button
-              className="i-mingcute-close-fill absolute top-2 left-2 z-10 rounded-full bg-black/60 p-2 text-3xl text-white transition hover:bg-black/80 dark:bg-white/60 dark:text-white"
-              onClick={handleClose}
-              aria-label="关闭"
-            ></button>
-          </div>
-          <motion.img
-            ref={imageRef}
-            src={`/photos/${album}/${image}`}
-            alt={image as string}
-            className="h-full w-full rounded-sm shadow-lg"
-            variants={imageVariants}
+          <div className="fixed inset-0 z-100 flex items-center justify-center bg-black/40 backdrop-blur-sm"></div>
+          <motion.div
+            variants={containerVariants}
             initial="initial"
             animate="animate"
             exit="exit"
-          />
+            className="flex items-center justify-center"
+          >
+            <img
+              ref={imageRef}
+              src={`/photos/${album}/${image}`}
+              alt={image as string}
+              className="h-full rounded-xl object-contain"
+            />
+          </motion.div>
         </>
       )}
     </AnimatePresence>

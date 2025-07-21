@@ -1,8 +1,8 @@
 import { notFound } from 'next/navigation';
 import { getAllPosts, getPostBySlug } from '@/models/post.model';
-import MarkdownContentServer from '@/components/common/markdown-content-server';
-import PostTitle from '@/components/site/post-title';
-import PostMeta from '@/components/site/post-meta';
+import { MarkdownContentServer } from '@/components/ui/markdown';
+import PostTitle from '@/components/site/PostTitle';
+import PostMeta from '@/components/site/PostMeta';
 
 type PostPageParams = {
   params: {

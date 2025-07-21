@@ -1,11 +1,11 @@
 'use client';
 
+import { useInView } from '@/hooks/use-in-view';
 import { useEffect, useState } from 'react';
 
 import { cn } from '@/lib/utils';
-import { useInView } from '@/hooks/use-in-view';
 
-const FadeIn = ({
+export const FadeIn = ({
   children,
   className,
   ...props
@@ -13,7 +13,12 @@ const FadeIn = ({
   children?: JSX.Element | JSX.Element[];
   className?: string;
 } & React.HTMLAttributes<HTMLDivElement>) => {
-  const [ref, isInView] = useInView();
+  const [targetRef, isInView] = useInView({
+    root: null,
+    rootMargin: '0px',
+    threshold: 0,
+    triggerOnce: false
+  });
 
   const [locked, setLocked] = useState(false);
 
@@ -25,9 +30,9 @@ const FadeIn = ({
 
   return (
     <span
-      ref={ref}
+      ref={targetRef}
       className={cn(
-        'duration-800 block transition-[opacity,transform] ease-in-out',
+        'block transition-[opacity,transform] duration-800 ease-in-out',
         isInView === false && !locked
           ? // @see https://www.debugbear.com/blog/opacity-animation-poor-lcp
             'translate-y-[20%] opacity-[0.00001]'
@@ -40,5 +45,3 @@ const FadeIn = ({
     </span>
   );
 };
-
-export default FadeIn;

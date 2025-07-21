@@ -1,8 +1,7 @@
-import { Time } from '@/components/common/time';
+import { Time } from '@/components/common/Time';
 // import { BlockchainIcon } from '@/components/icons/BlockchainIcon';
 // import { EditButton } from '@/components/site/EditButton';
-import PostTag from '@/components/site/post-tag';
-import { UniLink } from '@/components/ui/uni-link';
+import PostTag from '@/components/site/PostTag';
 import { RESERVED_TAGS } from '@/lib/constants';
 import { CalendarIcon } from '../icons';
 // import { CSB_SCAN } from '@/lib/env';

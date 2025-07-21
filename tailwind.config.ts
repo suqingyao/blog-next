@@ -402,7 +402,7 @@ const config: Config = {
   },
   plugins: [
     // variableColorsPlugin(),
-    typography(),
+    typography,
     iconsPlugin({
       collections: {
         ...getIconCollections(['mingcute'])

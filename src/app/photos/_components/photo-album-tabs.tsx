@@ -5,7 +5,7 @@ import { useState, memo } from 'react';
 import cityAlbums from '@/data/city-albums.json';
 import { PhotoFile } from '@/lib/photos';
 
-const PhotoAlbumTabs = memo(
+export const PhotoAlbumTabs = memo(
   ({
     photos,
     setCurrentAlbum
@@ -26,7 +26,7 @@ const PhotoAlbumTabs = memo(
               setCurrentAlbum(album);
             }}
             className={cn(
-              'rounded-md text-2xl opacity-50 transition-opacity hover:opacity-100',
+              'rounded-md text-lg opacity-50 transition-opacity hover:opacity-100',
               current === album && 'opacity-100'
             )}
           >
@@ -37,5 +37,3 @@ const PhotoAlbumTabs = memo(
     );
   }
 );
-
-export default PhotoAlbumTabs;
