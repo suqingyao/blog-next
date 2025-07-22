@@ -395,6 +395,13 @@ const config: Config = {
             //   backgroundColor: theme('colors.neutral.50'),
             //   color: theme('colors.neutral.900')
             // }
+          },
+
+          // 详情见 rehype-fix-block.ts
+          '.block-tag': {
+            display: 'block',
+            marginTop: theme('spacing.6'),
+            marginBottom: theme('spacing.6')
           }
         }
       }

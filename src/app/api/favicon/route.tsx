@@ -97,7 +97,7 @@ export async function GET(req: NextRequest) {
     const baseUrl = new URL(req.url).origin;
     return renderFavicon(getFullUrl(iconUrl, baseUrl));
   } catch (e) {
-    console.error(e);
+    console.error('fetch favicon error');
   }
 
   const baseUrl = new URL(req.url).origin;

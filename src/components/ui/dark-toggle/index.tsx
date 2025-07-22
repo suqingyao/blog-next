@@ -1,2 +1,2 @@
-export { DarkToggle } from './DarkToggle';
-export { DarkToggleServer } from './DarkToggleServer';
+export * from './DarkToggle';
+export * from './DarkToggleServer';

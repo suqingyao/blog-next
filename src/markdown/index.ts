@@ -1,4 +1,4 @@
-import { ClassAttributes, createElement, FC, HTMLAttributes } from 'react';
+import { createElement } from 'react';
 import type { Root as HashRoot } from 'hast';
 import type { Root as MdashRoot } from 'mdast';
 import type { BundledTheme } from 'shiki/themes';
@@ -31,10 +31,11 @@ import { isServer } from '@/lib/is';
 import sanitizeScheme from './sanitize-schema';
 import { remarkPangu } from './remark-pangu';
 import { rehypeTable } from './rehype-table';
+import { rehypeMermaid } from './rehype-mermaid';
 import { rehypeWrapCode } from './rehype-wrap-code';
 import { rehypeFixBlock } from './rehype-fix-block';
 import { rehypePeekabooLink } from './rehype-peekaboo-link';
-import { ShikiRemarkServer } from '@/components/ui/shiki-remark-server';
+import { ShikiRemarkServer } from '@/components/ui/shiki-remark';
 import { mdxComponents } from './components';
 
 const memoedPreComponentMap = {} as Record<string, any>;
@@ -83,6 +84,7 @@ export const renderMarkdown = ({
       .use(rehypeSlug)
       .use(rehypeSanitize, strictMode ? undefined : sanitizeScheme)
       .use(rehypeTable)
+      .use(rehypeMermaid)
       .use(rehypeWrapCode)
       .use(rehypePeekabooLink)
       .use(rehypeFixBlock) // 必须放在其他 rehype 插件之后
@@ -103,9 +105,9 @@ export const renderMarkdown = ({
     }
   }
 
-  let Pre: FC<
-    ClassAttributes<HTMLPreElement> &
-      HTMLAttributes<HTMLPreElement> &
+  let Pre: React.FC<
+    React.ClassAttributes<HTMLPreElement> &
+      React.HTMLAttributes<HTMLPreElement> &
       ExtraProps
   > = memoedPreComponentMap[hashCodeThemeKey(codeTheme)];
 

@@ -1,4 +1,1 @@
-
-
-export { LinkCard } from './LinkCard';
-
+export * from './LinkCard';

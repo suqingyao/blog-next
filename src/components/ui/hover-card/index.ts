@@ -1,1 +1,1 @@
-export { HoverCard } from './hover-card';
+export { HoverCard } from './HoverCard';

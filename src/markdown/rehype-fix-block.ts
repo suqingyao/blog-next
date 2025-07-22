@@ -12,10 +12,12 @@ export const rehypeFixBlock: Plugin<Array<void>, Root> = () => (tree: Root) => {
       parent.type === 'element' &&
       parent.tagName === 'p'
     ) {
-      // 直接把 <p><linkcard /></p> 变成 <linkcard />
-      parent.tagName = node.tagName;
-      parent.properties = node.properties;
-      parent.children = node.children;
+      // 把 <p><linkcard /></p> 变成 <div class="block-tag"><linkcard /></div> 防止水合错误
+      parent.tagName = 'div';
+      parent.properties = {
+        // 在tailwincss 配置了 block-tag 类
+        className: 'block-tag'
+      };
     }
   });
 };

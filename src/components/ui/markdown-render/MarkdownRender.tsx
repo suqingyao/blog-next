@@ -1,4 +1,3 @@
-import { LazyImage } from '@/components/lazy-image';
 import type { ExtraProps } from 'hast-util-to-jsx-runtime';
 
 export const createMarkdownHeaderComponent = (tag: string) => {
@@ -10,7 +9,10 @@ export const createMarkdownHeaderComponent = (tag: string) => {
     const Tag = tag as any;
 
     return (
-      <Tag {...rest} className="flex items-center">
+      <Tag
+        {...rest}
+        className="flex items-center"
+      >
         {children}
         <a
           className="anchor flex items-center"
@@ -24,12 +26,4 @@ export const createMarkdownHeaderComponent = (tag: string) => {
   };
 
   return MarkdownHeader;
-};
-
-export const createMarkdownImageComponent = () => {
-  const MarkdownImage: React.FC<React.ClassAttributes<HTMLImageElement> & React.ImgHTMLAttributes<HTMLImageElement> & ExtraProps> = ({ children, ...rest }) => {
-    return <LazyImage {...rest} />;
-  };
-
-  return MarkdownImage;
 };

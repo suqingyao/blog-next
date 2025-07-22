@@ -1,4 +1,4 @@
-import { DarkToggle } from "./DarkToggle";
+import { DarkToggle } from './DarkToggle';
 
 export const DarkToggleServer = () => {
   return <DarkToggle />;
