@@ -11,7 +11,8 @@
     "lint:fix": "next lint --fix",
     "new:post": "node ./scripts/new-post.js",
     "update": "npx taze -w",
-    "compress:images": "node ./scripts/compress-images.js"
+    "compress:images": "node ./scripts/compress-images.js",
+    "generate:summaries": "node ./scripts/generate-summaries.js"
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.1.10",
@@ -47,6 +48,7 @@
     "next-intl": "^3.26.5",
     "next-themes": "^0.2.1",
     "nextjs-toploader": "^1.6.12",
+    "openai": "^5.11.0",
     "pangu": "^4.0.7",
     "qss": "^3.0.0",
     "react": "19.1.0",

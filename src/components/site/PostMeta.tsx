@@ -60,12 +60,14 @@ export default async function PostMeta({
       </div>
       {/* <TranslationInfo page={page} /> */}
       {summary && (
-        <div className="post-summary mt-5 space-y-2 rounded-xl border p-4">
-          <div className="flex items-center font-bold text-zinc-700">
-            <i className="i-mingcute-sparkles-line mr-2 text-lg" />
+        <div className="post-summary mt-6 space-y-3 rounded-xl border border-zinc-200/60 bg-zinc-50/50 p-4 backdrop-blur-sm transition-colors dark:border-zinc-800/60 dark:bg-zinc-900/50">
+          <div className="flex items-center font-semibold text-zinc-700 dark:text-zinc-300">
+            <i className="i-mingcute-sparkles-line text-primary mr-2 text-lg" />
             {translated?.['AI-generated summary'] || 'AI-generated summary'}
           </div>
-          <div className="text-sm leading-loose text-zinc-500">{summary}</div>
+          <div className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+            {summary}
+          </div>
         </div>
       )}
     </div>

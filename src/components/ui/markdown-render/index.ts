@@ -1,1 +1,1 @@
-export { createMarkdownHeaderComponent, createMarkdownImageComponent } from './MarkdownRender';
+export { createMarkdownHeaderComponent } from './MarkdownRender';

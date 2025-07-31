@@ -27,7 +27,7 @@ const PostPage = async ({ params }: PostPageParams) => {
         center={true}
       />
 
-      <PostMeta post={post} />
+      <PostMeta post={post} summary={post.summary} />
 
       <MarkdownContentServer
         className="mt-10"
