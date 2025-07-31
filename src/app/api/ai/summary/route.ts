@@ -18,14 +18,23 @@ if (!sparkApiPassword) {
  * 初始化OpenAI客户端，配置为使用讯飞星火的兼容接口
  * 讯飞星火提供了兼容OpenAI格式的API端点
  * 使用控制台获取的APIPassword作为api_key
+ * 在构建时如果环境变量缺失，使用占位符避免构建失败
  */
 const openai = new OpenAI({
-  apiKey: sparkApiPassword,
+  apiKey: sparkApiPassword || 'placeholder-key-for-build',
   baseURL: 'https://spark-api-open.xf-yun.com/v1/'
 });
 
 export async function POST(request: NextRequest) {
   try {
+    // 运行时检查环境变量
+    if (!sparkApiPassword || sparkApiPassword === 'placeholder-key-for-build') {
+      return NextResponse.json(
+        { error: 'AI summary service is not configured properly' },
+        { status: 503 }
+      );
+    }
+
     const { content } = await request.json();
 
     if (!content) {
