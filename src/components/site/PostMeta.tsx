@@ -4,6 +4,7 @@ import { Time } from '@/components/common/Time';
 import PostTag from '@/components/site/PostTag';
 import { RESERVED_TAGS } from '@/lib/constants';
 import { CalendarIcon } from '../icons';
+import { MarkdownContent } from '@/components/ui/markdown/MarkdownContent';
 // import { CSB_SCAN } from '@/lib/env';
 // import { ExpandedCharacter, ExpandedNote, NoteType } from "@/lib/types"
 
@@ -66,7 +67,11 @@ export default async function PostMeta({
             {translated?.['AI-generated summary'] || 'AI-generated summary'}
           </div>
           <div className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-            {summary}
+            <MarkdownContent 
+              content={summary} 
+              onlyContent={true}
+              strictMode={true}
+            />
           </div>
         </div>
       )}

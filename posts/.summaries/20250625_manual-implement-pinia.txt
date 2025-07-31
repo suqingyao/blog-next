@@ -1,2 +1,1 @@
-### 摘要
-本文展示手动实现 Pinia 核心逻辑：通过 `defineStore` 工厂函数结合 Vue 的 `effectScope` API 创建独立响应式作用域，实现状态缓存与隔离；以 `useCounterStore` 为例演示其用法，说明该方案如何避免全局污染并支持资源管理。
+手动实现简易 Pinia：用 `defineStore` 工厂函数结合 `effectScope` 创建独立响应式作用域，缓存状态避免污染；示例 `useCounterStore` 提供计数功能。`effectScope` 可隔离副作用、统一管理生命周期，适用于组件外状态管理和资源释放场景。

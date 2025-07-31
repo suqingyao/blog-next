@@ -1,1 +1,1 @@
-文章介绍了三种常见文件下载方式：1) 使用`<a>`标签直接下载；2) 结合`Blob`和`URL.createObjectURL`实现动态下载；3) 通过`FormData`与`XMLHttpRequest`异步获取并触发下载。每种方法均提供代码示例，适用于不同场景需求。
+介绍了三种常见文件下载方式：1) 使用`<a>`标签直接下载；2) 通过`Blob`和`URL.createObjectURL`实现动态下载；3) 利用`FormData`与`XMLHttpRequest`异步获取并触发下载。均支持设置自定义文件名。

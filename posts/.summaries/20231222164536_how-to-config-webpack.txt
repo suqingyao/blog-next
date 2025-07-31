@@ -1,3 +1,1 @@
-# Webpack基本使用摘要
-
-本文详细介绍了Webpack的配置与使用方法，包括处理JS/TS、CSS预处理器(Less/Sass等)、静态资源(图片/字体)和Vue单文件组件。重点讲解了loader与plugin的区别及应用，以及如何通过配置实现代码转换、优化和打包功能。
+本文详细介绍了Webpack的基本使用方法，包括配置JS、TypeScript、CSS及预处理器、静态资源和Vue文件的处理，还讲解了Loader与Plugin的区别及用法。

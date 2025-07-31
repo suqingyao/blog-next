@@ -1,2 +1,1 @@
-### 摘要：
-图片懒加载通过延迟加载非可视区域图片优化网页性能，常用方法包括JavaScript事件监听与更高效的Intersection Observer API。React中可结合Hook封装组件，或使用第三方库如`react-intersection-observer`和`react-lazyload`实现，显著提升页面速度并减轻服务器压力。
+图片懒加载是优化网页性能的技术，仅在用户视窗内加载可见图片。可通过JavaScript事件监听或更高效的Intersection Observer API实现，React中可结合Hook封装组件，也有成熟第三方库如react-intersection-observer和react-lazyload可用。

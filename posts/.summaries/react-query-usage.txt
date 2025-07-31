@@ -1,1 +1,1 @@
-本文介绍React Query的基本用法，包括安装、配置QueryClient、使用useQuery进行数据查询及useMutation处理变更。它简化了React应用的数据获取与状态管理流程，提升开发效率。
+React Query是一个专为React设计的数据获取与状态管理库，简化了缓存、同步等流程。本文介绍其基础用法，包括安装、配置QueryClient、使用useQuery进行查询及useMutation处理变更，并提及高级特性如分页和乐观更新。

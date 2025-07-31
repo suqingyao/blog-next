@@ -1,2 +1,1 @@
-### 摘要：
-本文详细介绍了多种CSS居中布局方法，包括Flex、Grid、绝对定位、table布局及其他方式（水平/垂直居中）。每种方法均配有代码示例，并附注意事项与兼容性说明。
+本文介绍了多种CSS实现元素居中的方法，包括Flex、Grid、绝对定位、table布局及其他方式（如text-align、margin:auto、line-height和vertical-align），并提供了相应代码示例。
