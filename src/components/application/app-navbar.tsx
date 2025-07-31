@@ -8,6 +8,7 @@ import { useHeaderAtom } from '@/hooks/use-header-atom';
 import { useScrollTop } from '@/hooks/use-scroll-top';
 import { APP_HEADER_HEIGHT } from '@/constants';
 import { cn } from '@/lib/utils';
+import { SearchButton } from '@/components/search';
 
 const links = [
   {
@@ -77,6 +78,7 @@ export const AppNavbar = () => {
             <i className={cn(link.icon, 'text-xl')}></i>
           </Link>
         ))}
+        <SearchButton />
       </nav>
     </div>
   );

@@ -23,3 +23,4 @@ export * from './CircleArrowUpIcon';
 export * from './TelegramIcon';
 export * from './AtomIcon';
 export * from './HorizontalIcon';
+export * from './AlgoliaIcon';

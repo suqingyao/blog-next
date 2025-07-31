@@ -1,0 +1,144 @@
+[
+  {
+    "slug": "20250714_js-concurrency-control",
+    "title": "JS 并发控制",
+    "summary": "JavaScript作为单线程语言，通过事件循环和异步机制实现并发。文章介绍并发与并行区别，讲解Promise相关API及如何使用p-limit库或手写代码控制并发数，给出批量上传等实战示例，并总结最佳实践。",
+    "content": "并发与并行的区别 - 并发：同一时间段内处理多个任务，但不一定同时进行。 - 并行：同一时刻多个任务真正同时执行（多核/多线程）。 JS 是单线程模型，主要通过事件循环和异步机制实现“并发”。 JS 的单线程模型 JavaScript 运行在单线程环境（如浏览器主线程），但可以通过异步任务（如 setTimeout、Promise、fetch）实现任务切换。 常见的并发场景 - 批量请求接口 - 文件批量上传 - 批量图片处理 如果不加控制，可能导致瞬时请求数过多，服务器压力大或被限流。 Promise 并发相关 API - ：并发执行所有任务，全部成功才 resolve。 - ：并发执行，最先完成的任务 resolve。 - ：并发执行，所有任务完成后返回每个任务的结果。 注意：这些 API 本身不会限制并发数。 并发数限制的实现 使用第三方库 p-limit 手写并发 实战场景 比如你要批量上传 100 张图片，但每次只允许 5 个并发： 总结与最佳实践 - 并发控制能有效防止接口被限流、浏览器卡顿。 - 推荐用 p-limit、promise-pool 等库，简单可靠。 - 复杂",
+    "createdTime": "2025-07-14T22:50:19.000Z",
+    "published": true,
+    "tags": [],
+    "searchText": "js 并发控制 javascript作为单线程语言，通过事件循环和异步机制实现并发。文章介绍并发与并行区别，讲解promise相关api及如何使用p-limit库或手写代码控制并发数，给出批量上传等实战示例，并总结最佳实践。 并发与并行的区别 - 并发：同一时间段内处理多个任务，但不一定同时进行。 - 并行：同一时刻多个任务真正同时执行（多核/多线程）。 js 是单线程模型，主要通过事件循环和异步机制实现“并发”。 js 的单线程模型 javascript 运行在单线程环境（如浏览器主线程），但可以通过异步任务（如 settimeout、promise、fetch）实现任务切换。 常见的并发场景 - 批量请求接口 - "
+  },
+  {
+    "slug": "20240921103346_axios-usage",
+    "title": "axios二次封装",
+    "summary": "本文介绍如何二次封装 axios，包括基本用法、配置拦截器、取消请求等功能，并提供一个支持错误重试、请求合并、状态管理的进阶封装方案，适合前端 hooks 场景使用。",
+    "content": "基本使用 请求配置 取消请求 进阶封装 以下是一个更实用的 axios 封装方案，支持： - 错误自动重试 - 同一时间段多次调用接口只发起一次请求（请求合并） - 返回 loading、data、error 信息，适合前端 hooks 场景 - 支持取消请求 使用示例 说明 - 错误重试：通过 retry 参数控制最大重试次数。 - 请求合并：同一参数的请求在未完成前只会发起一次，后续请求会复用 Promise。 - loading/data/error：适合 hooks 场景，便于组件中直接使用。 - 取消请求：通过 cancel 方法可随时取消。 你可以根据实际业务进一步扩展，比如支持全局 loading、全局错误提示等。",
+    "createdTime": "2024-09-21T10:33:46.000Z",
+    "published": true,
+    "tags": [
+      "axios"
+    ],
+    "searchText": "axios二次封装 本文介绍如何二次封装 axios，包括基本用法、配置拦截器、取消请求等功能，并提供一个支持错误重试、请求合并、状态管理的进阶封装方案，适合前端 hooks 场景使用。 基本使用 请求配置 取消请求 进阶封装 以下是一个更实用的 axios 封装方案，支持： - 错误自动重试 - 同一时间段多次调用接口只发起一次请求（请求合并） - 返回 loading、data、error 信息，适合前端 hooks 场景 - 支持取消请求 使用示例 说明 - 错误重试：通过 retry 参数控制最大重试次数。 - 请求合并：同一参数的请求在未完成前只会发起一次，后续请求会复用"
+  },
+  {
+    "slug": "20240822165842_how-to-implement-pubsub",
+    "title": "实现发布订阅模式",
+    "summary": "发布订阅模式（Pub-Sub）实现消息发送者与接收者的解耦通信。通过`EventEmitter`类提供`on`、`emit`、`off`和`once`方法管理事件注册与触发，支持多订阅者响应同一事件，增强代码灵活性与可维护性。",
+    "content": "什么是发布订阅模式 发布订阅模式（Publish-Subscribe），简称“Pub-Sub”，是一种消息传递模式，发送者（发布者）发送消息时无需了解接收者（订阅者）， 而订阅者在接收到消息时也无需了解是谁发送的。这种模式实现了组件之间的解耦，使它们可以在不直接依赖对方的情况下进行通信。 该模式广泛应用于事件驱动的架构中，其中事件触发了应用程序中不同部分的动作。 发布者与订阅者 发布者（Publisher）是消息的发送者，它将消息发送给订阅者（Subscriber）。订阅者（Subscriber）是消息接收者， 它注册了感兴趣的消息类型，当发布者发送消息时，订阅者将接收到消息。 在发布订阅模式中： - 发布者：发送消息或事件的主体。 - 订阅者：监听并响应特定事件或消息的主体。 这种模式允许多个订阅者对同一事件作出响应，同时发布者可以将事件广播给任何数量的订阅者。 实现发布订阅模式 这是一个简单的发布订阅模式的实现，它使用一个对象来存储事件和相应的回调函数。 方法用于注册一个事件， 方法用于触发一个事件， 方法用于取消注册一个事件， 方法用于注册一个一次性的事件。 在实现中，我们使用一",
+    "createdTime": "2024-08-22T16:58:42.000Z",
+    "published": true,
+    "tags": [],
+    "searchText": "实现发布订阅模式 发布订阅模式（pub-sub）实现消息发送者与接收者的解耦通信。通过`eventemitter`类提供`on`、`emit`、`off`和`once`方法管理事件注册与触发，支持多订阅者响应同一事件，增强代码灵活性与可维护性。 什么是发布订阅模式 发布订阅模式（publish-subscribe），简称“pub-sub”，是一种消息传递模式，发送者（发布者）发送消息时无需了解接收者（订阅者）， 而订阅者在接收到消息时也无需了解是谁发送的。这种模式实现了组件之间的解耦，使它们可以在不直接依赖对方的情况下进行通信。 该模式广泛应用于事件驱动的架构中，其中事件触发了应用程序中不同部分的动作。 发布者与订阅者 发布者（publi"
+  },
+  {
+    "slug": "react-query-usage",
+    "title": "ReactQuery的基本使用",
+    "summary": "React Query是一个专为React设计的数据获取与状态管理库，简化了缓存、同步等流程。本文介绍其基础用法，包括安装、配置QueryClient、使用useQuery进行查询及useMutation处理变更，并提及高级特性如分页和乐观更新。",
+    "content": "概述 React Query 是一个强大的数据获取和状态管理库，专为 React 应用而设计。 它简化了数据获取、缓存、同步和更新的复杂流程，使得开发者可以更加专注于业务逻辑。 本文将介绍 React Query 的基础使用方法，帮助你快速上手。 安装 使用 配置 QueryClient 在使用 React Query 之前，需要先配置一个 QueryClient 实例。这个实例负责管理应用中的所有查询。 在你的应用的根组件中配置 QueryClient 和 QueryClientProvider： - 这里可以指定全局的默认配置，如果单独针对某个接口可单独设置。 - 接口获取失败后重试次数，并不包含首次获取 - 用于指定从数据被获取后的一段时间内是新鲜的(fresh)，数据在指定时间内不被认为是陈旧的 - 用于指定数据变为不活跃(inactive)，过期后的一段时间内没有被调用就会被垃圾回收，之前的字段是，由于容易混淆含义改为了 - 窗口重新获得焦点时是否重新获取数据 当然远远不止这些配置，这里只介绍了常见的几种配置，如需更加细致的配置请查看官网 查询 使用 钩子来进行数据查询。假设",
+    "createdTime": "2024-06-29T15:23:21.000Z",
+    "published": true,
+    "tags": [],
+    "searchText": "reactquery的基本使用 react query是一个专为react设计的数据获取与状态管理库，简化了缓存、同步等流程。本文介绍其基础用法，包括安装、配置queryclient、使用usequery进行查询及usemutation处理变更，并提及高级特性如分页和乐观更新。 概述 react query 是一个强大的数据获取和状态管理库，专为 react 应用而设计。 它简化了数据获取、缓存、同步和更新的复杂流程，使得开发者可以更加专注于业务逻辑。 本文将介绍 react query 的基础使用方法，帮助你快速上手。 安装 使用 配置 queryclient 在使用 react query 之前，需要先配置一个 queryclient 实例。这个实例负责管理应用中的所"
+  },
+  {
+    "slug": "20240527012749_config-webpack-for-react",
+    "title": "使用webpack搭建react项目",
+    "summary": "本文详细介绍如何使用 Webpack 搭建 React 项目，包括初始化目录、安装依赖、配置 Babel/TypeScript 编译、处理 CSS/Sass、管理静态资源（图片、字体、SVG），以及设置开发服务器和生产构建流程。",
+    "content": "初始化目录 在使用初始化 接下来我们安装一些 react 必要的包 将 ES6 语法降级为 ES5 目前市面上大多使用 babel 来处理的，是一个编译器，主要是将 es6 或更新的语法转换成向后兼容的 javascript 版本，以便在低版本的浏览器或环境中运行。 首先我们先安装必要的 npm 包 - - Babel 的核心包 - - Babel 的预设包，用于将 ES6 语法降级为 ES5 语法 - - Webpack 的加载器，用于和之间通信 处理、 浏览器是不能直接运行 ts 文件的，于是我们需要将 ts 文件编译成 js 文件，在 webpack 配置中有两种方案，一种是通过 babel 转译，另一种是通过转译，下面我将介绍这两种方案的具体配置 使用 首先，我们需要安装一些必要的 npm 包来处理 TypeScript 和 React JSX 文件。这些包包括： 接下来，在根目录下创建一个文件，并添加以下配置： 现在，我们已经配置好了使用 Babel 来转译 TypeScript 和 React JSX 文件的环境。 使用 如果选择使用来处理 TypeScript 文件，我们",
+    "createdTime": "2024-05-27T01:27:49.000Z",
+    "published": true,
+    "tags": [],
+    "searchText": "使用webpack搭建react项目 本文详细介绍如何使用 webpack 搭建 react 项目，包括初始化目录、安装依赖、配置 babel/typescript 编译、处理 css/sass、管理静态资源（图片、字体、svg），以及设置开发服务器和生产构建流程。 初始化目录 在使用初始化 接下来我们安装一些 react 必要的包 将 es6 语法降级为 es5 目前市面上大多使用 babel 来处理的，是一个编译器，主要是将 es6 或更新的语法转换成向后兼容的 javascript 版本，以便在低版本的浏览器或环境中运行。 首先我们先安装必要的 npm 包 - - babel 的核心包 - - babel 的预设包，用于将 es6 语法降级为 es5 语"
+  },
+  {
+    "slug": "20240526102454_debounce-throttle",
+    "title": "防抖与节流",
+    "summary": "防抖与节流是前端优化高频事件的关键技术。防抖在事件停止触发后延迟执行一次，适用于搜索框等场景；节流按固定间隔执行函数，常用于滚动事件。两者均能提升性能和用户体验，通过定时器控制函数执行频率。",
+    "content": "概述 防抖和节流是前端开发中常用的优化手段，它们主要作用就是限制函数的执行频率，提高性能和用户体验，主要用于处理高频触发的事件，例如：鼠标滚动，输入框输入，重复点击等。 防抖与节流的区别 先简单介绍下两者。 防抖：主要应用于限制某个函数在短时间内的连续执行次数。如果函数持续地、频繁地被触发，防抖技术会确保该函数在一定时间间隔内只执行一次。 节流：用于控制某个函数在单位时间内的执行频率。与防抖不同，节流不会取消函数执行，而是保证函数在固定的时间间隔内执行。当连续频繁地触发函数时，节流可以降低函数的执行频率，提高性能。 理解：如果你玩过 Data 类游戏的话，在游戏中节流就相当于释放了一个技能后，技能进入了冷却 CD，在 CD 冷却完成之前是没法再次释放技能的，而防抖就是你一直按回城技能，只会以最后一次为准开始计时。（现在是云玩家了，印象中是这样的机制） 简而言之，防抖是在事件停止触发后延迟执行函数，而节流是按照固定的时间间隔执行函数。 防抖的实现与使用 应用场景： 1. 搜索框实时搜索：用户在搜索框输入文字时，我们可以使用防抖技术减少搜索请求的次数，只有在用户连续输入完成后才发出搜索请求",
+    "createdTime": "2024-05-26T10:24:54.000Z",
+    "published": true,
+    "tags": [],
+    "searchText": "防抖与节流 防抖与节流是前端优化高频事件的关键技术。防抖在事件停止触发后延迟执行一次，适用于搜索框等场景；节流按固定间隔执行函数，常用于滚动事件。两者均能提升性能和用户体验，通过定时器控制函数执行频率。 概述 防抖和节流是前端开发中常用的优化手段，它们主要作用就是限制函数的执行频率，提高性能和用户体验，主要用于处理高频触发的事件，例如：鼠标滚动，输入框输入，重复点击等。 防抖与节流的区别 先简单介绍下两者。 防抖：主要应用于限制某个函数在短时间内的连续执行次数。如果函数持续地、频繁地被触发，防抖技术会确保该函数在一定时间间隔内只执行一次。 节流：用于控制某个函数在单位时间内的执行频率。与防抖不同，"
+  },
+  {
+    "slug": "waterfall-flow-layout",
+    "title": "响应式瀑布流布局",
+    "summary": "本文详细介绍了如何实现响应式瀑布流布局，包括初始化结构、监听窗口变化、计算元素位置等步骤。通过绝对定位和transform属性优化空间利用，适用于图片密集型网站。代码示例展示了React实现方案及CSS样式设置。",
+    "content": "瀑布流是一种流行的网页布局。这种效果的名称取自瀑布，悬挂在高处并自顶向下流淌，就像这种布局的视觉效果一样。瀑布流布局将元素按照垂直方向排列，以达到优化页面空间的效果，通常很受图片-heavy 网站的欢迎。 > 原理：对每个 item 都使用绝对定位，left 和 top 都是 0， 最后根据容器大小、item 的高度通过计算来得到 item 的 transform 值 初始化结构 我们先搭建一个简单的结构，然后为 container 设置一个 ref，在 中获取所有 item 元素，并将其保存到 数组中。 监听窗口大小变化 由于我们需要监听窗口大小变化，所以我们可以使用 监听容器的大小变化。 主要逻辑在 函数中。 计算 item 的 transform 值 和 item 的宽度 1. 首先我们可以获取容器的宽度，然后根据宽度来计算每一行放置多少 item，并计算每一个 item 的宽度。 2. 创建一个 columnsHeights 数组用来保存每一列的高度，初始化为 0。 3. 遍历所有 item，根据 item 的宽度来计算 item 的 transform 值，同时更新 colu",
+    "createdTime": "2024-01-07T01:04:05.000Z",
+    "published": true,
+    "tags": [],
+    "searchText": "响应式瀑布流布局 本文详细介绍了如何实现响应式瀑布流布局，包括初始化结构、监听窗口变化、计算元素位置等步骤。通过绝对定位和transform属性优化空间利用，适用于图片密集型网站。代码示例展示了react实现方案及css样式设置。 瀑布流是一种流行的网页布局。这种效果的名称取自瀑布，悬挂在高处并自顶向下流淌，就像这种布局的视觉效果一样。瀑布流布局将元素按照垂直方向排列，以达到优化页面空间的效果，通常很受图片-heavy 网站的欢迎。 > 原理：对每个 item 都使用绝对定位，left 和 top 都是 0， 最后根据容器大小、item 的高度通过计算来得到 item 的 transform 值 初始化结构 我们先搭建一个简"
+  },
+  {
+    "slug": "image-lazy-load",
+    "title": "图片懒加载",
+    "summary": "图片懒加载是优化网页性能的技术，仅在用户视窗内加载可见图片。可通过JavaScript事件监听或更高效的Intersection Observer API实现，React中可结合Hook封装组件，也有成熟第三方库如react-intersection-observer和react-lazyload可用。",
+    "content": "引言 图片懒加载是一种网页优化技术，使图片只在用户需要查看时加载，而不是在页面加载时一次性加载所有图片。这种技术具有两大优点：提升页面性能和降低服务器负担。 提升页面性能：通过懒加载技术，页面加载时只加载当前可见的图片，其他图片随着用户滚动而按需加载。这可以显著提升页面加载速度，特别是在网络和设备性能有限的移动设备上，更能改善用户体验。 降低服务器负担：使用懒加载时，服务器只在用户需要查看某张图片时才发送图片，而不是一次性处理大量请求。这节省了宽带，减轻了服务器压力。 总之，图片懒加载是一种实用的优化技术，对于图片资源多的网页尤其有益，它可以提高页面性能，改善用户体验，节约服务器资源。 图片懒加载的实现方式 图片的懒加载通常有两种常用的实现方式：JavaScript 事件监听和 Intersection Observer API。 1. JavaScript 事件监听：这是一种较老的实现方法，通常是用 JavaScript 监听滚动事件，然后计算图片元素是否进入可视区域。如果进入可视区域，那么将图片的数据源（data-src）更换为实际的图片源（src）。但是这种方法有一定的性能问题，",
+    "createdTime": "2024-01-01T12:48:18.000Z",
+    "published": true,
+    "tags": [],
+    "searchText": "图片懒加载 图片懒加载是优化网页性能的技术，仅在用户视窗内加载可见图片。可通过javascript事件监听或更高效的intersection observer api实现，react中可结合hook封装组件，也有成熟第三方库如react-intersection-observer和react-lazyload可用。 引言 图片懒加载是一种网页优化技术，使图片只在用户需要查看时加载，而不是在页面加载时一次性加载所有图片。这种技术具有两大优点：提升页面性能和降低服务器负担。 提升页面性能：通过懒加载技术，页面加载时只加载当前可见的图片，其他图片随着用户滚动而按需加载。这可以显著提升页面加载速度，特别是在网络和设备性能有限的移动设备上，更能改善用户体验。 降低服务器负担：使用懒加载时，服务器只在用户需要查看某张图片"
+  },
+  {
+    "slug": "20231222164536_how-to-config-webpack",
+    "title": "Webpack基本使用",
+    "summary": "本文详细介绍了Webpack的基本使用方法，包括配置JS、TypeScript、CSS及预处理器、静态资源和Vue文件的处理，还讲解了Loader与Plugin的区别及用法。",
+    "content": "简介 webpack 是前端构建工具，主要用于打包 js、css、图片等资源。 webpack 主要分为四个阶段： - 解析：webpack 会将代码解析成抽象语法树（AST），然后通过 loader 进行处理 - 编译：通过 loader 处理完代码后，会将代码编译成目标代码 - 优化：通过插件对编译后的代码进行优化 - 打包：将编译后的代码打包成一个或多个文件 打包 js 首先安装必要的 loader 如何处理 ts 处理 ts 可以利用 babel 也可以利用 ts-loader ts-loader babel 处理 css 文件 需要使用到的 loader - style-loader - css-loader 这里 loader 的顺序是从右到左，从后往前执行，所以先执行 css-loader，然后执行 style-loader。 css-loader 的作用是将 css 文件转化为 js 模块，然后通过 style-loader 将 js 模块插入到 head 标签中。 如何处理 less/sass/stylus 只需要安装对应的 loader 即可 - less-load",
+    "createdTime": "2023-12-22T16:45:36.000Z",
+    "published": true,
+    "tags": [],
+    "searchText": "webpack基本使用 本文详细介绍了webpack的基本使用方法，包括配置js、typescript、css及预处理器、静态资源和vue文件的处理，还讲解了loader与plugin的区别及用法。 简介 webpack 是前端构建工具，主要用于打包 js、css、图片等资源。 webpack 主要分为四个阶段： - 解析：webpack 会将代码解析成抽象语法树（ast），然后通过 loader 进行处理 - 编译：通过 loader 处理完代码后，会将代码编译成目标代码 - 优化：通过插件对编译后的代码进行优化 - 打包：将编译后的代码打包成一个或多个文件 打包 js 首先安装必要的 lo"
+  },
+  {
+    "slug": "231202204857_enter-scroll-animation",
+    "title": "IntersectionObserver 实现滚动进入动画",
+    "summary": "本文介绍如何使用 `IntersectionObserver` API 实现元素滚动进入视口时的动画效果，包括基本用法、React 组件实现及 CSS 样式配置，并提醒注意浏览器兼容性问题。",
+    "content": "前言 是一个新的 API，它允许我们监听一个元素是否进入或离开视口。 基本用法 是一个构造函数，它接收一个 2 个参数。 第一个参数是回调函数，第二个是配置对象。 - ：回调函数，当元素进入或离开视口时，就会调用回调函数。 - ：配置对象，可选。 在 React 中使用 > [!WARNING] > 注意：使用 IntersectionObserver 的浏览器兼容性可能因浏览器版本不同而存在差异，使用时需要确保目标浏览器支持 IntersectionObserver API。也可通过 polyfills 来扩展对老版本浏览器的兼容性。",
+    "createdTime": "2023-12-02T20:48:57.000Z",
+    "published": true,
+    "tags": [],
+    "searchText": "intersectionobserver 实现滚动进入动画 本文介绍如何使用 `intersectionobserver` api 实现元素滚动进入视口时的动画效果，包括基本用法、react 组件实现及 css 样式配置，并提醒注意浏览器兼容性问题。 前言 是一个新的 api，它允许我们监听一个元素是否进入或离开视口。 基本用法 是一个构造函数，它接收一个 2 个参数。 第一个参数是回调函数，第二个是配置对象。 - ：回调函数，当元素进入或离开视口时，就会调用回调函数。 - ：配置对象，可选。 在 react 中使用 > [!warning] > 注意：使用 intersectionobserver 的浏览器兼容性可能因浏览器版本不同而存在差异"
+  },
+  {
+    "slug": "20231118214713_common-css-centered-layout-methods",
+    "title": "CSS 常见居中布局方式",
+    "summary": "本文介绍了多种CSS实现元素居中的方法，包括Flex、Grid、绝对定位、table布局及其他方式（如text-align、margin:auto、line-height和vertical-align），并提供了相应代码示例。",
+    "content": "Flex 与 Grid 布局 Flex Grid > [!WARNING] > 相对于 的兼容性会更好，并且支持部分 ie 版本， 具体兼容请前往 caniuse 查询 绝对定位 > [!NOTE] > 这里的 也可以替换为 但是仅限于固定宽高 table 布局 其他居中方式 水平居中 - 行内元素（如文本、链接等）： 使用 text-align: center 属性将行内元素（如文本、链接等）水平居中： - 块级元素： 使用 margin: auto 将块级元素（如 div）水平居中。请确保元素具有明确的宽度 (width)。 垂直居中 - 单行文本 使用 line-height 将单行文本垂直居中。设置元素的 line-height 等于其 height： - 行内元素与其他行内元素之间的对齐 当用于行内元素（如 、）或行内块级元素（如 、、）时， 将使元素在其 “line box” 内垂直对齐。这意味着行内元素或行内块级元素将与其他行内内容（如文字或图像）垂直居中对齐。",
+    "createdTime": "2023-11-18T21:47:13.000Z",
+    "published": true,
+    "tags": [],
+    "searchText": "css 常见居中布局方式 本文介绍了多种css实现元素居中的方法，包括flex、grid、绝对定位、table布局及其他方式（如text-align、margin:auto、line-height和vertical-align），并提供了相应代码示例。 flex 与 grid 布局 flex grid > [!warning] > 相对于 的兼容性会更好，并且支持部分 ie 版本， 具体兼容请前往 caniuse 查询 绝对定位 > [!note] > 这里的 也可以替换为 但是仅限于固定宽高 table 布局 其他居中方式 水平居中 - 行内元素（如文本、链接等）： 使用 text-align: center 属性将行内元素（如文本、链接等）水"
+  },
+  {
+    "slug": "20230924231354_common-download-files-methods",
+    "title": "常见文件下载方式",
+    "summary": "介绍了三种常见文件下载方式：1) 使用`<a>`标签直接下载；2) 通过`Blob`和`URL.createObjectURL`实现动态下载；3) 利用`FormData`与`XMLHttpRequest`异步获取并触发下载。均支持设置自定义文件名。",
+    "content": "常见文件下载方式 方式 1 利用标签下载文件 方式 2 使用 和 方式 3 使用 和",
+    "createdTime": "2023-09-24T23:13:54.000Z",
+    "published": true,
+    "tags": [],
+    "searchText": "常见文件下载方式 介绍了三种常见文件下载方式：1) 使用`<a>`标签直接下载；2) 通过`blob`和`url.createobjecturl`实现动态下载；3) 利用`formdata`与`xmlhttprequest`异步获取并触发下载。均支持设置自定义文件名。 常见文件下载方式 方式 1 利用标签下载文件 方式 2 使用 和 方式 3 使用 和"
+  },
+  {
+    "slug": "20230830012512_how-to-config-neovim",
+    "title": "如何配置Neovim",
+    "summary": "本文详细介绍了如何在Mac上安装配置Neovim及相关工具（如tmux），推荐使用LazyVim社区方案，并提供快捷键设置、插件管理和终端集成等实用技巧。",
+    "content": "终端安装与配置 kitty 安装 neovim Mac 可以直接使用 Homebrew 直接安装 tmux （option） tmux config file path fix command error add into tmux config Neovim 配置 可以基于以下社区方案进行安装配置 - - - 下面我将以的安装作为示例 Requirement Install lazyvim - start > macos should set > Config keymap (Option) According to your own preference. Shortcut key - indent - move up/down - search content - search file - hover documentaion - variable rename - search in buffer or - split window - close window - search TODO - search keymaps - switch numberline - repl",
+    "createdTime": "2023-08-30T01:25:12.000Z",
+    "published": true,
+    "tags": [],
+    "searchText": "如何配置neovim 本文详细介绍了如何在mac上安装配置neovim及相关工具（如tmux），推荐使用lazyvim社区方案，并提供快捷键设置、插件管理和终端集成等实用技巧。 终端安装与配置 kitty 安装 neovim mac 可以直接使用 homebrew 直接安装 tmux （option） tmux config file path fix command error add into tmux config neovim 配置 可以基于以下社区方案进行安装配置 - - - 下面我将以的安装作为示例 requirement install lazyvim - "
+  },
+  {
+    "slug": "mdx-test",
+    "title": "MDX Syntax - Basic",
+    "summary": "MDX语法允许在Markdown中使用JSX，可导入组件（如交互式图表或提示框），实现富文本与组件的结合。支持代码块、列表、脚注等多种元素，并可通过自定义标签扩展功能。",
+    "content": "> 明月几时有？把酒问青天。不知天上宫阙，今夕是何年。我欲乘风归去，又恐琼楼玉宇，高处不胜寒。起舞弄清影，何似在人间。 > > 转朱阁，低绮户，照无眠。不应有恨，何事长向别时圆？人有悲欢离合，月有阴晴圆缺，此事古难全。但愿人长久，千里共婵娟。 --------- | -------------------------------------------------- | | | List all new or modified files | | | Show file differences that haven't been staged | - First item - Second item - Third item 1. First item 2. Second item 3. Third item - [x] First item - [ ] Second item - [ ] Third item > [!NOTE] > Highlights information that users should take into account, even when skimmi",
+    "createdTime": "2023-04-27T00:00:01.000Z",
+    "published": true,
+    "tags": [],
+    "searchText": "mdx syntax - basic mdx语法允许在markdown中使用jsx，可导入组件（如交互式图表或提示框），实现富文本与组件的结合。支持代码块、列表、脚注等多种元素，并可通过自定义标签扩展功能。 > 明月几时有？把酒问青天。不知天上宫阙，今夕是何年。我欲乘风归去，又恐琼楼玉宇，高处不胜寒。起舞弄清影，何似在人间。 > > 转朱阁，低绮户，照无眠。不应有恨，何事长向别时圆？人有悲欢离合，月有阴晴圆缺，此事古难全。但愿人长久，千里共婵娟。 --------- | -------------------------------------------------- | | | list all "
+  }
+]
