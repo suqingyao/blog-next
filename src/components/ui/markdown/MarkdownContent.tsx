@@ -5,7 +5,7 @@ import type { BundledTheme } from 'shiki/themes';
 import { memo, useEffect } from 'react';
 
 import PostToc from '@/components/site/PostToc';
-import { cn, scrollTo } from '@/lib/utils';
+import { cn, scrollToElement } from '@/lib/utils';
 import { renderMarkdown } from '@/markdown';
 import { useClipboard } from '@/hooks/use-clipboard';
 
@@ -97,7 +97,7 @@ export const MarkdownContent = memo(function PageContent({
       e.preventDefault();
       const target = anchor.getAttribute('href');
       if (target) {
-        scrollTo(target, true, APP_HEADER_HEIGHT);
+        scrollToElement(target, true, APP_HEADER_HEIGHT);
       }
     };
     anchors.forEach((anchor) => {

@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 
 import { useHash } from '@/hooks/use-hash';
-import { cn, scrollTo } from '@/lib/utils';
+import { cn, scrollToElement } from '@/lib/utils';
 import { APP_HEADER_HEIGHT } from '@/constants';
 
 export const MarkdownContentContainer = ({
@@ -19,7 +19,7 @@ export const MarkdownContentContainer = ({
 }) => {
   const hash = useHash();
   useEffect(() => {
-    scrollTo(hash, false, APP_HEADER_HEIGHT);
+    scrollToElement(hash, false, APP_HEADER_HEIGHT);
   }, [hash]);
 
   return (

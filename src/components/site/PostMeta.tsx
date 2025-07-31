@@ -2,10 +2,10 @@ import { Time } from '@/components/common/Time';
 // import { BlockchainIcon } from '@/components/icons/BlockchainIcon';
 // import { EditButton } from '@/components/site/EditButton';
 import PostTag from '@/components/site/PostTag';
-import { RESERVED_TAGS } from '@/lib/constants';
+import { RESERVED_TAGS } from '@/constants';
 import { CalendarIcon } from '../icons';
 import { MarkdownContent } from '@/components/ui/markdown/MarkdownContent';
-// import { CSB_SCAN } from '@/lib/env';
+// import { CSB_SCAN } from '@/lib/site';
 // import { ExpandedCharacter, ExpandedNote, NoteType } from "@/lib/types"
 
 // import TranslationInfo from "./TranslationInfo"

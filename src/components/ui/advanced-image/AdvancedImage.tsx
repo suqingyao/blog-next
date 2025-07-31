@@ -3,7 +3,7 @@ import { memo } from 'react';
 import { FadeIn } from '@/components/common/FadeIn';
 import { Image, type TImageProps } from '@/components/ui/image';
 import { isServer } from '@/lib/is';
-import { SITE_URL } from '@/lib/env';
+import { SITE_URL } from '@/lib/site';
 import { cn } from '@/lib/utils';
 
 const AdvancedImagePrimitive = memo(async function AdvancedImage(

@@ -1,12 +1,15 @@
+/**
+ * 应用基础配置常量
+ */
+
+/** 应用域名 */
 export const OUR_DOMAIN = process.env.NEXT_PUBLIC_OUR_DOMAIN;
 
+/** 应用名称 */
 export const APP_NAME = `suqingyao's blog`;
+
+/** 应用描述 */
 export const APP_DESCRIPTION = `suqingyao's blog`;
 
+/** 应用头部高度（像素） */
 export const APP_HEADER_HEIGHT = 60;
-
-// ALGOLIA 配置
-export const ALGOLIA_APP_ID = process.env.ALGOLIA_APP_ID;
-export const ALGOLIA_SEARCH_API_KEY = process.env.ALGOLIA_SEARCH_API_KEY;
-export const ALGOLIA_WRITE_API_KEY = process.env.ALGOLIA_WRITE_API_KEY;
-export const ALGOLIA_INDEX_NAME = process.env.ALGOLIA_INDEX_NAME;

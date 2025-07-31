@@ -1,4 +1,4 @@
-import { IS_PROD } from './constants';
+import { IS_PROD } from '@/constants';
 
 export const OUR_DOMAIN =
   process.env.NEXT_PUBLIC_OUR_DOMAIN ||

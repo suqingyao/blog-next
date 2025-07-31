@@ -1,5 +1,4 @@
-import { OUR_DOMAIN } from '@/constants';
-import { IS_PROD } from '@/lib/constants';
+import { OUR_DOMAIN, IS_PROD } from '@/constants';
 import { renderMarkdown } from '@/markdown';
 import fg from 'fast-glob';
 import fs from 'fs-extra';

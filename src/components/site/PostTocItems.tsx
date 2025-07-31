@@ -2,7 +2,7 @@
 
 import type { Result as TocResult } from 'mdast-util-toc';
 import { useEffect, useRef, useState } from 'react';
-import { scrollTo } from '@/lib/utils';
+import { scrollToElement } from '@/lib/utils';
 import { APP_HEADER_HEIGHT } from '@/constants';
 import { throttle } from '@/lib/throttle';
 import { useMount } from '@/hooks/use-mount';
@@ -52,13 +52,13 @@ function useActiveId(itemIds: string[]) {
         const rect = el.getBoundingClientRect();
         if (rect.top <= APP_HEADER_HEIGHT) {
           setActiveId(itemIds[i]);
-          scrollTo(itemIds[i], false, APP_HEADER_HEIGHT);
+          scrollToElement(itemIds[i], false, APP_HEADER_HEIGHT);
           return;
         }
       }
     }
     setActiveId(itemIds[0]);
-    scrollTo(itemIds[0], false, APP_HEADER_HEIGHT);
+    scrollToElement(itemIds[0], false, APP_HEADER_HEIGHT);
   }, 100);
 
   useMount(() => {
@@ -114,7 +114,7 @@ function Items(props: ItemsProps) {
                     <span
                       data-url={child.children[0].url}
                       onClick={() => {
-                        scrollTo(
+                        scrollToElement(
                           child.children[0].url,
                           false,
                           APP_HEADER_HEIGHT

@@ -1,5 +1,5 @@
 import type { ReactEventHandler } from 'react';
-import { NOOP } from './constants';
+import { NOOP } from './utils';
 import { isWindow } from './is';
 
 export const transitionViewIfSupported = (callback: () => void) => {

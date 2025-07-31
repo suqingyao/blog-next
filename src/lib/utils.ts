@@ -5,13 +5,15 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+/** 空操作函数 */
+export const NOOP = () => {};
 /**
- * 滚动到指定位置
- * @param hash 锚点 hash
- * @param notUserContent 是否不使用 user-content 前缀，默认使用
- * @returns 无返回值
+ * 滚动到页面中的指定元素
+ * @param hash 目标元素的 hash 值（包含 #）
+ * @param notUserContent 是否为非用户内容，默认为 false
+ * @param offsetTop 滚动偏移量，默认为 20px
  */
-export const scrollTo = (
+export const scrollToElement = (
   hash: string,
   notUserContent: boolean = false,
   offsetTop: number = 20
