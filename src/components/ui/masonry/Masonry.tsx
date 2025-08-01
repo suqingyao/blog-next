@@ -80,14 +80,16 @@ interface MasonryProps {
   scaleOnHover?: boolean;
   hoverScale?: number;
   colorShiftOnHover?: boolean;
+  gap?: number; // 瀑布流间距，默认为 5
   onItemClick?: (item: Item, e: React.MouseEvent<HTMLImageElement>) => void;
 }
 
 export const Masonry: React.FC<MasonryProps> = ({
   items,
   scaleOnHover = true,
-  hoverScale = 0.95,
+  hoverScale = 1.1,
   colorShiftOnHover = false,
+  gap = 5,
   onItemClick
 }) => {
   const columns = useMedia(
@@ -133,7 +135,6 @@ export const Masonry: React.FC<MasonryProps> = ({
   const grid = useMemo(() => {
     if (!width) return [];
     const colHeights = new Array(columns).fill(0);
-    const gap = 16;
     const totalGaps = (columns - 1) * gap;
     const columnWidth = (width - totalGaps) / columns;
 
@@ -145,7 +146,7 @@ export const Masonry: React.FC<MasonryProps> = ({
       colHeights[col] += height + gap;
       return { ...child, x, y, w: columnWidth, h: height };
     });
-  }, [columns, items, width, itemHeights]);
+  }, [columns, items, width, itemHeights, gap]);
 
   // 容器高度 = 最高的那一列
   const containerHeight = grid.length
@@ -205,13 +206,14 @@ export const Masonry: React.FC<MasonryProps> = ({
             top: 0,
             width: layout.w,
             height: layout.h,
-            willChange: 'transform, width, height, opacity'
+            willChange: 'transform, width, height, opacity',
+            overflow: 'hidden'
           }}
-          whileHover={scaleOnHover ? { scale: hoverScale } : undefined}
         >
-          <div
-            className="relative h-full w-full rounded-xl bg-cover bg-center shadow-[0px_10px_50px_-10px_rgba(0,0,0,0.2)]"
+          <motion.div
+            className="relative h-full w-full rounded-xs bg-cover bg-center shadow-[0px_10px_50px_-10px_rgba(0,0,0,0.2)] transition-transform"
             style={{ backgroundImage: `url(${items[idx].img})` }}
+            whileHover={scaleOnHover ? { scale: hoverScale } : undefined}
           >
             <img
               src={items[idx].url}
@@ -235,7 +237,7 @@ export const Masonry: React.FC<MasonryProps> = ({
                 animate={{ opacity: 0 }}
               />
             )}
-          </div>
+          </motion.div>
         </motion.div>
       ))}
     </div>

@@ -61,7 +61,6 @@ export const PhotoList = ({ photos }: { photos: PhotoFile[] }) => {
         <Masonry
           items={filteredPhotos}
           scaleOnHover={true}
-          hoverScale={0.95}
           colorShiftOnHover={false}
           onItemClick={handleItemClick}
         />

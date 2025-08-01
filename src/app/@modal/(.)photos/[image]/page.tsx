@@ -49,7 +49,7 @@ export default function PhotosModalPage() {
   }
 
   // 动画 variants
-  let containerVariants;
+  let containerVariants = {};
   if (modalRectAtom) {
     const { left, top, width, height } = modalRectAtom;
     const centerX = left + width / 2;
@@ -89,7 +89,7 @@ export default function PhotosModalPage() {
         position: 'fixed',
         zIndex: 100,
         opacity: 1,
-        transition: { type: 'spring' as const, stiffness: 200, damping: 15 }
+        transition: { duration: 0.3, ease: [0.4, 0, 0.2, 1] }
       }
     };
   } else {
@@ -97,21 +97,26 @@ export default function PhotosModalPage() {
     containerVariants = {
       initial: { opacity: 0 },
       animate: { opacity: 1, transition: { duration: 0.2 } },
-      exit: { opacity: 0, transition: { duration: 0.2 } }
+      exit: {
+        opacity: 0,
+        transition: { duration: 0.3, ease: [0.4, 0, 0.2, 1] }
+      }
     };
   }
 
   return (
-    <>
-      {/* Backdrop 直接显示/隐藏，不参与 AnimatePresence 动画 */}
+    <AnimatePresence onExitComplete={handleExitComplete}>
       {show && (
-        <div
-          className="fixed inset-0 z-100 flex items-center justify-center bg-black/40 backdrop-blur-sm"
-          onClick={handleClose}
-        />
-      )}
-      <AnimatePresence onExitComplete={handleExitComplete}>
-        {show && (
+        <>
+          {/* Backdrop 参与 AnimatePresence 动画 */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+            className="fixed inset-0 z-100 flex items-center justify-center bg-black/40 backdrop-blur-sm"
+            onClick={handleClose}
+          />
           <motion.div
             variants={containerVariants}
             initial="initial"
@@ -123,11 +128,11 @@ export default function PhotosModalPage() {
               ref={imageRef}
               src={url}
               alt={image as string}
-              className="h-full rounded-xl object-contain"
+              className="h-full rounded-xs object-cover"
             />
           </motion.div>
-        )}
-      </AnimatePresence>
-    </>
+        </>
+      )}
+    </AnimatePresence>
   );
 }
