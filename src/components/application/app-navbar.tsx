@@ -25,6 +25,11 @@ const links = [
     label: 'Photos',
     path: '/photos',
     icon: 'i-mingcute-camera-2-ai-fill'
+  },
+  {
+    label: 'Feed',
+    path: '/api/feed',
+    icon: 'i-mingcute-rss-fill'
   }
 ];
 
@@ -74,6 +79,8 @@ export const AppNavbar = () => {
             href={`${link.path}`}
             key={link.path}
             className="flex cursor-pointer items-center justify-center p-2"
+            target={link.label === 'Feed' ? '_blank' : undefined}
+            rel={link.label === 'Feed' ? 'noopener noreferrer' : undefined}
           >
             <i className={cn(link.icon, 'text-xl')}></i>
           </Link>

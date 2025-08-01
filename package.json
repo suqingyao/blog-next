@@ -80,6 +80,7 @@
     "remark-parse": "^11.0.0",
     "remark-rehype": "^11.1.2",
     "resize-observer-polyfill": "^1.5.1",
+    "rss": "^1.2.2",
     "scroll-into-view-if-needed": "^3.1.0",
     "shiki": "^1.29.2",
     "sonner": "^1.7.4",
@@ -89,7 +90,8 @@
     "unist-builder": "^4.0.0",
     "unist-util-visit": "^5.0.0",
     "use-sound": "^4.0.4",
-    "vfile": "^6.0.3"
+    "vfile": "^6.0.3",
+    "xss": "^1.0.15"
   },
   "devDependencies": {
     "@egoist/tailwindcss-icons": "^1.9.0",
@@ -110,6 +112,7 @@
     "@types/react": "19.1.8",
     "@types/react-dom": "19.1.6",
     "@types/react-lottie": "^1.2.10",
+    "@types/rss": "^0.0.32",
     "autoprefixer": "10.4.14",
     "cac": "^6.7.14",
     "chalk": "^5.4.1",

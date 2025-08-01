@@ -121,6 +121,32 @@ The blog supports various custom React components:
 - **API Endpoint**: `/api/search` for search queries
 - **Components**: Modal-based search interface
 
+## 📡 RSS Feed
+
+The blog provides RSS feed support for easy content subscription:
+
+### Features
+
+- **RSS 2.0 Standard**: Fully compliant RSS feed
+- **Auto-discovery**: Browsers can automatically detect the RSS feed
+- **Latest Posts**: Includes the 20 most recent articles
+- **Rich Content**: Includes titles, descriptions, publication dates, and tags
+- **Caching**: Optimized with 1-hour cache for better performance
+
+### Usage
+
+1. **RSS Feed URL**: `https://yourdomain.com/api/rss`
+2. **RSS Page**: Visit `/rss` for subscription instructions
+3. **Auto-discovery**: Modern browsers will show RSS icon in address bar
+4. **RSS Readers**: Compatible with Feedly, Inoreader, NetNewsWire, etc.
+
+### Technical Implementation
+
+- **API Endpoint**: `/api/feed` generates XML feed
+- **Auto-discovery**: Added to HTML head for browser detection
+- **Content**: Includes post summaries and metadata
+- **Navigation**: RSS link added to main navigation
+
 ## 📁 Project Structure
 
 ```

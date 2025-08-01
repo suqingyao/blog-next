@@ -11,7 +11,7 @@ import { AppProviders } from '@/providers';
 
 import { interFont, monoFont, sansFont, serifFont } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
-import { APP_DESCRIPTION, APP_NAME } from '@/constants';
+import { APP_DESCRIPTION, APP_NAME, OUR_DOMAIN } from '@/constants';
 
 export const metadata: Metadata = {
   title: APP_NAME,
@@ -21,7 +21,12 @@ export const metadata: Metadata = {
       url: '/avatar.png',
       type: 'image/png'
     }
-  ]
+  ],
+  alternates: {
+    types: {
+      'application/rss+xml': `${OUR_DOMAIN || 'https://localhost:2323'}/api/feed`
+    }
+  }
 };
 
 export default function RootLayout({

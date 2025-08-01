@@ -1,0 +1,8 @@
+- [x] Comment
+- [x] Like
+- [x] Share
+- [x] Sponsor
+- [x] Tags
+- [x] Media site
+- [x] Code Playground
+- [x] RSS
