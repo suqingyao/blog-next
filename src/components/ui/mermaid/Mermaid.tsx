@@ -24,21 +24,19 @@ export const Mermaid = memo(function Mermaid(props: {
   const isDark = useIsDark();
 
   useEffect(() => {
-    import('mermaid').then(async (mo) => {
-      const mermaid = mo.default;
-      mermaid.initialize({
-        theme: isDark ? 'dark' : 'default'
-      });
-    });
-  }, [isDark]);
-
-  useEffect(() => {
     if (text) {
       setError('');
       setLoading(true);
 
       import('mermaid').then(async (mo) => {
         const mermaid = mo.default;
+        
+        // 重新初始化 Mermaid 以应用新主题
+        mermaid.initialize({
+          theme: isDark ? 'dark' : 'default',
+          startOnLoad: false
+        });
+        
         const id = nanoid();
         let result;
         try {
@@ -66,7 +64,7 @@ export const Mermaid = memo(function Mermaid(props: {
         setLoading(false);
       });
     }
-  }, [text]);
+  }, [text, isDark]);
 
   return loading ? (
     <div className="flex min-h-[50px] items-center justify-center rounded-lg bg-[#ECECFD] text-sm dark:bg-[#1F2020]">

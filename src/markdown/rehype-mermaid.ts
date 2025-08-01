@@ -1,5 +1,5 @@
-import type { Root } from 'hast';
 import type { Plugin } from 'unified';
+import type { Root } from 'hast';
 import { visit } from 'unist-util-visit';
 
 export const rehypeMermaid: Plugin<[], Root> = () => (tree: Root) => {

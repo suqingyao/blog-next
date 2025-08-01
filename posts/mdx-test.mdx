@@ -90,6 +90,122 @@ function Counter() {
 
     Add as many paragraphs as you like.
 
+## Mermaid 图表示例
+
+### 流程图
+
+```mermaid
+flowchart TD
+    A["开始"] --> B{"是否登录?"}
+    B -->|"是"| C["显示主页"]
+    B -->|"否"| D["跳转登录页"]
+    D --> E["用户输入账号密码"]
+    E --> F{"验证是否成功?"}
+    F -->|"成功"| C
+    F -->|"失败"| G["显示错误信息"]
+    G --> E
+    C --> H["结束"]
+```
+
+### 时序图
+
+```mermaid
+sequenceDiagram
+    participant U as "用户"
+    participant F as "前端"
+    participant B as "后端"
+    participant D as "数据库"
+
+    U->>F: "点击登录按钮"
+    F->>B: "发送登录请求"
+    B->>D: "查询用户信息"
+    D-->>B: "返回用户数据"
+    B-->>F: "返回登录结果"
+    F-->>U: "显示登录状态"
+```
+
+### 甘特图
+
+```mermaid
+gantt
+    title "项目开发计划"
+    dateFormat  YYYY-MM-DD
+    section "需求分析"
+    "需求调研"           :done,    des1, 2024-01-01,2024-01-07
+    "需求文档"           :done,    des2, 2024-01-08, 7d
+    section "设计阶段"
+    "UI设计"            :active,  des3, 2024-01-15, 10d
+    "架构设计"           :         des4, after des2, 5d
+    section "开发阶段"
+    "前端开发"           :         dev1, 2024-01-25, 20d
+    "后端开发"           :         dev2, 2024-01-25, 25d
+    section "测试阶段"
+    "单元测试"           :         test1, after dev1, 5d
+    "集成测试"           :         test2, after dev2, 7d
+```
+
+### 类图
+
+```mermaid
+classDiagram
+    class User {
+        +String id
+        +String username
+        +String email
+        +Date createdAt
+        +login()
+        +logout()
+        +updateProfile()
+    }
+
+    class Post {
+        +String id
+        +String title
+        +String content
+        +Date publishedAt
+        +User author
+        +publish()
+        +unpublish()
+        +edit()
+    }
+
+    class Comment {
+        +String id
+        +String content
+        +Date createdAt
+        +User author
+        +Post post
+        +reply()
+        +delete()
+    }
+
+    User "1" --o "*" Post
+    User "1" --o "*" Comment
+    Post "1" --o "*" Comment
+```
+
+### 状态图
+
+```mermaid
+stateDiagram-v2
+    [*] --> draft
+    draft --> reviewing : 提交审核
+    draft --> deleted : 删除
+    reviewing --> published : 审核通过
+    reviewing --> draft : 审核拒绝
+    published --> offline : 下线
+    published --> draft : 编辑
+    offline --> published : 重新发布
+    offline --> deleted : 删除
+    deleted --> [*]
+    
+    draft : 草稿
+    reviewing : 审核中
+    published : 已发布
+    offline : 已下线
+    deleted : 已删除
+```
+
 ## 自定义组件渲染
 
 [GitHub](https://www.github.com)
@@ -104,6 +220,8 @@ function Counter() {
 
 [Vue](https://vuejs.org)
 
+## 测试标题
+
 <linkcard
   title="图片懒加载"
   href="https://github.com/suqingyao/blog-demo/tree/main/packages/lazy-load-image"
@@ -111,4 +229,8 @@ function Counter() {
   image="https://w.wallhaven.cc/full/jx/wallhaven-jxd1x5.jpg"
 />
 
+## 测试标题
+
 <darktoggle />
+
+## 测试标题

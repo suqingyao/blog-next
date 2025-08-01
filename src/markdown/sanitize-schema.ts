@@ -19,6 +19,7 @@ const scheme = deepmerge(defaultSchema, {
     'darktoggle',
     'linkpreview',
     'peekaboolink',
+    'merimad',
     ...['svg', 'path', 'circle']
   ],
   // ancestors: {
@@ -58,7 +59,8 @@ const scheme = deepmerge(defaultSchema, {
     linkcard: ['title', 'href', 'image', 'description'],
     darktoggle: [],
     linkpreview: ['url'],
-    peekaboolink: ['href']
+    peekaboolink: ['href'],
+    mermaid: ['className', 'style']
   },
   protocols: {
     href: ['magnet', 'ed2k']
