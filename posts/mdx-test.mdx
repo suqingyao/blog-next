@@ -198,7 +198,7 @@ stateDiagram-v2
     offline --> published : 重新发布
     offline --> deleted : 删除
     deleted --> [*]
-    
+
     draft : 草稿
     reviewing : 审核中
     published : 已发布
@@ -220,8 +220,6 @@ stateDiagram-v2
 
 [Vue](https://vuejs.org)
 
-## 测试标题
-
 <linkcard
   title="图片懒加载"
   href="https://github.com/suqingyao/blog-demo/tree/main/packages/lazy-load-image"
@@ -229,7 +227,39 @@ stateDiagram-v2
   image="https://w.wallhaven.cc/full/jx/wallhaven-jxd1x5.jpg"
 />
 
-## 测试标题
+## 列表组件测试
+
+### 无序列表
+
+- 第一项
+- 第二项
+- 第三项
+  - 嵌套项 1
+  - 嵌套项 2
+    - 深层嵌套项
+
+### 有序列表
+
+1. 第一步
+2. 第二步
+3. 第三步
+   1. 子步骤 1
+   2. 子步骤 2
+
+### 任务列表
+
+- [ ] 未完成任务
+- [x] 已完成任务
+- [ ] 另一个未完成任务
+
+### 混合列表
+
+1. 有序项目
+   - 无序子项
+   - 另一个无序子项
+2. 另一个有序项目
+   1. 有序子项
+   2. 另一个有序子项
 
 <darktoggle />
 

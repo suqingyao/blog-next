@@ -35,6 +35,7 @@ import { rehypeMermaid } from './rehype-mermaid';
 import { rehypeWrapCode } from './rehype-wrap-code';
 import { rehypeFixBlock } from './rehype-fix-block';
 import { rehypePeekabooLink } from './rehype-peekaboo-link';
+import { rehypeTaskList } from './rehype-task-list';
 import { ShikiRemarkServer } from '@/components/ui/shiki-remark';
 import { mdxComponents } from './components';
 
@@ -87,6 +88,7 @@ export const renderMarkdown = ({
       .use(rehypeMermaid)
       .use(rehypeWrapCode)
       .use(rehypePeekabooLink)
+      .use(rehypeTaskList) // 处理任务列表的 checkbox
       .use(rehypeFixBlock) // 必须放在其他 rehype 插件之后
       .use(rehypeInferDescriptionMeta)
       .use(rehypeKatex, {

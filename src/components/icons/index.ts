@@ -24,3 +24,6 @@ export * from './TelegramIcon';
 export * from './AtomIcon';
 export * from './HorizontalIcon';
 export * from './AlgoliaIcon';
+export * from './CheckedIcon';
+export * from './UncheckedIcon';
+export * from './ArrowRightIcon';

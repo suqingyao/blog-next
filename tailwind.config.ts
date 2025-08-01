@@ -201,7 +201,17 @@ const config: Config = {
           },
           'ul.contains-task-list': {
             listStyle: 'none',
-            paddingLeft: 0
+            paddingLeft: theme('spacing.6')
+          },
+          'ul.contains-task-list > li': {
+            position: 'relative',
+            paddingLeft: theme('spacing[3.5]')
+          },
+          'ul.contains-task-list > li > .task-list-icon': {
+            position: 'absolute',
+            left: `-${theme('spacing.3')}`,
+            top: '50%',
+            transform: 'translateY(-50%)'
           },
           'ul.contains-task-list > li > input[type="checkbox"]': {
             width: theme('spacing.5'),
