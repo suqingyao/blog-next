@@ -26,10 +26,11 @@ export const PhotoAlbumTabs = memo(
               setCurrentAlbum(album);
             }}
             className={cn(
-              'rounded-md text-lg opacity-50 transition-opacity hover:opacity-100',
+              'flex items-center gap-1 text-lg opacity-50 transition-opacity hover:opacity-100',
               current === album && 'opacity-100'
             )}
           >
+            <i className="i-mingcute-hashtag-fill text-primary"></i>{' '}
             {cityAlbums[album as keyof typeof cityAlbums]?.zh_tw || album}
           </button>
         ))}
