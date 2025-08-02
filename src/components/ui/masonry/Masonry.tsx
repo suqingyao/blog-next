@@ -8,6 +8,7 @@ import React, {
   useState
 } from 'react';
 import { motion } from 'motion/react';
+import { LazyImage } from '@/components/LazyImage';
 
 const useMedia = (
   queries: string[],
@@ -108,12 +109,16 @@ export const Masonry: React.FC<MasonryProps> = ({
   const [itemHeights, setItemHeights] = useState<number[]>(
     items.map((item) => item.height ?? 300)
   );
+  const [loadedSrcs] = useState(() => new Set<string>());
 
   // 图片加载后测量高度
   const handleImgLoad = (
     idx: number,
     e: React.SyntheticEvent<HTMLImageElement>
   ) => {
+    const imgSrc = items[idx].url;
+    loadedSrcs.add(imgSrc);
+    
     if (items[idx].height) return; // 已有高度无需测量
     const img = e.currentTarget as HTMLImageElement;
     const aspect = img.naturalHeight / img.naturalWidth;
@@ -223,10 +228,13 @@ export const Masonry: React.FC<MasonryProps> = ({
               ease: 'easeOut' 
             }}
           >
-            <img
+            <LazyImage
               src={items[idx].url}
               alt={items[idx].id}
-              className="h-full w-full rounded-xl object-cover opacity-0"
+              className="h-full w-full rounded-xl object-cover cursor-pointer"
+              width={layout.w}
+              height={layout.h}
+              loadedSrcs={loadedSrcs}
               onLoad={(e) => handleImgLoad(idx, e)}
               draggable={false}
               onClick={(e: React.MouseEvent<HTMLImageElement>) => {
