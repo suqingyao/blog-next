@@ -1,12 +1,14 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { AnimatePresence, motion } from 'motion/react';
 
 import { useEventListener } from '@/hooks/use-event-listener';
 import { useModalRectAtom } from '@/hooks/use-modal-rect-atom';
 import { useOutsideClick } from '@/hooks/use-outside-click';
+import { useBodyScrollLock } from '@/hooks/use-body-scroll-lock';
+import { useInitialScrollPosition } from '@/hooks/use-scroll-position';
 
 export default function PhotosModalPage() {
   const { image } = useParams();
@@ -16,6 +18,10 @@ export default function PhotosModalPage() {
   const { modalRectAtom, setModalRectAtom } = useModalRectAtom();
   const [show, setShow] = useState(true);
   const imageRef = useRef<HTMLImageElement>(null);
+  const initialScrollY = useInitialScrollPosition();
+  
+  // 使用自定义Hook管理滚动锁定
+  useBodyScrollLock(true);
 
   useOutsideClick(imageRef, (e) => handleClose(e as any));
 
@@ -28,15 +34,6 @@ export default function PhotosModalPage() {
     },
     window
   );
-
-  useEffect(() => {
-    // 禁止滚动
-    const originalOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = originalOverflow;
-    };
-  }, []);
 
   function handleClose(e?: React.MouseEvent<HTMLDivElement>) {
     e?.stopPropagation();
@@ -53,8 +50,7 @@ export default function PhotosModalPage() {
   if (modalRectAtom) {
     const { left, top, width, height } = modalRectAtom;
     const centerX = left + width / 2;
-    const centerY =
-      top + height / 2 - (typeof window !== 'undefined' ? window.scrollY : 0);
+    const centerY = top + height / 2 - initialScrollY;
     containerVariants = {
       initial: {
         width,
