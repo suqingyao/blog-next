@@ -22,6 +22,11 @@ const links = [
     icon: 'i-mingcute-notebook-2-fill'
   },
   {
+    label: 'Tags',
+    path: '/tags',
+    icon: 'i-mingcute-tag-fill'
+  },
+  {
     label: 'Photos',
     path: '/photos',
     icon: 'i-mingcute-camera-2-ai-fill'

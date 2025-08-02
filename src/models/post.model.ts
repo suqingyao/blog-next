@@ -198,3 +198,24 @@ export async function getPostBySlug(slug: string) {
 
   return { slug, code, summary, ...frontMatter };
 }
+
+/**
+ * 获取所有标签及其文章数量
+ * @returns 标签数组，包含标签名和文章数量
+ */
+export async function getAllTags() {
+  const posts = await getAllPosts();
+  const tagCount = new Map<string, number>();
+
+  posts.forEach((post) => {
+    if (post.tags && Array.isArray(post.tags)) {
+      post.tags.forEach((tag: string) => {
+        tagCount.set(tag, (tagCount.get(tag) || 0) + 1);
+      });
+    }
+  });
+
+  return Array.from(tagCount.entries())
+    .map(([name, count]) => ({ name, count }))
+    .sort((a, b) => b.count - a.count); // 按文章数量降序排列
+}
