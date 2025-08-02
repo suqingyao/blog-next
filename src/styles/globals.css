@@ -10,7 +10,6 @@ body,
   scroll-behavior: smooth;
   scrollbar-color: var(--color-primary) transparent;
   scrollbar-width: thin;
-  accent-color: var(--color-primary);
   -webkit-tap-highlight-color: transparent;
   @apply transition-colors;
 }

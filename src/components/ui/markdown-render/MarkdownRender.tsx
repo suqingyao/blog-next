@@ -19,7 +19,7 @@ export const createMarkdownHeaderComponent = (tag: string) => {
           tabIndex={-1}
           href={rest.id ? `#${rest.id}` : undefined}
         >
-          <i className="i-mingcute-hashtag-fill icon-hashtag" />
+          <i className="i-mingcute-hashtag-fill icon-hashtag text-accent" />
         </a>
       </Tag>
     );

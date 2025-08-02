@@ -120,11 +120,6 @@
 }
 
 @safelist i-mingcute-copy-2-line;
-
-html.dark {
-  color-scheme: dark;
-}
-
 .post-toc .katex {
   font: unset;
   line-height: unset;

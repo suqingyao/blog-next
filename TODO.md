@@ -1,8 +1,11 @@
-- [x] Comment
-- [x] Like
-- [x] Share
-- [x] Sponsor
+- [ ] Comment Giscus
+- [ ] Like Vercel KV + API Routes
+- [ ] Share
+- [ ] Sponsor
 - [x] Tags
-- [x] Media site
-- [x] Code Playground
+- [ ] Media site
+- [ ] Code Playground
+- [ ] I18n
 - [x] RSS
+- [ ] Adapter for mobile
+- [ ] Random theme color feature (removed for simplicity)

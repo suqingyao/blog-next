@@ -1,9 +1,4 @@
 import type { Config } from 'tailwindcss';
-// import {
-//   createVariableColors,
-//   variableColorsPlugin
-// } from 'tailwindcss-variable-colors';
-// import colors from 'tailwindcss/colors';
 import { getIconCollections, iconsPlugin } from '@egoist/tailwindcss-icons';
 import typography from '@tailwindcss/typography';
 
@@ -14,8 +9,6 @@ const config: Config = {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}'
   ],
   theme: {
-    // colors,
-    // 自定义 CSS 变量
     extend: {
       spacing: {
         header: '60px',
@@ -38,15 +31,15 @@ const config: Config = {
         css: {
           '--tw-prose-body': theme('colors.zinc.400'),
           '--tw-prose-headings': theme('colors.zinc.200'),
-          '--tw-prose-links': theme('colors.green.400'),
-          '--tw-prose-links-hover': theme('colors.green.400'),
-          '--tw-prose-underline': theme('colors.green.400 / 0.3'),
-          '--tw-prose-underline-hover': theme('colors.green.400'),
+          '--tw-prose-links': theme('colors.orange.200'),
+          '--tw-prose-links-hover': theme('colors.orange.300'),
+          '--tw-prose-underline': theme('colors.orange.200'),
+          '--tw-prose-underline-hover': theme('colors.orange.300'),
           '--tw-prose-bold': theme('colors.zinc.200'),
           '--tw-prose-counters': theme('colors.zinc.200'),
           '--tw-prose-bullets': theme('colors.zinc.200'),
           '--tw-prose-hr': theme('colors.zinc.700 / 0.4'),
-          '--tw-prose-quote-borders': theme('colors.yellow.600'),
+          '--tw-prose-quote-borders': theme('colors.orange.200'),
           '--tw-prose-captions': theme('colors.zinc.500'),
           '--tw-prose-code': theme('colors.zinc.300'),
           '--tw-prose-code-bg': theme('colors.zinc.200 / 0.05'),
@@ -62,15 +55,15 @@ const config: Config = {
           // 使用 Tailwind 颜色系统，支持主题切换
           '--tw-prose-body': theme('colors.zinc.600'),
           '--tw-prose-headings': theme('colors.zinc.900'),
-          '--tw-prose-links': theme('colors.green.500'),
-          '--tw-prose-links-hover': theme('colors.green.600'),
-          '--tw-prose-underline': theme('colors.green.500 / 0.2'),
-          '--tw-prose-underline-hover': theme('colors.green.500'),
+          '--tw-prose-links': theme('colors.orange.200'),
+          '--tw-prose-links-hover': theme('colors.orange.300'),
+          '--tw-prose-underline': theme('colors.orange.200'),
+          '--tw-prose-underline-hover': theme('colors.orange.300'),
           '--tw-prose-bold': theme('colors.zinc.900'),
           '--tw-prose-counters': theme('colors.zinc.900'),
           '--tw-prose-bullets': theme('colors.zinc.900'),
           '--tw-prose-hr': theme('colors.zinc.100'),
-          '--tw-prose-quote-borders': theme('colors.yellow.300'),
+          '--tw-prose-quote-borders': theme('colors.orange.200'),
           '--tw-prose-captions': theme('colors.zinc.400'),
           '--tw-prose-code': theme('colors.zinc.700'),
           '--tw-prose-code-bg': theme('colors.zinc.300 / 0.2'),
@@ -422,7 +415,6 @@ const config: Config = {
     })
   },
   plugins: [
-    // variableColorsPlugin(createVariableColors(colors)),
     typography,
     iconsPlugin({
       collections: {
