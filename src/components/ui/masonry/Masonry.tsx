@@ -211,9 +211,17 @@ export const Masonry: React.FC<MasonryProps> = ({
           }}
         >
           <motion.div
-            className="relative h-full w-full rounded-xs bg-cover bg-center shadow-[0px_10px_50px_-10px_rgba(0,0,0,0.2)] transition-transform"
-            style={{ backgroundImage: `url(${items[idx].img})` }}
+            className="relative h-full w-full rounded-xs bg-cover bg-center shadow-[0px_10px_50px_-10px_rgba(0,0,0,0.2)]"
+            style={{ 
+              backgroundImage: `url(${items[idx].img})`,
+              willChange: 'transform'
+            }}
             whileHover={scaleOnHover ? { scale: hoverScale } : undefined}
+            transition={{ 
+              type: 'tween', 
+              duration: 0.2, 
+              ease: 'easeOut' 
+            }}
           >
             <img
               src={items[idx].url}

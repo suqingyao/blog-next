@@ -26,7 +26,11 @@ const config: Config = {
       center: true,
       padding: '2rem',
       screens: {
-        '2xl': '1400px'
+        '2xl': '1400px',
+        xl: '1200px',
+        lg: '1000px',
+        md: '800px',
+        sm: '600px'
       }
     },
     typography: (theme: any) => ({
@@ -418,13 +422,21 @@ const config: Config = {
     })
   },
   plugins: [
-    // variableColorsPlugin(),
+    // variableColorsPlugin(createVariableColors(colors)),
     typography,
     iconsPlugin({
       collections: {
         ...getIconCollections(['mingcute'])
       }
-    })
+    }),
+    // 自定义布局组件插件
+    function ({ addComponents }: { addComponents: any }) {
+      addComponents({
+        '.content-container': {
+          '@apply mx-auto w-[75ch]': {}
+        }
+      });
+    }
   ]
 };
 
