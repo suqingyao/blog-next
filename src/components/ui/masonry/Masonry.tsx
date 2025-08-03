@@ -8,7 +8,6 @@ import React, {
   useState
 } from 'react';
 import { motion } from 'motion/react';
-import { LazyImage } from '@/components/LazyImage';
 
 const useMedia = (
   queries: string[],
@@ -109,16 +108,12 @@ export const Masonry: React.FC<MasonryProps> = ({
   const [itemHeights, setItemHeights] = useState<number[]>(
     items.map((item) => item.height ?? 300)
   );
-  const [loadedSrcs] = useState(() => new Set<string>());
 
   // 图片加载后测量高度
   const handleImgLoad = (
     idx: number,
     e: React.SyntheticEvent<HTMLImageElement>
   ) => {
-    const imgSrc = items[idx].url;
-    loadedSrcs.add(imgSrc);
-
     if (items[idx].height) return; // 已有高度无需测量
     const img = e.currentTarget as HTMLImageElement;
     const aspect = img.naturalHeight / img.naturalWidth;
@@ -216,8 +211,9 @@ export const Masonry: React.FC<MasonryProps> = ({
           }}
         >
           <motion.div
-            className="relative h-full w-full cursor-pointer rounded-xs shadow-[0px_10px_50px_-10px_rgba(0,0,0,0.2)]"
+            className="relative h-full w-full cursor-pointer rounded-xs bg-cover bg-center shadow-[0px_10px_50px_-10px_rgba(0,0,0,0.2)]"
             style={{
+              backgroundImage: `url(${items[idx].img})`,
               willChange: 'transform'
             }}
             whileHover={scaleOnHover ? { scale: hoverScale } : undefined}
@@ -234,13 +230,10 @@ export const Masonry: React.FC<MasonryProps> = ({
               }
             }}
           >
-            <LazyImage
+            <img
               src={items[idx].url}
               alt={items[idx].id}
               className="h-full w-full object-cover"
-              width={layout.w}
-              height={layout.h}
-              loadedSrcs={loadedSrcs}
               onLoad={(e) => handleImgLoad(idx, e)}
               draggable={false}
             />
