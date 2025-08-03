@@ -38,7 +38,7 @@ export const PhotoList = ({ photos }: { photos: PhotoFile[] }) => {
     }));
   }, [albumPhotosMap, currentAlbum]);
 
-  function handleItemClick(item: Item, e: React.MouseEvent<HTMLImageElement>) {
+  function handleItemClick(item: Item, e: React.MouseEvent) {
     const rect = e.currentTarget.getBoundingClientRect();
     setModalRectAtom({
       left: rect.left + window.scrollX,
@@ -61,7 +61,7 @@ export const PhotoList = ({ photos }: { photos: PhotoFile[] }) => {
         <Masonry
           items={filteredPhotos}
           scaleOnHover={true}
-          colorShiftOnHover={false}
+          colorShiftOnHover={true}
           onItemClick={handleItemClick}
         />
       )}

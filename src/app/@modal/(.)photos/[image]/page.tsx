@@ -17,11 +17,12 @@ export default function PhotosModalPage() {
   const router = useRouter();
   const { modalRectAtom, setModalRectAtom } = useModalRectAtom();
   const [show, setShow] = useState(true);
+  const [scrollLocked, setScrollLocked] = useState(true);
   const imageRef = useRef<HTMLImageElement>(null);
   const initialScrollY = useInitialScrollPosition();
   
   // 使用自定义Hook管理滚动锁定
-  useBodyScrollLock(true);
+  useBodyScrollLock(scrollLocked);
 
   useOutsideClick(imageRef, (e) => handleClose(e as any));
 
@@ -41,8 +42,13 @@ export default function PhotosModalPage() {
   }
 
   function handleExitComplete() {
+    // 在动画完成时立即解除滚动锁定
+    setScrollLocked(false);
     setModalRectAtom(null);
-    router.back();
+    // 延迟路由变化，确保滚动状态完全恢复
+    setTimeout(() => {
+      router.back();
+    }, 100);
   }
 
   // 动画 variants

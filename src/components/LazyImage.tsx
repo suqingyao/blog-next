@@ -56,7 +56,7 @@ export const LazyImage = (props: LazyImageProps) => {
       {(alreadyLoaded || isInView) && (
         <img
           className={cn(
-            'object-cover transition-opacity duration-500',
+            'object-cover transition-opacity duration-500 h-full w-full',
             isLoaded ? 'opacity-100' : 'opacity-0',
             className
           )}
@@ -74,7 +74,6 @@ export const LazyImage = (props: LazyImageProps) => {
           width={width}
           height={height}
           loading="lazy"
-          style={{ position: 'absolute', inset: 0 }}
           {...rest}
         />
       )}

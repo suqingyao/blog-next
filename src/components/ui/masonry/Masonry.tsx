@@ -82,7 +82,7 @@ interface MasonryProps {
   hoverScale?: number;
   colorShiftOnHover?: boolean;
   gap?: number; // 瀑布流间距，默认为 5
-  onItemClick?: (item: Item, e: React.MouseEvent<HTMLImageElement>) => void;
+  onItemClick?: (item: Item, e: React.MouseEvent) => void;
 }
 
 export const Masonry: React.FC<MasonryProps> = ({
@@ -118,7 +118,7 @@ export const Masonry: React.FC<MasonryProps> = ({
   ) => {
     const imgSrc = items[idx].url;
     loadedSrcs.add(imgSrc);
-    
+
     if (items[idx].height) return; // 已有高度无需测量
     const img = e.currentTarget as HTMLImageElement;
     const aspect = img.naturalHeight / img.naturalWidth;
@@ -205,7 +205,7 @@ export const Masonry: React.FC<MasonryProps> = ({
             height: layout.h
           }}
           transition={{ type: 'spring', stiffness: 120, damping: 20 }}
-          className="absolute box-content"
+          className="absolute box-content overflow-hidden rounded-xs"
           style={{
             left: 0,
             top: 0,
@@ -216,34 +216,33 @@ export const Masonry: React.FC<MasonryProps> = ({
           }}
         >
           <motion.div
-            className="relative h-full w-full rounded-xs bg-cover bg-center shadow-[0px_10px_50px_-10px_rgba(0,0,0,0.2)]"
-            style={{ 
-              backgroundImage: `url(${items[idx].img})`,
+            className="relative h-full w-full cursor-pointer rounded-xs shadow-[0px_10px_50px_-10px_rgba(0,0,0,0.2)]"
+            style={{
               willChange: 'transform'
             }}
             whileHover={scaleOnHover ? { scale: hoverScale } : undefined}
-            transition={{ 
-              type: 'tween', 
-              duration: 0.2, 
-              ease: 'easeOut' 
+            transition={{
+              type: 'tween',
+              duration: 0.2,
+              ease: 'easeOut'
+            }}
+            onClick={(e: React.MouseEvent) => {
+              e.preventDefault();
+              e.stopPropagation();
+              if (onItemClick) {
+                onItemClick(items[idx], e);
+              }
             }}
           >
             <LazyImage
               src={items[idx].url}
               alt={items[idx].id}
-              className="h-full w-full rounded-xl object-cover cursor-pointer"
+              className="h-full w-full object-cover"
               width={layout.w}
               height={layout.h}
               loadedSrcs={loadedSrcs}
               onLoad={(e) => handleImgLoad(idx, e)}
               draggable={false}
-              onClick={(e: React.MouseEvent<HTMLImageElement>) => {
-                e.preventDefault();
-                e.stopPropagation();
-                if (onItemClick) {
-                  onItemClick(items[idx], e);
-                }
-              }}
             />
             {colorShiftOnHover && (
               <motion.div

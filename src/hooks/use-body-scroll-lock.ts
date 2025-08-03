@@ -51,8 +51,12 @@ export function useBodyScrollLock(isLocked: boolean) {
         body.style.width = originalStylesRef.current.width
       }
       
-      // 恢复滚动位置
-      window.scrollTo(0, scrollPositionRef.current)
+      // 恢复滚动位置，禁用平滑滚动避免动画
+      window.scrollTo({
+        top: scrollPositionRef.current,
+        left: 0,
+        behavior: 'instant'
+      })
     }
 
     return () => {
@@ -67,7 +71,11 @@ export function useBodyScrollLock(isLocked: boolean) {
           body.style.width = originalStylesRef.current.width
         }
         
-        window.scrollTo(0, scrollPositionRef.current)
+        window.scrollTo({
+          top: scrollPositionRef.current,
+          left: 0,
+          behavior: 'instant'
+        })
       }
     }
   }, [isLocked])
