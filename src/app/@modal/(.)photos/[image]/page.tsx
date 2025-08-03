@@ -20,7 +20,7 @@ export default function PhotosModalPage() {
   const [scrollLocked, setScrollLocked] = useState(true);
   const imageRef = useRef<HTMLImageElement>(null);
   const initialScrollY = useInitialScrollPosition();
-  
+
   // 使用自定义Hook管理滚动锁定
   useBodyScrollLock(scrollLocked);
 
@@ -55,8 +55,8 @@ export default function PhotosModalPage() {
   let containerVariants = {};
   if (modalRectAtom) {
     const { left, top, width, height } = modalRectAtom;
-    const centerX = left + width / 2;
-    const centerY = top + height / 2 - initialScrollY;
+    const centerX = left - window.scrollX + width / 2;
+    const centerY = top - window.scrollY + height / 2;
     containerVariants = {
       initial: {
         width,
@@ -85,7 +85,7 @@ export default function PhotosModalPage() {
         width,
         height,
         left: centerX,
-        top: centerY,
+        top: centerY - initialScrollY,
         x: '-50%',
         y: '-50%',
         position: 'fixed',
@@ -116,7 +116,7 @@ export default function PhotosModalPage() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-            className="fixed inset-0 z-100 flex items-center justify-center bg-black/40 backdrop-blur-sm"
+            className="fixed inset-0 z-100 flex items-center justify-center bg-black/10 backdrop-blur-sm"
             onClick={handleClose}
           />
           <motion.div
