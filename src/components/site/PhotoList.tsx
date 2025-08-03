@@ -6,11 +6,7 @@ import { useModalRectAtom } from '@/hooks/use-modal-rect-atom';
 import { PhotoAlbumTabs } from './PhotoAlbumTabs';
 import { type Item, Masonry } from '@/components/ui/masonry';
 import { type PhotoFile } from '@/lib/photos';
-
-function getPhotoId(url: string) {
-  const arr = url.split('/');
-  return arr[arr.length - 1].split('.')[0];
-}
+import { getPhotoId } from '@/lib/photo-util';
 
 export const PhotoList = ({ photos }: { photos: PhotoFile[] }) => {
   const [currentAlbum, setCurrentAlbum] = useState(photos[0].album);
@@ -24,7 +20,7 @@ export const PhotoList = ({ photos }: { photos: PhotoFile[] }) => {
       if (!map.has(photo.album)) {
         map.set(photo.album, []);
       }
-      map.get(photo.album)!.push(photo.url);
+      map.get(photo.album)!.push(photo.absUrl);
     });
     return map;
   }, [photos]);
@@ -33,16 +29,16 @@ export const PhotoList = ({ photos }: { photos: PhotoFile[] }) => {
   const filteredPhotos = useMemo(() => {
     return (albumPhotosMap.get(currentAlbum) || []).map((photo) => ({
       id: photo,
-      img: `/photos/${photo}`,
-      url: `/photos/${photo}`
+      img: photo,
+      url: photo
     }));
   }, [albumPhotosMap, currentAlbum]);
 
   function handleItemClick(item: Item, e: React.MouseEvent) {
     const rect = e.currentTarget.getBoundingClientRect();
     setModalRectAtom({
-      left: rect.left + window.scrollX,
-      top: rect.top + window.scrollY,
+      left: rect.left,
+      top: rect.top,
       width: rect.width,
       height: rect.height
     });

@@ -9,7 +9,7 @@ const PhotosAlbumPage = () => {
   const imageUrl = decodeURIComponent(url);
 
   return (
-    <div className="flex h-full items-center justify-center py-5">
+    <div className="h-[calc(100vh-theme(spacing.header)-theme(spacing.footer))] flex items-center justify-center py-5">
       <img
         src={imageUrl}
         alt={image as string}

@@ -33,16 +33,18 @@ export function useScrollPosition() {
 /**
  * 获取初始滚动位置的Hook
  * 只在组件挂载时获取一次，避免频繁更新
- * @returns initialScrollY - 组件挂载时的滚动位置
+ * @returns { initialScrollX, initialScrollY } - 组件挂载时的滚动位置
  */
 export function useInitialScrollPosition() {
+  const [initialScrollX, setInitialScrollX] = useState(0)
   const [initialScrollY, setInitialScrollY] = useState(0)
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
+      setInitialScrollX(window.scrollX)
       setInitialScrollY(window.scrollY)
     }
   }, [])
 
-  return initialScrollY
+  return { initialScrollX, initialScrollY }
 }

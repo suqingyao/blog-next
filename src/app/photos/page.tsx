@@ -8,9 +8,9 @@ const PhotosPage = async () => {
   }
 
   return (
-    <>
+    <div className="container">
       <PhotoList photos={photos} />
-    </>
+    </div>
   );
 };
 

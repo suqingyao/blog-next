@@ -4,7 +4,7 @@ import errorDarkData from '@/lottie/error-dark.json';
 import errorData from '@/lottie/error.json';
 import { useTheme } from 'next-themes';
 import { useEffect } from 'react';
-// import Lottie from 'react-lottie';
+import Lottie from 'react-lottie';
 
 export default function GlobalError({
   error,
@@ -20,26 +20,28 @@ export default function GlobalError({
   }, [error]);
 
   return (
-    <div className="flex flex-col items-center justify-center">
-      {/* <Lottie
-        options={{
-          loop: true,
-          autoplay: true,
-          animationData: theme === 'dark' ? errorDarkData : errorData,
-          rendererSettings: {
-            preserveAspectRatio: 'xMidYMid slice'
-          }
-        }}
-        height="100%"
-        width="100%"
-      /> */}
+    <div className="container flex h-full items-center justify-center">
+      <div>
+        <Lottie
+          options={{
+            loop: false,
+            autoplay: true,
+            animationData: theme === 'dark' ? errorDarkData : errorData,
+            rendererSettings: {
+              preserveAspectRatio: 'xMidYMid slice'
+            }
+          }}
+          height="60%"
+          width="60%"
+        />
 
-      <button
-        className="text-link mt-10 text-xl opacity-40 hover:opacity-100"
-        onClick={reset}
-      >
-        Try again
-      </button>
+        <button
+          className="text-link mx-auto mt-10 block text-xl opacity-40 hover:opacity-100"
+          onClick={reset}
+        >
+          Try again
+        </button>
+      </div>
     </div>
   );
 }

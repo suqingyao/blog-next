@@ -17,14 +17,8 @@ const config: Config = {
     },
     container: {
       center: true,
-      padding: '2rem',
-      screens: {
-        '2xl': '1400px',
-        xl: '1200px',
-        lg: '1000px',
-        md: '800px',
-        sm: '600px'
-      }
+      padding: '1rem',
+      screens: {}
     },
     typography: (theme: any) => ({
       invert: {
