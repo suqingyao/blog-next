@@ -27,3 +27,4 @@ export * from './AlgoliaIcon';
 export * from './CheckedIcon';
 export * from './UncheckedIcon';
 export * from './ArrowRightIcon';
+export * from './RSSIcon';

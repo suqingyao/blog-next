@@ -26,6 +26,10 @@ export const AppContact = () => {
     {
       text: 'Bilibili',
       href: 'https://space.bilibili.com/27022081'
+    },
+    {
+      text: 'RSS',
+      href: '/api/feed'
     }
   ];
 
