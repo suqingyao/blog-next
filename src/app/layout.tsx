@@ -6,6 +6,7 @@ import { Toaster } from 'sonner';
 import { AppContent } from '@/components/application';
 import { Backtop } from '@/components/ui/backtop';
 import { PlumContainer } from '@/components/plum-container';
+import { MusicPlayer } from '@/components/music-player';
 import { AppContextProvider } from '@/contexts';
 import { AppProviders } from '@/providers';
 
@@ -64,6 +65,7 @@ export default function RootLayout({
           <Backtop />
           <Toaster />
           <PlumContainer />
+          <MusicPlayer />
         </AppProviders>
       </body>
     </html>
