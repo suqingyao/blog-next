@@ -14,10 +14,9 @@ declare global {
     code: string;
     id: string;
     title: string;
-    createdTime: string | Date;
+    createdTime: string;
     published: boolean;
     cover?: string;
-    description?: string;
     readingTime?: string;
     tags?: string[];
   }

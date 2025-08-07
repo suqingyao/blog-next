@@ -20,6 +20,7 @@ import rehypeSanitize from 'rehype-sanitize';
 import rehypeInferDescriptionMeta from 'rehype-infer-description-meta';
 import rehypeKatex from 'rehype-katex';
 import rehypeStringify from 'rehype-stringify';
+import readingTime from 'reading-time';
 
 import { Fragment, jsx, jsxs } from 'react/jsx-runtime';
 import { toast } from 'sonner';
@@ -170,6 +171,7 @@ export const renderMarkdown = ({
               string,
               any
             >;
+            metadata.frontMatter.readingTime = readingTime(node.value).text;
           }
         });
       }

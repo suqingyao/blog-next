@@ -21,13 +21,13 @@ export default async function PostMeta({
           <CalendarIcon className="mr-2 h-4 w-4" />
           <Time isoString={post?.createdTime} />
         </div>
-        {post?.tags?.filter((tag: any) => !RESERVED_TAGS.includes(tag))
+        {post?.tags?.filter((tag: string) => !RESERVED_TAGS.includes(tag))
           .length ? (
           <>
             <span className="post-tags min-w-0 space-x-1 truncate">
-              {post.metadata?.content?.tags
-                ?.filter((tag: any) => !RESERVED_TAGS.includes(tag))
-                .map((tag: any) => (
+              {post?.tags
+                ?.filter((tag: string) => !RESERVED_TAGS.includes(tag))
+                .map((tag: string) => (
                   <PostTag
                     key={tag}
                     tag={tag}

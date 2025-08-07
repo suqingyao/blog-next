@@ -148,7 +148,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
       regex.test(part) ? (
         <mark
           key={`highlight-${index}-${part}`}
-          className="rounded bg-yellow-200 px-1 dark:bg-zinc-600 dark:text-zinc-100"
+          className="bg-primary rounded px-1 dark:bg-zinc-600 dark:text-zinc-100"
         >
           {part}
         </mark>
