@@ -2,7 +2,7 @@
 
 import { useRef, useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-import { useModalRectAtom } from '@/hooks/use-modal-rect-atom';
+import { useModalRectAtom } from '@/store/hooks/use-modal-rect-atom';
 import { PhotoAlbumTabs } from './PhotoAlbumTabs';
 import { type Item, Masonry } from '@/components/ui/masonry';
 import { type PhotoFile } from '@/lib/photos';

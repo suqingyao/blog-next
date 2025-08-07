@@ -1,9 +1,9 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { useMusicPlayer } from '@/hooks/use-music-player';
+import { useMusicPlayer } from '@/store/hooks/use-music-player';
 import { Tooltip } from '@/components/ui/tooltip';
-import type { PlayerPosition } from '@/atoms/music-player';
+import type { PlayerPosition } from '@/store/atoms/music-player';
 import { APP_HEADER_HEIGHT } from '@/constants';
 
 import { cn } from '@/lib/utils';

@@ -16,7 +16,7 @@ import {
   setDragOffsetAtom,
   type MusicTrack,
   type PlayerPosition
-} from '@/atoms/music-player';
+} from '@/store/atoms/music-player';
 import { consoleLog } from '@/lib/console';
 
 /**

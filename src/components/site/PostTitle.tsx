@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useHeaderAtom } from '@/hooks/use-header-atom';
+import { useHeaderAtom } from '@/store/hooks/use-header-atom';
 import { cn } from '@/lib/utils';
 
 export default function PostTitle({

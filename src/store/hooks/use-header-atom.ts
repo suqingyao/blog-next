@@ -1,6 +1,6 @@
 import { useAtom } from 'jotai';
 
-import { headerAtom } from '@/atoms';
+import { headerAtom } from '@/store/atoms';
 
 export const useHeaderAtom = () => {
   const [header, setHeader] = useAtom(headerAtom);

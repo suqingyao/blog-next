@@ -1,6 +1,6 @@
 import { useAtom } from 'jotai';
 
-import { modalRectAtom } from '@/atoms';
+import { modalRectAtom } from '@/store/atoms';
 
 export const useModalRectAtom = () => {
   const [modalRect, setModalRect] = useAtom(modalRectAtom);

@@ -6,7 +6,7 @@ import { AnimatePresence, motion } from 'motion/react';
 
 import type { PhotoFile } from '@/lib/photos';
 import { useEventListener } from '@/hooks/use-event-listener';
-import { useModalRectAtom } from '@/hooks/use-modal-rect-atom';
+import { useModalRectAtom } from '@/store/hooks/use-modal-rect-atom';
 import { useOutsideClick } from '@/hooks/use-outside-click';
 import { useBodyScrollLock } from '@/hooks/use-body-scroll-lock';
 
