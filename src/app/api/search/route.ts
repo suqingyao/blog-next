@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs-extra';
 import path from 'path';
+import { consoleLog } from '@/lib/console';
 
 /**
  * 搜索API端点
@@ -72,7 +73,7 @@ export async function GET(request: NextRequest) {
     });
     
   } catch (error) {
-    console.error('Search API error:', error);
+    consoleLog('ERROR', 'Search API error:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

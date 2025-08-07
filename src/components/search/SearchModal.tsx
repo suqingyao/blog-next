@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Modal } from '@/components/ui/modal';
 import { AlgoliaIcon } from '@/components/icons';
 import { useRouter } from 'next/navigation';
+import { consoleLog } from '@/lib/console';
 
 interface SearchResult {
   slug: string;
@@ -56,7 +57,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
       setResults(data.results || []);
       setSelectedIndex(0);
     } catch (error) {
-      console.error('Search error:', error);
+      consoleLog('ERROR', 'Search error:', error);
       setResults([]);
     } finally {
       setLoading(false);

@@ -2,6 +2,7 @@ import RSS from 'rss';
 import xss from 'xss';
 import { getAllPosts } from '@/models/post.model';
 import { OUR_DOMAIN, APP_NAME, APP_DESCRIPTION } from '@/constants/app';
+import { consoleLog } from '@/lib/console';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 60;
@@ -58,7 +59,7 @@ export async function GET() {
       }
     });
   } catch (error) {
-    console.error('RSS生成失败:', error);
+    consoleLog('ERROR', 'RSS生成失败:', error);
     return new Response('RSS生成失败', { status: 500 });
   }
 }

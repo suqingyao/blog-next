@@ -5,6 +5,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
+import { consoleLog } from '@/lib/console';
 // import { getSearchClient, algoliaConfig } from '@/lib/algolia';
 
 // 类型定义
@@ -115,7 +116,7 @@ export async function GET(request: NextRequest) {
       query: searchResult.query
     });
   } catch (error) {
-    console.error('Algolia 搜索错误:', error);
+    consoleLog('ERROR', 'Algolia 搜索错误:', error);
 
     // 出错时回退到本地搜索
     const { searchParams } = new URL(request.url);
@@ -188,7 +189,7 @@ async function fallbackToLocalSearch(query: string, limit: number) {
       fallback: true
     });
   } catch (error) {
-    console.error('本地搜索错误:', error);
+    consoleLog('ERROR', '本地搜索错误:', error);
     return NextResponse.json({ error: '搜索服务暂时不可用' }, { status: 500 });
   }
 }

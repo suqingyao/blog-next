@@ -1,17 +1,19 @@
 import { OpenAI } from 'openai';
 import { NextRequest, NextResponse } from 'next/server';
+import { consoleLog } from '@/lib/console';
 
 // 初始化OpenAI客户端，配置为使用讯飞星火API
 // 讯飞星火使用APIPassword作为认证密钥，这是在控制台获取的APIPassword
 const sparkApiPassword = process.env.SPARK_API_PASSWORD;
+const sparkApiPasswordPlaceholder = 'placeholder-key-for-build';
 
-console.log('讯飞星火API配置状态:', {
+consoleLog('INFO', '讯飞星火API配置状态:', {
   apiPassword: sparkApiPassword ? '已设置' : '未设置'
 });
 
 // 检查必要的环境变量
 if (!sparkApiPassword) {
-  console.error('讯飞星火API配置不完整：缺少SPARK_API_PASSWORD');
+  consoleLog('ERROR', '讯飞星火API配置不完整：缺少SPARK_API_PASSWORD');
 }
 
 /**
@@ -21,14 +23,14 @@ if (!sparkApiPassword) {
  * 在构建时如果环境变量缺失，使用占位符避免构建失败
  */
 const openai = new OpenAI({
-  apiKey: sparkApiPassword || 'placeholder-key-for-build',
+  apiKey: sparkApiPassword || sparkApiPasswordPlaceholder,
   baseURL: 'https://spark-api-open.xf-yun.com/v1/'
 });
 
 export async function POST(request: NextRequest) {
   try {
-    // 运行时检查环境变量
-    if (!sparkApiPassword || sparkApiPassword === 'placeholder-key-for-build') {
+    consoleLog('INFO', '[AI] 开始处理POST请求...');
+    if (!sparkApiPassword || sparkApiPassword === sparkApiPasswordPlaceholder) {
       return NextResponse.json(
         { error: 'AI summary service is not configured properly' },
         { status: 503 }
@@ -45,8 +47,8 @@ export async function POST(request: NextRequest) {
     }
 
     // 调用讯飞星火API生成摘要，添加超时控制
-    console.log('开始调用讯飞星火API生成摘要...');
-    console.log('准备调用讯飞星火API，内容长度:', content.length);
+    consoleLog('INFO', '[AI] 开始调用讯飞星火API生成摘要...');
+    consoleLog('INFO', '[AI] 准备调用讯飞星火API，内容长度:', content.length);
 
     let apiPromise;
     try {
@@ -65,20 +67,19 @@ export async function POST(request: NextRequest) {
         ]
       });
 
-      console.log('讯飞星火API请求已发送，等待响应...');
+      consoleLog('INFO', '[AI] 讯飞星火API请求已发送，等待响应...');
     } catch (initError) {
-      console.error('创建讯飞星火API请求时出错:', initError);
+      consoleLog('ERROR', '[AI] 创建讯飞星火API请求时出错:', initError);
       throw initError;
     }
 
     const response = await apiPromise;
-    console.log('🚀 ~ POST ~ response:', response);
     const summary = response.choices[0]?.message?.content?.trim() || '';
-    console.log('🚀 ~ POST ~ summary:', summary);
+    consoleLog('INFO', '[AI] 讯飞星火API返回摘要:', summary);
 
     return NextResponse.json({ summary });
   } catch (error) {
-    console.error('Error generating summary:', error);
+    consoleLog('ERROR', '[AI] 生成摘要时出错:', error);
 
     // 提供更详细的错误信息
     let errorMessage = 'Failed to generate summary';
@@ -92,14 +93,17 @@ export async function POST(request: NextRequest) {
         {
           error: errorMessage,
           summary:
-            '由于API请求超时，无法生成AI摘要。这可能是因为网络问题或讯飞星火服务暂时不可用。'
+            '[AI] 由于API请求超时，无法生成AI摘要。这可能是因为网络问题或讯飞星火服务暂时不可用。'
         },
         { status: 504 } // Gateway Timeout
       );
     }
 
     return NextResponse.json(
-      { error: errorMessage, summary: '生成AI摘要时出现错误，请稍后再试。' },
+      {
+        error: errorMessage,
+        summary: '[AI] 生成AI摘要时出现错误，请稍后再试。'
+      },
       { status: 500 }
     );
   }

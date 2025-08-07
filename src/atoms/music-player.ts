@@ -1,4 +1,5 @@
 import { atom } from 'jotai';
+import { consoleLog } from '@/lib/console';
 
 /**
  * 音乐曲目接口
@@ -188,7 +189,7 @@ export const loadPlaylistAtom = atom(null, async (get, set) => {
       currentTrack: data.tracks.length > 0 ? data.tracks[0] : null
     });
   } catch (error) {
-    console.error('Error loading playlist:', error);
+    consoleLog('ERROR', 'Error loading playlist:', error);
   }
 });
 

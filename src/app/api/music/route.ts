@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { readdir } from 'fs/promises';
 import { join } from 'path';
+import { consoleLog } from '@/lib/console';
 
 /**
  * 获取音乐文件列表的API路由
@@ -31,7 +32,7 @@ export async function GET() {
     
     return NextResponse.json({ tracks });
   } catch (error) {
-    console.error('Error reading music directory:', error);
+    consoleLog('ERROR', 'Error reading music directory:', error);
     return NextResponse.json(
       { error: 'Failed to load music files' },
       { status: 500 }

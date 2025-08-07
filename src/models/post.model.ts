@@ -1,4 +1,5 @@
 import { OUR_DOMAIN, IS_PROD } from '@/constants';
+import { consoleLog } from '@/lib/console';
 import { renderMarkdown } from '@/markdown';
 import fg from 'fast-glob';
 import fs from 'fs-extra';
@@ -75,10 +76,9 @@ async function getAiSummary(content: string): Promise<string | null> {
     // 在服务器端渲染时使用相对路径，在客户端使用完整URL
     const apiUrl = IS_PROD ? '/api/ai/summary' : `${OUR_DOMAIN}/api/ai/summary`;
 
-    console.log(`正在调用摘要API: ${apiUrl}`);
+    consoleLog('INFO', '[AI] 正在调用摘要API: ', apiUrl);
 
-    // 创建fetch请求Promise
-    const fetchPromise = fetch(apiUrl, {
+    const response = await fetch(apiUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -86,12 +86,9 @@ async function getAiSummary(content: string): Promise<string | null> {
       body: JSON.stringify({ content })
     });
 
-    // 使用Promise.race来实现超时控制
-    const response = await fetchPromise;
-
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('Failed to generate summary:', errorText);
+      consoleLog('ERROR', '[AI] Failed to generate summary:', errorText);
 
       // 尝试解析错误响应
       try {
@@ -101,7 +98,7 @@ async function getAiSummary(content: string): Promise<string | null> {
           return errorData.summary;
         }
       } catch (e) {
-        // 解析JSON失败，忽略
+        consoleLog('ERROR', '[AI] Error parsing error response:', e);
       }
 
       return `无法生成AI摘要: ${response.status} ${response.statusText}`;
@@ -114,7 +111,7 @@ async function getAiSummary(content: string): Promise<string | null> {
 
     return data.summary;
   } catch (error) {
-    console.error('Error generating summary:', error);
+    consoleLog('ERROR', 'Error generating summary:', error);
     return error instanceof Error
       ? `生成摘要时出错: ${error.message}`
       : '生成摘要时出现未知错误。';
@@ -129,7 +126,7 @@ async function getSummaryFromCache(slug: string): Promise<string | null> {
       return await fs.readFile(summaryPath, 'utf-8');
     }
   } catch (error) {
-    console.error('Error reading summary cache:', error);
+    consoleLog('ERROR', 'Error reading summary cache:', error);
   }
   return null;
 }
@@ -147,7 +144,7 @@ async function saveSummaryToCache(
     summary.includes('客户端请求超时') ||
     summary.includes('API请求超时')
   ) {
-    console.log(`摘要生成失败，不保存缓存文件: ${slug}`);
+    consoleLog('INFO', `摘要生成失败，不保存缓存文件: ${slug}`);
     return;
   }
 
@@ -156,9 +153,9 @@ async function saveSummaryToCache(
   try {
     await fs.ensureDir(summaryDir);
     await fs.writeFile(summaryPath, summary);
-    console.log(`摘要缓存已保存: ${slug}`);
+    consoleLog('INFO', `摘要缓存已保存: ${slug}`);
   } catch (error) {
-    console.error('Error saving summary cache:', error);
+    consoleLog('ERROR', 'Error saving summary cache:', error);
   }
 }
 

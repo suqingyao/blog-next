@@ -28,6 +28,7 @@ import { toHtml } from 'hast-util-to-html';
 import { visit } from 'unist-util-visit';
 import jsYaml from 'js-yaml';
 import { isServer } from '@/lib/is';
+import { consoleLog } from '@/lib/console';
 import sanitizeScheme from './sanitize-schema';
 import { remarkPangu } from './remark-pangu';
 import { rehypeTable } from './rehype-table';
@@ -101,7 +102,7 @@ export const renderMarkdown = ({
     // hypertext abstract syntax tree
     hastTree = processor.runSync(mdastTree, file);
   } catch (error) {
-    console.error(error);
+    consoleLog('ERROR', 'renderMarkdown:', error);
     if (!isServer()) {
       toast.error((error as Error).message);
     }

@@ -17,6 +17,7 @@ import {
   type MusicTrack,
   type PlayerPosition
 } from '@/atoms/music-player';
+import { consoleLog } from '@/lib/console';
 
 /**
  * 音乐播放器自定义 Hook
@@ -126,7 +127,7 @@ export const useMusicPlayer = () => {
     if (audioRef.current) {
       if (state.isPlaying && state.currentTrack) {
         audioRef.current.play().catch((error) => {
-          console.warn('播放失败:', error.message);
+          consoleLog('WARN', '播放失败:', error.message);
           // 如果是自动播放被阻止，重置播放状态并标记需要用户交互
           if (error.name === 'NotAllowedError') {
             setState((prev) => ({

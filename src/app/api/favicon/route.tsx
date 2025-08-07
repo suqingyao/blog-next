@@ -1,6 +1,7 @@
 import * as cheerio from 'cheerio';
 import { ImageResponse } from 'next/og';
 import { type NextRequest, NextResponse } from 'next/server';
+import { consoleLog } from '@/lib/console';
 
 export const runtime = 'edge';
 export const revalidate = 259200; // 3 days
@@ -96,8 +97,8 @@ export async function GET(req: NextRequest) {
     cache.set(getKey(url), iconUrl);
     const baseUrl = new URL(req.url).origin;
     return renderFavicon(getFullUrl(iconUrl, baseUrl));
-  } catch (e) {
-    console.error('fetch favicon error');
+  } catch {
+    consoleLog('ERROR', 'fetch favicon error');
   }
 
   const baseUrl = new URL(req.url).origin;

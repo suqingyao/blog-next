@@ -15,6 +15,7 @@ import {
   YouTubeIcon
 } from '@/components/icons';
 import { Tooltip } from '@/components/ui/tooltip';
+import { consoleLog } from '@/lib/console';
 
 type IconType = (props: IconProps) => JSX.Element;
 type Platform =
@@ -99,7 +100,7 @@ export function SocialLink({
   const info = getIconForPlatform(platform) ?? getIconForUrl(href.toString());
 
   if (!info) {
-    console.warn(`No icon found for ${href.toString()}`);
+    consoleLog('WARN', `No icon found for ${href.toString()}`);
 
     return (
       <Link
