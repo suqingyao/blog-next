@@ -19,7 +19,7 @@ export const Time = ({ isoString }: { isoString?: string }) => {
       {date.formatDate(
         isoString || '',
         undefined,
-        isMounted ? undefined : 'America/Los_Angeles'
+        isMounted ? undefined : 'Asia/Shanghai'
       )}
     </time>
   );

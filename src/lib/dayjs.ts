@@ -20,5 +20,6 @@ dayjs.extend(duration);
 dayjs.extend(relativeTime);
 dayjs.extend(weekOfYear);
 dayjs.extend(advancedFormat);
+dayjs.locale('en');
 
 export default dayjs;
