@@ -203,7 +203,9 @@ pnpm upload:algolia             # 上传数据到 Algolia
 title: "文章标题"
 summary: "文章摘要"
 createdTime: "2024-01-01"
-tags: ["标签1", "标签2"]
+tags:
+  - "标签1"
+  - "标签2"
 published: true
 ---
 

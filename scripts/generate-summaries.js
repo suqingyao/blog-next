@@ -10,8 +10,9 @@ const __dirname = path.dirname(__filename);
 /**
  * 批量生成文章摘要的脚本
  * 检查所有MDX文章文件，为没有摘要的文章生成AI摘要
+ * @param {boolean} forceRegenTemp - 是否强制重新生成临时摘要
  */
-export async function generateMissingSummaries() {
+export async function generateMissingSummaries(forceRegenTemp = false) {
   try {
     console.log('🚀 开始检查并生成缺失的文章摘要...');
 
@@ -32,25 +33,41 @@ export async function generateMissingSummaries() {
 
     // 找出需要生成摘要的文章
     const missingPosts = [];
+    const tempSummaryPosts = [];
 
     for (const file of postFiles) {
       const slug = file.replace(/^posts\/(.+)\.mdx$/, '$1');
       if (!existingSlugs.includes(slug)) {
         missingPosts.push({ file, slug });
+      } else if (forceRegenTemp) {
+        // 检查是否为临时摘要
+        const summaryPath = path.join(summaryDir, `${slug}.txt`);
+        const summaryContent = await fs.readFile(summaryPath, 'utf-8');
+        if (summaryContent.startsWith('[临时摘要]')) {
+          tempSummaryPosts.push({ file, slug });
+          console.log(`🔄 发现临时摘要: ${slug}`);
+        }
       }
     }
 
     console.log(`⚠️  需要生成摘要的文章: ${missingPosts.length} 篇`);
-
-    if (missingPosts.length === 0) {
-      console.log('✅ 所有文章都已有摘要！');
-      return;
+    if (tempSummaryPosts.length > 0) {
+      console.log(`🔄 需要替换临时摘要的文章: ${tempSummaryPosts.length} 篇`);
     }
 
+    if (missingPosts.length === 0 && tempSummaryPosts.length === 0) {
+      console.log('✅ 所有文章都已有正式摘要！');
+      return;
+    }
+    
+    // 合并需要处理的文章
+    const postsToProcess = [...missingPosts, ...tempSummaryPosts];
+    console.log(`📝 总共需要处理: ${postsToProcess.length} 篇文章`);
+
     // 逐个生成摘要
-    for (let i = 0; i < missingPosts.length; i++) {
-      const { file, slug } = missingPosts[i];
-      console.log(`\n📖 [${i + 1}/${missingPosts.length}] 正在处理: ${slug}`);
+    for (let i = 0; i < postsToProcess.length; i++) {
+      const { file, slug } = postsToProcess[i];
+      console.log(`\n📖 [${i + 1}/${postsToProcess.length}] 正在处理: ${slug}`);
 
       try {
         // 读取文章内容
@@ -146,7 +163,14 @@ async function main() {
   }
 
   console.log('✅ 开发服务器运行正常');
-  await generateMissingSummaries();
+  
+  // 检查命令行参数
+  const forceRegenTemp = process.argv.includes('--force-temp');
+  if (forceRegenTemp) {
+    console.log('⚠️ 将强制重新生成临时摘要');
+  }
+  
+  await generateMissingSummaries(forceRegenTemp);
 }
 
 // ES 模块中检查是否为主模块的方法
