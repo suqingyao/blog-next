@@ -1,14 +1,14 @@
 {
   "name": "blog-next",
+  "type": "module",
   "version": "0.1.0",
   "private": true,
-  "type": "module",
   "scripts": {
     "dev": "next dev -p 2323",
     "build": "next build",
     "start": "next start -p 2323",
-    "lint": "next lint",
-    "lint:fix": "next lint --fix",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "new:post": "node ./scripts/new-post.js",
     "update": "npx taze -w",
     "compress:images": "node ./scripts/compress-images.js",
@@ -23,6 +23,7 @@
     "prepare": "simple-git-hooks"
   },
   "dependencies": {
+    "@antfu/eslint-config": "^5.2.0",
     "@radix-ui/react-avatar": "^1.1.10",
     "@radix-ui/react-dialog": "^1.1.14",
     "@radix-ui/react-hover-card": "^1.1.14",
@@ -97,12 +98,10 @@
     "vfile": "^6.0.3",
     "xss": "^1.0.15"
   },
-  "simple-git-hooks": {
-    "pre-push": "pnpm check:posts:hooks"
-  },
   "devDependencies": {
+    "@antfu/eslint-config": "^5.2.0",
     "@egoist/tailwindcss-icons": "^1.9.0",
-    "@eslint/eslintrc": "^3.3.1",
+    "@eslint-react/eslint-plugin": "^1.52.3",
     "@iconify-json/mingcute": "^1.2.3",
     "@tailwindcss/postcss": "^4.1.11",
     "@tailwindcss/typography": "^0.5.16",
@@ -126,13 +125,7 @@
     "chokidar": "^4.0.3",
     "eslint": "^9.31.0",
     "eslint-config-next": "^15.4.1",
-    "eslint-plugin-import": "^2.32.0",
-    "eslint-plugin-prettier": "^5.5.1",
-    "eslint-plugin-react": "^7.37.5",
-    "eslint-plugin-react-hooks": "^5.2.0",
-    "eslint-plugin-simple-import-sort": "^12.1.1",
-    "eslint-plugin-tailwindcss": "4.0.0-beta.0",
-    "eslint-plugin-unused-imports": "^4.1.4",
+    "eslint-plugin-react-refresh": "^0.4.20",
     "mdast": "^3.0.0",
     "ora": "^7.0.1",
     "postcss": "8.4.24",
@@ -140,14 +133,13 @@
     "postcss-nesting": "^13.0.2",
     "postcss-preset-env": "^9.6.0",
     "postcss-prune-var": "^1.1.2",
-    "prettier": "^3.6.2",
-    "prettier-plugin-tailwindcss": "^0.6.14",
     "sharp": "^0.34.3",
     "simple-git-hooks": "^2.13.1",
     "tailwind-scrollbar-hide": "^4.0.0",
     "tailwindcss": "4.1.11",
-    "tailwindcss-variable-colors": "^0.1.0",
-    "typescript": "5.1.6",
-    "typescript-eslint": "^8.37.0"
+    "typescript": "5.1.6"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm check:posts:hooks"
   }
 }
