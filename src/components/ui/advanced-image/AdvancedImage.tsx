@@ -1,14 +1,15 @@
-import { memo } from 'react';
+import type { TImageProps } from '@/components/ui/image';
 
+import { memo } from 'react';
 import { FadeIn } from '@/components/common/FadeIn';
-import { Image, type TImageProps } from '@/components/ui/image';
+import { Image } from '@/components/ui/image';
 import { isServer } from '@/lib/is';
 import { SITE_URL } from '@/lib/site';
 import { cn } from '@/lib/utils';
 
-const AdvancedImagePrimitive = memo(async function AdvancedImage(
-  props: TImageProps
-) {
+const AdvancedImagePrimitive = memo(async (
+  props: TImageProps,
+) => {
   let info: {
     size: {
       width: number;
@@ -22,7 +23,8 @@ const AdvancedImagePrimitive = memo(async function AdvancedImage(
       info = await (
         await fetch(`${SITE_URL}/api/image?url=${props.src}`)
       ).json();
-    } catch (error) {}
+    }
+    catch (error) {}
   }
 
   const autoProps = info?.base64
@@ -30,7 +32,7 @@ const AdvancedImagePrimitive = memo(async function AdvancedImage(
         width: info.size?.width,
         height: info.size?.height,
         blurDataURL: info.base64,
-        placeholder: 'blur' as const
+        placeholder: 'blur' as const,
       }
     : {};
 
@@ -42,7 +44,7 @@ const AdvancedImagePrimitive = memo(async function AdvancedImage(
         zoom
         className={cn(
           props.className,
-          info && info.size.height < 50 ? '' : 'rounded-xl'
+          info && info.size.height < 50 ? '' : 'rounded-xl',
         )}
         alt={props.alt || 'image'}
       />

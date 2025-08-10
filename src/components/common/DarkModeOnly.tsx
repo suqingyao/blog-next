@@ -1,5 +1,5 @@
-import { PropsWithChildren } from 'react';
+import type { PropsWithChildren } from 'react';
 
-export const DarkModeOnly = (props: PropsWithChildren) => {
+export function DarkModeOnly(props: PropsWithChildren) {
   return <div className="hidden dark:contents">{props.children}</div>;
-};
+}

@@ -1,4 +1,4 @@
-export const getSiteRelativeUrl = (pathname: string, address: string) => {
+export function getSiteRelativeUrl(pathname: string, address: string) {
   if (address.match(/^https?:\/\//)) {
     return address;
   }
@@ -8,12 +8,14 @@ export const getSiteRelativeUrl = (pathname: string, address: string) => {
   const reg = /\/(site|posts)\/([^/]*)/;
   if (address.match(reg)) {
     return address;
-  } else {
+  }
+  else {
     const match = pathname.match(reg);
     if (match?.[2]) {
       return `/site/${match[2]}${address === '/' ? '' : address}`;
-    } else {
+    }
+    else {
       return address;
     }
   }
-};
+}

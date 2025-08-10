@@ -7,17 +7,17 @@ interface Actions {
   toggle: () => void;
 }
 
-export const useBoolean = (defaultValue?: boolean) => {
+export function useBoolean(defaultValue?: boolean) {
   const [value, setValue] = useState(!!defaultValue);
 
   const actions: Actions = useMemo(() => {
     return {
-      set: (v) => setValue(v),
+      set: v => setValue(v),
       setTrue: () => setValue(true),
       setFalse: () => setValue(false),
-      toggle: () => setValue((v) => !v)
+      toggle: () => setValue(v => !v),
     };
   }, []);
 
   return [value, actions] as const;
-};
+}

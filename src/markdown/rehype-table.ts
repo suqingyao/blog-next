@@ -9,7 +9,7 @@ export const rehypeTable: Plugin<Array<void>, Root> = () => (tree: Root) => {
         type: 'element',
         tagName: 'div',
         properties: { className: 'table-wrapper' },
-        children: [node]
+        children: [node],
       };
     }
   });

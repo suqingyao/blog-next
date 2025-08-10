@@ -1,10 +1,10 @@
 import type { ExtraProps } from 'hast-util-to-jsx-runtime';
 
-export const createMarkdownHeaderComponent = (tag: string) => {
+export function createMarkdownHeaderComponent(tag: string) {
   const MarkdownHeader: React.FC<
-    React.ClassAttributes<HTMLHeadingElement> &
-      React.HTMLAttributes<HTMLHeadingElement> &
-      ExtraProps
+    React.ClassAttributes<HTMLHeadingElement>
+    & React.HTMLAttributes<HTMLHeadingElement>
+    & ExtraProps
   > = ({ children, ...rest }) => {
     const Tag = tag as any;
 
@@ -26,4 +26,4 @@ export const createMarkdownHeaderComponent = (tag: string) => {
   };
 
   return MarkdownHeader;
-};
+}

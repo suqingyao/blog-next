@@ -1,4 +1,4 @@
-import { IconProps } from '.';
+import type { IconProps } from '.';
 
 export function ScriptIcon(props: IconProps = {}) {
   return (

@@ -1,7 +1,7 @@
-import { cn } from '@/lib/utils';
-import type { Root, Element, ElementContent } from 'hast';
+import type { Element, ElementContent, Root } from 'hast';
 import type { Plugin } from 'unified';
 import { visit } from 'unist-util-visit';
+import { cn } from '@/lib/utils';
 
 /**
  * Rehype 插件：处理任务列表，将 checkbox 转换为自定义图标
@@ -17,35 +17,35 @@ export const rehypeTaskList: Plugin<Array<void>, Root> = () => (tree: Root) => {
     // 查找包含 checkbox 的 li 元素
     const hasCheckbox = node.children.some(
       (child: ElementContent) =>
-        child.type === 'element' &&
-        child.tagName === 'input' &&
-        child.properties?.type === 'checkbox'
+        child.type === 'element'
+        && child.tagName === 'input'
+        && child.properties?.type === 'checkbox',
     );
 
     if (hasCheckbox) {
       // 找到 checkbox 元素
       const checkboxIndex = node.children.findIndex(
         (child: ElementContent) =>
-          child.type === 'element' &&
-          child.tagName === 'input' &&
-          child.properties?.type === 'checkbox'
+          child.type === 'element'
+          && child.tagName === 'input'
+          && child.properties?.type === 'checkbox',
       );
 
       if (checkboxIndex !== -1) {
         const checkbox = node.children[checkboxIndex] as Element;
-        const isChecked =
-          checkbox.properties?.checked === true ||
-          checkbox.properties?.checked === '';
+        const isChecked
+          = checkbox.properties?.checked === true
+            || checkbox.properties?.checked === '';
 
         // 创建自定义图标元素
         const iconElement: Element = {
           type: 'element',
           tagName: isChecked ? 'taskcheckedicon' : 'taskuncheckedicon',
           properties: {
-            className: 'task-list-icon w-4 h-4 -ml-1',
-            'data-checked': isChecked ? 'true' : 'false'
+            'className': 'task-list-icon w-4 h-4 -ml-1',
+            'data-checked': isChecked ? 'true' : 'false',
           },
-          children: []
+          children: [],
         };
 
         // 替换 checkbox 为自定义图标
@@ -61,7 +61,8 @@ export const rehypeTaskList: Plugin<Array<void>, Root> = () => (tree: Root) => {
 
         if (typeof existingClassName === 'string') {
           classNames = `${existingClassName} ${classNames}`;
-        } else if (Array.isArray(existingClassName)) {
+        }
+        else if (Array.isArray(existingClassName)) {
           classNames = `${existingClassName.join(' ')} ${classNames}`;
         }
 
@@ -80,13 +81,16 @@ export const rehypeTaskList: Plugin<Array<void>, Root> = () => (tree: Root) => {
             parentClassNames = cn(parentClassName, parentClassNames);
             if (!parentClassName.includes('contains-task-list')) {
               parentClassNames = `${parentClassName} ${parentClassNames}`;
-            } else {
+            }
+            else {
               parentClassNames = parentClassName;
             }
-          } else if (Array.isArray(parentClassName)) {
+          }
+          else if (Array.isArray(parentClassName)) {
             if (!parentClassName.includes('contains-task-list')) {
               parentClassNames = `${parentClassName.join(' ')} ${parentClassNames}`;
-            } else {
+            }
+            else {
               parentClassNames = parentClassName.join(' ');
             }
           }

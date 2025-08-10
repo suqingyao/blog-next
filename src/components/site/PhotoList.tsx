@@ -1,14 +1,15 @@
 'use client';
 
-import { useRef, useState, useMemo } from 'react';
+import type { Item } from '@/components/ui/masonry';
+import type { PhotoFile } from '@/lib/photos';
 import { useRouter } from 'next/navigation';
+import { useMemo, useRef, useState } from 'react';
+import { Masonry } from '@/components/ui/masonry';
+import { getPhotoId } from '@/lib/photo-util';
 import { useModalRectAtom } from '@/store/hooks/use-modal-rect-atom';
 import { PhotoAlbumTabs } from './PhotoAlbumTabs';
-import { type Item, Masonry } from '@/components/ui/masonry';
-import { type PhotoFile } from '@/lib/photos';
-import { getPhotoId } from '@/lib/photo-util';
 
-export const PhotoList = ({ photos }: { photos: PhotoFile[] }) => {
+export function PhotoList({ photos }: { photos: PhotoFile[] }) {
   const [currentAlbum, setCurrentAlbum] = useState(photos[0].album);
   const containerRef = useRef<HTMLDivElement>(null);
   const { setModalRectAtom } = useModalRectAtom();
@@ -27,10 +28,10 @@ export const PhotoList = ({ photos }: { photos: PhotoFile[] }) => {
 
   // 使用 useMemo 缓存当前相册的照片列表
   const filteredPhotos = useMemo(() => {
-    return (albumPhotosMap.get(currentAlbum) || []).map((photo) => ({
+    return (albumPhotosMap.get(currentAlbum) || []).map(photo => ({
       id: photo,
       img: photo,
-      url: photo
+      url: photo,
     }));
   }, [albumPhotosMap, currentAlbum]);
 
@@ -40,7 +41,7 @@ export const PhotoList = ({ photos }: { photos: PhotoFile[] }) => {
       left: rect.left,
       top: rect.top,
       width: rect.width,
-      height: rect.height
+      height: rect.height,
     });
 
     const photo = getPhotoId(item.url);
@@ -63,4 +64,4 @@ export const PhotoList = ({ photos }: { photos: PhotoFile[] }) => {
       )}
     </div>
   );
-};
+}

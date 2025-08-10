@@ -7,9 +7,9 @@ let caf: any = (target as unknown as Window).cancelAnimationFrame;
 if (!raf || !caf) {
   vendors.some((prefix) => {
     raf = (target as any)[`${prefix}RequestAnimationFrame`];
-    caf =
-      (target as any)[`${prefix}CancelAnimationFrame`] ||
-      (target as any)[`${prefix}CancelRequestAnimationFrame`];
+    caf
+      = (target as any)[`${prefix}CancelAnimationFrame`]
+        || (target as any)[`${prefix}CancelRequestAnimationFrame`];
     return raf && caf;
   });
 
@@ -34,4 +34,4 @@ if (!raf || !caf) {
 raf = raf.bind(target);
 caf = caf.bind(target);
 
-export { raf, caf };
+export { caf, raf };

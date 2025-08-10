@@ -1,5 +1,5 @@
 import { DarkToggle } from './DarkToggle';
 
-export const DarkToggleServer = () => {
+export function DarkToggleServer() {
   return <DarkToggle />;
-};
+}

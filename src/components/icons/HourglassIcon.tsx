@@ -1,4 +1,4 @@
-import { IconProps } from '.';
+import type { IconProps } from '.';
 
 export function HourglassIcon(props: IconProps = {}) {
   return (

@@ -1,17 +1,17 @@
 import { useCallback, useState } from 'react';
-import { useMount } from './use-mount';
 import { useEventListener } from './use-event-listener';
+import { useMount } from './use-mount';
 
-export const useClipboard = () => {
+export function useClipboard() {
   const [text, setText] = useState('');
   const [isSupported, setIsSupported] = useState(false);
 
   useMount(() => {
     setIsSupported(
-      typeof window !== 'undefined' &&
-        typeof navigator !== 'undefined' &&
-        !!navigator.clipboard &&
-        typeof navigator.clipboard.writeText === 'function'
+      typeof window !== 'undefined'
+      && typeof navigator !== 'undefined'
+      && !!navigator.clipboard
+      && typeof navigator.clipboard.writeText === 'function',
     );
   });
 
@@ -31,12 +31,12 @@ export const useClipboard = () => {
         await navigator.clipboard.writeText(value);
       }
     },
-    [isSupported]
+    [isSupported],
   );
 
   return {
     text,
     isSupported,
-    copy
+    copy,
   };
-};
+}

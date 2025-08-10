@@ -1,14 +1,14 @@
 'use client';
 
-import { useRef, useState, useEffect, useMemo } from 'react';
-import { useRouter } from 'next/navigation';
-import { AnimatePresence, motion } from 'motion/react';
-
 import type { PhotoFile } from '@/lib/photos';
-import { useEventListener } from '@/hooks/use-event-listener';
-import { useModalRectAtom } from '@/store/hooks/use-modal-rect-atom';
-import { useOutsideClick } from '@/hooks/use-outside-click';
+import { AnimatePresence, motion } from 'motion/react';
+import { useRouter } from 'next/navigation';
+
+import { useMemo, useRef, useState } from 'react';
 import { useBodyScrollLock } from '@/hooks/use-body-scroll-lock';
+import { useEventListener } from '@/hooks/use-event-listener';
+import { useOutsideClick } from '@/hooks/use-outside-click';
+import { useModalRectAtom } from '@/store/hooks/use-modal-rect-atom';
 
 export function PhotoModal({ photo }: { photo: PhotoFile }) {
   const router = useRouter();
@@ -20,7 +20,7 @@ export function PhotoModal({ photo }: { photo: PhotoFile }) {
 
   useBodyScrollLock(scrollLocked);
 
-  useOutsideClick(imageRef, (e) => handleClose(e as any));
+  useOutsideClick(imageRef, e => handleClose(e as any));
 
   useEventListener(
     'keydown',
@@ -29,7 +29,7 @@ export function PhotoModal({ photo }: { photo: PhotoFile }) {
         handleClose();
       }
     },
-    window
+    window,
   );
 
   const containerVariants = useMemo(() => {
@@ -38,8 +38,8 @@ export function PhotoModal({ photo }: { photo: PhotoFile }) {
         initial: { opacity: 0 },
         animate: { opacity: 1 },
         exit: {
-          opacity: 0
-        }
+          opacity: 0,
+        },
       };
     }
     const { left, top, width, height } = modalRectAtom;
@@ -55,7 +55,7 @@ export function PhotoModal({ photo }: { photo: PhotoFile }) {
         y: '-50%',
         position: 'fixed',
         zIndex: 110,
-        opacity: 1
+        opacity: 1,
       },
       animate: {
         width: '90vw',
@@ -66,7 +66,7 @@ export function PhotoModal({ photo }: { photo: PhotoFile }) {
         y: '-50%',
         position: 'fixed',
         zIndex: 110,
-        opacity: 1
+        opacity: 1,
       },
       exit: {
         width,
@@ -77,13 +77,13 @@ export function PhotoModal({ photo }: { photo: PhotoFile }) {
         y: '-50%',
         position: 'fixed',
         zIndex: 110,
-        opacity: 1
-      }
+        opacity: 1,
+      },
     };
   }, [modalRectAtom]);
 
   function handleClose(
-    e?: React.MouseEvent<HTMLDivElement | HTMLButtonElement>
+    e?: React.MouseEvent<HTMLDivElement | HTMLButtonElement>,
   ) {
     e?.stopPropagation();
     setShow(false);

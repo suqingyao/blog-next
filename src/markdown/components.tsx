@@ -1,11 +1,11 @@
-import { createMarkdownHeaderComponent } from '@/components/ui/markdown-render';
+import { CheckedIcon, HorizontalIcon, UncheckedIcon } from '@/components/icons';
+import { PeekabooLink } from '@/components/links';
+import { AdvancedImageContainer } from '@/components/ui/advanced-image';
 import { DarkToggle } from '@/components/ui/dark-toggle';
 import { LinkCard } from '@/components/ui/link-card';
 import { LinkPreview } from '@/components/ui/link-preview';
-import { PeekabooLink } from '@/components/links';
-import { CheckedIcon, HorizontalIcon, UncheckedIcon } from '@/components/icons';
+import { createMarkdownHeaderComponent } from '@/components/ui/markdown-render';
 import { Mermaid } from '@/components/ui/mermaid';
-import { AdvancedImageContainer } from '@/components/ui/advanced-image';
 
 export const mdxComponents = {
   // hast-util-to-jsx-runtime 可能会转换大小写
@@ -24,5 +24,5 @@ export const mdxComponents = {
   h3: createMarkdownHeaderComponent('h3'),
   h4: createMarkdownHeaderComponent('h4'),
   h5: createMarkdownHeaderComponent('h5'),
-  h6: createMarkdownHeaderComponent('h6')
+  h6: createMarkdownHeaderComponent('h6'),
 };

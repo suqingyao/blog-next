@@ -1,9 +1,9 @@
 import { LayoutContextProvider } from './layout-context';
 
-export const AppContextProvider = ({
-  children
+export function AppContextProvider({
+  children,
 }: {
   children: React.ReactNode;
-}) => {
+}) {
   return <LayoutContextProvider>{children}</LayoutContextProvider>;
-};
+}

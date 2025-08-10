@@ -16,7 +16,7 @@ export function useDate() {
       },
       formatToISO: (date: string | Date) => {
         return dayjs(date || undefined).toISOString();
-      }
+      },
     };
   }, []);
 

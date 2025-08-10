@@ -9,3 +9,17 @@
 - [x] RSS
 - [ ] Adapter for mobile
 - [ ] Random theme color feature (removed for simplicity)
+- [ ] Music Player
+  - [ ] Audio player component with play/pause controls
+  - [ ] Playlist management
+  - [ ] Volume control and progress bar
+  - [ ] Background music support
+  - [ ] Music visualization (optional)
+  - [ ] Keyboard shortcuts for music control
+  - [ ] Mobile-friendly interface
+  - [ ] Tablet-friendly interface
+  - [ ] Desktop-friendly interface
+  - [ ] Lyrics display
+    - [ ] Lyrics fetching from external API
+    - [ ] Synchronization with audio playback
+    - [ ] User-friendly lyrics display

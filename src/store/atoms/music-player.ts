@@ -49,7 +49,7 @@ const initialState: MusicPlayerState = {
   needsUserInteraction: false,
   position: 'br',
   isDragging: false,
-  dragOffset: { x: 0, y: 0 }
+  dragOffset: { x: 0, y: 0 },
 };
 
 /**
@@ -64,7 +64,7 @@ export const togglePlayAtom = atom(null, (get, set) => {
   const state = get(musicPlayerAtom);
   set(musicPlayerAtom, {
     ...state,
-    isPlaying: !state.isPlaying
+    isPlaying: !state.isPlaying,
   });
 });
 
@@ -77,9 +77,9 @@ export const setCurrentTimeAtom = atom(
     const state = get(musicPlayerAtom);
     set(musicPlayerAtom, {
       ...state,
-      currentTime
+      currentTime,
     });
-  }
+  },
 );
 
 /**
@@ -89,7 +89,7 @@ export const setVolumeAtom = atom(null, (get, set, volume: number) => {
   const state = get(musicPlayerAtom);
   set(musicPlayerAtom, {
     ...state,
-    volume: Math.max(0, Math.min(1, volume))
+    volume: Math.max(0, Math.min(1, volume)),
   });
 });
 
@@ -100,7 +100,7 @@ export const toggleMuteAtom = atom(null, (get, set) => {
   const state = get(musicPlayerAtom);
   set(musicPlayerAtom, {
     ...state,
-    isMuted: !state.isMuted
+    isMuted: !state.isMuted,
   });
 });
 
@@ -116,7 +116,7 @@ export const playNextAtom = atom(null, (get, set) => {
     currentIndex: nextIndex,
     currentTrack: nextTrack,
     currentTime: 0,
-    duration: 0
+    duration: 0,
   });
 });
 
@@ -125,8 +125,8 @@ export const playNextAtom = atom(null, (get, set) => {
  */
 export const playPreviousAtom = atom(null, (get, set) => {
   const state = get(musicPlayerAtom);
-  const prevIndex =
-    state.currentIndex === 0
+  const prevIndex
+    = state.currentIndex === 0
       ? state.playlist.length - 1
       : state.currentIndex - 1;
   const prevTrack = state.playlist[prevIndex];
@@ -135,7 +135,7 @@ export const playPreviousAtom = atom(null, (get, set) => {
     currentIndex: prevIndex,
     currentTrack: prevTrack,
     currentTime: 0,
-    duration: 0
+    duration: 0,
   });
 });
 
@@ -151,7 +151,7 @@ export const selectTrackAtom = atom(null, (get, set, index: number) => {
       currentIndex: index,
       currentTrack: track,
       currentTime: 0,
-      duration: 0
+      duration: 0,
     });
   }
 });
@@ -165,9 +165,9 @@ export const setNeedsUserInteractionAtom = atom(
     const state = get(musicPlayerAtom);
     set(musicPlayerAtom, {
       ...state,
-      needsUserInteraction
+      needsUserInteraction,
     });
-  }
+  },
 );
 
 /**
@@ -186,9 +186,10 @@ export const loadPlaylistAtom = atom(null, async (get, set) => {
     set(musicPlayerAtom, {
       ...state,
       playlist: data.tracks,
-      currentTrack: data.tracks.length > 0 ? data.tracks[0] : null
+      currentTrack: data.tracks.length > 0 ? data.tracks[0] : null,
     });
-  } catch (error) {
+  }
+  catch (error) {
     consoleLog('ERROR', 'Error loading playlist:', error);
   }
 });
@@ -202,9 +203,9 @@ export const setPlayerPositionAtom = atom(
     const state = get(musicPlayerAtom);
     set(musicPlayerAtom, {
       ...state,
-      position
+      position,
     });
-  }
+  },
 );
 
 /**
@@ -214,7 +215,7 @@ export const setDraggingAtom = atom(null, (get, set, isDragging: boolean) => {
   const state = get(musicPlayerAtom);
   set(musicPlayerAtom, {
     ...state,
-    isDragging
+    isDragging,
   });
 });
 
@@ -227,7 +228,7 @@ export const setDragOffsetAtom = atom(
     const state = get(musicPlayerAtom);
     set(musicPlayerAtom, {
       ...state,
-      dragOffset
+      dragOffset,
     });
-  }
+  },
 );

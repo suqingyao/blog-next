@@ -6,19 +6,19 @@ const config: Config = {
   darkMode: ['class', 'html.dark'],
   content: [
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/app/**/*.{js,ts,jsx,tsx,mdx}'
+    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
     extend: {
       spacing: {
         header: '60px',
-        footer: '60px'
-      }
+        footer: '60px',
+      },
     },
     container: {
       center: true,
       padding: '1rem',
-      screens: {}
+      screens: {},
     },
     typography: (theme: any) => ({
       invert: {
@@ -41,8 +41,8 @@ const config: Config = {
           '--tw-prose-pre-bg': 'rgb(0 0 0 / 0.4)',
           '--tw-prose-pre-border': theme('colors.zinc.200 / 0.1'),
           '--tw-prose-th-borders': theme('colors.zinc.700'),
-          '--tw-prose-td-borders': theme('colors.zinc.800')
-        }
+          '--tw-prose-td-borders': theme('colors.zinc.800'),
+        },
       },
       DEFAULT: {
         css: {
@@ -68,57 +68,57 @@ const config: Config = {
           '--tw-prose-td-borders': theme('colors.zinc.100'),
 
           // Base
-          color: 'var(--tw-prose-body)',
-          lineHeight: theme('lineHeight.7'),
+          'color': 'var(--tw-prose-body)',
+          'lineHeight': theme('lineHeight.7'),
           '> *': {
             marginTop: theme('spacing.10'),
-            marginBottom: theme('spacing.10')
+            marginBottom: theme('spacing.10'),
           },
-          p: {
+          'p': {
             marginTop: theme('spacing.6'),
-            marginBottom: theme('spacing.6')
+            marginBottom: theme('spacing.6'),
           },
 
           // Headings
           'h2, h3': {
             color: 'var(--tw-prose-headings)',
-            fontWeight: theme('fontWeight.semibold')
+            fontWeight: theme('fontWeight.semibold'),
           },
-          h2: {
+          'h2': {
             fontSize: theme('fontSize.lg')[0],
             lineHeight: theme('lineHeight.7'),
             marginTop: theme('spacing.16'),
-            marginBottom: theme('spacing.4')
+            marginBottom: theme('spacing.4'),
           },
-          h3: {
+          'h3': {
             fontSize: theme('fontSize.base')[0],
             lineHeight: theme('lineHeight.7'),
             marginTop: theme('spacing.12'),
-            marginBottom: theme('spacing.4')
+            marginBottom: theme('spacing.4'),
           },
           ':is(h2, h3) + *': {
-            marginTop: 0
+            marginTop: 0,
           },
 
           // Inline elements
-          a: {
+          'a': {
             color: 'var(--tw-prose-links)',
             fontWeight: theme('fontWeight.semibold'),
             textDecoration: 'underline',
             textDecorationColor: 'var(--tw-prose-underline)',
             transitionProperty: 'color, text-decoration-color',
             transitionDuration: theme('transitionDuration.150'),
-            transitionTimingFunction: theme('transitionTimingFunction.in-out')
+            transitionTimingFunction: theme('transitionTimingFunction.in-out'),
           },
           'a:hover': {
             color: 'var(--tw-prose-links-hover)',
-            textDecorationColor: 'var(--tw-prose-underline-hover)'
+            textDecorationColor: 'var(--tw-prose-underline-hover)',
           },
-          strong: {
+          'strong': {
             color: 'var(--tw-prose-bold)',
-            fontWeight: theme('fontWeight.semibold')
+            fontWeight: theme('fontWeight.semibold'),
           },
-          code: {
+          'code': {
             display: 'inline-block',
             color: 'var(--tw-prose-code)',
             fontSize: theme('fontSize.sm')[0],
@@ -126,108 +126,108 @@ const config: Config = {
             backgroundColor: 'var(--tw-prose-code-bg)',
             borderRadius: theme('borderRadius.lg'),
             paddingLeft: theme('spacing.1'),
-            paddingRight: theme('spacing.1')
+            paddingRight: theme('spacing.1'),
           },
           'a code': {
-            color: 'inherit'
+            color: 'inherit',
           },
           ':is(h2, h3) code': {
-            fontWeight: theme('fontWeight.bold')
+            fontWeight: theme('fontWeight.bold'),
           },
           'h2 a, h3 a, h4 a, h5 a, h6 a': {
-            color: 'var(--color-primary)'
+            color: 'var(--color-primary)',
           },
 
           // Quotes
-          blockquote: {
+          'blockquote': {
             paddingLeft: theme('spacing.6'),
             borderLeftWidth: theme('borderWidth.2'),
             borderLeftColor: 'var(--tw-prose-quote-borders)',
-            fontStyle: 'italic'
+            fontStyle: 'italic',
           },
 
           // Figures
-          figcaption: {
+          'figcaption': {
             color: 'var(--tw-prose-captions)',
             fontSize: theme('fontSize.sm')[0],
             lineHeight: theme('lineHeight.6'),
-            marginTop: theme('spacing.3')
+            marginTop: theme('spacing.3'),
           },
           'figcaption > p': {
-            margin: 0
+            margin: 0,
           },
 
           // Lists
-          ul: {
-            listStyleType: 'disc'
+          'ul': {
+            listStyleType: 'disc',
           },
-          ol: {
-            listStyleType: 'decimal'
+          'ol': {
+            listStyleType: 'decimal',
           },
           'ul, ol': {
-            paddingLeft: theme('spacing.6')
+            paddingLeft: theme('spacing.6'),
           },
-          li: {
+          'li': {
             marginTop: theme('spacing.6'),
             marginBottom: theme('spacing.6'),
-            paddingLeft: theme('spacing[3.5]')
+            paddingLeft: theme('spacing[3.5]'),
           },
           'li::marker': {
             fontSize: theme('fontSize.sm')[0],
-            fontWeight: theme('fontWeight.semibold')
+            fontWeight: theme('fontWeight.semibold'),
           },
           'ol > li::marker': {
-            color: 'var(--tw-prose-counters)'
+            color: 'var(--tw-prose-counters)',
           },
           'ul > li::marker': {
-            color: 'var(--tw-prose-bullets)'
+            color: 'var(--tw-prose-bullets)',
           },
           'li :is(ol, ul)': {
             marginTop: theme('spacing.4'),
-            marginBottom: theme('spacing.4')
+            marginBottom: theme('spacing.4'),
           },
           'li :is(li, p)': {
             marginTop: theme('spacing.3'),
-            marginBottom: theme('spacing.3')
+            marginBottom: theme('spacing.3'),
           },
           'ul.contains-task-list': {
             listStyle: 'none',
-            paddingLeft: theme('spacing.6')
+            paddingLeft: theme('spacing.6'),
           },
           'ul.contains-task-list > li': {
             position: 'relative',
-            paddingLeft: theme('spacing[3.5]')
+            paddingLeft: theme('spacing[3.5]'),
           },
           'ul.contains-task-list > li > .task-list-icon': {
             position: 'absolute',
             left: `-${theme('spacing.3')}`,
             top: '50%',
-            transform: 'translateY(-50%)'
+            transform: 'translateY(-50%)',
           },
           'ul.contains-task-list > li > input[type="checkbox"]': {
             width: theme('spacing.5'),
             marginRight: theme('spacing.4'),
-            marginLeft: `-${theme('spacing.3')}`
+            marginLeft: `-${theme('spacing.3')}`,
           },
 
           // Code blocks
-          pre: {
-            color: 'var(--tw-prose-pre-code)',
-            fontSize: theme('fontSize.sm')[0],
-            fontWeight: theme('fontWeight.medium'),
-            backgroundColor: 'var(--tw-prose-pre-bg)',
-            borderRadius: theme('borderRadius.xl'),
-            marginTop: theme('spacing.7'),
-            marginBottom: theme('spacing.7'),
-            padding: theme('spacing.5'),
-            scrollbarWidth: 'none',
-            msOverflowStyle: 'none',
-            maxHeight: '30.5em',
-            overflowX: 'auto',
-            overflowY: 'auto',
+          'pre': {
+            'color': 'var(--tw-prose-pre-code)',
+            'fontSize': theme('fontSize.sm')[0],
+            'fontWeight': theme('fontWeight.medium'),
+            'backgroundColor': 'var(--tw-prose-pre-bg)',
+            'borderRadius': theme('borderRadius.xl'),
+            'marginTop': theme('spacing.7'),
+            'marginBottom': theme('spacing.7'),
+            'padding': theme('spacing.5'),
+            'scrollbarWidth': 'none',
+            'msOverflowStyle': 'none',
+            'maxHeight': '30.5em',
+            'overflowX': 'auto',
+            'overflowY': 'auto',
             '&::-webkit-scrollbar': {
-              display: 'none'
-            }
+              display: 'none',
+            },
           },
           'pre code': {
             display: 'inline',
@@ -236,120 +236,120 @@ const config: Config = {
             fontWeight: 'inherit',
             backgroundColor: 'transparent',
             borderRadius: 0,
-            padding: 0
+            padding: 0,
           },
 
           // Horizontal rules
-          hr: {
-            marginTop: theme('spacing.20'),
-            marginBottom: theme('spacing.20'),
-            borderTopWidth: '1px',
-            borderColor: 'var(--tw-prose-hr)',
+          'hr': {
+            'marginTop': theme('spacing.20'),
+            'marginBottom': theme('spacing.20'),
+            'borderTopWidth': '1px',
+            'borderColor': 'var(--tw-prose-hr)',
             '@screen lg': {
               marginLeft: `calc(${theme('spacing.12')} * -1)`,
-              marginRight: `calc(${theme('spacing.12')} * -1)`
-            }
+              marginRight: `calc(${theme('spacing.12')} * -1)`,
+            },
           },
 
           // Tables
-          table: {
+          'table': {
             width: '100%',
             tableLayout: 'auto',
             textAlign: 'left',
-            fontSize: theme('fontSize.sm')[0]
+            fontSize: theme('fontSize.sm')[0],
           },
-          thead: {
+          'thead': {
             borderBottomWidth: '1px',
-            borderBottomColor: 'var(--tw-prose-th-borders)'
+            borderBottomColor: 'var(--tw-prose-th-borders)',
           },
           'thead th': {
             color: 'var(--tw-prose-headings)',
             fontWeight: theme('fontWeight.semibold'),
             verticalAlign: 'bottom',
-            paddingBottom: theme('spacing.2')
+            paddingBottom: theme('spacing.2'),
           },
           'thead th:not(:first-child)': {
-            paddingLeft: theme('spacing.2')
+            paddingLeft: theme('spacing.2'),
           },
           'thead th:not(:last-child)': {
-            paddingRight: theme('spacing.2')
+            paddingRight: theme('spacing.2'),
           },
           'tbody tr': {
             borderBottomWidth: '1px',
-            borderBottomColor: 'var(--tw-prose-td-borders)'
+            borderBottomColor: 'var(--tw-prose-td-borders)',
           },
           'tbody tr:last-child': {
-            borderBottomWidth: 0
+            borderBottomWidth: 0,
           },
           'tbody td': {
-            verticalAlign: 'baseline'
+            verticalAlign: 'baseline',
           },
-          tfoot: {
+          'tfoot': {
             borderTopWidth: '1px',
-            borderTopColor: 'var(--tw-prose-th-borders)'
+            borderTopColor: 'var(--tw-prose-th-borders)',
           },
           'tfoot td': {
-            verticalAlign: 'top'
+            verticalAlign: 'top',
           },
           ':is(tbody, tfoot) td': {
             paddingTop: theme('spacing.2'),
-            paddingBottom: theme('spacing.2')
+            paddingBottom: theme('spacing.2'),
           },
           ':is(tbody, tfoot) td:not(:first-child)': {
-            paddingLeft: theme('spacing.2')
+            paddingLeft: theme('spacing.2'),
           },
           ':is(tbody, tfoot) td:not(:last-child)': {
-            paddingRight: theme('spacing.2')
+            paddingRight: theme('spacing.2'),
           },
 
           // Code wrapper styles
           '.code-wrapper': {
-            position: 'relative'
+            position: 'relative',
           },
           '.code-wrapper .copy-button': {
-            position: 'absolute',
-            top: theme('spacing.3'),
-            right: theme('spacing.3'),
-            display: 'flex',
-            cursor: 'pointer',
-            alignItems: 'center',
-            gap: theme('spacing.1'),
-            fontSize: theme('fontSize.sm'),
-            fontWeight: theme('fontWeight.medium'),
-            height: theme('spacing.8'),
-            borderRadius: theme('borderRadius.xl'),
-            paddingLeft: theme('spacing.3'),
-            paddingRight: theme('spacing.3'),
-            border: '1px solid transparent',
-            backgroundColor: 'rgb(255 255 255 / 0.1)',
-            color: 'rgb(0 0 0 / 1)',
-            boxShadow: theme('boxShadow.sm'),
-            backdropFilter: 'blur(4px)',
-            pointerEvents: 'none',
-            opacity: 0,
-            transition: 'all 200ms',
+            'position': 'absolute',
+            'top': theme('spacing.3'),
+            'right': theme('spacing.3'),
+            'display': 'flex',
+            'cursor': 'pointer',
+            'alignItems': 'center',
+            'gap': theme('spacing.1'),
+            'fontSize': theme('fontSize.sm'),
+            'fontWeight': theme('fontWeight.medium'),
+            'height': theme('spacing.8'),
+            'borderRadius': theme('borderRadius.xl'),
+            'paddingLeft': theme('spacing.3'),
+            'paddingRight': theme('spacing.3'),
+            'border': '1px solid transparent',
+            'backgroundColor': 'rgb(255 255 255 / 0.1)',
+            'color': 'rgb(0 0 0 / 1)',
+            'boxShadow': theme('boxShadow.sm'),
+            'backdropFilter': 'blur(4px)',
+            'pointerEvents': 'none',
+            'opacity': 0,
+            'transition': 'all 200ms',
             '&:hover': {
-              backgroundColor: 'rgb(255 255 255 / 0.8)'
+              backgroundColor: 'rgb(255 255 255 / 0.8)',
             },
             '&:active': {
-              transform: 'scale(0.95)'
-            }
+              transform: 'scale(0.95)',
+            },
           },
           '.code-wrapper:hover .copy-button, .code-wrapper:focus-within .copy-button':
             {
               pointerEvents: 'auto',
-              opacity: 1
+              opacity: 1,
             },
           '.math': {
-            scrollbarWidth: 'none',
-            msOverflowStyle: 'none',
-            display: 'inline-block',
-            maxWidth: '100%',
-            overflow: 'auto',
-            verticalAlign: 'bottom',
+            'scrollbarWidth': 'none',
+            'msOverflowStyle': 'none',
+            'display': 'inline-block',
+            'maxWidth': '100%',
+            'overflow': 'auto',
+            'verticalAlign': 'bottom',
             '&::-webkit-scrollbar': {
-              display: 'none'
-            }
+              display: 'none',
+            },
           },
 
           // Line number styles
@@ -360,14 +360,14 @@ const config: Config = {
             width: theme('spacing.4'),
             textAlign: 'right',
             color: theme('colors.zinc.400'),
-            content: 'attr(line)'
+            content: 'attr(line)',
           },
 
           // Mermaid diagram styles
           'pre.mermaid': {
             display: 'flex',
             justifyContent: 'center',
-            backgroundColor: 'transparent'
+            backgroundColor: 'transparent',
           },
 
           // Dark mode Shiki syntax highlighting
@@ -376,7 +376,7 @@ const config: Config = {
             backgroundColor: 'var(--shiki-dark-bg) !important',
             fontStyle: 'var(--shiki-dark-font-style) !important',
             fontWeight: 'var(--shiki-dark-font-weight) !important',
-            textDecoration: 'var(--shiki-dark-text-decoration) !important'
+            textDecoration: 'var(--shiki-dark-text-decoration) !important',
           },
 
           // Inline code styles (excluding pre code)
@@ -388,7 +388,7 @@ const config: Config = {
             paddingBottom: '1px',
             fontFamily: theme('fontFamily.mono'),
             fontSize: theme('fontSize.sm'),
-            fontWeight: theme('fontWeight.normal')
+            fontWeight: theme('fontWeight.normal'),
             // 注释掉的背景色和文字色样式
             // backgroundColor: theme('colors.neutral.900'),
             // color: theme('colors.neutral.50'),
@@ -402,28 +402,28 @@ const config: Config = {
           '.block-tag': {
             display: 'block',
             marginTop: theme('spacing.6'),
-            marginBottom: theme('spacing.6')
-          }
-        }
-      }
-    })
+            marginBottom: theme('spacing.6'),
+          },
+        },
+      },
+    }),
   },
   plugins: [
     typography,
     iconsPlugin({
       collections: {
-        ...getIconCollections(['mingcute'])
-      }
+        ...getIconCollections(['mingcute']),
+      },
     }),
     // 自定义布局组件插件
     function ({ addComponents }: { addComponents: any }) {
       addComponents({
         '.content-container': {
-          '@apply mx-auto w-[75ch]': {}
-        }
+          '@apply mx-auto w-[75ch]': {},
+        },
       });
-    }
-  ]
+    },
+  ],
 };
 
 export default config;

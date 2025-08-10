@@ -1,16 +1,16 @@
 import { notFound } from 'next/navigation';
-import { getAllPosts, getPostBySlug } from '@/models/post.model';
-import { MarkdownContentServer } from '@/components/ui/markdown';
-import PostTitle from '@/components/site/PostTitle';
 import PostMeta from '@/components/site/PostMeta';
+import PostTitle from '@/components/site/PostTitle';
+import { MarkdownContentServer } from '@/components/ui/markdown';
+import { getAllPosts, getPostBySlug } from '@/models/post.model';
 
-type PostPageParams = {
+interface PostPageParams {
   params: {
     slug: string;
   };
-};
+}
 
-const PostPage = async ({ params }: PostPageParams) => {
+async function PostPage({ params }: PostPageParams) {
   const { slug } = await params;
   const post = await getPostBySlug(slug);
 
@@ -34,19 +34,20 @@ const PostPage = async ({ params }: PostPageParams) => {
         content={post?.code}
         codeTheme={{
           light: 'vitesse-light',
-          dark: 'vitesse-black'
+          dark: 'vitesse-black',
         }}
         withToc
-      ></MarkdownContentServer>
+      >
+      </MarkdownContentServer>
     </div>
   );
-};
+}
 
 export async function generateStaticParams() {
   const posts = await getAllPosts();
 
-  return posts.map((post) => ({
-    slug: post.slug
+  return posts.map(post => ({
+    slug: post.slug,
   }));
 }
 
@@ -56,12 +57,12 @@ export async function generateMetadata({ params }: PostPageParams) {
 
   if (!post) {
     return {
-      title: 'Post Not Found'
+      title: 'Post Not Found',
     };
   }
 
   return {
-    title: post.title
+    title: post.title,
   };
 }
 

@@ -1,18 +1,18 @@
-import '@/styles/main.css';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import NextTopLoader from 'nextjs-toploader';
 import { Toaster } from 'sonner';
-
 import { AppContent } from '@/components/application';
-import { Backtop } from '@/components/ui/backtop';
-import { PlumContainer } from '@/components/plum-container';
-import { MusicPlayer } from '@/components/music-player';
-import { AppContextProvider } from '@/contexts';
-import { AppProviders } from '@/providers';
 
-import { interFont, monoFont, sansFont, serifFont } from '@/lib/fonts';
-import { cn } from '@/lib/utils';
+import { MusicPlayer } from '@/components/music-player';
+import { PlumContainer } from '@/components/plum-container';
+import { Backtop } from '@/components/ui/backtop';
 import { APP_DESCRIPTION, APP_NAME, OUR_DOMAIN } from '@/constants';
+import { AppContextProvider } from '@/contexts';
+import { interFont, monoFont, sansFont, serifFont } from '@/lib/fonts';
+
+import { cn } from '@/lib/utils';
+import { AppProviders } from '@/providers';
+import '@/styles/main.css';
 
 export const metadata: Metadata = {
   title: APP_NAME,
@@ -20,19 +20,19 @@ export const metadata: Metadata = {
   icons: [
     {
       url: '/avatar.png',
-      type: 'image/png'
-    }
+      type: 'image/png',
+    },
   ],
   alternates: {
     types: {
-      'application/rss+xml': `${OUR_DOMAIN || 'https://localhost:2323'}/api/feed`
-    }
-  }
+      'application/rss+xml': `${OUR_DOMAIN || 'https://localhost:2323'}/api/feed`,
+    },
+  },
 };
 
 export default function RootLayout({
   children,
-  modal
+  modal,
 }: {
   children: React.ReactNode;
   modal: React.ReactNode;
@@ -48,7 +48,7 @@ export default function RootLayout({
           serifFont.variable,
           monoFont.variable,
           interFont.variable,
-          'min-h-screen w-full'
+          'min-h-screen w-full',
         )}
       >
         <NextTopLoader

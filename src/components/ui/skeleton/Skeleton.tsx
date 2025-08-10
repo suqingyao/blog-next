@@ -1,5 +1,5 @@
+import React from 'react';
 import { cn } from '@/lib/utils';
-import React, { Fragment } from 'react';
 
 export type SkeletonType = 'rect' | 'circle' | 'text' | 'image';
 
@@ -13,28 +13,29 @@ interface SkeletonProps {
   animated?: boolean;
 }
 
-export const Skeleton = ({
+export function Skeleton({
   className,
   children,
   type = 'rect',
   count = 1,
   width,
   height,
-  animated = true
-}: SkeletonProps) => {
-  if (children) return <>{children}</>;
+  animated = true,
+}: SkeletonProps) {
+  if (children)
+    return <>{children}</>;
 
   const baseClass = cn(
     'bg-gray-200 dark:bg-zinc-800/80',
     animated && 'animate-pulse',
     type === 'circle' && 'rounded-full',
     type !== 'circle' && 'rounded-md',
-    className
+    className,
   );
 
   const style = {
     width,
-    height
+    height,
   };
 
   const getSkeleton = () => {
@@ -81,4 +82,4 @@ export const Skeleton = ({
       <span className="sr-only">Loading...</span>
     </div>
   );
-};
+}

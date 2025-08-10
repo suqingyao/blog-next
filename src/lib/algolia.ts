@@ -8,7 +8,7 @@ import {
   ALGOLIA_APP_ID,
   ALGOLIA_INDEX_NAME,
   ALGOLIA_SEARCH_API_KEY,
-  ALGOLIA_WRITE_API_KEY
+  ALGOLIA_WRITE_API_KEY,
 } from '@/constants';
 
 // 类型定义
@@ -19,36 +19,36 @@ const algoliaConfig = {
   appId: ALGOLIA_APP_ID,
   writeApiKey: ALGOLIA_WRITE_API_KEY,
   searchApiKey: ALGOLIA_SEARCH_API_KEY,
-  indexName: ALGOLIA_INDEX_NAME
+  indexName: ALGOLIA_INDEX_NAME,
 };
 
 // 管理员客户端（服务端使用，用于索引管理）
 export const algoliaAdmin = algoliasearch(
   algoliaConfig.appId!,
-  algoliaConfig.writeApiKey!
+  algoliaConfig.writeApiKey!,
 );
 
 // 搜索客户端（前端使用，只读权限）
 export const algoliaSearch = algoliasearch(
   algoliaConfig.appId!,
-  algoliaConfig.searchApiKey!
+  algoliaConfig.searchApiKey!,
 );
 
 /**
  * 获取管理客户端（用于数据上传和管理）
  * @returns Algolia 管理客户端实例
  */
-export const getAdminClient = () => {
+export function getAdminClient() {
   return algoliaAdmin;
-};
+}
 
 /**
  * 获取搜索客户端（用于前端搜索）
  * @returns Algolia 搜索客户端实例
  */
-export const getSearchClient = () => {
+export function getSearchClient() {
   return algoliaSearch;
-};
+}
 
 /**
  * Algolia 搜索配置选项
@@ -60,7 +60,7 @@ export const searchOptions = {
     'title', // 标题权重最高
     'summary', // 摘要次之
     'content', // 内容权重较低
-    'tags' // 标签
+    'tags', // 标签
   ],
   // 用于分面搜索的属性
   attributesForFaceting: ['tags', 'createdTime'],
@@ -81,34 +81,34 @@ export const searchOptions = {
   allowTyposOnNumericTokens: false,
   // 结果去重
   distinct: true,
-  attributeForDistinct: 'slug'
+  attributeForDistinct: 'slug',
 };
 
 /**
  * 检查 Algolia 配置是否完整
  * @returns 配置是否有效
  */
-export const isAlgoliaConfigured = (): boolean => {
+export function isAlgoliaConfigured(): boolean {
   return !!(
-    algoliaConfig.appId &&
-    algoliaConfig.searchApiKey &&
-    algoliaConfig.writeApiKey &&
-    algoliaConfig.indexName
+    algoliaConfig.appId
+    && algoliaConfig.searchApiKey
+    && algoliaConfig.writeApiKey
+    && algoliaConfig.indexName
   );
-};
+}
 
 /**
  * 获取 Algolia 配置状态
  * @returns 配置状态信息
  */
-export const getAlgoliaStatus = () => {
+export function getAlgoliaStatus() {
   return {
     configured: isAlgoliaConfigured(),
     appId: !!algoliaConfig.appId,
     searchApiKey: !!algoliaConfig.searchApiKey,
     writeApiKey: !!algoliaConfig.writeApiKey,
-    indexName: !!algoliaConfig.indexName
+    indexName: !!algoliaConfig.indexName,
   };
-};
+}
 
 export { algoliaConfig };

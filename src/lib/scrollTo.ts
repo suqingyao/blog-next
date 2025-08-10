@@ -40,21 +40,24 @@ export default function scrollTo(y: number, options: ScrollToOptions = {}) {
       time > duration ? duration : time,
       scrollTop,
       y,
-      duration
+      duration,
     );
     if (isWindow(container)) {
-      (container as Window).scrollTo(window.pageXOffset, nextScrollTop);
-    } else if (
-      container instanceof Document ||
-      container.constructor.name === 'HTMLDocument'
+      (container).scrollTo(window.pageXOffset, nextScrollTop);
+    }
+    else if (
+      container instanceof Document
+      || container.constructor.name === 'HTMLDocument'
     ) {
       (container as Document).documentElement.scrollTop = nextScrollTop;
-    } else {
-      (container as HTMLElement).scrollTop = nextScrollTop;
+    }
+    else {
+      (container).scrollTop = nextScrollTop;
     }
     if (time < duration) {
       raf(frameFunc);
-    } else if (typeof callback === 'function') {
+    }
+    else if (typeof callback === 'function') {
       callback();
     }
   };

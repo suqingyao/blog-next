@@ -1,15 +1,15 @@
 'use client';
 import * as HoverCardPrimitive from '@radix-ui/react-hover-card';
-import Image from 'next/image';
-import { encode } from 'qss';
-import React from 'react';
 import {
   AnimatePresence,
   motion,
   useMotionValue,
-  useSpring
+  useSpring,
 } from 'motion/react';
+import Image from 'next/image';
 import Link from 'next/link';
+import { encode } from 'qss';
+import React from 'react';
 import { cn } from '@/lib/utils';
 
 type LinkPreviewProps = {
@@ -25,7 +25,7 @@ type LinkPreviewProps = {
   | { isStatic?: false; imageSrc?: never }
 );
 
-export const LinkPreview = ({
+export function LinkPreview({
   children,
   url,
   className,
@@ -34,23 +34,24 @@ export const LinkPreview = ({
   quality = 50,
   layout = 'fixed',
   isStatic = false,
-  imageSrc = ''
-}: LinkPreviewProps) => {
+  imageSrc = '',
+}: LinkPreviewProps) {
   let src;
   if (!isStatic) {
     const params = encode({
       url,
-      screenshot: true,
-      meta: false,
-      embed: 'screenshot.url',
-      colorScheme: 'dark',
+      'screenshot': true,
+      'meta': false,
+      'embed': 'screenshot.url',
+      'colorScheme': 'dark',
       'viewport.isMobile': true,
       'viewport.deviceScaleFactor': 1,
       'viewport.width': width * 3,
-      'viewport.height': height * 3
+      'viewport.height': height * 3,
     });
     src = `https://api.microlink.io/?${params}`;
-  } else {
+  }
+  else {
     src = imageSrc;
   }
 
@@ -76,20 +77,22 @@ export const LinkPreview = ({
 
   return (
     <>
-      {isMounted ? (
-        <div className="hidden">
-          <Image
-            src={src}
-            width={width}
-            height={height}
-            quality={quality}
-            layout={layout}
-            priority={true}
-            alt="hidden image"
-            unoptimized
-          />
-        </div>
-      ) : null}
+      {isMounted
+        ? (
+            <div className="hidden">
+              <Image
+                src={src}
+                width={width}
+                height={height}
+                quality={quality}
+                layout={layout}
+                priority={true}
+                alt="hidden image"
+                unoptimized
+              />
+            </div>
+          )
+        : null}
 
       <HoverCardPrimitive.Root
         openDelay={50}
@@ -123,13 +126,13 @@ export const LinkPreview = ({
                   transition: {
                     type: 'spring',
                     stiffness: 260,
-                    damping: 20
-                  }
+                    damping: 20,
+                  },
                 }}
                 exit={{ opacity: 0, y: 20, scale: 0.6 }}
                 className="rounded-xl shadow-xl"
                 style={{
-                  x: translateX
+                  x: translateX,
                 }}
               >
                 <Link
@@ -152,4 +155,4 @@ export const LinkPreview = ({
       </HoverCardPrimitive.Root>
     </>
   );
-};
+}

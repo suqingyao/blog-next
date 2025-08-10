@@ -3,7 +3,7 @@
 import { useDate } from '@/hooks/use-date';
 import { useIsMounted } from '@/hooks/use-is-mounted';
 
-export const Time = ({ isoString }: { isoString?: string }) => {
+export function Time({ isoString }: { isoString?: string }) {
   const date = useDate();
   const isMounted = useIsMounted();
 
@@ -19,8 +19,8 @@ export const Time = ({ isoString }: { isoString?: string }) => {
       {date.formatDate(
         isoString || '',
         undefined,
-        isMounted ? undefined : 'Asia/Shanghai'
+        isMounted ? undefined : 'Asia/Shanghai',
       )}
     </time>
   );
-};
+}

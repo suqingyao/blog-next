@@ -1,70 +1,72 @@
 'use client';
 
+import type { LinkProps } from 'next/link';
+import type { IconProps } from '@/components/icons';
 import { AnimatePresence, motion } from 'motion/react';
-import Link, { type LinkProps } from 'next/link';
-import React from 'react';
+import Link from 'next/link';
 
+import React from 'react';
 import {
   BilibiliIcon,
   GitHubIcon,
-  type IconProps,
+
   MailIcon,
   RSSIcon,
   TelegramIcon,
   TwitterIcon,
-  YouTubeIcon
+  YouTubeIcon,
 } from '@/components/icons';
 import { Tooltip } from '@/components/ui/tooltip';
 import { consoleLog } from '@/lib/console';
 
 type IconType = (props: IconProps) => JSX.Element;
-type Platform =
-  | 'github'
-  | 'twitter'
-  | 'youtube'
-  | 'telegram'
-  | 'bilibili'
-  | 'mail'
-  | 'rss';
-type PlatformInfo = {
+type Platform
+  = | 'github'
+    | 'twitter'
+    | 'youtube'
+    | 'telegram'
+    | 'bilibili'
+    | 'mail'
+    | 'rss';
+interface PlatformInfo {
   icon: IconType;
   platform: Platform;
   label: string;
-};
+}
 const iconMapper: { [key: string]: PlatformInfo } = {
   '(?:[^.]+\.)?github\.com': {
     icon: GitHubIcon,
     platform: 'github',
-    label: 'GitHub'
+    label: 'GitHub',
   },
   '((?:t\.co)|(?:[^.]+\.)?twitter\.com)': {
     icon: TwitterIcon,
     platform: 'twitter',
-    label: 'Twitter'
+    label: 'Twitter',
   },
   '((?:[^.]+\.)?youtu\.be|(?:[^.]+\.)?youtube\.com)': {
     icon: YouTubeIcon,
     platform: 'youtube',
-    label: 'YouTube'
+    label: 'YouTube',
   },
   '((?:[^.]+\.)?t\.me|(?:[^.]+\.)?telegram\.com)': {
     icon: TelegramIcon,
     platform: 'telegram',
-    label: 'Telegram'
+    label: 'Telegram',
   },
   '(?:[^.]+\.)?bilibili\.com': {
     icon: BilibiliIcon,
     platform: 'bilibili',
-    label: '哔哩哔哩'
+    label: '哔哩哔哩',
   },
   '(?:mailto:)': { icon: MailIcon, platform: 'mail', label: '邮箱地址' },
-  '(?:.*feed)': { icon: RSSIcon, platform: 'rss', label: 'RSS 订阅' }
+  '(?:.*feed)': { icon: RSSIcon, platform: 'rss', label: 'RSS 订阅' },
 };
 
 function getIconForUrl(url: string): PlatformInfo | undefined {
   for (const regexStr in iconMapper) {
     const regex = new RegExp(
-      `^(?:https?:\/\/)?(?:[^@/\\n]+@)?(?:www.)?` + regexStr
+      `^(?:https?:\/\/)?(?:[^@/\\n]+@)?(?:www.)?${regexStr}`,
     );
     if (regex.test(url)) {
       return iconMapper[regexStr];
@@ -75,7 +77,7 @@ function getIconForUrl(url: string): PlatformInfo | undefined {
 }
 
 function getIconForPlatform(
-  platform: Platform | undefined
+  platform: Platform | undefined,
 ): PlatformInfo | undefined {
   if (!platform) {
     return undefined;
@@ -94,8 +96,8 @@ export function SocialLink({
   platform,
   href,
   ...props
-}: { platform?: Platform } & LinkProps &
-  React.AnchorHTMLAttributes<HTMLAnchorElement>) {
+}: { platform?: Platform } & LinkProps
+  & React.AnchorHTMLAttributes<HTMLAnchorElement>) {
   const [open, setOpen] = React.useState(false);
   const info = getIconForPlatform(platform) ?? getIconForUrl(href.toString());
 
@@ -111,7 +113,7 @@ export function SocialLink({
   }
 
   return (
-    <Tooltip.Provider disableHoverableContent>
+    <Tooltip disableHoverableContent>
       <Tooltip.Root
         open={open}
         onOpenChange={setOpen}
@@ -144,6 +146,6 @@ export function SocialLink({
           )}
         </AnimatePresence>
       </Tooltip.Root>
-    </Tooltip.Provider>
+    </Tooltip>
   );
 }

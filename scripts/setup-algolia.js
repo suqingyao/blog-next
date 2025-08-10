@@ -5,10 +5,10 @@
  * 帮助用户快速配置 Algolia 搜索集成
  */
 
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import readline from 'readline';
+import fs from 'node:fs';
+import path from 'node:path';
+import readline from 'node:readline';
+import { fileURLToPath } from 'node:url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -18,7 +18,7 @@ const __dirname = path.dirname(__filename);
  */
 const rl = readline.createInterface({
   input: process.stdin,
-  output: process.stdout
+  output: process.stdout,
 });
 
 /**
@@ -39,7 +39,7 @@ async function setupAlgolia() {
   console.log('🔍 Algolia 搜索集成设置向导\n');
 
   console.log(
-    '请先在 Algolia 控制台 (https://www.algolia.com/) 创建应用并获取以下信息:\n'
+    '请先在 Algolia 控制台 (https://www.algolia.com/) 创建应用并获取以下信息:\n',
   );
 
   try {
@@ -47,9 +47,9 @@ async function setupAlgolia() {
     const appId = await askQuestion('请输入 Application ID: ');
     const writeApiKey = await askQuestion('请输入 Write API Key: ');
     const searchApiKey = await askQuestion('请输入 Search API Key: ');
-    const indexName =
-      (await askQuestion('请输入索引名称 (默认: blog_posts): ')) ||
-      'blog_posts';
+    const indexName
+      = (await askQuestion('请输入索引名称 (默认: blog_posts): '))
+        || 'blog_posts';
 
     if (!appId || !writeApiKey || !searchApiKey || !indexName) {
       console.error('❌ 所有 API 密钥和索引名称都是必需的！');
@@ -72,11 +72,11 @@ USE_ALGOLIA=false
     // 检查是否已存在 .env.local
     if (fs.existsSync(envPath)) {
       const overwrite = await askQuestion(
-        '\n.env.local 文件已存在，是否覆盖？(y/N): '
+        '\n.env.local 文件已存在，是否覆盖？(y/N): ',
       );
       if (overwrite.toLowerCase() !== 'y') {
         console.log('\n请手动将以下内容添加到 .env.local 文件中:');
-        console.log('\n' + envContent);
+        console.log(`\n${envContent}`);
         rl.close();
         return;
       }
@@ -96,20 +96,21 @@ USE_ALGOLIA=false
 
       if (installDeps.toLowerCase() !== 'n') {
         console.log('\n正在安装依赖...');
-        const { spawn } = await import('child_process');
+        const { spawn } = await import('node:child_process');
 
         const installProcess = spawn('pnpm', ['add', 'algoliasearch'], {
           stdio: 'inherit',
-          cwd: path.join(__dirname, '..')
+          cwd: path.join(__dirname, '..'),
         });
 
         installProcess.on('close', (code) => {
           if (code === 0) {
             console.log('\n✅ 依赖安装完成');
             showNextSteps(indexName);
-          } else {
+          }
+          else {
             console.log(
-              '\n❌ 依赖安装失败，请手动运行: pnpm add algoliasearch'
+              '\n❌ 依赖安装失败，请手动运行: pnpm add algoliasearch',
             );
             showNextSteps(indexName);
           }
@@ -122,7 +123,8 @@ USE_ALGOLIA=false
 
     showNextSteps(indexName);
     rl.close();
-  } catch (error) {
+  }
+  catch (error) {
     console.error('\n❌ 设置过程中出现错误:', error.message);
     rl.close();
     process.exit(1);

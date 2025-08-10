@@ -1,11 +1,11 @@
-import { useCallback, useRef, useState } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { useUnmount } from './use-unmount';
 
-type useRafState = {
+interface useRafState {
   <S>(initialState: S | (() => S)): [S, Dispatch<SetStateAction<S>>];
   <S = undefined>(): [S | undefined, Dispatch<SetStateAction<S | undefined>>];
-};
+}
 
 export const useRafState: useRafState = <S>(initialState?: S | (() => S)) => {
   const ref = useRef(0);
@@ -17,7 +17,7 @@ export const useRafState: useRafState = <S>(initialState?: S | (() => S)) => {
 
       ref.current = requestAnimationFrame(() => setState(value));
     },
-    []
+    [],
   );
 
   useUnmount(() => {
@@ -26,6 +26,6 @@ export const useRafState: useRafState = <S>(initialState?: S | (() => S)) => {
 
   return [state, setRafState] as [
     S | undefined,
-    Dispatch<SetStateAction<S | undefined>>
+    Dispatch<SetStateAction<S | undefined>>,
   ];
 };

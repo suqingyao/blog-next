@@ -71,10 +71,10 @@ pnpm generate:search-index  # Generate search index
 
 ```yaml
 ---
-title: "Your Post Title"
-summary: "Brief description of your post"
-createdTime: "2024-01-01"
-tags: ["tag1", "tag2"]
+title: Your Post Title
+summary: Brief description of your post
+createdTime: 2024-01-01
+tags: [tag1, tag2]
 published: true
 ---
 ```

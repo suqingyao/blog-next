@@ -1,8 +1,8 @@
 import RSS from 'rss';
 import xss from 'xss';
-import { getAllPosts } from '@/models/post.model';
-import { OUR_DOMAIN, APP_NAME, APP_DESCRIPTION } from '@/constants/app';
+import { APP_DESCRIPTION, APP_NAME, OUR_DOMAIN } from '@/constants/app';
 import { consoleLog } from '@/lib/console';
+import { getAllPosts } from '@/models/post.model';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 60;
@@ -27,7 +27,7 @@ export async function GET() {
       language: 'zh-CN',
       image_url: `${OUR_DOMAIN || 'https://localhost:2323'}/avatar.png`,
       generator: 'Next.js Blog RSS Generator',
-      pubDate: now.toUTCString()
+      pubDate: now.toUTCString(),
     });
 
     // 添加文章到feed
@@ -37,7 +37,7 @@ export async function GET() {
 
       // 使用xss过滤文章标题
       const safeTitle = xss(post.title, {
-        whiteList: {} // 标题不允许任何HTML标签
+        whiteList: {}, // 标题不允许任何HTML标签
       });
 
       feed.item({
@@ -45,7 +45,7 @@ export async function GET() {
         url: `${OUR_DOMAIN}/posts/${post.slug}`,
         date: new Date(post.createdTime),
         description: content,
-        categories: post.tags || []
+        categories: post.tags || [],
       });
     });
 
@@ -55,10 +55,11 @@ export async function GET() {
         'Cache-Control': `max-age=60, s-maxage=${revalidate}`,
         'CDN-Cache-Control': `max-age=${revalidate}`,
         'Cloudflare-CDN-Cache-Control': `max-age=${revalidate}`,
-        'Vercel-CDN-Cache-Control': `max-age=${revalidate}`
-      }
+        'Vercel-CDN-Cache-Control': `max-age=${revalidate}`,
+      },
     });
-  } catch (error) {
+  }
+  catch (error) {
     consoleLog('ERROR', 'RSS生成失败:', error);
     return new Response('RSS生成失败', { status: 500 });
   }
@@ -84,8 +85,8 @@ function generatePostContent(post: any): string {
       blockquote: [],
       ul: [],
       ol: [],
-      li: []
-    }
+      li: [],
+    },
   });
 
   const content = `

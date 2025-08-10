@@ -4,16 +4,16 @@ import type { Result as TocResult } from 'mdast-util-toc';
 import type { BundledTheme } from 'shiki/themes';
 import { memo, useEffect } from 'react';
 
+import { toast } from 'sonner';
 import PostToc from '@/components/site/PostToc';
-import { cn, scrollToElement } from '@/lib/utils';
-import { renderMarkdown } from '@/markdown';
+import { APP_HEADER_HEIGHT } from '@/constants';
 import { useClipboard } from '@/hooks/use-clipboard';
 
+import { cn, scrollToElement } from '@/lib/utils';
+import { renderMarkdown } from '@/markdown';
 import { MarkdownContentContainer } from './MarkdownContentContainer';
-import { toast } from 'sonner';
-import { APP_HEADER_HEIGHT } from '@/constants';
 
-export const MarkdownContent = memo(function PageContent({
+export const MarkdownContent = memo(({
   className,
   content,
   withToc,
@@ -24,7 +24,7 @@ export const MarkdownContent = memo(function PageContent({
   strictMode,
   withActions,
   onlyContent,
-  codeTheme
+  codeTheme,
 }: {
   content?: string;
   className?: string;
@@ -40,19 +40,20 @@ export const MarkdownContent = memo(function PageContent({
     light?: BundledTheme;
     dark?: BundledTheme;
   };
-}) {
+}) => {
   let inParsedContent;
   if (parsedContent) {
     inParsedContent = parsedContent;
-  } else if (content) {
+  }
+  else if (content) {
     inParsedContent = renderMarkdown({
       content,
       strictMode,
-      codeTheme
+      codeTheme,
     });
   }
 
-  let toc: TocResult | undefined = undefined;
+  let toc: TocResult | undefined;
   if (!onlyContent && withToc) {
     toc = inParsedContent?.toToc();
   }
@@ -76,8 +77,7 @@ export const MarkdownContent = memo(function PageContent({
       codeWrapper
         .querySelector('.copy-button')
         ?.addEventListener('click', () =>
-          handleCopy(codeWrapper as HTMLDivElement)
-        );
+          handleCopy(codeWrapper as HTMLDivElement));
     });
 
     return () => {
@@ -85,8 +85,7 @@ export const MarkdownContent = memo(function PageContent({
         codeWrapper
           .querySelector('.copy-button')
           ?.removeEventListener('click', () =>
-            handleCopy(codeWrapper as HTMLDivElement)
-          );
+            handleCopy(codeWrapper as HTMLDivElement));
       });
     };
   }, [isSupported]);
@@ -104,8 +103,7 @@ export const MarkdownContent = memo(function PageContent({
       anchor
         ?.querySelector('.icon-hashtag')
         ?.addEventListener('click', (e: Event) =>
-          handleClick(e, anchor as HTMLAnchorElement)
-        );
+          handleClick(e, anchor as HTMLAnchorElement));
     });
 
     return () => {
@@ -113,8 +111,7 @@ export const MarkdownContent = memo(function PageContent({
         anchor
           ?.querySelector('.icon-hashtag')
           ?.removeEventListener('click', (e: Event) =>
-            handleClick(e, anchor as HTMLAnchorElement)
-          );
+            handleClick(e, anchor as HTMLAnchorElement));
       });
     };
   }, []);

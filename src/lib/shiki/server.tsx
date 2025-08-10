@@ -1,18 +1,19 @@
 import type { FC } from 'react';
+import type { Highlighter } from 'shiki';
+
+import type { ShikiCodeProps } from './types';
 import {
   bundledLanguages,
   bundledThemes,
   createHighlighter as createHighlighterPrimitive,
-  type Highlighter
-} from 'shiki';
 
+} from 'shiki';
 import { shikiTransformers } from './shared';
-import type { ShikiCodeProps } from './types';
 
 export const ShikiRender: FC<ShikiCodeProps> = async ({
   code,
   codeTheme,
-  language
+  language,
 }) => {
   if (!code) {
     return null;
@@ -28,9 +29,9 @@ export const ShikiRender: FC<ShikiCodeProps> = async ({
     lang: language || 'text',
     themes: codeTheme || {
       light: 'github-light-default',
-      dark: 'github-dark-default'
+      dark: 'github-dark-default',
     },
-    transformers: shikiTransformers
+    transformers: shikiTransformers,
   });
 
   return <div dangerouslySetInnerHTML={{ __html: rendered }} />;
@@ -38,12 +39,12 @@ export const ShikiRender: FC<ShikiCodeProps> = async ({
 
 let highlighter: Highlighter | undefined;
 
-export const createHighlighter = async () => {
+export async function createHighlighter() {
   if (!highlighter) {
     highlighter = await createHighlighterPrimitive({
       themes: Object.keys(bundledThemes),
-      langs: Object.keys(bundledLanguages)
+      langs: Object.keys(bundledLanguages),
     });
   }
   return highlighter;
-};
+}

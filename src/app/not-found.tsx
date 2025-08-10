@@ -1,10 +1,10 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import animationData from '@/lottie/animation404.json';
-import dynamic from 'next/dynamic';
 
-const Lottie = dynamic(() => import('react-lottie'), { ssr: false });
+const Lottie = dynamic(async () => import('react-lottie'), { ssr: false });
 
 export default function NotFound() {
   return (
@@ -15,8 +15,8 @@ export default function NotFound() {
           autoplay: true,
           animationData,
           rendererSettings: {
-            preserveAspectRatio: 'xMidYMid slice'
-          }
+            preserveAspectRatio: 'xMidYMid slice',
+          },
         }}
         height="100%"
         width="100%"

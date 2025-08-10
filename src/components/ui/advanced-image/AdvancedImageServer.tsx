@@ -1,6 +1,6 @@
-import { TImageProps } from '../image';
+import type { TImageProps } from '../image';
 import { AdvancedImage } from './AdvancedImage';
 
-export const AdvancedImageServer = (props: TImageProps) => {
+export function AdvancedImageServer(props: TImageProps) {
   return <AdvancedImage {...props} />;
-};
+}

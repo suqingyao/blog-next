@@ -1,9 +1,10 @@
 'use client';
 
-import { ReactNode } from 'react';
+import type { TargetAndTransition, VariantLabels } from 'motion/react';
+import type { ReactNode } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
-import { motion, TargetAndTransition, VariantLabels } from 'motion/react';
+import { motion } from 'motion/react';
 import { cn } from '@/lib/utils';
 
 export interface ModalProps {
@@ -51,10 +52,10 @@ export function Modal({
   animation = {
     initial: { opacity: 0, scale: 0.95, y: -20 },
     animate: { opacity: 1, scale: 1, y: 0 },
-    exit: { opacity: 0, scale: 0.95, y: -20 }
+    exit: { opacity: 0, scale: 0.95, y: -20 },
   },
   overlayClassName,
-  contentClassName
+  contentClassName,
 }: ModalProps) {
   /**
    * 处理关闭事件
@@ -77,7 +78,7 @@ export function Modal({
             exit={{ opacity: 0 }}
             className={cn(
               'fixed inset-0 z-50 bg-black/50 backdrop-blur-sm',
-              overlayClassName
+              overlayClassName,
             )}
           />
         </Dialog.Overlay>
@@ -89,7 +90,7 @@ export function Modal({
             className={cn(
               'fixed top-1/2 left-1/2 z-50 w-full max-w-lg -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-xl bg-white shadow-2xl dark:bg-zinc-800',
               contentClassName,
-              className
+              className,
             )}
           >
             {/* 可访问性标题和描述 */}
@@ -131,7 +132,7 @@ export function Modal({
  */
 export function ModalHeader({
   children,
-  className
+  className,
 }: {
   children: ReactNode;
   className?: string;
@@ -140,7 +141,7 @@ export function ModalHeader({
     <div
       className={cn(
         'border-b border-gray-200 px-6 py-4 dark:border-gray-700',
-        className
+        className,
       )}
     >
       {children}
@@ -153,7 +154,7 @@ export function ModalHeader({
  */
 export function ModalTitle({
   children,
-  className
+  className,
 }: {
   children: ReactNode;
   className?: string;
@@ -162,7 +163,7 @@ export function ModalTitle({
     <h2
       className={cn(
         'text-lg font-semibold text-gray-900 dark:text-gray-100',
-        className
+        className,
       )}
     >
       {children}
@@ -175,7 +176,7 @@ export function ModalTitle({
  */
 export function ModalContent({
   children,
-  className
+  className,
 }: {
   children: ReactNode;
   className?: string;
@@ -188,7 +189,7 @@ export function ModalContent({
  */
 export function ModalFooter({
   children,
-  className
+  className,
 }: {
   children: ReactNode;
   className?: string;
@@ -197,7 +198,7 @@ export function ModalFooter({
     <div
       className={cn(
         'border-t border-gray-200 px-6 py-4 dark:border-gray-700',
-        className
+        className,
       )}
     >
       {children}

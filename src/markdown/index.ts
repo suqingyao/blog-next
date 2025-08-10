@@ -1,57 +1,59 @@
-import { createElement } from 'react';
 import type { Root as HashRoot } from 'hast';
+import type { ExtraProps } from 'hast-util-to-jsx-runtime';
 import type { Root as MdashRoot } from 'mdast';
 import type { BundledTheme } from 'shiki/themes';
-import { VFile } from 'vfile';
-import { toJsxRuntime, type ExtraProps } from 'hast-util-to-jsx-runtime';
-import { unified } from 'unified';
-import remarkParse from 'remark-parse';
-import remarkGithubAlerts from 'remark-gh-alerts';
-import remarkBreaks from 'remark-breaks';
-import remarkFrontmatter from 'remark-frontmatter';
-import remarkGfm from 'remark-gfm';
-import remarkRehype from 'remark-rehype';
-import remarkDirective from 'remark-directive';
-import remarkDirectiveRehype from 'remark-directive-rehype';
-import remarkMath from 'remark-math';
-import rehypeRaw from 'rehype-raw';
-import rehypeSlug from 'rehype-slug';
-import rehypeSanitize from 'rehype-sanitize';
+import { toHtml } from 'hast-util-to-html';
+import { toJsxRuntime } from 'hast-util-to-jsx-runtime';
+import jsYaml from 'js-yaml';
+import { toc } from 'mdast-util-toc';
+import { createElement } from 'react';
+import { Fragment, jsx, jsxs } from 'react/jsx-runtime';
+import readingTime from 'reading-time';
 import rehypeInferDescriptionMeta from 'rehype-infer-description-meta';
 import rehypeKatex from 'rehype-katex';
+import rehypeRaw from 'rehype-raw';
+import rehypeSanitize from 'rehype-sanitize';
+import rehypeSlug from 'rehype-slug';
 import rehypeStringify from 'rehype-stringify';
-import readingTime from 'reading-time';
+import remarkBreaks from 'remark-breaks';
+import remarkDirective from 'remark-directive';
+import remarkDirectiveRehype from 'remark-directive-rehype';
+import remarkFrontmatter from 'remark-frontmatter';
+import remarkGfm from 'remark-gfm';
+import remarkGithubAlerts from 'remark-gh-alerts';
+import remarkMath from 'remark-math';
 
-import { Fragment, jsx, jsxs } from 'react/jsx-runtime';
+import remarkParse from 'remark-parse';
+import remarkRehype from 'remark-rehype';
 import { toast } from 'sonner';
-import { toc } from 'mdast-util-toc';
-import { toHtml } from 'hast-util-to-html';
+import { unified } from 'unified';
 import { visit } from 'unist-util-visit';
-import jsYaml from 'js-yaml';
-import { isServer } from '@/lib/is';
-import { consoleLog } from '@/lib/console';
-import sanitizeScheme from './sanitize-schema';
-import { remarkPangu } from './remark-pangu';
-import { rehypeTable } from './rehype-table';
-import { rehypeMermaid } from './rehype-mermaid';
-import { rehypeWrapCode } from './rehype-wrap-code';
-import { rehypeFixBlock } from './rehype-fix-block';
-import { rehypePeekabooLink } from './rehype-peekaboo-link';
-import { rehypeTaskList } from './rehype-task-list';
+import { VFile } from 'vfile';
 import { ShikiRemarkServer } from '@/components/ui/shiki-remark';
+import { consoleLog } from '@/lib/console';
+import { isServer } from '@/lib/is';
 import { mdxComponents } from './components';
+import { rehypeFixBlock } from './rehype-fix-block';
+import { rehypeMermaid } from './rehype-mermaid';
+import { rehypePeekabooLink } from './rehype-peekaboo-link';
+import { rehypeTable } from './rehype-table';
+import { rehypeTaskList } from './rehype-task-list';
+import { rehypeWrapCode } from './rehype-wrap-code';
+import { remarkPangu } from './remark-pangu';
+import sanitizeScheme from './sanitize-schema';
 
 const memoedPreComponentMap = {} as Record<string, any>;
 
-const hashCodeThemeKey = (codeTheme?: Record<string, any>): string => {
-  if (!codeTheme) return 'default';
+function hashCodeThemeKey(codeTheme?: Record<string, any>): string {
+  if (!codeTheme)
+    return 'default';
   return Object.values(codeTheme).join(',');
-};
+}
 
-export const renderMarkdown = ({
+export function renderMarkdown({
   content,
   strictMode,
-  codeTheme
+  codeTheme,
 }: {
   content: string;
   strictMode?: boolean;
@@ -59,9 +61,9 @@ export const renderMarkdown = ({
     light?: BundledTheme;
     dark?: BundledTheme;
   };
-}) => {
-  let hastTree: HashRoot | undefined = undefined;
-  let mdastTree: MdashRoot | undefined = undefined;
+}) {
+  let hastTree: HashRoot | undefined;
+  let mdastTree: MdashRoot | undefined;
 
   const file = new VFile(content);
 
@@ -72,16 +74,16 @@ export const renderMarkdown = ({
       .use(remarkBreaks)
       .use(remarkFrontmatter, ['yaml'])
       .use(remarkGfm, {
-        singleTilde: false
+        singleTilde: false,
       })
       .use(remarkDirective)
       .use(remarkDirectiveRehype)
       .use(remarkMath, {
-        singleDollarTextMath: false
+        singleDollarTextMath: false,
       })
       .use(remarkPangu)
       .use(remarkRehype, {
-        allowDangerousHtml: true
+        allowDangerousHtml: true,
       })
       .use(rehypeRaw)
       .use(rehypeSlug)
@@ -94,7 +96,7 @@ export const renderMarkdown = ({
       .use(rehypeFixBlock) // 必须放在其他 rehype 插件之后
       .use(rehypeInferDescriptionMeta)
       .use(rehypeKatex, {
-        strict: false
+        strict: false,
       })
       .use(rehypeStringify, { allowDangerousHtml: true });
 
@@ -102,7 +104,8 @@ export const renderMarkdown = ({
     mdastTree = processor.parse(file);
     // hypertext abstract syntax tree
     hastTree = processor.runSync(mdastTree, file);
-  } catch (error) {
+  }
+  catch (error) {
     consoleLog('ERROR', 'renderMarkdown:', error);
     if (!isServer()) {
       toast.error((error as Error).message);
@@ -110,9 +113,9 @@ export const renderMarkdown = ({
   }
 
   let Pre: React.FC<
-    React.ClassAttributes<HTMLPreElement> &
-      React.HTMLAttributes<HTMLPreElement> &
-      ExtraProps
+    React.ClassAttributes<HTMLPreElement>
+    & React.HTMLAttributes<HTMLPreElement>
+    & ExtraProps
   > = memoedPreComponentMap[hashCodeThemeKey(codeTheme)];
 
   if (!Pre) {
@@ -120,7 +123,7 @@ export const renderMarkdown = ({
       return createElement(
         ShikiRemarkServer,
         { ...props, codeTheme },
-        props.children
+        props.children,
       );
     };
     memoedPreComponentMap[hashCodeThemeKey(codeTheme)] = Pre;
@@ -129,32 +132,32 @@ export const renderMarkdown = ({
   return {
     tree: hastTree,
     toToc: () =>
-      mdastTree &&
-      toc(mdastTree, {
+      mdastTree
+      && toc(mdastTree, {
         tight: true,
-        ordered: true
+        ordered: true,
       }),
     toHtml: () => hastTree && toHtml(hastTree),
     toElement: () =>
-      hastTree &&
-      toJsxRuntime(hastTree, {
+      hastTree
+      && toJsxRuntime(hastTree, {
         Fragment,
         components: {
           // @ts-expect-error toJsxRuntime
           pre: Pre,
-          ...mdxComponents
+          ...mdxComponents,
         },
         ignoreInvalidStyle: true,
         jsx,
         jsxs,
-        passNode: true
+        passNode: true,
       }),
     toMetadata: () => {
       const metadata = {
         frontMatter: undefined,
         images: [],
         audio: undefined,
-        excerpt: undefined
+        excerpt: undefined,
       } as {
         frontMatter?: Record<string, any>;
         images: string[];
@@ -180,8 +183,8 @@ export const renderMarkdown = ({
         visit(hastTree, (node, index, parent) => {
           if (node.type === 'element') {
             if (
-              node.tagName === 'img' &&
-              typeof node.properties.src === 'string'
+              node.tagName === 'img'
+              && typeof node.properties.src === 'string'
             ) {
               metadata.images.push(node.properties.src);
             }
@@ -198,6 +201,6 @@ export const renderMarkdown = ({
       }
 
       return metadata;
-    }
+    },
   };
-};
+}

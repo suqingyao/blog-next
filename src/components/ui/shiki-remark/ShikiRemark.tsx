@@ -20,15 +20,15 @@ export const ShikiRemark: React.FC<{
   );
 };
 
-const pickMdAstCode = (props: any) => {
+function pickMdAstCode(props: any) {
   return props.children?.type === 'code'
     ? (props.children.props.children as string)
     : '';
-};
+}
 
-const pickCodeLanguage = (props: any) => {
-  const className =
-    props.children?.type === 'code'
+function pickCodeLanguage(props: any) {
+  const className
+    = props.children?.type === 'code'
       ? (props.children.props.className as string)
       : '';
 
@@ -36,4 +36,4 @@ const pickCodeLanguage = (props: any) => {
     return className.replace('language-', '');
   }
   return '';
-};
+}

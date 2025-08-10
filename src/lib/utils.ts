@@ -1,4 +1,5 @@
-import { type ClassValue, clsx } from 'clsx';
+import type { ClassValue } from 'clsx';
+import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
 export function cn(...inputs: ClassValue[]) {
@@ -6,18 +7,14 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 /** 空操作函数 */
-export const NOOP = () => {};
+export function NOOP() {}
 /**
  * 滚动到页面中的指定元素
  * @param hash 目标元素的 hash 值（包含 #）
  * @param notUserContent 是否为非用户内容，默认为 false
  * @param offsetTop 滚动偏移量，默认为 20px
  */
-export const scrollToElement = (
-  hash: string,
-  notUserContent: boolean = false,
-  offsetTop: number = 20
-) => {
+export function scrollToElement(hash: string, notUserContent: boolean = false, offsetTop: number = 20) {
   const calculateElementTop = (el: HTMLElement) => {
     let top = 0;
     while (el) {
@@ -28,7 +25,8 @@ export const scrollToElement = (
   };
 
   const _hash = decodeURIComponent(hash.slice(1));
-  if (!_hash) return;
+  if (!_hash)
+    return;
   if (history.state?.preventScrollToToc) {
     history.state.preventScrollToToc = false;
     return;
@@ -36,22 +34,23 @@ export const scrollToElement = (
   const targetElement = document.querySelector(
     notUserContent
       ? `#${decodeURIComponent(_hash)}`
-      : `#user-content-${decodeURIComponent(_hash)}`
+      : `#user-content-${decodeURIComponent(_hash)}`,
   ) as HTMLElement;
-  if (!targetElement) return;
+  if (!targetElement)
+    return;
 
   window.scrollTo({
     top: calculateElementTop(targetElement) - offsetTop,
-    behavior: 'smooth'
+    behavior: 'smooth',
   });
-};
+}
 
 /**
  * 获取请求参数
  * @param req 请求对象
  * @returns 参数对象
  */
-export const getQuery = (req: Request) => {
+export function getQuery(req: Request) {
   const url = new URL(req.url);
   const searchParams = url.searchParams;
   const obj: Record<string, string | string[]> = {};
@@ -60,13 +59,15 @@ export const getQuery = (req: Request) => {
     if (key in obj) {
       if (Array.isArray(obj[key])) {
         (obj[key] as string[]).push(value);
-      } else {
+      }
+      else {
         obj[key] = [obj[key] as string, value];
       }
-    } else {
+    }
+    else {
       obj[key] = value;
     }
   }
 
   return obj;
-};
+}

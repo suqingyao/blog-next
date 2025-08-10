@@ -1,15 +1,16 @@
 'use client';
 
-import { MouseEvent, useMemo } from 'react';
-import { flushSync } from 'react-dom';
+import type { MouseEvent } from 'react';
 import { motion } from 'motion/react';
 import { useTheme } from 'next-themes';
+import { useMemo } from 'react';
+import { flushSync } from 'react-dom';
 
 import { useSound } from 'use-sound';
-import { transitionViewIfSupported } from '@/lib/dom';
 import { useIsMounted } from '@/hooks/use-is-mounted';
+import { transitionViewIfSupported } from '@/lib/dom';
 
-export const DarkToggle = () => {
+export function DarkToggle() {
   const { theme = 'light', setTheme } = useTheme();
   const [playOn] = useSound('/sounds/switch.mp3');
   const [playOff] = useSound('/sounds/switch.mp3', { playbackRate: 0.6 });
@@ -22,7 +23,7 @@ export const DarkToggle = () => {
     const y = event.clientY;
     const endRadius = Math.hypot(
       Math.max(x, innerWidth - x),
-      Math.max(y, innerHeight - y)
+      Math.max(y, innerHeight - y),
     );
 
     const transition = transitionViewIfSupported(() => {
@@ -35,31 +36,32 @@ export const DarkToggle = () => {
       transition.ready.then(() => {
         const clipPath = [
           `circle(0px at ${x}px ${y}px)`,
-          `circle(${endRadius}px at ${x}px ${y}px)`
+          `circle(${endRadius}px at ${x}px ${y}px)`,
         ];
         document.documentElement.animate(
           {
-            clipPath: isDark ? [...clipPath].reverse() : clipPath
+            clipPath: isDark ? [...clipPath].reverse() : clipPath,
           },
           {
             duration: 400,
             easing: 'ease-out',
             pseudoElement: isDark
               ? '::view-transition-old(root)'
-              : '::view-transition-new(root)'
-          }
+              : '::view-transition-new(root)',
+          },
         );
       });
     }
   };
 
   const starPaths = useMemo(() => {
-    if (isDark)
+    if (isDark) {
       return [
         'M25 10L31.7523 28.2477L50 35L31.7523 41.7523L25 60L18.2477 41.7523L0 35L18.2477 28.2477L25 10Z',
         'M71.5 42L76.2266 54.7734L89 59.5L76.2266 64.2266L71.5 77L66.7734 64.2266L54 59.5L66.7734 54.7734L71.5 42Z',
-        'M61 0L63.7009 7.29909L71 10L63.7009 12.7009L61 20L58.2991 12.7009L51 10L58.2991 7.29909L61 0Z'
+        'M61 0L63.7009 7.29909L71 10L63.7009 12.7009L61 20L58.2991 12.7009L51 10L58.2991 7.29909L61 0Z',
       ];
+    }
     return [];
   }, [isDark]);
 
@@ -72,17 +74,17 @@ export const DarkToggle = () => {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      {starPaths.map((path) => (
+      {starPaths.map(path => (
         <motion.path
           initial={{
             scale: 0,
             rotate: 30,
-            opacity: 0
+            opacity: 0,
           }}
           animate={{
             scale: 1,
             rotate: -30,
-            opacity: 1
+            opacity: 1,
           }}
           transition={{ delay: 0.4, duration: 0.5 }}
           key={path}
@@ -98,11 +100,11 @@ export const DarkToggle = () => {
     <motion.svg
       animate={{
         opacity: isDark ? 0 : 1,
-        x: isDark ? -5 : 0
+        x: isDark ? -5 : 0,
       }}
       transition={{
         delay: isDark ? 0 : 0.4,
-        duration: 0.5
+        duration: 0.5,
       }}
       className="absolute top-[10px] right-[10px]"
       width="15"
@@ -130,7 +132,7 @@ export const DarkToggle = () => {
   return (
     <motion.div
       animate={{
-        backgroundColor: isDark ? '#475569' : '#7dd3fc'
+        backgroundColor: isDark ? '#475569' : '#7dd3fc',
       }}
       role="button"
       className="relative h-[28px] w-[56px] cursor-pointer rounded-full p-[5px]"
@@ -142,13 +144,13 @@ export const DarkToggle = () => {
         animate={{
           x: isDark ? 28 : 0,
           rotate: isDark ? 0 : 180,
-          backgroundColor: isDark ? '#c6d0d1' : '#fde047'
+          backgroundColor: isDark ? '#c6d0d1' : '#fde047',
         }}
         className="relative h-[18px] w-[18px] rounded-full"
       >
         <motion.div
           animate={{
-            opacity: isDark ? 1 : 0
+            opacity: isDark ? 1 : 0,
           }}
           className="relative h-full w-full"
         >
@@ -159,4 +161,4 @@ export const DarkToggle = () => {
       </motion.div>
     </motion.div>
   );
-};
+}

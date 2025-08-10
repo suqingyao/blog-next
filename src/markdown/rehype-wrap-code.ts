@@ -10,32 +10,32 @@ export const rehypeWrapCode: Plugin<Array<void>, Root> = () => {
         const wrapper = u('element', {
           tagName: 'div',
           properties: {
-            className: 'code-wrapper'
+            className: 'code-wrapper',
           },
           children: [
             u('element', {
               tagName: 'button',
               properties: {
                 type: 'button',
-                className: 'copy-button flex items-center space-x-1'
+                className: 'copy-button flex items-center space-x-1',
               },
               children: [
                 u('element', {
                   tagName: 'span',
                   properties: {
-                    className: 'i-mingcute-copy-2-line'
+                    className: 'i-mingcute-copy-2-line',
                   },
-                  children: []
+                  children: [],
                 }),
                 u('element', {
                   tagName: 'span',
                   properties: {},
-                  children: [u('text', 'Copy')]
-                })
-              ]
+                  children: [u('text', 'Copy')],
+                }),
+              ],
             }),
-            node
-          ]
+            node,
+          ],
         });
         parent.children[index] = wrapper;
       }

@@ -14,7 +14,10 @@ export default function PostTag({ tag }: { tag: string }) {
       className="hover:text-zinc-600"
       href={getSiteRelativeUrl(pathname, `/tag/${tag}`)}
     >
-      <>#{tag}</>
+      <>
+        #
+        {tag}
+      </>
     </UniLink>
   );
 }

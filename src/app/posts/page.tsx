@@ -1,7 +1,7 @@
-import { getAllPosts } from '@/models/post.model';
 import { PostList } from '@/components/site/PostList';
+import { getAllPosts } from '@/models/post.model';
 
-const PostsPage = async () => {
+async function PostsPage() {
   const posts = await getAllPosts();
 
   return (
@@ -9,6 +9,6 @@ const PostsPage = async () => {
       <PostList posts={posts} />
     </div>
   );
-};
+}
 
 export default PostsPage;

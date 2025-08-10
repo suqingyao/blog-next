@@ -1,11 +1,12 @@
 import { useRef } from 'react';
 
-export const useRafFn = (fn: Fn) => {
+export function useRafFn(fn: Fn) {
   const isActive = useRef(false);
   let rafId: null | number = null;
 
   const loop = () => {
-    if (!isActive.current || !window) return;
+    if (!isActive.current || !window)
+      return;
 
     fn();
     rafId = window.requestAnimationFrame(loop);
@@ -29,6 +30,6 @@ export const useRafFn = (fn: Fn) => {
   return {
     isActive,
     pause,
-    resume
+    resume,
   };
-};
+}

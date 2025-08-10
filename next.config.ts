@@ -9,9 +9,9 @@ export default {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: '**'
-      }
-    ]
+        hostname: '**',
+      },
+    ],
   },
   webpack(config) {
     // https://github.com/kkomelin/isomorphic-dompurify/issues/54
@@ -22,13 +22,13 @@ export default {
   },
   transpilePackages: ['react-lottie'],
   experimental: {
-    optimizePackageImports: ['react-lottie']
+    optimizePackageImports: ['react-lottie'],
   },
   eslint: {
-    ignoreDuringBuilds: true
+    ignoreDuringBuilds: true,
   },
   typescript: {
-    ignoreBuildErrors: true
+    ignoreBuildErrors: true,
   },
-  bundlePagesRouterDependencies: true
+  bundlePagesRouterDependencies: true,
 } as NextConfig;

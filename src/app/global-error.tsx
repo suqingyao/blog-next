@@ -1,15 +1,15 @@
 'use client';
 
-import errorDarkData from '@/lottie/error-dark.json';
-import errorData from '@/lottie/error.json';
 import { useTheme } from 'next-themes';
 import { useEffect } from 'react';
 import Lottie from 'react-lottie';
 import { consoleLog } from '@/lib/console';
+import errorDarkData from '@/lottie/error-dark.json';
+import errorData from '@/lottie/error.json';
 
 export default function GlobalError({
   error,
-  reset
+  reset,
 }: {
   error: Error & { digest?: string };
   reset: () => void;
@@ -29,8 +29,8 @@ export default function GlobalError({
             autoplay: true,
             animationData: theme === 'dark' ? errorDarkData : errorData,
             rendererSettings: {
-              preserveAspectRatio: 'xMidYMid slice'
-            }
+              preserveAspectRatio: 'xMidYMid slice',
+            },
           }}
           height="60%"
           width="60%"

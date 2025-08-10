@@ -1,3 +1,3 @@
 export * from './AdvancedImage';
-export * from './AdvancedImageServer';
 export * from './AdvancedImageContainer';
+export * from './AdvancedImageServer';

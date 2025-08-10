@@ -1,11 +1,11 @@
-import { OUR_DOMAIN, IS_PROD } from '@/constants';
-import { consoleLog } from '@/lib/console';
-import { renderMarkdown } from '@/markdown';
+import { join } from 'node:path';
 import fg from 'fast-glob';
 import fs from 'fs-extra';
-import { join } from 'node:path';
+import { IS_PROD, OUR_DOMAIN } from '@/constants';
+import { consoleLog } from '@/lib/console';
+import { renderMarkdown } from '@/markdown';
 
-export const getAllPostFiles = async () => await fg('posts/**/*.mdx');
+export const getAllPostFiles = async () => fg('posts/**/*.mdx');
 
 let memoedAllPosts: Record<string, any>[] = [];
 
@@ -50,13 +50,13 @@ export async function getAllPosts() {
           slug,
           code,
           summary,
-          ...frontMatter
+          ...frontMatter,
         } as Record<string, any>;
-      })
+      }),
     )
   )
     .filter(Boolean)
-    .filter((post) => (IS_PROD ? post.published : true))
+    .filter(post => (IS_PROD ? post.published : true))
     .sort((a, b) => +new Date(b.createdTime) - +new Date(a.createdTime));
 
   memoedAllPosts = posts;
@@ -81,9 +81,9 @@ async function getAiSummary(content: string): Promise<string | null> {
     const response = await fetch(apiUrl, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ content })
+      body: JSON.stringify({ content }),
     });
 
     if (!response.ok) {
@@ -97,7 +97,8 @@ async function getAiSummary(content: string): Promise<string | null> {
         if (errorData.summary) {
           return errorData.summary;
         }
-      } catch (e) {
+      }
+      catch (e) {
         consoleLog('ERROR', '[AI] Error parsing error response:', e);
       }
 
@@ -110,7 +111,8 @@ async function getAiSummary(content: string): Promise<string | null> {
     }
 
     return data.summary;
-  } catch (error) {
+  }
+  catch (error) {
     consoleLog('ERROR', 'Error generating summary:', error);
     return error instanceof Error
       ? `生成摘要时出错: ${error.message}`
@@ -125,7 +127,8 @@ async function getSummaryFromCache(slug: string): Promise<string | null> {
     if (await fs.pathExists(summaryPath)) {
       return await fs.readFile(summaryPath, 'utf-8');
     }
-  } catch (error) {
+  }
+  catch (error) {
     consoleLog('ERROR', 'Error reading summary cache:', error);
   }
   return null;
@@ -134,15 +137,15 @@ async function getSummaryFromCache(slug: string): Promise<string | null> {
 // 保存摘要到缓存
 async function saveSummaryToCache(
   slug: string,
-  summary: string
+  summary: string,
 ): Promise<void> {
   // 检查摘要内容是否包含错误信息，如果包含则不保存
   if (
-    summary.includes('生成摘要时出错') ||
-    summary.includes('无法生成AI摘要') ||
-    summary.includes('生成AI摘要时出现错误') ||
-    summary.includes('客户端请求超时') ||
-    summary.includes('API请求超时')
+    summary.includes('生成摘要时出错')
+    || summary.includes('无法生成AI摘要')
+    || summary.includes('生成AI摘要时出现错误')
+    || summary.includes('客户端请求超时')
+    || summary.includes('API请求超时')
   ) {
     consoleLog('INFO', `摘要生成失败，不保存缓存文件: ${slug}`);
     return;
@@ -154,7 +157,8 @@ async function saveSummaryToCache(
     await fs.ensureDir(summaryDir);
     await fs.writeFile(summaryPath, summary);
     consoleLog('INFO', `摘要缓存已保存: ${slug}`);
-  } catch (error) {
+  }
+  catch (error) {
     consoleLog('ERROR', 'Error saving summary cache:', error);
   }
 }
@@ -162,7 +166,7 @@ async function saveSummaryToCache(
 export async function getPostBySlug(slug: string) {
   if (IS_PROD) {
     const posts = await getAllPosts();
-    const post = posts.find((post) => post.slug === slug);
+    const post = posts.find(post => post.slug === slug);
     return post;
   }
 
@@ -173,7 +177,8 @@ export async function getPostBySlug(slug: string) {
     return fileSlug === slug;
   });
 
-  if (!targetFile) return null;
+  if (!targetFile)
+    return null;
 
   const code = fs.readFileSync(join(process.cwd(), targetFile), 'utf-8');
   const rendered = renderMarkdown({ content: code });

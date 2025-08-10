@@ -1,12 +1,12 @@
 'use client';
 
-import Link from 'next/link';
 import { motion } from 'motion/react';
+import Link from 'next/link';
 
 import dayjs from '@/lib/dayjs';
 import { cn } from '@/lib/utils';
 
-export const AppLatestPosts = ({ posts }: { posts: Post[] }) => {
+export function AppLatestPosts({ posts }: { posts: Post[] }) {
   return (
     <div className={cn('py-4 font-mono')}>
       <motion.div
@@ -17,7 +17,7 @@ export const AppLatestPosts = ({ posts }: { posts: Post[] }) => {
           initial={{ x: 100, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{
-            duration: 0.5
+            duration: 0.5,
           }}
           className="text-3xl font-semibold"
         >
@@ -29,7 +29,7 @@ export const AppLatestPosts = ({ posts }: { posts: Post[] }) => {
           transition={{ delay: 0.5, duration: 0.5 }}
         >
           <Link
-            href={'/posts'}
+            href="/posts"
             className="opacity-50 hover:opacity-100"
           >
             <span className="i-mingcute-arrow-right-up-line text-2xl" />
@@ -42,16 +42,16 @@ export const AppLatestPosts = ({ posts }: { posts: Post[] }) => {
         variants={{
           initial: {
             transition: {
-              when: 'afterChildren'
-            }
+              when: 'afterChildren',
+            },
           },
           animate: {
             transition: {
               when: 'beforeChildren',
               staggerChildren: 0.3,
-              ease: 'easeInOut'
-            }
-          }
+              ease: 'easeInOut',
+            },
+          },
         }}
         className="my-4 flex flex-col gap-2"
       >
@@ -65,7 +65,7 @@ export const AppLatestPosts = ({ posts }: { posts: Post[] }) => {
       </motion.ul>
     </div>
   );
-};
+}
 
 export function Card({ post, delay }: { post: Post; delay: number }) {
   return (
@@ -73,16 +73,16 @@ export function Card({ post, delay }: { post: Post; delay: number }) {
       variants={{
         initial: {
           opacity: 0,
-          y: 10
+          y: 10,
         },
         animate: {
           opacity: 1,
           y: 0,
           transition: {
             ease: 'easeInOut',
-            delay
-          }
-        }
+            delay,
+          },
+        },
       }}
     >
       <Link

@@ -2,10 +2,10 @@
 
 import type { Result as TocResult } from 'mdast-util-toc';
 import { useEffect, useRef, useState } from 'react';
-import { scrollToElement } from '@/lib/utils';
 import { APP_HEADER_HEIGHT } from '@/constants';
-import { throttle } from '@/lib/throttle';
 import { useMount } from '@/hooks/use-mount';
+import { throttle } from '@/lib/throttle';
+import { scrollToElement } from '@/lib/utils';
 
 interface ItemsProps {
   items: TocResult['map'];
@@ -38,10 +38,11 @@ function useActiveId(itemIds: string[]) {
   const [activeId, setActiveId] = useState<string>('');
 
   const handleScroll = throttle(() => {
-    if (itemIds.length === 0) return;
+    if (itemIds.length === 0)
+      return;
 
-    const scrollBottom =
-      window.innerHeight + window.scrollY >= document.body.scrollHeight - 2;
+    const scrollBottom
+      = window.innerHeight + window.scrollY >= document.body.scrollHeight - 2;
     if (scrollBottom) {
       setActiveId(itemIds[itemIds.length - 1]);
       return;
@@ -66,7 +67,8 @@ function useActiveId(itemIds: string[]) {
   });
 
   useEffect(() => {
-    if (!itemIds.length) return;
+    if (!itemIds.length)
+      return;
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -81,7 +83,8 @@ function Items(props: ItemsProps) {
   const anchorRef = useRef<HTMLLIElement>(null);
   useEffect(() => {
     const handler = () => {
-      if (!anchorRef.current) return;
+      if (!anchorRef.current)
+        return;
       const $anchor = anchorRef.current;
       const pos = $anchor.getBoundingClientRect();
       const maxWidth = window.innerWidth - pos.x - 20;
@@ -97,19 +100,19 @@ function Items(props: ItemsProps) {
   return (
     <ol className={prefix ? 'pl-5' : ''}>
       <li ref={anchorRef} />
-      {maxWidth > 0 &&
-        items?.children?.map((item, index) => (
+      {maxWidth > 0
+        && items?.children?.map((item, index) => (
           <li
             key={index}
             style={{
-              maxWidth: maxWidth + 'px'
+              maxWidth: `${maxWidth}px`,
             }}
           >
             {item.children.map((child: any, i) => {
               const content = `${prefix} ${child.content}`;
 
               return (
-                <span key={index + '-' + i}>
+                <span key={`${index}-${i}`}>
                   {child.type === 'paragraph' && child.children?.[0]?.url && (
                     <span
                       data-url={child.children[0].url}
@@ -117,21 +120,21 @@ function Items(props: ItemsProps) {
                         scrollToElement(
                           child.children[0].url,
                           false,
-                          APP_HEADER_HEIGHT
+                          APP_HEADER_HEIGHT,
                         );
                         setActiveId?.(child.children[0].url.slice(1));
                       }}
                       title={content}
                       className={
-                        (`#${activeId}` === child.children[0].url
+                        `${`#${activeId}` === child.children[0].url
                           ? 'text-accent font-bold'
-                          : 'font-medium text-zinc-400') +
-                        ' hover:text-accent inline-block max-w-full cursor-pointer truncate align-bottom'
+                          : 'font-medium text-zinc-400'
+                        } hover:text-accent inline-block max-w-full cursor-pointer truncate align-bottom`
                       }
                     >
                       <span
                         dangerouslySetInnerHTML={{
-                          __html: content
+                          __html: content,
                         }}
                       />
                     </span>

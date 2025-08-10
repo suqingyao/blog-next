@@ -1,4 +1,4 @@
-import { raf, caf } from '@/lib/raf';
+import { caf, raf } from '@/lib/raf';
 
 export function throttleByRaf(cb: (...args: unknown[]) => void) {
   let timer: null | number = null;

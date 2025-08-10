@@ -1,4 +1,4 @@
-export const AppFooter = () => {
+export function AppFooter() {
   return (
     <footer className="h-footer mt-auto flex w-full items-center justify-center gap-2 py-6 text-center text-sm opacity-80">
       <p>
@@ -32,4 +32,4 @@ export const AppFooter = () => {
       <p>&copy;2023&nbsp;suqingyao</p>
     </footer>
   );
-};
+}

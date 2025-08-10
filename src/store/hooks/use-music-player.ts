@@ -1,29 +1,29 @@
+import type { PlayerPosition } from '@/store/atoms/music-player';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { useCallback, useEffect, useRef } from 'react';
+import { consoleLog } from '@/lib/console';
 import {
+  loadPlaylistAtom,
   musicPlayerAtom,
-  togglePlayAtom,
-  setCurrentTimeAtom,
-  setVolumeAtom,
-  toggleMuteAtom,
+
   playNextAtom,
   playPreviousAtom,
   selectTrackAtom,
-  setNeedsUserInteractionAtom,
-  loadPlaylistAtom,
-  setPlayerPositionAtom,
+  setCurrentTimeAtom,
   setDraggingAtom,
   setDragOffsetAtom,
-  type MusicTrack,
-  type PlayerPosition
+  setNeedsUserInteractionAtom,
+  setPlayerPositionAtom,
+  setVolumeAtom,
+  toggleMuteAtom,
+  togglePlayAtom,
 } from '@/store/atoms/music-player';
-import { consoleLog } from '@/lib/console';
 
 /**
  * 音乐播放器自定义 Hook
  * 提供音乐播放的完整功能
  */
-export const useMusicPlayer = () => {
+export function useMusicPlayer() {
   const [state, setState] = useAtom(musicPlayerAtom);
   const togglePlay = useSetAtom(togglePlayAtom);
   const setCurrentTime = useSetAtom(setCurrentTimeAtom);
@@ -52,17 +52,17 @@ export const useMusicPlayer = () => {
       const audio = audioRef.current;
 
       const handleLoadedMetadata = () => {
-        setState((prev) => ({
+        setState(prev => ({
           ...prev,
           duration: audio.duration || 0,
-          isLoading: false
+          isLoading: false,
         }));
       };
 
       const handleTimeUpdate = () => {
-        setState((prev) => ({
+        setState(prev => ({
           ...prev,
-          currentTime: audio.currentTime || 0
+          currentTime: audio.currentTime || 0,
         }));
       };
 
@@ -71,24 +71,24 @@ export const useMusicPlayer = () => {
       };
 
       const handleLoadStart = () => {
-        setState((prev) => ({
+        setState(prev => ({
           ...prev,
-          isLoading: true
+          isLoading: true,
         }));
       };
 
       const handleCanPlay = () => {
-        setState((prev) => ({
+        setState(prev => ({
           ...prev,
-          isLoading: false
+          isLoading: false,
         }));
       };
 
       const handleError = () => {
-        setState((prev) => ({
+        setState(prev => ({
           ...prev,
           isLoading: false,
-          isPlaying: false
+          isPlaying: false,
         }));
       };
 
@@ -130,14 +130,15 @@ export const useMusicPlayer = () => {
           consoleLog('WARN', '播放失败:', error.message);
           // 如果是自动播放被阻止，重置播放状态并标记需要用户交互
           if (error.name === 'NotAllowedError') {
-            setState((prev) => ({
+            setState(prev => ({
               ...prev,
-              isPlaying: false
+              isPlaying: false,
             }));
             setNeedsUserInteraction(true);
           }
         });
-      } else {
+      }
+      else {
         audioRef.current.pause();
       }
     }
@@ -162,7 +163,7 @@ export const useMusicPlayer = () => {
         setCurrentTime(time);
       }
     },
-    [setCurrentTime]
+    [setCurrentTime],
   );
 
   /**
@@ -184,7 +185,8 @@ export const useMusicPlayer = () => {
    * 格式化时间显示
    */
   const formatTime = useCallback((seconds: number) => {
-    if (isNaN(seconds)) return '0:00';
+    if (isNaN(seconds))
+      return '0:00';
     const mins = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);
     return `${mins}:${secs.toString().padStart(2, '0')}`;
@@ -205,7 +207,7 @@ export const useMusicPlayer = () => {
     (position: PlayerPosition) => {
       setPlayerPosition(position);
     },
-    [setPlayerPosition]
+    [setPlayerPosition],
   );
 
   /**
@@ -216,7 +218,7 @@ export const useMusicPlayer = () => {
       setDragging(true);
       setDragOffset(offset);
     },
-    [setDragging, setDragOffset]
+    [setDragging, setDragOffset],
   );
 
   /**
@@ -237,17 +239,20 @@ export const useMusicPlayer = () => {
       let newPosition: PlayerPosition;
       if (isTop && isLeft) {
         newPosition = 'tl';
-      } else if (isTop && !isLeft) {
+      }
+      else if (isTop && !isLeft) {
         newPosition = 'tr';
-      } else if (!isTop && isLeft) {
+      }
+      else if (!isTop && isLeft) {
         newPosition = 'bl';
-      } else {
+      }
+      else {
         newPosition = 'br';
       }
 
       setPlayerPosition(newPosition);
     },
-    [setDragging, setPlayerPosition]
+    [setDragging, setPlayerPosition],
   );
 
   return {
@@ -277,13 +282,13 @@ export const useMusicPlayer = () => {
     progress:
       state.duration > 0 ? (state.currentTime / state.duration) * 100 : 0,
     hasNext: state.currentIndex < state.playlist.length - 1,
-    hasPrevious: state.currentIndex > 0
+    hasPrevious: state.currentIndex > 0,
   };
-};
+}
 
 /**
  * 简化的音乐播放器状态 Hook（只读）
  */
-export const useMusicPlayerState = () => {
+export function useMusicPlayerState() {
   return useAtomValue(musicPlayerAtom);
-};
+}

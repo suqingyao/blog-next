@@ -15,7 +15,8 @@ export function useBodyScrollLock(isLocked: boolean) {
   const scrollPositionRef = useRef<number>(0);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined')
+      return;
 
     const body = document.body;
 
@@ -25,7 +26,7 @@ export function useBodyScrollLock(isLocked: boolean) {
         overflow: body.style.overflow || '',
         position: body.style.position || '',
         top: body.style.top || '',
-        width: body.style.width || ''
+        width: body.style.width || '',
       };
 
       // 保存当前滚动位置
@@ -37,7 +38,8 @@ export function useBodyScrollLock(isLocked: boolean) {
       // 直接设置样式 - 只隐藏滚动条，不改变定位
       body.style.overflow = 'hidden';
       body.style.width = '100%';
-    } else {
+    }
+    else {
       // 移除data属性
       body.removeAttribute('data-scroll-locked');
 
@@ -50,7 +52,7 @@ export function useBodyScrollLock(isLocked: boolean) {
       if (scrollPositionRef.current > 0) {
         window.scrollTo({
           top: scrollPositionRef.current,
-          behavior: 'instant' // 使用 instant 避免动画冲突
+          behavior: 'instant', // 使用 instant 避免动画冲突
         });
       }
     }
@@ -68,7 +70,7 @@ export function useBodyScrollLock(isLocked: boolean) {
         if (scrollPositionRef.current > 0) {
           window.scrollTo({
             top: scrollPositionRef.current,
-            behavior: 'instant'
+            behavior: 'instant',
           });
         }
       }

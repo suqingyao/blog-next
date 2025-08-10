@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 export interface Options extends IntersectionObserverInit {
   triggerOnce?: boolean;
@@ -8,10 +8,10 @@ const defaultOptions: Options = {
   root: null,
   rootMargin: '0px',
   threshold: 0,
-  triggerOnce: false
+  triggerOnce: false,
 };
 
-export const useInView = (options = defaultOptions) => {
+export function useInView(options = defaultOptions) {
   const { triggerOnce = false } = options;
   const [inView, setInView] = useState(false);
   const ref = useRef<HTMLElement | null>(null);
@@ -19,15 +19,18 @@ export const useInView = (options = defaultOptions) => {
   const hasTriggered = useRef(false);
 
   const setRef = useCallback((node: HTMLElement | null) => {
-    if (ref.current === node) return;
+    if (ref.current === node)
+      return;
     ref.current = node;
     setInView(false);
     hasTriggered.current = false;
   }, []);
 
   useEffect(() => {
-    if (!ref.current) return;
-    if (observer.current) observer.current.disconnect();
+    if (!ref.current)
+      return;
+    if (observer.current)
+      observer.current.disconnect();
 
     observer.current = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting) {
@@ -36,12 +39,15 @@ export const useInView = (options = defaultOptions) => {
           hasTriggered.current = true;
           observer.current && observer.current.disconnect();
         }
-      } else {
-        if (!triggerOnce) setInView(false);
+      }
+      else {
+        if (!triggerOnce)
+          setInView(false);
       }
     }, options);
 
-    if (ref.current) observer.current.observe(ref.current);
+    if (ref.current)
+      observer.current.observe(ref.current);
 
     return () => {
       observer.current && observer.current.disconnect();
@@ -56,4 +62,4 @@ export const useInView = (options = defaultOptions) => {
   }, []);
 
   return [setRef, inView] as const;
-};
+}

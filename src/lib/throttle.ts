@@ -1,7 +1,7 @@
 export function throttle<T extends (...args: any[]) => any>(
   fn: T,
   wait = 300,
-  immediate = false
+  immediate = false,
 ): (...args: Parameters<T>) => void {
   let timeout: ReturnType<typeof setTimeout> | null = null;
 

@@ -1,11 +1,11 @@
 import { atom } from 'jotai';
 
-type HeaderAtomProps = {
+interface HeaderAtomProps {
   pageTitle: string;
   pageTitleElement: HTMLHeadElement | null;
-};
+}
 
 export const headerAtom = atom<HeaderAtomProps>({
   pageTitle: '',
-  pageTitleElement: null
+  pageTitleElement: null,
 });

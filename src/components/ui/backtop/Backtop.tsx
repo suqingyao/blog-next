@@ -4,13 +4,14 @@ import { useEffect, useState } from 'react';
 
 import { cn } from '@/lib/utils';
 
-export const Backtop = () => {
+export function Backtop() {
   const [show, setShow] = useState(false);
 
   const handleScroll = () => {
     if (window.scrollY > 100) {
       setShow(true);
-    } else {
+    }
+    else {
       setShow(false);
     }
   };
@@ -24,7 +25,7 @@ export const Backtop = () => {
   const scrollTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth'
+      behavior: 'smooth',
     });
   };
 
@@ -35,10 +36,10 @@ export const Backtop = () => {
       className={cn(
         `fixed right-10 bottom-10 z-[9999] cursor-pointer rounded-full opacity-0 drop-shadow-sm transition`,
         show && 'animate-bounce-enter-in opacity-100',
-        !show && 'animate-bounce-leave-out pointer-events-none'
+        !show && 'animate-bounce-leave-out pointer-events-none',
       )}
     >
       <span className="i-mingcute-arrow-up-circle-fill text-3xl" />
     </div>
   );
-};
+}

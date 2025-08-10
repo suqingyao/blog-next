@@ -1,7 +1,7 @@
-import fs from 'fs-extra';
-import path from 'path';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import fg from 'fast-glob';
-import { fileURLToPath } from 'url';
+import fs from 'fs-extra';
 
 // ES 模块中获取 __dirname 的方法
 const __filename = fileURLToPath(import.meta.url);
@@ -25,8 +25,8 @@ export async function generateMissingSummaries(forceRegenTemp = false) {
     await fs.ensureDir(summaryDir);
 
     const existingSummaries = await fs.readdir(summaryDir);
-    const existingSlugs = existingSummaries.map((file) =>
-      file.replace('.txt', '')
+    const existingSlugs = existingSummaries.map(file =>
+      file.replace('.txt', ''),
     );
 
     console.log(`📝 已有 ${existingSummaries.length} 个摘要文件`);
@@ -39,7 +39,8 @@ export async function generateMissingSummaries(forceRegenTemp = false) {
       const slug = file.replace(/^posts\/(.+)\.mdx$/, '$1');
       if (!existingSlugs.includes(slug)) {
         missingPosts.push({ file, slug });
-      } else if (forceRegenTemp) {
+      }
+      else if (forceRegenTemp) {
         // 检查是否为临时摘要
         const summaryPath = path.join(summaryDir, `${slug}.txt`);
         const summaryContent = await fs.readFile(summaryPath, 'utf-8');
@@ -59,7 +60,7 @@ export async function generateMissingSummaries(forceRegenTemp = false) {
       console.log('✅ 所有文章都已有正式摘要！');
       return;
     }
-    
+
     // 合并需要处理的文章
     const postsToProcess = [...missingPosts, ...tempSummaryPosts];
     console.log(`📝 总共需要处理: ${postsToProcess.length} 篇文章`);
@@ -73,16 +74,16 @@ export async function generateMissingSummaries(forceRegenTemp = false) {
         // 读取文章内容
         const content = await fs.readFile(
           path.join(process.cwd(), file),
-          'utf-8'
+          'utf-8',
         );
 
         // 调用API生成摘要
         const response = await fetch('http://localhost:2323/api/ai/summary', {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ content })
+          body: JSON.stringify({ content }),
         });
 
         if (!response.ok) {
@@ -101,11 +102,11 @@ export async function generateMissingSummaries(forceRegenTemp = false) {
 
         // 检查摘要是否包含错误信息
         if (
-          summary.includes('生成摘要时出错') ||
-          summary.includes('无法生成AI摘要') ||
-          summary.includes('生成AI摘要时出现错误') ||
-          summary.includes('客户端请求超时') ||
-          summary.includes('API请求超时')
+          summary.includes('生成摘要时出错')
+          || summary.includes('无法生成AI摘要')
+          || summary.includes('生成AI摘要时出现错误')
+          || summary.includes('客户端请求超时')
+          || summary.includes('API请求超时')
         ) {
           console.error(`❌ 摘要包含错误信息，跳过保存: ${summary}`);
           continue;
@@ -119,14 +120,16 @@ export async function generateMissingSummaries(forceRegenTemp = false) {
         console.log(`📄 摘要内容: ${summary.substring(0, 100)}...`);
 
         // 添加延迟避免API限流
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-      } catch (error) {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+      }
+      catch (error) {
         console.error(`❌ 处理文章 ${slug} 时出错:`, error.message);
       }
     }
 
     console.log('\n🎉 批量摘要生成完成！');
-  } catch (error) {
+  }
+  catch (error) {
     console.error('❌ 脚本执行失败:', error);
     process.exit(1);
   }
@@ -140,12 +143,13 @@ async function checkServer() {
     const response = await fetch('http://localhost:2323/api/ai/summary', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ content: 'test' })
+      body: JSON.stringify({ content: 'test' }),
     });
     return true;
-  } catch (error) {
+  }
+  catch (error) {
     return false;
   }
 }
@@ -163,13 +167,13 @@ async function main() {
   }
 
   console.log('✅ 开发服务器运行正常');
-  
+
   // 检查命令行参数
   const forceRegenTemp = process.argv.includes('--force-temp');
   if (forceRegenTemp) {
     console.log('⚠️ 将强制重新生成临时摘要');
   }
-  
+
   await generateMissingSummaries(forceRegenTemp);
 }
 

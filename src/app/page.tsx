@@ -1,5 +1,5 @@
-import { AppHero } from '@/components/application/app-hero';
 import { AppContact, AppLatestPosts } from '@/components/application';
+import { AppHero } from '@/components/application/app-hero';
 
 import { getAllPosts } from '@/models/post.model';
 

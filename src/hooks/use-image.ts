@@ -1,17 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
 
-const toDataURL = (img: HTMLImageElement) => {
+function toDataURL(img: HTMLImageElement) {
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
   canvas.width = img.naturalWidth;
   canvas.height = img.naturalHeight;
   ctx?.drawImage(img, 0, 0);
   return canvas.toDataURL();
-};
+}
 
-export const useImage = (src: string, crossOrigin = '') => {
+export function useImage(src: string, crossOrigin = '') {
   const [status, setStatus] = useState<'loading' | 'loaded' | 'failed'>(
-    'loading'
+    'loading',
   );
   const [dataUrl, setDataUrl] = useState<string | undefined>();
   const imgRef = useRef<HTMLImageElement>();
@@ -37,6 +37,6 @@ export const useImage = (src: string, crossOrigin = '') => {
   return {
     image: imgRef.current,
     status,
-    dataUrl
+    dataUrl,
   };
-};
+}

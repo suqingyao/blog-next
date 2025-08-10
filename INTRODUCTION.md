@@ -200,12 +200,12 @@ pnpm upload:algolia             # 上传数据到 Algolia
 ### 文章格式
 ```yaml
 ---
-title: "文章标题"
-summary: "文章摘要"
-createdTime: "2024-01-01"
+title: 文章标题
+summary: 文章摘要
+createdTime: 2024-01-01
 tags:
-  - "标签1"
-  - "标签2"
+  - 标签1
+  - 标签2
 published: true
 ---
 

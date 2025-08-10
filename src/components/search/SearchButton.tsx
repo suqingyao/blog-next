@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { SearchModal } from './SearchModal';
 import { useSearchHotkey } from '@/hooks/use-search-hotkey';
+import { SearchModal } from './SearchModal';
 
 export function SearchButton() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);

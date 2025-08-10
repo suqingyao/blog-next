@@ -1,4 +1,4 @@
-import { type IconProps } from '.';
+import type { IconProps } from '.';
 
 export function RSSIcon(props: IconProps = {}) {
   return (

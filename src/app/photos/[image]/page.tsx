@@ -2,7 +2,7 @@
 
 import { useParams, useSearchParams } from 'next/navigation';
 
-const PhotosAlbumPage = () => {
+function PhotosAlbumPage() {
   const { image } = useParams();
   const searchParams = useSearchParams();
   const url = searchParams.get('url') || '';
@@ -18,6 +18,6 @@ const PhotosAlbumPage = () => {
       />
     </div>
   );
-};
+}
 
 export default PhotosAlbumPage;

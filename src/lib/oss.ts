@@ -4,7 +4,7 @@ const client = new OSS({
   region: process.env.NEXT_PUBLIC_OSS_REGION!,
   accessKeyId: process.env.OSS_ACCESS_KEY_ID!,
   accessKeySecret: process.env.OSS_ACCESS_KEY_SECRET!,
-  bucket: process.env.NEXT_PUBLIC_OSS_BUCKET!
+  bucket: process.env.NEXT_PUBLIC_OSS_BUCKET!,
 });
 
 let ossPhotos: Map<string, string[]> | null = null;
@@ -16,12 +16,12 @@ export async function getOssPhotos() {
   // 1. 获取所有一级文件夹名
   const rootResult = await client.list(
     {
-      delimiter: '/',
-      'max-keys': 1000
+      'delimiter': '/',
+      'max-keys': 1000,
     },
     {
-      timeout: 10000
-    }
+      timeout: 10000,
+    },
   );
 
   const folders = rootResult.prefixes || [];
@@ -32,21 +32,21 @@ export async function getOssPhotos() {
   for (const folder of folders) {
     const folderResult = await client.list(
       {
-        prefix: folder,
-        delimiter: '',
-        'max-keys': 1000
+        'prefix': folder,
+        'delimiter': '',
+        'max-keys': 1000,
       },
       {
-        timeout: 10000
-      }
+        timeout: 10000,
+      },
     );
 
-    const images =
-      folderResult.objects
-        ?.filter((obj) => !obj.name.endsWith('/'))
+    const images
+      = folderResult.objects
+        ?.filter(obj => !obj.name.endsWith('/'))
         .map(
-          (obj) =>
-            `https://${process.env.NEXT_PUBLIC_OSS_BUCKET}.${process.env.NEXT_PUBLIC_OSS_REGION}.aliyuncs.com/${obj.name}`
+          obj =>
+            `https://${process.env.NEXT_PUBLIC_OSS_BUCKET}.${process.env.NEXT_PUBLIC_OSS_REGION}.aliyuncs.com/${obj.name}`,
         ) || [];
 
     // 去掉末尾的斜杠

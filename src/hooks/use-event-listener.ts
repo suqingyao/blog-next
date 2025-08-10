@@ -1,12 +1,9 @@
-import { RefObject, useEffect, useRef } from 'react';
+import type { RefObject } from 'react';
+import { useEffect, useRef } from 'react';
 
 type EventHandler<T = Event> = (event: T) => void;
 
-export const useEventListener = <T extends HTMLElement = HTMLElement>(
-  eventName: keyof WindowEventMap,
-  handler: EventHandler,
-  element?: RefObject<T> | Window | null
-) => {
+export function useEventListener<T extends HTMLElement = HTMLElement>(eventName: keyof WindowEventMap, handler: EventHandler, element?: RefObject<T> | Window | null) {
   const savedHandler = useRef<EventHandler>();
 
   useEffect(() => {
@@ -14,15 +11,16 @@ export const useEventListener = <T extends HTMLElement = HTMLElement>(
   }, [handler]);
 
   useEffect(() => {
-    const targetElement =
-      element && 'current' in element ? element.current : element;
+    const targetElement
+      = element && 'current' in element ? element.current : element;
 
     const eventListener: EventHandler = (event) => {
-      if (savedHandler.current) savedHandler.current(event);
+      if (savedHandler.current)
+        savedHandler.current(event);
     };
 
-    const validElement: T | Window | null =
-      targetElement && 'addEventListener' in targetElement
+    const validElement: T | Window | null
+      = targetElement && 'addEventListener' in targetElement
         ? targetElement
         : null;
 
@@ -36,4 +34,4 @@ export const useEventListener = <T extends HTMLElement = HTMLElement>(
       validElement.removeEventListener(eventName, eventListener);
     };
   }, [eventName, element]);
-};
+}

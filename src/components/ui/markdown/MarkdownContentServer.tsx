@@ -5,8 +5,6 @@ type MarkdownContentServerProps = Omit<
   'highlighter'
 >;
 
-export const MarkdownContentServer = async (
-  props: MarkdownContentServerProps
-) => {
+export async function MarkdownContentServer(props: MarkdownContentServerProps) {
   return <MarkdownContent {...props} />;
-};
+}

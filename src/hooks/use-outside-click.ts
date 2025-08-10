@@ -1,9 +1,6 @@
 import { useEffect } from 'react';
 
-export const useOutsideClick = (
-  ref: React.RefObject<HTMLElement | null>,
-  callback: (event: MouseEvent | TouchEvent) => void
-) => {
+export function useOutsideClick(ref: React.RefObject<HTMLElement | null>, callback: (event: MouseEvent | TouchEvent) => void) {
   useEffect(() => {
     const listener = (event: MouseEvent | TouchEvent) => {
       // DO NOTHING if the element being clicked is the target element or their children
@@ -21,4 +18,4 @@ export const useOutsideClick = (
       document.removeEventListener('touchstart', listener);
     };
   }, [ref, callback]);
-};
+}

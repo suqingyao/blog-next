@@ -14,16 +14,16 @@ let cache: PhotoFile[] = [];
  * @param album 文件夹名，默认获取所有图片
  * @returns 图片列表
  */
-export const getPhotosFromAssets = async (album = ''): Promise<PhotoFile[]> => {
+export async function getPhotosFromAssets(album = ''): Promise<PhotoFile[]> {
   if (cache.length) {
-    return album ? cache.filter((photo) => photo.album === album) : cache;
+    return album ? cache.filter(photo => photo.album === album) : cache;
   }
   const photos: PhotoFile[] = [];
 
   const files = await fg.async('**/*.{jpg,jpeg,png,webp,gif}', {
     cwd: `public/photos`,
     absolute: false,
-    ignore: ['node_modules', 'dist', 'build']
+    ignore: ['node_modules', 'dist', 'build'],
   });
 
   for (const file of files) {
@@ -31,9 +31,9 @@ export const getPhotosFromAssets = async (album = ''): Promise<PhotoFile[]> => {
       album: file.split('/')[0],
       name: file.split('/')[1],
       absUrl: `/photos/${file}`,
-      url: file
+      url: file,
     });
   }
   cache = photos;
-  return album ? photos.filter((photo) => photo.album === album) : photos;
-};
+  return album ? photos.filter(photo => photo.album === album) : photos;
+}

@@ -20,7 +20,7 @@ const scheme = deepmerge(defaultSchema, {
     'linkpreview',
     'peekaboolink',
     'merimad',
-    ...['svg', 'path', 'circle']
+    ...['svg', 'path', 'circle'],
   ],
   // ancestors: {
   //   linkcard: ['root', 'section', 'div', 'article', 'blockquote'], // 允许出现在这些父级下
@@ -28,8 +28,8 @@ const scheme = deepmerge(defaultSchema, {
   // },
   attributes: {
     '*': ['className', 'style'],
-    video: ['src', 'controls', 'loop', 'muted', 'autoPlay', 'playsInline'],
-    audio: [
+    'video': ['src', 'controls', 'loop', 'muted', 'autoPlay', 'playsInline'],
+    'audio': [
       'src',
       'controls',
       'loop',
@@ -38,11 +38,11 @@ const scheme = deepmerge(defaultSchema, {
       'name',
       'artist',
       'cover',
-      'lrc'
+      'lrc',
     ],
-    source: ['src', 'type'],
-    iframe: ['src', 'allowFullScreen', 'frameborder', 'allow'],
-    svg: [
+    'source': ['src', 'type'],
+    'iframe': ['src', 'allowFullScreen', 'frameborder', 'allow'],
+    'svg': [
       'xmlns',
       'width',
       'height',
@@ -51,20 +51,20 @@ const scheme = deepmerge(defaultSchema, {
       'stroke',
       'strokeLineCap',
       'strokeLineJoin',
-      'strokeWidth'
+      'strokeWidth',
     ],
-    path: ['d', 'fill'],
-    circle: ['cx', 'cy', 'r', 'fill'],
-    rss: ['src', 'limit'],
-    linkcard: ['title', 'href', 'image', 'description'],
-    darktoggle: [],
-    linkpreview: ['url'],
-    peekaboolink: ['href'],
-    mermaid: ['className', 'style']
+    'path': ['d', 'fill'],
+    'circle': ['cx', 'cy', 'r', 'fill'],
+    'rss': ['src', 'limit'],
+    'linkcard': ['title', 'href', 'image', 'description'],
+    'darktoggle': [],
+    'linkpreview': ['url'],
+    'peekaboolink': ['href'],
+    'mermaid': ['className', 'style'],
   },
   protocols: {
-    href: ['magnet', 'ed2k']
-  }
+    href: ['magnet', 'ed2k'],
+  },
 });
 
 export default scheme;

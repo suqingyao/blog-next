@@ -6,16 +6,17 @@ export function photoUrlParser(url: string): PhotoFile {
     return {
       album: url.startsWith('/photos/') ? url.split('/')[2] : url.split('/')[1],
       name: url.split('/')[url.split('/').length - 1],
-      url: url,
-      absUrl: url
+      url,
+      absUrl: url,
     };
-  } else {
+  }
+  else {
     // 处理 album/name.jpg 格式 或者 /album/name.jpg 格式
     return {
       album: url.startsWith('/') ? url.split('/')[1] : url.split('/')[0],
       name: url.split('/')[url.split('/').length - 1],
-      url: url,
-      absUrl: `/photos/${url}`
+      url,
+      absUrl: `/photos/${url}`,
     };
   }
 }

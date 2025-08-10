@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
-export const useMount = (callback: () => void) => {
+export function useMount(callback: () => void) {
   useEffect(() => {
     callback?.();
   }, []);
-};
+}

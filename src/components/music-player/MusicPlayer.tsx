@@ -1,14 +1,14 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
-import { useMusicPlayer } from '@/store/hooks/use-music-player';
-import { Tooltip } from '@/components/ui/tooltip';
 import type { PlayerPosition } from '@/store/atoms/music-player';
+import { useEffect, useRef, useState } from 'react';
+import { Tooltip } from '@/components/ui/tooltip';
 import { APP_HEADER_HEIGHT } from '@/constants';
-
 import { cn } from '@/lib/utils';
 
-export const MusicPlayer = () => {
+import { useMusicPlayer } from '@/store/hooks/use-music-player';
+
+export function MusicPlayer() {
   const {
     currentTrack,
     isPlaying,
@@ -33,7 +33,7 @@ export const MusicPlayer = () => {
     startPlayback,
     changePosition,
     startDrag,
-    endDrag
+    endDrag,
   } = useMusicPlayer();
 
   const [isExpanded, setIsExpanded] = useState(false);
@@ -63,7 +63,7 @@ export const MusicPlayer = () => {
    * 处理音量滑块变化
    */
   const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newVolume = parseFloat(e.target.value);
+    const newVolume = Number.parseFloat(e.target.value);
     setVolume(newVolume);
   };
 
@@ -100,12 +100,14 @@ export const MusicPlayer = () => {
   };
 
   const handleVolumeSliderMouseMove = (e: MouseEvent) => {
-    if (!isVolumeSliderDragging) return;
+    if (!isVolumeSliderDragging)
+      return;
 
     const sliderElement = document.querySelector(
-      '[data-volume-slider]'
+      '[data-volume-slider]',
     ) as HTMLElement;
-    if (!sliderElement) return;
+    if (!sliderElement)
+      return;
 
     const rect = sliderElement.getBoundingClientRect();
     const clickY = e.clientY - rect.top;
@@ -139,7 +141,7 @@ export const MusicPlayer = () => {
         left: `${dragPosition.x}px`,
         top: `${dragPosition.y}px`,
         right: 'auto',
-        bottom: 'auto'
+        bottom: 'auto',
       };
     }
 
@@ -152,21 +154,21 @@ export const MusicPlayer = () => {
           left: `${margin}px`,
           top: `${headerHeight + margin}px`,
           right: 'auto',
-          bottom: 'auto'
+          bottom: 'auto',
         };
       case 'tr':
         return {
           right: `${margin}px`,
           top: `${headerHeight + margin}px`,
           left: 'auto',
-          bottom: 'auto'
+          bottom: 'auto',
         };
       case 'bl':
         return {
           left: `${margin}px`,
           bottom: `${margin}px`,
           right: 'auto',
-          top: 'auto'
+          top: 'auto',
         };
       case 'br':
       default:
@@ -174,7 +176,7 @@ export const MusicPlayer = () => {
           right: `${margin}px`,
           bottom: `${margin}px`,
           left: 'auto',
-          top: 'auto'
+          top: 'auto',
         };
     }
   };
@@ -186,9 +188,9 @@ export const MusicPlayer = () => {
     // 检查是否点击在按钮或交互元素上
     const target = e.target as HTMLElement;
     if (
-      target.closest('button') ||
-      target.closest('input') ||
-      target.closest('[role="button"]')
+      target.closest('button')
+      || target.closest('input')
+      || target.closest('[role="button"]')
     ) {
       return;
     }
@@ -205,7 +207,7 @@ export const MusicPlayer = () => {
 
       setDragPosition({
         x: e.clientX - offsetX,
-        y: e.clientY - offsetY
+        y: e.clientY - offsetY,
       });
     }
   };
@@ -214,13 +216,14 @@ export const MusicPlayer = () => {
    * 处理鼠标移动事件（拖拽中）
    */
   const handleMouseMove = (e: MouseEvent) => {
-    if (!isDraggingRef.current || !isDragging) return;
+    if (!isDraggingRef.current || !isDragging)
+      return;
 
     e.preventDefault();
     hasDraggedRef.current = true; // 标记已发生拖拽移动
     setDragPosition({
       x: e.clientX - dragOffset.x,
-      y: e.clientY - dragOffset.y
+      y: e.clientY - dragOffset.y,
     });
   };
 
@@ -228,7 +231,8 @@ export const MusicPlayer = () => {
    * 处理鼠标释放事件（结束拖拽）
    */
   const handleMouseUp = (e: MouseEvent) => {
-    if (!isDraggingRef.current) return;
+    if (!isDraggingRef.current)
+      return;
 
     isDraggingRef.current = false;
     endDrag(e.clientX, e.clientY);
@@ -261,9 +265,9 @@ export const MusicPlayer = () => {
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
-        showPositionMenu &&
-        playerRef.current &&
-        !playerRef.current.contains(event.target as Node)
+        showPositionMenu
+        && playerRef.current
+        && !playerRef.current.contains(event.target as Node)
       ) {
         setShowPositionMenu(false);
       }
@@ -284,7 +288,7 @@ export const MusicPlayer = () => {
     { value: 'tl', label: 'top-left' },
     { value: 'tr', label: 'top-right' },
     { value: 'bl', label: 'bottom-left' },
-    { value: 'br', label: 'bottom-right' }
+    { value: 'br', label: 'bottom-right' },
   ];
 
   if (!currentTrack) {
@@ -325,7 +329,7 @@ export const MusicPlayer = () => {
             ? isDragging
               ? 'cursor-grabbing'
               : 'cursor-grab'
-            : 'cursor-default'
+            : 'cursor-default',
         )}
         onClick={handleClick}
         onMouseDown={!isExpanded ? handleMouseDown : undefined}
@@ -346,7 +350,7 @@ export const MusicPlayer = () => {
               className={cn(
                 'mb-3 flex items-center justify-between',
                 !isDragging && 'cursor-grab',
-                isDragging && 'cursor-grabbing'
+                isDragging && 'cursor-grabbing',
               )}
               onMouseDown={handleMouseDown}
             >
@@ -372,7 +376,7 @@ export const MusicPlayer = () => {
                   {/* 位置选择菜单 */}
                   {showPositionMenu && (
                     <div className="absolute top-full right-0 z-[10000] mt-1 min-w-[120px] rounded-lg border border-black/10 bg-white shadow-lg dark:border-white/10 dark:bg-gray-800">
-                      {positionOptions.map((option) => (
+                      {positionOptions.map(option => (
                         <button
                           key={option.value}
                           onClick={() => {
@@ -381,7 +385,7 @@ export const MusicPlayer = () => {
                           }}
                           className={cn(
                             'block w-full border-none bg-transparent px-3 py-2 text-left text-xs text-gray-700 transition-colors hover:bg-black/5 dark:text-gray-300 dark:hover:bg-white/10',
-                            position === option.value && 'bg-primary text-white'
+                            position === option.value && 'bg-primary text-white',
                           )}
                         >
                           {option.label}
@@ -414,16 +418,20 @@ export const MusicPlayer = () => {
                 onClick={needsUserInteraction ? startPlayback : togglePlay}
                 disabled={isLoading}
                 className={cn(
-                  'bg-primary flex h-10 w-10 items-center justify-center rounded-full border-none p-2 text-white transition-all duration-200 hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-50'
+                  'bg-primary flex h-10 w-10 items-center justify-center rounded-full border-none p-2 text-white transition-all duration-200 hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-50',
                 )}
               >
-                {isLoading ? (
-                  <div className="flex h-5 w-5 animate-spin items-center justify-center rounded-full border-2 border-white border-t-transparent" />
-                ) : isPlaying ? (
-                  <i className="i-mingcute-pause-fill h-5 w-5" />
-                ) : (
-                  <i className="i-mingcute-play-fill h-5 w-5" />
-                )}
+                {isLoading
+                  ? (
+                      <div className="flex h-5 w-5 animate-spin items-center justify-center rounded-full border-2 border-white border-t-transparent" />
+                    )
+                  : isPlaying
+                    ? (
+                        <i className="i-mingcute-pause-fill h-5 w-5" />
+                      )
+                    : (
+                        <i className="i-mingcute-play-fill h-5 w-5" />
+                      )}
               </button>
 
               <button
@@ -435,15 +443,17 @@ export const MusicPlayer = () => {
 
               {/* 音量控制 */}
               <div className="flex items-center">
-                <Tooltip.Provider delayDuration={200}>
+                <Tooltip delayDuration={200}>
                   <Tooltip.Root>
                     <Tooltip.Trigger asChild>
                       <button className="flex items-center justify-center rounded-full bg-transparent p-2 text-gray-500 transition-all duration-200 hover:bg-black/5 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/10 dark:hover:text-gray-300">
-                        {isMuted ? (
-                          <i className="i-mingcute-volume-mute-fill h-4 w-4" />
-                        ) : (
-                          <i className="i-mingcute-volume-fill h-4 w-4" />
-                        )}
+                        {isMuted
+                          ? (
+                              <i className="i-mingcute-volume-mute-fill h-4 w-4" />
+                            )
+                          : (
+                              <i className="i-mingcute-volume-fill h-4 w-4" />
+                            )}
                       </button>
                     </Tooltip.Trigger>
                     <Tooltip.Content
@@ -467,7 +477,7 @@ export const MusicPlayer = () => {
                             <div
                               className="bg-primary w-1 rounded-full transition-all duration-150"
                               style={{
-                                height: `${(isMuted ? 0 : volume) * 100}%`
+                                height: `${(isMuted ? 0 : volume) * 100}%`,
                               }}
                             />
 
@@ -475,14 +485,15 @@ export const MusicPlayer = () => {
                             <div
                               className="bg-primary absolute left-1/2 h-3 w-3 origin-center -translate-x-1/2 translate-y-1/2 rounded-full shadow-md transition-all duration-150 hover:scale-110"
                               style={{
-                                bottom: `${(isMuted ? 0 : volume) * 100}%`
+                                bottom: `${(isMuted ? 0 : volume) * 100}%`,
                               }}
                             />
                           </div>
 
                           {/* 百分比显示 */}
                           <span className="text-xs font-light text-gray-600 dark:text-gray-300">
-                            {Math.round(isMuted ? 0 : volume * 100)}%
+                            {Math.round(isMuted ? 0 : volume * 100)}
+                            %
                           </span>
 
                           {/* 音量图标 */}
@@ -490,17 +501,19 @@ export const MusicPlayer = () => {
                             onClick={toggleMute}
                             className="cursor-pointer text-gray-600 opacity-80 transition-all duration-150 hover:text-gray-800 hover:opacity-100 dark:text-gray-300 dark:hover:text-gray-100"
                           >
-                            {isMuted ? (
-                              <i className="i-mingcute-volume-mute-fill h-3 w-3" />
-                            ) : (
-                              <i className="i-mingcute-volume-fill h-3 w-3" />
-                            )}
+                            {isMuted
+                              ? (
+                                  <i className="i-mingcute-volume-mute-fill h-3 w-3" />
+                                )
+                              : (
+                                  <i className="i-mingcute-volume-fill h-3 w-3" />
+                                )}
                           </button>
                         </div>
                       </div>
                     </Tooltip.Content>
                   </Tooltip.Root>
-                </Tooltip.Provider>
+                </Tooltip>
               </div>
             </div>
 
@@ -514,7 +527,7 @@ export const MusicPlayer = () => {
                 <div
                   className="bg-primary after:bg-primary relative h-1 rounded-full transition-[width] duration-100 ease-linear after:absolute after:top-1/2 after:-right-1 after:hidden after:h-2 after:w-2 after:translate-y-[-50%] after:rounded-full after:content-[''] group-hover:after:block"
                   style={{
-                    width: `${progress}%`
+                    width: `${progress}%`,
                   }}
                 />
               </div>
@@ -525,4 +538,4 @@ export const MusicPlayer = () => {
       </div>
     </div>
   );
-};
+}

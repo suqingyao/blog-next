@@ -1,6 +1,7 @@
+import type { NextRequest } from 'next/server';
 import * as cheerio from 'cheerio';
 import { ImageResponse } from 'next/og';
-import { type NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { consoleLog } from '@/lib/console';
 
 export const runtime = 'edge';
@@ -16,13 +17,13 @@ const faviconMapper: { [key: string]: string } = {
   '(?:github.com)': '/favicons/github.png',
   '((?:t.co)|(?:twitter.com)|(?:x.com))': '/favicons/twitter.png',
   'vercel.com': '/favicons/vercel.png',
-  'nextjs.org': '/favicons/nextjs.png'
+  'nextjs.org': '/favicons/nextjs.png',
 };
 
 function getPredefinedIconForUrl(url: string): string | undefined {
   for (const regexStr in faviconMapper) {
     const regex = new RegExp(
-      `^(?:https?:\/\/)?(?:[^@/\\n]+@)?(?:www.)?` + regexStr
+      `^(?:https?:\/\/)?(?:[^@/\\n]+@)?(?:www.)?${regexStr}`,
     );
     if (regex.test(url)) {
       return faviconMapper[regexStr];
@@ -52,8 +53,8 @@ function renderFavicon(url: string) {
     ),
     {
       width,
-      height
-    }
+      height,
+    },
   );
 }
 
@@ -77,9 +78,9 @@ export async function GET(req: NextRequest) {
 
     const res = await fetch(new URL(`https://${url}`).href, {
       headers: {
-        'Content-Type': 'text/html'
+        'Content-Type': 'text/html',
       },
-      cache: 'force-cache'
+      cache: 'force-cache',
     });
 
     if (res.ok) {
@@ -97,7 +98,8 @@ export async function GET(req: NextRequest) {
     cache.set(getKey(url), iconUrl);
     const baseUrl = new URL(req.url).origin;
     return renderFavicon(getFullUrl(iconUrl, baseUrl));
-  } catch {
+  }
+  catch {
     consoleLog('ERROR', 'fetch favicon error');
   }
 

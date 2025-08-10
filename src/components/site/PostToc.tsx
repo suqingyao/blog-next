@@ -1,18 +1,19 @@
 'use client';
 
+import type { List } from 'mdast';
+import type { Result as TocResult } from 'mdast-util-toc';
 import { toHtml } from 'hast-util-to-html';
 import DOMPurify from 'isomorphic-dompurify';
 import katex from 'katex';
-import type { List } from 'mdast';
 import { toHast } from 'mdast-util-to-hast';
-import type { Result as TocResult } from 'mdast-util-toc';
 
 import PostTocItems from './PostTocItems';
 
 const inlineElements = ['delete', 'strong', 'emphasis', 'inlineCode'];
 
 function getLinkNode(node: any): List['children'] {
-  if (node.type === 'link') return node.children;
+  if (node.type === 'link')
+    return node.children;
   else return getLinkNode(node.children[0]);
 }
 
@@ -26,11 +27,13 @@ function generateContent(items: TocResult['map']) {
         if (child.type === 'inlineMath') {
           content += katex.renderToString(child.value, {
             output: 'html',
-            strict: false
+            strict: false,
           });
-        } else if (inlineElements.includes(child.type)) {
+        }
+        else if (inlineElements.includes(child.type)) {
           content += toHtml(toHast(child) || []);
-        } else {
+        }
+        else {
           content += child.value;
         }
       });
@@ -42,7 +45,7 @@ function generateContent(items: TocResult['map']) {
   });
 }
 
-const PostToc = ({ data }: { data: TocResult }) => {
+function PostToc({ data }: { data: TocResult }) {
   generateContent(data?.map);
 
   return (
@@ -52,6 +55,6 @@ const PostToc = ({ data }: { data: TocResult }) => {
       </div>
     </div>
   );
-};
+}
 
 export default PostToc;

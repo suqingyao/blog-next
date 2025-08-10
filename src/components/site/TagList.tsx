@@ -24,10 +24,10 @@ export function TagList({ tags, posts }: TagListProps) {
   /**
    * Filter posts based on selected tag
    */
-  const filteredPosts =
-    selectedTag === null
+  const filteredPosts
+    = selectedTag === null
       ? posts
-      : posts.filter((post) => post.tags && post.tags.includes(selectedTag));
+      : posts.filter(post => post.tags && post.tags.includes(selectedTag));
 
   /**
    * Handle tag click event
@@ -46,18 +46,20 @@ export function TagList({ tags, posts }: TagListProps) {
             onClick={() => handleTagClick(null)}
             className={cn(
               'rounded-md text-lg opacity-50 transition-opacity hover:opacity-100',
-              selectedTag === null && 'opacity-100'
+              selectedTag === null && 'opacity-100',
             )}
           >
-            All ({posts.length})
+            All (
+            {posts.length}
+            )
           </button>
-          {tags.map((tag) => (
+          {tags.map(tag => (
             <button
               key={tag.name}
               onClick={() => handleTagClick(tag.name)}
               className={cn(
                 'flex cursor-pointer items-center text-xl opacity-50 transition-opacity hover:opacity-100',
-                selectedTag === tag.name && 'opacity-100'
+                selectedTag === tag.name && 'opacity-100',
               )}
             >
               <i className="i-mingcute-hashtag-fill text-primary mr-1" />
@@ -69,37 +71,46 @@ export function TagList({ tags, posts }: TagListProps) {
 
       {/* Post list */}
       <div>
-        {filteredPosts.length === 0 ? (
-          <p className="text-muted-foreground py-8 text-center">
-            {selectedTag ? (
-              <span>
-                No posts found with tag{' '}
-                <i className="i-mingcute-hashtag-fill text-primary mr-1 ml-2" />
-                <span className="">{selectedTag}</span>
-              </span>
-            ) : (
-              'No posts available'
+        {filteredPosts.length === 0
+          ? (
+              <p className="text-muted-foreground py-8 text-center">
+                {selectedTag
+                  ? (
+                      <span>
+                        No posts found with tag
+                        {' '}
+                        <i className="i-mingcute-hashtag-fill text-primary mr-1 ml-2" />
+                        <span className="">{selectedTag}</span>
+                      </span>
+                    )
+                  : (
+                      'No posts available'
+                    )}
+              </p>
+            )
+          : (
+              <>
+                <p className="text-muted-foreground mb-6">
+                  {selectedTag
+                    ? (
+                        <span className="flex items-center">
+                          {filteredPosts.length}
+                          {' '}
+                          posts with tag
+                          <i className="i-mingcute-hashtag-fill text-primary mr-1 ml-2" />
+                          <span className="">{selectedTag}</span>
+                        </span>
+                      )
+                    : (
+                        `${filteredPosts.length} posts in total`
+                      )}
+                </p>
+                <PostList
+                  key={selectedTag || 'all'}
+                  posts={filteredPosts}
+                />
+              </>
             )}
-          </p>
-        ) : (
-          <>
-            <p className="text-muted-foreground mb-6">
-              {selectedTag ? (
-                <span className="flex items-center">
-                  {filteredPosts.length} posts with tag
-                  <i className="i-mingcute-hashtag-fill text-primary mr-1 ml-2" />
-                  <span className="">{selectedTag}</span>
-                </span>
-              ) : (
-                `${filteredPosts.length} posts in total`
-              )}
-            </p>
-            <PostList
-              key={selectedTag || 'all'}
-              posts={filteredPosts}
-            />
-          </>
-        )}
       </div>
     </>
   );

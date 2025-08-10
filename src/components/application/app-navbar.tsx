@@ -1,46 +1,46 @@
 'use client';
 
-import { useMemo } from 'react';
-import Link from 'next/link';
 import { motion } from 'motion/react';
+import Link from 'next/link';
+import { useMemo } from 'react';
 
-import { useHeaderAtom } from '@/store/hooks/use-header-atom';
-import { useScrollTop } from '@/hooks/use-scroll-top';
-import { APP_HEADER_HEIGHT } from '@/constants';
-import { cn } from '@/lib/utils';
 import { SearchButton } from '@/components/search';
+import { APP_HEADER_HEIGHT } from '@/constants';
+import { useScrollTop } from '@/hooks/use-scroll-top';
+import { cn } from '@/lib/utils';
+import { useHeaderAtom } from '@/store/hooks/use-header-atom';
 
 const links = [
   {
     label: 'Portfolio',
     path: '/',
-    icon: 'i-mingcute-home-5-fill'
+    icon: 'i-mingcute-home-5-fill',
   },
   {
     label: 'Posts',
     path: '/posts',
-    icon: 'i-mingcute-notebook-2-fill'
+    icon: 'i-mingcute-notebook-2-fill',
   },
   {
     label: 'Tags',
     path: '/tags',
-    icon: 'i-mingcute-tag-fill'
+    icon: 'i-mingcute-tag-fill',
   },
   {
     label: 'Photos',
     path: '/photos',
-    icon: 'i-mingcute-camera-2-ai-fill'
-  }
+    icon: 'i-mingcute-camera-2-ai-fill',
+  },
 ];
 
-export const AppNavbar = () => {
+export function AppNavbar() {
   const { headerAtom } = useHeaderAtom();
 
   const scrollTop = useScrollTop();
 
   const showPageTitle = useMemo(
     () => scrollTop > APP_HEADER_HEIGHT,
-    [scrollTop]
+    [scrollTop],
   );
 
   const fixedLeft = useMemo(() => {
@@ -53,8 +53,8 @@ export const AppNavbar = () => {
     exit: { opacity: 0, top: 60 },
     transition: {
       duration: 0.3,
-      ease: 'easeInOut'
-    }
+      ease: 'easeInOut',
+    },
   };
 
   return (
@@ -67,14 +67,14 @@ export const AppNavbar = () => {
           exit="exit"
           className="fixed -translate-y-1/2 truncate font-sans text-[1.2rem] leading-normal font-medium"
           style={{
-            left: fixedLeft + 'px'
+            left: `${fixedLeft}px`,
           }}
         >
           {headerAtom.pageTitle}
         </motion.h2>
       )}
       <nav className="mr-4 flex h-full items-center gap-4">
-        {links.map((link) => (
+        {links.map(link => (
           <Link
             href={link.path}
             key={link.path}
@@ -87,4 +87,4 @@ export const AppNavbar = () => {
       </nav>
     </div>
   );
-};
+}

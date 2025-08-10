@@ -46,8 +46,8 @@ jobs:
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
-          source: 'nginx.conf'
-          target: '/etc/nginx/sites-available/'
+          source: nginx.conf
+          target: /etc/nginx/sites-available/
 
       - name: Enable nginx config and reload
         uses: appleboy/ssh-action@v0.1.10
@@ -66,8 +66,8 @@ jobs:
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
-          source: 'deploy.sh'
-          target: '/root/workspace/blog-next'
+          source: deploy.sh
+          target: /root/workspace/blog-next
 
       - name: Upload docker-compose to server
         uses: appleboy/scp-action@v0.1.7
@@ -75,8 +75,8 @@ jobs:
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
-          source: 'docker-compose.yml'
-          target: '/root/workspace/blog-next'
+          source: docker-compose.yml
+          target: /root/workspace/blog-next
 
       - name: Create .env file on server
         uses: appleboy/ssh-action@v0.1.10

@@ -1,10 +1,10 @@
 'use client';
 
-import { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
-import { Modal } from '@/components/ui/modal';
-import { AlgoliaIcon } from '@/components/icons';
 import { useRouter } from 'next/navigation';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { AlgoliaIcon } from '@/components/icons';
+import { Modal } from '@/components/ui/modal';
 import { consoleLog } from '@/lib/console';
 
 interface SearchResult {
@@ -51,15 +51,17 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
     setLoading(true);
     try {
       const response = await fetch(
-        `/api/search?q=${encodeURIComponent(searchQuery)}&limit=8`
+        `/api/search?q=${encodeURIComponent(searchQuery)}&limit=8`,
       );
       const data = await response.json();
       setResults(data.results || []);
       setSelectedIndex(0);
-    } catch (error) {
+    }
+    catch (error) {
       consoleLog('ERROR', 'Search error:', error);
       setResults([]);
-    } finally {
+    }
+    finally {
       setLoading(false);
     }
   }, []);
@@ -80,18 +82,19 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
    */
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (!isOpen) return;
+      if (!isOpen)
+        return;
 
       switch (e.key) {
         case 'ArrowDown':
           e.preventDefault();
-          setSelectedIndex((prev) =>
-            prev < results.length - 1 ? prev + 1 : prev
+          setSelectedIndex(prev =>
+            prev < results.length - 1 ? prev + 1 : prev,
           );
           break;
         case 'ArrowUp':
           e.preventDefault();
-          setSelectedIndex((prev) => (prev > 0 ? prev - 1 : prev));
+          setSelectedIndex(prev => (prev > 0 ? prev - 1 : prev));
           break;
         case 'Enter':
           e.preventDefault();
@@ -126,7 +129,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
       if (selectedElement) {
         selectedElement.scrollIntoView({
           block: 'nearest',
-          behavior: 'smooth'
+          behavior: 'smooth',
         });
       }
     }
@@ -136,25 +139,28 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
    * 高亮匹配文本
    */
   const highlightText = (text: string, query: string) => {
-    if (!query.trim()) return text;
+    if (!query.trim())
+      return text;
 
     const regex = new RegExp(
       `(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`,
-      'gi'
+      'gi',
     );
     const parts = text.split(regex);
 
     return parts.map((part, index) =>
-      regex.test(part) ? (
-        <mark
-          key={`highlight-${index}-${part}`}
-          className="bg-primary rounded px-1 dark:bg-zinc-600 dark:text-zinc-100"
-        >
-          {part}
-        </mark>
-      ) : (
-        <span key={`text-${index}-${part}`}>{part}</span>
-      )
+      regex.test(part)
+        ? (
+            <mark
+              key={`highlight-${index}-${part}`}
+              className="bg-primary rounded px-1 dark:bg-zinc-600 dark:text-zinc-100"
+            >
+              {part}
+            </mark>
+          )
+        : (
+            <span key={`text-${index}-${part}`}>{part}</span>
+          ),
     );
   };
 
@@ -175,7 +181,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
         handleClose();
       }
     },
-    [handleClose]
+    [handleClose],
   );
 
   return (
@@ -190,7 +196,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
       animation={{
         initial: { opacity: 0, scale: 0.95, y: -20 },
         animate: { opacity: 1, scale: 1, y: 0 },
-        exit: { opacity: 0, scale: 0.95, y: -20 }
+        exit: { opacity: 0, scale: 0.95, y: -20 },
       }}
     >
       {/* 搜索输入框 */}
@@ -201,7 +207,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
           type="text"
           placeholder="Search articles..."
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={e => setQuery(e.target.value)}
           className="flex-1 bg-transparent text-zinc-900 placeholder-zinc-500 outline-none dark:text-zinc-100 dark:placeholder-zinc-400"
           aria-label="Search articles"
         />
@@ -221,67 +227,73 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
         role="listbox"
         aria-label="Search results"
       >
-        {loading ? (
-          <div className="flex items-center justify-center py-8">
-            <div className="h-6 w-6 animate-spin rounded-full border-b-2 border-zinc-500 dark:border-zinc-400"></div>
-            <span className="ml-2 text-zinc-500 dark:text-zinc-400">
-              Searching...
-            </span>
-          </div>
-        ) : results.length > 0 ? (
-          <div className="py-2">
-            {results.map((result, index) => (
-              <Link
-                key={result.slug}
-                href={`/posts/${result.slug}`}
-                className={`block px-4 py-3 transition-colors hover:bg-zinc-50 dark:hover:bg-zinc-700 ${
-                  index === selectedIndex ? 'bg-zinc-50 dark:bg-zinc-700' : ''
-                }`}
-                onClick={handleClose}
-                role="option"
-                aria-selected={index === selectedIndex}
-              >
-                <div className="flex flex-col">
-                  <h3 className="mb-1 font-medium text-zinc-900 dark:text-zinc-100">
-                    {highlightText(result.title, query)}
-                  </h3>
-                  <p className="line-clamp-2 text-sm text-zinc-600 dark:text-zinc-400">
-                    {highlightText(result.summary, query)}
-                  </p>
-                  <div className="mt-2 flex items-center text-xs text-zinc-500 dark:text-zinc-400">
-                    <time>
-                      {new Date(result.createdTime).toLocaleDateString('zh-CN')}
-                    </time>
-                    {result.tags && result.tags.length > 0 && (
-                      <div className="ml-3 flex gap-1">
-                        {result.tags.slice(0, 3).map((tag, tagIndex) => (
-                          <span
-                            key={`${result.slug}-tag-${tagIndex}-${tag}`}
-                            className="rounded bg-zinc-100 px-2 py-1 text-xs dark:bg-zinc-700 dark:text-zinc-300"
-                          >
-                            {tag}
-                          </span>
-                        ))}
+        {loading
+          ? (
+              <div className="flex items-center justify-center py-8">
+                <div className="h-6 w-6 animate-spin rounded-full border-b-2 border-zinc-500 dark:border-zinc-400"></div>
+                <span className="ml-2 text-zinc-500 dark:text-zinc-400">
+                  Searching...
+                </span>
+              </div>
+            )
+          : results.length > 0
+            ? (
+                <div className="py-2">
+                  {results.map((result, index) => (
+                    <Link
+                      key={result.slug}
+                      href={`/posts/${result.slug}`}
+                      className={`block px-4 py-3 transition-colors hover:bg-zinc-50 dark:hover:bg-zinc-700 ${
+                        index === selectedIndex ? 'bg-zinc-50 dark:bg-zinc-700' : ''
+                      }`}
+                      onClick={handleClose}
+                      role="option"
+                      aria-selected={index === selectedIndex}
+                    >
+                      <div className="flex flex-col">
+                        <h3 className="mb-1 font-medium text-zinc-900 dark:text-zinc-100">
+                          {highlightText(result.title, query)}
+                        </h3>
+                        <p className="line-clamp-2 text-sm text-zinc-600 dark:text-zinc-400">
+                          {highlightText(result.summary, query)}
+                        </p>
+                        <div className="mt-2 flex items-center text-xs text-zinc-500 dark:text-zinc-400">
+                          <time>
+                            {new Date(result.createdTime).toLocaleDateString('zh-CN')}
+                          </time>
+                          {result.tags && result.tags.length > 0 && (
+                            <div className="ml-3 flex gap-1">
+                              {result.tags.slice(0, 3).map((tag, tagIndex) => (
+                                <span
+                                  key={`${result.slug}-tag-${tagIndex}-${tag}`}
+                                  className="rounded bg-zinc-100 px-2 py-1 text-xs dark:bg-zinc-700 dark:text-zinc-300"
+                                >
+                                  {tag}
+                                </span>
+                              ))}
+                            </div>
+                          )}
+                        </div>
                       </div>
-                    )}
-                  </div>
+                    </Link>
+                  ))}
                 </div>
-              </Link>
-            ))}
-          </div>
-        ) : query.trim() ? (
-          <div className="flex flex-col items-center justify-center py-8 text-zinc-500 dark:text-zinc-400">
-            <i className="i-mingcute-search-line mb-2 h-8 w-8" />
-            <p>No articles found</p>
-            <p className="mt-1 text-sm">Try different keywords</p>
-          </div>
-        ) : (
-          <div className="flex flex-col items-center justify-center py-8 text-zinc-500 dark:text-zinc-400">
-            <i className="i-mingcute-search-line mb-2 h-8 w-8" />
-            <p>Enter keywords to start searching</p>
-            <p className="mt-1 text-sm">Search by title, content, and tags</p>
-          </div>
-        )}
+              )
+            : query.trim()
+              ? (
+                  <div className="flex flex-col items-center justify-center py-8 text-zinc-500 dark:text-zinc-400">
+                    <i className="i-mingcute-search-line mb-2 h-8 w-8" />
+                    <p>No articles found</p>
+                    <p className="mt-1 text-sm">Try different keywords</p>
+                  </div>
+                )
+              : (
+                  <div className="flex flex-col items-center justify-center py-8 text-zinc-500 dark:text-zinc-400">
+                    <i className="i-mingcute-search-line mb-2 h-8 w-8" />
+                    <p>Enter keywords to start searching</p>
+                    <p className="mt-1 text-sm">Search by title, content, and tags</p>
+                  </div>
+                )}
       </div>
 
       {/* 快捷键提示 */}

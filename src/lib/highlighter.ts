@@ -1,18 +1,19 @@
+import type { Highlighter } from 'shiki';
 import {
+  createHighlighter as _createHighlighter,
   bundledLanguages,
   bundledThemes,
-  createHighlighter as _createHighlighter,
-  type Highlighter
+
 } from 'shiki';
 
 let highlighter: Highlighter | undefined;
 
-export const createHighlighter = async () => {
+export async function createHighlighter() {
   if (!highlighter) {
     highlighter = await _createHighlighter({
       themes: Object.keys(bundledThemes),
-      langs: Object.keys(bundledLanguages)
+      langs: Object.keys(bundledLanguages),
     });
   }
   return highlighter;
-};
+}

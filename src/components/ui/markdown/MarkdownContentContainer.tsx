@@ -2,21 +2,21 @@
 
 import { useEffect } from 'react';
 
+import { APP_HEADER_HEIGHT } from '@/constants';
 import { useHash } from '@/hooks/use-hash';
 import { cn, scrollToElement } from '@/lib/utils';
-import { APP_HEADER_HEIGHT } from '@/constants';
 
-export const MarkdownContentContainer = ({
+export function MarkdownContentContainer({
   className,
   onScroll,
   onMouseEnter,
-  children
+  children,
 }: {
   className?: string;
   onScroll?: (scrollTop: number) => void;
   onMouseEnter?: () => void;
   children?: JSX.Element;
-}) => {
+}) {
   const hash = useHash();
   useEffect(() => {
     scrollToElement(hash, false, APP_HEADER_HEIGHT);
@@ -26,9 +26,9 @@ export const MarkdownContentContainer = ({
     <div
       className={cn('relative', className)}
       onMouseEnter={onMouseEnter}
-      onScroll={(e) => onScroll?.((e.target as any)?.scrollTop)}
+      onScroll={e => onScroll?.((e.target as any)?.scrollTop)}
     >
       {children}
     </div>
   );
-};
+}

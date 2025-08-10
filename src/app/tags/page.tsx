@@ -1,5 +1,5 @@
-import { getAllTags, getAllPosts } from '@/models/post.model';
 import { TagList } from '@/components/site/TagList';
+import { getAllPosts, getAllTags } from '@/models/post.model';
 
 /**
  * Tags page server component

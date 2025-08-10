@@ -1,5 +1,5 @@
+import type { IconProps } from '.';
 import React from 'react';
-import { IconProps } from '.';
 
 export function UncheckedIcon(props: IconProps) {
   return (

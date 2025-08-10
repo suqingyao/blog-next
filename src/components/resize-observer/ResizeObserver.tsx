@@ -8,7 +8,7 @@ export interface ResizeObserverProps {
   children: React.ReactNode;
 }
 
-export const ResizeObserverComponent = (props: ResizeObserverProps) => {
+export function ResizeObserverComponent(props: ResizeObserverProps) {
   const targetRef = useRef<HTMLDivElement | null>(null);
   const resizeObserverRef = useRef<ResizeObserver | null>(null);
 
@@ -37,4 +37,4 @@ export const ResizeObserverComponent = (props: ResizeObserverProps) => {
   }, []);
 
   return <div ref={targetRef}>{props.children}</div>;
-};
+}

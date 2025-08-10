@@ -4,33 +4,33 @@ import { motion } from 'motion/react';
 
 import { SocialLink } from '../links';
 
-type LinkText = {
+interface LinkText {
   text: string;
   href: string;
-};
+}
 
-export const AppContact = () => {
+export function AppContact() {
   const linkText: LinkText[] = [
     {
       text: 'https://twitter.com/suqingyao333',
-      href: 'https://twitter.com/suqingyao333'
+      href: 'https://twitter.com/suqingyao333',
     },
     {
       text: 'https://github.com/suqingyao',
-      href: 'https://github.com/suqingyao'
+      href: 'https://github.com/suqingyao',
     },
     {
       text: 'suqingyao333@gmail.com',
-      href: 'mailto:suqingyao333@gmail.com'
+      href: 'mailto:suqingyao333@gmail.com',
     },
     {
       text: 'Bilibili',
-      href: 'https://space.bilibili.com/27022081'
+      href: 'https://space.bilibili.com/27022081',
     },
     {
       text: 'RSS',
-      href: '/api/feed'
-    }
+      href: '/api/feed',
+    },
   ];
 
   return (
@@ -42,8 +42,8 @@ export const AppContact = () => {
           opacity: 0,
           y: 20,
           transition: {
-            when: 'afterChildren'
-          }
+            when: 'afterChildren',
+          },
         },
         animate: {
           opacity: 1,
@@ -51,9 +51,9 @@ export const AppContact = () => {
           transition: {
             when: 'beforeChildren',
             staggerChildren: 0.3,
-            ease: 'easeInOut'
-          }
-        }
+            ease: 'easeInOut',
+          },
+        },
       }}
       className="flex gap-6 py-6"
     >
@@ -65,4 +65,4 @@ export const AppContact = () => {
       ))}
     </motion.ul>
   );
-};
+}

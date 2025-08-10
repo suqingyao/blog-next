@@ -1,10 +1,10 @@
 'use client';
 
-import Link from 'next/link';
 import { motion } from 'motion/react';
+import Link from 'next/link';
 import dayjs from '@/lib/dayjs';
 
-export const PostList = ({ posts }: { posts: Record<string, any>[] }) => {
+export function PostList({ posts }: { posts: Record<string, any>[] }) {
   const getYear = (a: Date | string | number) => new Date(a).getFullYear();
   const isSameYear = (a?: Date | string | number, b?: Date | string | number) =>
     a && b && getYear(a) === getYear(b);
@@ -19,15 +19,15 @@ export const PostList = ({ posts }: { posts: Record<string, any>[] }) => {
       variants={{
         initial: {
           transition: {
-            when: 'afterChildren'
-          }
+            when: 'afterChildren',
+          },
         },
         animate: {
           transition: {
             when: 'beforeChildren',
-            staggerChildren: 0.2
-          }
-        }
+            staggerChildren: 0.2,
+          },
+        },
       }}
     >
       {posts.map((post, idx) => (
@@ -35,16 +35,16 @@ export const PostList = ({ posts }: { posts: Record<string, any>[] }) => {
           variants={{
             initial: {
               opacity: 0,
-              y: 10
+              y: 10,
             },
             animate: {
               opacity: 1,
               y: 0,
               transition: {
                 delay: idx * 0.06,
-                ease: 'easeInOut'
-              }
-            }
+                ease: 'easeInOut',
+              },
+            },
           }}
           key={post.id}
         >
@@ -71,4 +71,4 @@ export const PostList = ({ posts }: { posts: Record<string, any>[] }) => {
       ))}
     </motion.ul>
   );
-};
+}

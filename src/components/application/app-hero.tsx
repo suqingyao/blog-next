@@ -1,9 +1,9 @@
 'use client';
 
-import { cn } from '@/lib/utils';
 import { motion } from 'motion/react';
+import { cn } from '@/lib/utils';
 
-export const AppHero = () => {
+export function AppHero() {
   return (
     <motion.section
       initial="initial"
@@ -12,16 +12,16 @@ export const AppHero = () => {
         initial: {
           transition: {
             when: 'afterChildren',
-            ease: 'easeInOut'
-          }
+            ease: 'easeInOut',
+          },
         },
         animate: {
           transition: {
             when: 'beforeChildren',
             staggerChildren: 0.2,
-            ease: 'easeInOut'
-          }
-        }
+            ease: 'easeInOut',
+          },
+        },
       }}
       className={cn('py-6 font-mono')}
     >
@@ -30,15 +30,15 @@ export const AppHero = () => {
           variants={{
             initial: {
               opacity: 0,
-              y: 50
+              y: 50,
             },
             animate: {
               opacity: 1,
               y: 0,
               transition: {
-                ease: 'easeInOut'
-              }
-            }
+                ease: 'easeInOut',
+              },
+            },
           }}
         >
           {`Hi, `}
@@ -47,15 +47,15 @@ export const AppHero = () => {
           variants={{
             initial: {
               opacity: 0,
-              y: 50
+              y: 50,
             },
             animate: {
               opacity: 1,
               y: 0,
               transition: {
-                ease: 'easeInOut'
-              }
-            }
+                ease: 'easeInOut',
+              },
+            },
           }}
         >
           {`I'm SuQingyao .`}
@@ -65,15 +65,15 @@ export const AppHero = () => {
           variants={{
             initial: {
               opacity: 0,
-              y: 50
+              y: 50,
             },
             animate: {
               opacity: 1,
               y: 0,
               transition: {
-                ease: 'easeInOut'
-              }
-            }
+                ease: 'easeInOut',
+              },
+            },
           }}
         >
           FrontEnd Developer .
@@ -83,14 +83,14 @@ export const AppHero = () => {
       <motion.p
         variants={{
           initial: {
-            opacity: 0
+            opacity: 0,
           },
           animate: {
             opacity: 1,
             transition: {
-              ease: 'easeInOut'
-            }
-          }
+              ease: 'easeInOut',
+            },
+          },
         }}
         className="mt-6 text-base"
       >
@@ -99,14 +99,14 @@ export const AppHero = () => {
       <motion.p
         variants={{
           initial: {
-            opacity: 0
+            opacity: 0,
           },
           animate: {
             opacity: 1,
             transition: {
-              ease: 'easeInOut'
-            }
-          }
+              ease: 'easeInOut',
+            },
+          },
         }}
         className="text-base"
       >
@@ -114,4 +114,4 @@ export const AppHero = () => {
       </motion.p>
     </motion.section>
   );
-};
+}

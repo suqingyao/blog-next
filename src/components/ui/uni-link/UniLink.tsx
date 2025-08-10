@@ -1,21 +1,21 @@
 import Link from 'next/link';
 
-export type UniLinkProps = {
+export interface UniLinkProps {
   href?: string;
   onClick?: () => void;
   children: React.ReactNode;
   className?: string;
   target?: string;
-};
+}
 
-export const UniLink = ({
+export function UniLink({
   href,
   onClick,
   children,
   className,
   target,
   ...props
-}: UniLinkProps) => {
+}: UniLinkProps) {
   if (onClick) {
     return (
       <button
@@ -39,13 +39,13 @@ export const UniLink = ({
     );
   }
 
-  const isExternal =
-    (href && (/^https?:\/\//.test(href) || href.startsWith('/feed'))) ||
-    href.startsWith('mailto:');
+  const isExternal
+    = (href && (/^https?:\/\//.test(href) || href.startsWith('/feed')))
+      || href.startsWith('mailto:');
 
-  const isInModal =
-    typeof window !== 'undefined' &&
-    window.location.pathname.startsWith('/posts/');
+  const isInModal
+    = typeof window !== 'undefined'
+      && window.location.pathname.startsWith('/posts/');
 
   if (isExternal || isInModal) {
     return (
@@ -70,4 +70,4 @@ export const UniLink = ({
       {children}
     </Link>
   );
-};
+}

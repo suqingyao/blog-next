@@ -1,6 +1,6 @@
+import { AppFooter } from './app-footer';
 import { AppHeader } from './app-header';
 import { AppMain } from './app-main';
-import { AppFooter } from './app-footer';
 
 export function AppContent({ children }: { children: React.ReactNode }) {
   return (

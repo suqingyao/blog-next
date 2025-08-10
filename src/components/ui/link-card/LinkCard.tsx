@@ -1,11 +1,11 @@
 'use client';
 
-import Link from 'next/link';
 import { motion, useMotionTemplate } from 'motion/react';
-
-import { useSpotlight } from '@/hooks/use-spotlight';
+import Link from 'next/link';
 
 import { DarkModeOnly } from '@/components/common/DarkModeOnly';
+
+import { useSpotlight } from '@/hooks/use-spotlight';
 
 interface LinkCardProps {
   title: string;
@@ -14,12 +14,12 @@ interface LinkCardProps {
   image?: string;
 }
 
-export const LinkCard = ({
+export function LinkCard({
   title,
   description,
   href,
-  image
-}: LinkCardProps) => {
+  image,
+}: LinkCardProps) {
   const [{ x: spotX, y: spotY, r: spotR }, onMouseMove] = useSpotlight();
 
   // motion 动态 radial-gradient，圆心随鼠标 X/Y
@@ -69,4 +69,4 @@ export const LinkCard = ({
       </div>
     </Link>
   );
-};
+}

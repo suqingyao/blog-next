@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 
-export const useScrollTop = () => {
+export function useScrollTop() {
   const [scrollTop, setScrollTop] = useState(0);
 
   const handleScroll = useCallback(() => {
@@ -16,4 +16,4 @@ export const useScrollTop = () => {
   }, []);
 
   return scrollTop;
-};
+}

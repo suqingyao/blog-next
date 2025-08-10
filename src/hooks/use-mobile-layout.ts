@@ -1,12 +1,12 @@
-import { useCallback, useEffect } from 'react';
 import { atom, useAtom, useAtomValue } from 'jotai';
+import { useCallback, useEffect } from 'react';
 
 const mobileWidth = 1024;
 
 const isMobileAtom = atom<{
   isMobile: boolean | undefined;
 }>({
-  isMobile: undefined
+  isMobile: undefined,
 });
 
 export function useMobileLayout() {
@@ -14,7 +14,7 @@ export function useMobileLayout() {
 
   const calc = useCallback(() => {
     setIsMobile({
-      isMobile: window.innerWidth < mobileWidth
+      isMobile: window.innerWidth < mobileWidth,
     });
   }, []);
 

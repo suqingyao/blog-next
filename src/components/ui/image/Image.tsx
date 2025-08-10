@@ -1,25 +1,26 @@
 'use client';
 
-import { ImageProps, default as NextImage } from 'next/image';
+import type { ImageProps } from 'next/image';
+import { default as NextImage } from 'next/image';
 import React, { useEffect } from 'react';
 
 import { useGetState } from '@/hooks/use-get-state';
 import { useIsMobileLayout } from '@/hooks/use-mobile-layout';
 
 export type TImageProps = {
-  className?: string;
-  src?: string;
-  width?: number | string;
-  height?: number | string;
+  'className'?: string;
+  'src'?: string;
+  'width'?: number | string;
+  'height'?: number | string;
   'original-src'?: string;
-  imageRef?: React.RefObject<HTMLImageElement>;
-  zoom?: boolean;
-  blurDataURL?: string;
-  placeholder?: 'blur';
-} & React.HTMLAttributes<HTMLImageElement> &
-  ImageProps;
+  'imageRef'?: React.RefObject<HTMLImageElement>;
+  'zoom'?: boolean;
+  'blurDataURL'?: string;
+  'placeholder'?: 'blur';
+} & React.HTMLAttributes<HTMLImageElement>
+& ImageProps;
 
-export const Image = ({
+export function Image({
   fill,
   className,
   alt,
@@ -31,7 +32,7 @@ export const Image = ({
   blurDataURL,
   placeholder,
   ...props
-}: TImageProps) => {
+}: TImageProps) {
   const [paddingTop, setPaddingTop] = React.useState('0');
   const [autoWidth, setAutoWidth] = React.useState(0);
   const noOptimization = className?.includes('no-optimization');
@@ -41,8 +42,10 @@ export const Image = ({
   const getSrc = useGetState(src);
 
   useEffect(() => {
-    if (!imageRef) return;
-    if (!imageRefInternal.current) return;
+    if (!imageRef)
+      return;
+    if (!imageRefInternal.current)
+      return;
 
     if (typeof imageRef === 'object') {
       imageRef.current = imageRefInternal.current;
@@ -51,7 +54,8 @@ export const Image = ({
 
   useEffect(() => {
     const $image = imageRefInternal.current;
-    if (!$image) return;
+    if (!$image)
+      return;
     if (zoom) {
       if (isMobileLayout !== undefined) {
         if (isMobileLayout) {
@@ -62,12 +66,13 @@ export const Image = ({
           return () => {
             $image.removeEventListener('click', clickHandler);
           };
-        } else {
+        }
+        else {
           import('medium-zoom').then(({ default: mediumZoom }) => {
             mediumZoom($image, {
               margin: 10,
               background: 'rgb(var(--tw-color-white))',
-              scrollOffset: 0
+              scrollOffset: 0,
             });
           });
         }
@@ -83,7 +88,8 @@ export const Image = ({
   if (!/^\/|^https?:\/\//.test(src)) {
     try {
       new URL(src);
-    } catch (error) {
+    }
+    catch (error) {
       return null;
     }
   }
@@ -122,7 +128,7 @@ export const Image = ({
       style={
         autoSize
           ? {
-              maxWidth: `${autoWidth}px`
+              maxWidth: `${autoWidth}px`,
             }
           : {}
       }
@@ -143,8 +149,8 @@ export const Image = ({
           placeholder={placeholder}
           onLoad={({ target }) => {
             if (autoSize) {
-              const { naturalWidth, naturalHeight } =
-                target as HTMLImageElement;
+              const { naturalWidth, naturalHeight }
+                = target as HTMLImageElement;
               setPaddingTop(`calc(100% / (${naturalWidth} / ${naturalHeight})`);
               setAutoWidth(naturalWidth);
             }
@@ -158,15 +164,16 @@ export const Image = ({
                     const urlObj = new URL(src);
                     urlObj.searchParams.set(
                       'img-quality',
-                      (quality || 75) + ''
+                      `${quality || 75}`,
                     );
                     urlObj.searchParams.set('img-format', 'auto');
                     urlObj.searchParams.set('img-onerror', 'redirect');
                     if (width) {
-                      urlObj.searchParams.set('img-width', width + '');
+                      urlObj.searchParams.set('img-width', `${width}`);
                     }
                     return urlObj.toString();
-                  } catch (error) {
+                  }
+                  catch (error) {
                     return src;
                   }
                 }
@@ -176,4 +183,4 @@ export const Image = ({
       </span>
     </span>
   );
-};
+}

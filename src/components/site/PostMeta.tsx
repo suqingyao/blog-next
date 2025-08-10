@@ -1,13 +1,13 @@
 import { Time } from '@/components/common/Time';
 import PostTag from '@/components/site/PostTag';
+import { MarkdownContent } from '@/components/ui/markdown/MarkdownContent';
 import { RESERVED_TAGS } from '@/constants';
 import { CalendarIcon } from '../icons';
-import { MarkdownContent } from '@/components/ui/markdown/MarkdownContent';
 // import TranslationInfo from "./TranslationInfo"
 
 export default async function PostMeta({
   post,
-  translated
+  translated,
 }: {
   post: Record<string, any>;
   translated?: {
@@ -22,20 +22,22 @@ export default async function PostMeta({
           <Time isoString={post?.createdTime} />
         </div>
         {post?.tags?.filter((tag: string) => !RESERVED_TAGS.includes(tag))
-          .length ? (
-          <>
-            <span className="post-tags min-w-0 space-x-1 truncate">
-              {post?.tags
-                ?.filter((tag: string) => !RESERVED_TAGS.includes(tag))
-                .map((tag: string) => (
-                  <PostTag
-                    key={tag}
-                    tag={tag}
-                  />
-                ))}
-            </span>
-          </>
-        ) : null}
+          .length
+          ? (
+              <>
+                <span className="post-tags min-w-0 space-x-1 truncate">
+                  {post?.tags
+                    ?.filter((tag: string) => !RESERVED_TAGS.includes(tag))
+                    .map((tag: string) => (
+                      <PostTag
+                        key={tag}
+                        tag={tag}
+                      />
+                    ))}
+                </span>
+              </>
+            )
+          : null}
       </div>
       {/* <TranslationInfo page={page} /> */}
       {post.summary && (

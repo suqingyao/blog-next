@@ -1,14 +1,14 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useHeaderAtom } from '@/store/hooks/use-header-atom';
 import { cn } from '@/lib/utils';
+import { useHeaderAtom } from '@/store/hooks/use-header-atom';
 
 export default function PostTitle({
   icon,
   className,
   center,
-  post
+  post,
 }: {
   icon?: React.ReactNode;
   className?: string;
@@ -20,12 +20,12 @@ export default function PostTitle({
   useEffect(() => {
     setHeaderAtom({
       pageTitle: post.title,
-      pageTitleElement: document.querySelector('.post-title') as HTMLHeadElement
+      pageTitleElement: document.querySelector('.post-title') as HTMLHeadElement,
     });
     return () => {
       setHeaderAtom({
         pageTitle: '',
-        pageTitleElement: null
+        pageTitleElement: null,
       });
     };
   }, [post.title]);
@@ -36,9 +36,9 @@ export default function PostTitle({
         'post-title relative my-4 flex items-center text-xl font-extrabold',
         {
           'justify-center': center,
-          'text-center': center
+          'text-center': center,
         },
-        className
+        className,
       )}
     >
       {icon}

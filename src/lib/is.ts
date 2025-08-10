@@ -1,12 +1,13 @@
 const toString = Object.prototype.toString;
 
 export const isBrowser = ![typeof window, typeof document].includes(
-  'undefined'
+  'undefined',
 );
 
-export const isArrayLike = (value: any): value is ArrayLike<any> =>
-  Array.isArray(value) ||
-  (value && typeof value === 'object' && typeof value.length === 'number');
+export function isArrayLike(value: any): value is ArrayLike<any> {
+  return Array.isArray(value)
+    || (value && typeof value === 'object' && typeof value.length === 'number');
+}
 
 export const isWindow = (el: any): el is Window => el === window;
 
@@ -26,12 +27,13 @@ export const isArray = (value: any) => Array.isArray(value);
 
 export const isFunction = (value: any) => typeof value === 'function';
 
-export const isPlainObject = (value: any) =>
-  toString.call(value) === '[object Object]';
+export function isPlainObject(value: any) {
+  return toString.call(value) === '[object Object]';
+}
 
 export const isObject = (value: any) => typeof value === 'object';
 
-export const isEmpty = (value: any) => {
+export function isEmpty(value: any) {
   if (isUndefined(value)) {
     return true;
   }
@@ -53,4 +55,4 @@ export const isEmpty = (value: any) => {
   }
 
   return false;
-};
+}

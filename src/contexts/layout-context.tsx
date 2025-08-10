@@ -1,14 +1,16 @@
 'use client';
 
-import { type ClassValue } from 'clsx';
-import { useEventListener } from '@/hooks/use-event-listener';
-import {
-  createContext,
+import type { ClassValue } from 'clsx';
+import type {
   Dispatch,
   SetStateAction,
-  useContext,
-  useState
 } from 'react';
+import {
+  createContext,
+  use,
+  useState,
+} from 'react';
+import { useEventListener } from '@/hooks/use-event-listener';
 
 interface LayoutContextProps {
   isMobile: boolean;
@@ -27,14 +29,14 @@ export const LayoutContext = createContext<LayoutContextProps>({
   isDesktop: false,
   screenWidth: 0,
   mainContainerClassName: 'w-[75ch]',
-  setMainContainerClassName: () => {}
+  setMainContainerClassName: () => {},
 });
 
-export const LayoutContextProvider = ({
-  children
+export function LayoutContextProvider({
+  children,
 }: {
   children: React.ReactNode;
-}) => {
+}) {
   const [isMobile, setIsMobile] = useState(false);
   const [isTablet, setIsTablet] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
@@ -51,27 +53,27 @@ export const LayoutContextProvider = ({
   });
 
   return (
-    <LayoutContext.Provider
+    <LayoutContext
       value={{
         isMobile,
         isTablet,
         isDesktop,
         screenWidth,
         mainContainerClassName,
-        setMainContainerClassName
+        setMainContainerClassName,
       }}
     >
       {children}
-    </LayoutContext.Provider>
+    </LayoutContext>
   );
-};
+}
 
-export const useLayoutContext = () => {
-  const context = useContext(LayoutContext);
+export function useLayoutContext() {
+  const context = use(LayoutContext);
   if (!context) {
     throw new Error(
-      'useLayoutContext must be used within a LayoutContextProvider'
+      'useLayoutContext must be used within a LayoutContextProvider',
     );
   }
   return context;
-};
+}

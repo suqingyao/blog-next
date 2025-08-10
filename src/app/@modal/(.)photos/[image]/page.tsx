@@ -1,5 +1,5 @@
-import { PhotoModal } from './PhotoModal';
 import { photoUrlParser } from '@/lib/photo-util';
+import { PhotoModal } from './PhotoModal';
 
 interface PhotosModalPageProps {
   params: { image: string };
@@ -8,7 +8,7 @@ interface PhotosModalPageProps {
 
 export default async function PhotosModalPage({
   params,
-  searchParams
+  searchParams,
 }: PhotosModalPageProps) {
   const { image } = await params;
   const resolvedSearchParams = await searchParams;

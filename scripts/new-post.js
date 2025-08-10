@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 
+import path from 'node:path';
 import cac from 'cac';
-import ora from 'ora';
-import fs from 'fs-extra';
-import path from 'path';
 import chalk from 'chalk';
 import dayjs from 'dayjs';
+import fs from 'fs-extra';
+import ora from 'ora';
 
 const cli = cac();
 
@@ -13,7 +13,7 @@ cli.command('<filename> [title]').action(async (filename, title) => {
   const filePath = path.join(
     process.cwd(),
     'posts',
-    dayjs().format('YYYYMMDD') + '_' + filename + '.mdx'
+    `${dayjs().format('YYYYMMDD')}_${filename}.mdx`,
   );
 
   if (await fs.pathExists(filePath)) {
@@ -23,7 +23,7 @@ cli.command('<filename> [title]').action(async (filename, title) => {
 
   const template = `
 ---
-  id: ${dayjs().format('YYYYMMDD') + '_' + filename}
+  id: ${`${dayjs().format('YYYYMMDD')}_${filename}`}
   title: ${title || filename}
   createdTime: ${dayjs().format('YYYY-MM-DD HH:mm:ss')}
   published: false
@@ -33,9 +33,10 @@ cli.command('<filename> [title]').action(async (filename, title) => {
     const spinner = ora('🚀🚀🚀 start create...').start();
     await fs.writeFile(filePath, template, 'utf-8');
     spinner.succeed(
-      chalk.green(`🎉🎉🎉 File [${filename}] created successfully.`)
+      chalk.green(`🎉🎉🎉 File [${filename}] created successfully.`),
     );
-  } catch (error) {}
+  }
+  catch (error) {}
 });
 
 cli.parse();

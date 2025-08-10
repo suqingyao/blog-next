@@ -1,21 +1,22 @@
-import { MouseEvent, useCallback, useMemo } from 'react';
+import type { MouseEvent } from 'react';
 import { useMotionValue } from 'motion/react';
+import { useCallback, useMemo } from 'react';
 
-export const useSpotlight = () => {
+export function useSpotlight() {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const r = useMotionValue(0);
 
   const movement = useCallback(
     ({ currentTarget, clientX, clientY }: MouseEvent) => {
-      const { left, top, width, height } =
-        currentTarget.getBoundingClientRect();
+      const { left, top, width, height }
+        = currentTarget.getBoundingClientRect();
       x.set(clientX - left);
       y.set(clientY - top);
       r.set(Math.sqrt(width ** 2 + height ** 2) / 2.5);
     },
-    [r, x, y]
+    [r, x, y],
   );
 
   return useMemo(() => [{ x, y, r }, movement] as const, []);
-};
+}

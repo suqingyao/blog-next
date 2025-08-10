@@ -1,11 +1,11 @@
 'use client';
 
 import { useMemo, useRef } from 'react';
+import { useMount } from '@/hooks/use-mount';
 import { useRafFn } from '@/hooks/use-raf-fn';
 import { useWindowSize } from '@/hooks/use-window-size';
-import { useMount } from '@/hooks/use-mount';
 
-export const PlumContainer = () => {
+export function PlumContainer() {
   const r180 = Math.PI;
   const r90 = Math.PI / 2;
   const r15 = Math.PI / 12;
@@ -24,22 +24,22 @@ export const PlumContainer = () => {
     canvas: HTMLCanvasElement,
     width = 400,
     height = 400,
-    _dpi?: number
+    _dpi?: number,
   ) => {
     const ctx = canvas.getContext('2d');
     const dpr = window.devicePixelRatio || 1;
-    const bsr =
+    const bsr
       // @ts-expect-error canvas.getContext('2d')
-      ctx!.webkitBackingStorePixelRatio ||
+      = ctx!.webkitBackingStorePixelRatio
       // @ts-expect-error canvas.getContext('2d')
-      ctx!.mozBackingStorePixelRatio ||
+        || ctx!.mozBackingStorePixelRatio
       // @ts-expect-error canvas.getContext('2d')
-      ctx!.msBackingStorePixelRatio ||
+        || ctx!.msBackingStorePixelRatio
       // @ts-expect-error canvas.getContext('2d')
-      ctx!.oBackingStorePixelRatio ||
+        || ctx!.oBackingStorePixelRatio
       // @ts-expect-error canvas.getContext('2d')
-      ctx!.backingStorePixelRatio ||
-      1;
+        || ctx!.backingStorePixelRatio
+        || 1;
     const dpi = _dpi || dpr / bsr;
     canvas.style.width = `${width}px`;
     canvas.style.height = `${height}px`;
@@ -63,7 +63,8 @@ export const PlumContainer = () => {
   const interval = 1000 / 40;
   let controls = useRafFn(() => {});
   const frame = () => {
-    if (performance.now() - lastTime < interval) return;
+    if (performance.now() - lastTime < interval)
+      return;
     iterations += 1;
     prevSteps = steps;
     steps = [];
@@ -72,7 +73,7 @@ export const PlumContainer = () => {
       controls.pause();
       stopped.current = true;
     }
-    prevSteps.forEach((i) => i());
+    prevSteps.forEach(i => i());
   };
   controls = useRafFn(frame);
 
@@ -95,12 +96,13 @@ export const PlumContainer = () => {
       const rad1 = rad + random() * r15;
       const rad2 = rad - random() * r15;
       if (
-        nx < -100 ||
-        nx > (size?.width || 0) + 100 ||
-        ny < -100 ||
-        ny > (size?.height || 0) + 100
-      )
+        nx < -100
+        || nx > (size?.width || 0) + 100
+        || ny < -100
+        || ny > (size?.height || 0) + 100
+      ) {
         return;
+      }
       if (iterations <= init.current || random() > 0.5)
         steps.push(() => step(nx, ny, rad1));
       if (iterations <= init.current || random() > 0.5)
@@ -117,9 +119,10 @@ export const PlumContainer = () => {
         () => step(random() * (size?.width || 0), 0, r90),
         () => step(random() * (size?.width || 0), size?.height || 0, -r90),
         () => step(0, random() * (size?.height || 0), 0),
-        () => step(size?.width || 0, random() * (size?.height || 0), r180)
+        () => step(size?.width || 0, random() * (size?.height || 0), r180),
       ];
-      if ((size?.width || 0) < 500) steps = steps.slice(0, 2);
+      if ((size?.width || 0) < 500)
+        steps = steps.slice(0, 2);
       controls.resume();
       stopped.current = false;
     };
@@ -141,4 +144,4 @@ export const PlumContainer = () => {
       />
     </div>
   );
-};
+}

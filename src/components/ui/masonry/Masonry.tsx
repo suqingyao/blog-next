@@ -1,24 +1,21 @@
 'use client';
 
+import { motion } from 'motion/react';
 import React, {
   useEffect,
   useLayoutEffect,
   useMemo,
   useRef,
-  useState
+  useState,
 } from 'react';
-import { motion } from 'motion/react';
 
-const useMedia = (
-  queries: string[],
-  values: number[],
-  defaultValue: number
-): number => {
+function useMedia(queries: string[], values: number[], defaultValue: number): number {
   const get = () => {
-    if (typeof window === 'undefined') return defaultValue;
+    if (typeof window === 'undefined')
+      return defaultValue;
     return (
-      values[queries.findIndex((q) => window.matchMedia(q).matches)] ??
-      defaultValue
+      values[queries.findIndex(q => window.matchMedia(q).matches)]
+      ?? defaultValue
     );
   };
 
@@ -26,24 +23,25 @@ const useMedia = (
 
   useEffect(() => {
     const handler = () => setValue(get);
-    queries.forEach((q) =>
-      window.matchMedia(q).addEventListener('change', handler)
+    queries.forEach(q =>
+      window.matchMedia(q).addEventListener('change', handler),
     );
     return () =>
-      queries.forEach((q) =>
-        window.matchMedia(q).removeEventListener('change', handler)
+      queries.forEach(q =>
+        window.matchMedia(q).removeEventListener('change', handler),
       );
   }, [queries]);
 
   return value;
-};
+}
 
-const useMeasure = <T extends HTMLElement>() => {
+function useMeasure<T extends HTMLElement>() {
   const ref = useRef<T | null>(null);
   const [size, setSize] = useState({ width: 0, height: 0 });
 
   useLayoutEffect(() => {
-    if (!ref.current) return;
+    if (!ref.current)
+      return;
     const ro = new ResizeObserver(([entry]) => {
       const { width, height } = entry.contentRect;
       setSize({ width, height });
@@ -53,20 +51,20 @@ const useMeasure = <T extends HTMLElement>() => {
   }, []);
 
   return [ref, size] as const;
-};
+}
 
-const preloadImages = async (urls: string[]): Promise<void> => {
+async function preloadImages(urls: string[]): Promise<void> {
   await Promise.all(
     urls.map(
-      (src) =>
+      async src =>
         new Promise<void>((resolve) => {
           const img = new window.Image();
           img.src = src;
           img.onload = img.onerror = () => resolve();
-        })
-    )
+        }),
+    ),
   );
-};
+}
 
 export interface Item {
   id: string;
@@ -90,37 +88,39 @@ export const Masonry: React.FC<MasonryProps> = ({
   hoverScale = 1.1,
   colorShiftOnHover = false,
   gap = 5,
-  onItemClick
+  onItemClick,
 }) => {
   const columns = useMedia(
     [
       '(min-width:1500px)',
       '(min-width:1000px)',
       '(min-width:600px)',
-      '(min-width:400px)'
+      '(min-width:400px)',
     ],
     [5, 4, 3, 2],
-    1
+    1,
   );
 
   const [containerRef, { width }] = useMeasure<HTMLDivElement>();
   const [imagesReady, setImagesReady] = useState(false);
   const [itemHeights, setItemHeights] = useState<number[]>(
-    items.map((item) => item.height ?? 300)
+    items.map(item => item.height ?? 300),
   );
 
   // 图片加载后测量高度
   const handleImgLoad = (
     idx: number,
-    e: React.SyntheticEvent<HTMLImageElement>
+    e: React.SyntheticEvent<HTMLImageElement>,
   ) => {
-    if (items[idx].height) return; // 已有高度无需测量
+    if (items[idx].height)
+      return; // 已有高度无需测量
     const img = e.currentTarget as HTMLImageElement;
     const aspect = img.naturalHeight / img.naturalWidth;
     const w = grid[idx]?.w || img.width;
     const h = w * aspect;
     setItemHeights((prev) => {
-      if (prev[idx] === h) return prev;
+      if (prev[idx] === h)
+        return prev;
       const next = [...prev];
       next[idx] = h;
       return next;
@@ -128,12 +128,13 @@ export const Masonry: React.FC<MasonryProps> = ({
   };
 
   useEffect(() => {
-    preloadImages(items.map((i) => i.img)).then(() => setImagesReady(true));
+    preloadImages(items.map(i => i.img)).then(() => setImagesReady(true));
   }, [items]);
 
   // Masonry 布局
   const grid = useMemo(() => {
-    if (!width) return [];
+    if (!width)
+      return [];
     const colHeights = new Array(columns).fill(0);
     const totalGaps = (columns - 1) * gap;
     const columnWidth = (width - totalGaps) / columns;
@@ -150,7 +151,7 @@ export const Masonry: React.FC<MasonryProps> = ({
 
   // 容器高度 = 最高的那一列
   const containerHeight = grid.length
-    ? Math.max(...grid.map((l) => l.y + l.h))
+    ? Math.max(...grid.map(l => l.y + l.h))
     : 0;
 
   // 虚拟滚动
@@ -177,8 +178,8 @@ export const Masonry: React.FC<MasonryProps> = ({
     .map((layout, idx) => ({ layout, idx }))
     .filter(
       ({ layout }) =>
-        layout.y + layout.h > scrollTop - buffer &&
-        layout.y < scrollTop + windowHeight + buffer
+        layout.y + layout.h > scrollTop - buffer
+        && layout.y < scrollTop + windowHeight + buffer,
     );
 
   return (
@@ -197,7 +198,7 @@ export const Masonry: React.FC<MasonryProps> = ({
             x: layout.x,
             y: layout.y,
             width: layout.w,
-            height: layout.h
+            height: layout.h,
           }}
           transition={{ type: 'spring', stiffness: 120, damping: 20 }}
           className="absolute box-content overflow-hidden rounded-xs"
@@ -207,20 +208,20 @@ export const Masonry: React.FC<MasonryProps> = ({
             width: layout.w,
             height: layout.h,
             willChange: 'transform, width, height, opacity',
-            overflow: 'hidden'
+            overflow: 'hidden',
           }}
         >
           <motion.div
             className="relative h-full w-full cursor-pointer rounded-xs bg-cover bg-center shadow-[0px_10px_50px_-10px_rgba(0,0,0,0.2)]"
             style={{
               backgroundImage: `url(${items[idx].img})`,
-              willChange: 'transform'
+              willChange: 'transform',
             }}
             whileHover={scaleOnHover ? { scale: hoverScale } : undefined}
             transition={{
               type: 'tween',
               duration: 0.2,
-              ease: 'easeOut'
+              ease: 'easeOut',
             }}
             onClick={(e: React.MouseEvent) => {
               e.preventDefault();
@@ -234,7 +235,7 @@ export const Masonry: React.FC<MasonryProps> = ({
               src={items[idx].url}
               alt={items[idx].id}
               className="h-full w-full object-cover"
-              onLoad={(e) => handleImgLoad(idx, e)}
+              onLoad={e => handleImgLoad(idx, e)}
               draggable={false}
             />
             {colorShiftOnHover && (
