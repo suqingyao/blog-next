@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import path from 'node:path';
+import process from 'node:process';
 import cac from 'cac';
 import chalk from 'chalk';
 import dayjs from 'dayjs';
@@ -36,7 +37,7 @@ cli.command('<filename> [title]').action(async (filename, title) => {
       chalk.green(`🎉🎉🎉 File [${filename}] created successfully.`),
     );
   }
-  catch (error) {}
+  catch {}
 });
 
 cli.parse();

@@ -16,8 +16,6 @@
     "generate:summaries:force": "node ./scripts/generate-summaries.js --force-temp",
     "generate:search-index": "node ./scripts/generate-search-index.js",
     "setup:algolia": "node ./scripts/setup-algolia.js",
-    "init:algolia": "node ./scripts/init-algolia.js",
-    "upload:algolia": "node ./scripts/upload-to-algolia.js",
     "check:posts": "node ./scripts/check-posts.js",
     "check:posts:hooks": "node ./scripts/check-posts.js --git-hooks",
     "prepare": "simple-git-hooks"

@@ -1,11 +1,7 @@
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import process from 'node:process';
 import fg from 'fast-glob';
 import fs from 'fs-extra';
-
-// ES 模块中获取 __dirname 的方法
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 /**
  * 批量生成文章摘要的脚本
@@ -140,7 +136,7 @@ export async function generateMissingSummaries(forceRegenTemp = false) {
  */
 async function checkServer() {
   try {
-    const response = await fetch('http://localhost:2323/api/ai/summary', {
+    await fetch('http://localhost:2323/api/ai/summary', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -149,7 +145,7 @@ async function checkServer() {
     });
     return true;
   }
-  catch (error) {
+  catch {
     return false;
   }
 }

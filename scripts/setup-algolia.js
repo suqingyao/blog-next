@@ -7,11 +7,8 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
+import process from 'node:process';
 import readline from 'node:readline';
-import { fileURLToPath } from 'node:url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 /**
  * 创建命令行接口
@@ -134,7 +131,7 @@ USE_ALGOLIA=false
 /**
  * 显示后续步骤
  */
-function showNextSteps(indexName) {
+function showNextSteps() {
   console.log('\n🎉 Algolia 基础配置完成！');
   console.log('\n📋 接下来的步骤:');
   console.log('\n1. 创建 Algolia 配置文件:');

@@ -1,12 +1,9 @@
-import path, { dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import path from 'node:path';
+import process from 'node:process';
 import chalk from 'chalk';
 import fg from 'fast-glob';
 import fs from 'fs-extra';
 import matter from 'gray-matter';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 
 /**
  * 检查所有已发布的文章是否支持搜索和是否有 AI 总结
