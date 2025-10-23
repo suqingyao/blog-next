@@ -87,10 +87,12 @@ published: true
 The blog supports various custom React components:
 
 ```jsx
-<DarkToggle />        // Theme switcher
-<LinkCard />          // Rich link previews
-<LinkPreview />       // Hover link previews
-<Mermaid />           // Diagram rendering
+<>
+  <DarkToggle />
+  <LinkCard />
+  <LinkPreview />
+  <Mermaid />
+</>;
 ```
 
 ## 🔍 Search Functionality
