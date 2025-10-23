@@ -1,5 +1,6 @@
 import { readdir } from 'node:fs/promises';
 import { join } from 'node:path';
+import process from 'node:process';
 import { NextResponse } from 'next/server';
 import { consoleLog } from '@/lib/console';
 

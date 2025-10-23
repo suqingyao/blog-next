@@ -5,6 +5,7 @@
  */
 
 import type { NextRequest } from 'next/server';
+import process from 'node:process';
 import { NextResponse } from 'next/server';
 import { consoleLog } from '@/lib/console';
 // import { getSearchClient, algoliaConfig } from '@/lib/algolia';

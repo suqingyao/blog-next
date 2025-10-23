@@ -48,20 +48,6 @@ const codeHighlighterPromise = (async () => {
   return core;
 })();
 
-export const ShikiRender: FC<ShikiCodeProps> = (props) => {
-  return (
-    <Suspense
-      fallback={(
-        <pre>
-          <code>{props.code}</code>
-        </pre>
-      )}
-    >
-      <ShikiRenderInternal {...props} />
-    </Suspense>
-  );
-};
-
 let langModule: Record<
   BundledLanguage,
   DynamicImportLanguageRegistration
@@ -69,12 +55,14 @@ let langModule: Record<
 let themeModule: Record<BundledTheme, DynamicImportThemeRegistration> | null
   = null;
 
+const defaultCodeTheme = {
+  light: 'github-light-default',
+  dark: 'github-dark-default',
+};
+
 const ShikiRenderInternal: FC<ShikiCodeProps> = ({
   code,
-  codeTheme = {
-    light: 'github-light-default',
-    dark: 'github-dark-default',
-  },
+  codeTheme = defaultCodeTheme,
   language,
 }) => {
   const [shiki, setShiki] = useState<HighlighterCore | null>(null);
@@ -88,6 +76,7 @@ const ShikiRenderInternal: FC<ShikiCodeProps> = ({
     codeHighlighterPromise.then((core) => {
       if (mounted)
         setShiki(core);
+    }).catch(() => {
     });
     return () => {
       mounted = false;
@@ -196,4 +185,18 @@ const ShikiRenderInternal: FC<ShikiCodeProps> = ({
     );
   }
   return <div dangerouslySetInnerHTML={{ __html: rendered }} />;
+};
+
+export const ShikiRender: FC<ShikiCodeProps> = (props) => {
+  return (
+    <Suspense
+      fallback={(
+        <pre>
+          <code>{props.code}</code>
+        </pre>
+      )}
+    >
+      <ShikiRenderInternal {...props} />
+    </Suspense>
+  );
 };

@@ -8,15 +8,16 @@ export default antfu({
     semi: true,
     indent: 2,
   },
-  typescript: {
-    tsconfigPath: './tsconfig.json',
+  typescript: true,
+  jsonc: false,
+  yaml: false,
+  plugins: {
+    '@next/next': nextPlugin,
   },
-  plugins: [
-    nextPlugin,
-  ],
   ignores: [
     'node_modules',
     'dist',
     '.next',
+    'public',
   ],
 });

@@ -34,8 +34,8 @@ export function FadeIn({
       className={cn(
         'block transition-[opacity,transform] duration-800 ease-in-out',
         isInView === false && !locked
-          ? // @see https://www.debugbear.com/blog/opacity-animation-poor-lcp
-          'translate-y-[20%] opacity-[0.00001]'
+          // @see https://www.debugbear.com/blog/opacity-animation-poor-lcp
+          ? 'translate-y-[20%] opacity-[0.00001]'
           : 'translate-y-0 opacity-100',
         className,
       )}

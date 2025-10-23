@@ -7,10 +7,8 @@ interface PhotosModalPageProps {
 }
 
 export default async function PhotosModalPage({
-  params,
   searchParams,
 }: PhotosModalPageProps) {
-  const { image } = await params;
   const resolvedSearchParams = await searchParams;
   const url = resolvedSearchParams.url
     ? decodeURIComponent(resolvedSearchParams.url)

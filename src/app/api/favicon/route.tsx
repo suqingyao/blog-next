@@ -43,7 +43,6 @@ function getFullUrl(path: string, baseUrl: string): string {
 function renderFavicon(url: string) {
   return new ImageResponse(
     (
-      // eslint-disable-next-line @next/next/no-img-element
       <img
         src={url}
         alt={`${url} 的图标`}

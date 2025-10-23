@@ -37,6 +37,7 @@ export default function GlobalError({
         />
 
         <button
+          type="button"
           className="text-link mx-auto mt-10 block text-xl opacity-40 hover:opacity-100"
           onClick={reset}
         >
