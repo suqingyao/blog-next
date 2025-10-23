@@ -113,7 +113,7 @@ export function SocialLink({
   }
 
   return (
-    <Tooltip disableHoverableContent>
+    <Tooltip.Provider disableHoverableContent>
       <Tooltip.Root
         open={open}
         onOpenChange={setOpen}
@@ -146,6 +146,6 @@ export function SocialLink({
           )}
         </AnimatePresence>
       </Tooltip.Root>
-    </Tooltip>
+    </Tooltip.Provider>
   );
 }

@@ -14,6 +14,10 @@ export default antfu({
   plugins: {
     '@next/next': nextPlugin,
   },
+  rules: {
+    'no-console': 'warn',
+    'react/no-context-provider': 'off',
+  },
   ignores: [
     'node_modules',
     'dist',
