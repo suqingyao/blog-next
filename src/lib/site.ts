@@ -1,3 +1,4 @@
+import process from 'node:process';
 import { IS_PROD } from '@/constants';
 
 export const OUR_DOMAIN
