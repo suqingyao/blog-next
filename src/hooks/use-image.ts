@@ -14,7 +14,7 @@ export function useImage(src: string, crossOrigin = '') {
     'loading',
   );
   const [dataUrl, setDataUrl] = useState<string | undefined>();
-  const imgRef = useRef<HTMLImageElement>();
+  const imgRef = useRef<HTMLImageElement | undefined>(undefined);
 
   useEffect(() => {
     const img = new Image();

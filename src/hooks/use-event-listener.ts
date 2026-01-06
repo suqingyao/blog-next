@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react';
 type EventHandler<T = Event> = (event: T) => void;
 
 export function useEventListener<T extends HTMLElement = HTMLElement>(eventName: keyof WindowEventMap, handler: EventHandler, element?: RefObject<T> | Window | null) {
-  const savedHandler = useRef<EventHandler>();
+  const savedHandler = useRef<EventHandler>(handler);
 
   useEffect(() => {
     savedHandler.current = handler;

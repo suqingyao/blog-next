@@ -38,7 +38,7 @@ export function ElegantTooltip({ children, content }: ElegantTooltipProps) {
   const [open, setOpen] = React.useState(false);
 
   return (
-    <Tooltip
+    <Tooltip.Provider
       disableHoverableContent
       delayDuration={0.2}
     >
@@ -63,6 +63,6 @@ export function ElegantTooltip({ children, content }: ElegantTooltipProps) {
           )}
         </AnimatePresence>
       </Tooltip.Root>
-    </Tooltip>
+    </Tooltip.Provider>
   );
 }

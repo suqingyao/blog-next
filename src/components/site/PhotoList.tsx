@@ -2,11 +2,13 @@
 
 import type { Item } from '@/components/ui/masonry';
 import type { PhotoFile } from '@/lib/photos';
+import { AnimatePresence, motion } from 'motion/react';
 import { useRouter } from 'next/navigation';
 import { useMemo, useRef, useState } from 'react';
 import { Masonry } from '@/components/ui/masonry';
 import { getPhotoId } from '@/lib/photo-util';
 import { useModalRectAtom } from '@/store/hooks/use-modal-rect-atom';
+import imageMetadata from '../../../public/image-metadata.json';
 import { PhotoAlbumTabs } from './PhotoAlbumTabs';
 
 export function PhotoList({ photos }: { photos: PhotoFile[] }) {
@@ -28,11 +30,17 @@ export function PhotoList({ photos }: { photos: PhotoFile[] }) {
 
   // 使用 useMemo 缓存当前相册的照片列表
   const filteredPhotos = useMemo(() => {
-    return (albumPhotosMap.get(currentAlbum) || []).map(photo => ({
-      id: photo,
-      img: photo,
-      url: photo,
-    }));
+    return (albumPhotosMap.get(currentAlbum) || []).map((photoUrl) => {
+      const metadata = (imageMetadata as Record<string, any>)[photoUrl];
+      return {
+        id: photoUrl,
+        img: photoUrl,
+        url: photoUrl,
+        width: metadata?.width,
+        height: metadata?.height,
+        blurDataURL: metadata?.blurDataURL,
+      };
+    });
   }, [albumPhotosMap, currentAlbum]);
 
   function handleItemClick(item: Item, e: React.MouseEvent) {
@@ -54,14 +62,24 @@ export function PhotoList({ photos }: { photos: PhotoFile[] }) {
         photos={photos}
         setCurrentAlbum={setCurrentAlbum}
       />
-      {currentAlbum && (
-        <Masonry
-          items={filteredPhotos}
-          scaleOnHover={true}
-          colorShiftOnHover={true}
-          onItemClick={handleItemClick}
-        />
-      )}
+      <AnimatePresence mode="wait">
+        {currentAlbum && (
+          <motion.div
+            key={currentAlbum}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3 }}
+          >
+            <Masonry
+              items={filteredPhotos}
+              scaleOnHover={true}
+              colorShiftOnHover={true}
+              onItemClick={handleItemClick}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

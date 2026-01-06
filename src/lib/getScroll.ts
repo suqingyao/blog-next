@@ -23,7 +23,7 @@ function getScroll(target: HTMLElement | Window | Document | null): number {
     //    the program may falls into this branch.
     // Check the corresponding tests for details. Don't sure what is the real scenario this happens.
     /* biome-ignore lint/complexity/useLiteralKeys: target is a never type */
-    result = target.scrollTop;
+    result = (target as any).scrollTop;
   }
 
   if (target && !isWindow(target) && typeof result !== 'number') {

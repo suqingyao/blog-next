@@ -8,6 +8,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import { Image } from '@/components/ui/image/Image';
 
 function useMedia(queries: string[], values: number[], defaultValue: number): number {
   const get = () => {
@@ -53,24 +54,13 @@ function useMeasure<T extends HTMLElement>() {
   return [ref, size] as const;
 }
 
-async function preloadImages(urls: string[]): Promise<void> {
-  await Promise.all(
-    urls.map(
-      async src =>
-        new Promise<void>((resolve) => {
-          const img = new window.Image();
-          img.src = src;
-          img.onload = img.onerror = () => resolve();
-        }),
-    ),
-  );
-}
-
 export interface Item {
   id: string;
   img: string;
   url: string;
-  height?: number; // 可选
+  width?: number;
+  height?: number;
+  blurDataURL?: string;
 }
 
 interface MasonryProps {
@@ -102,52 +92,61 @@ export const Masonry: React.FC<MasonryProps> = ({
   );
 
   const [containerRef, { width }] = useMeasure<HTMLDivElement>();
-  const [imagesReady, setImagesReady] = useState(false);
-  const [itemHeights, setItemHeights] = useState<number[]>(
-    items.map(item => item.height ?? 300),
-  );
+  // 仅作为后备，如果 item 中没有宽高，则在加载后更新
+  const [dynamicHeights, setItemHeights] = useState<Record<string, number>>({});
 
-  // 图片加载后测量高度
+  // 图片加载后测量高度（仅当元数据缺失时需要）
   const handleImgLoad = (
     idx: number,
     e: React.SyntheticEvent<HTMLImageElement>,
   ) => {
-    if (items[idx].height)
+    const item = items[idx];
+    if (item.width && item.height)
       return; // 已有高度无需测量
+
     const img = e.currentTarget as HTMLImageElement;
     const aspect = img.naturalHeight / img.naturalWidth;
-    const w = grid[idx]?.w || img.width;
-    const h = w * aspect;
+    // 这里的 w 是估算的列宽，并不精确，但在后续计算 grid 时会修正
+    // 关键是保存 aspect ratio 或者直接保存计算出的 height
+    // 为了简单，我们只在没有元数据时触发重绘
     setItemHeights((prev) => {
-      if (prev[idx] === h)
-        return prev;
-      const next = [...prev];
-      next[idx] = h;
-      return next;
+      // 存储宽高比，而不是具体高度，因为宽度可能会变
+      return { ...prev, [item.id]: aspect };
     });
   };
-
-  useEffect(() => {
-    preloadImages(items.map(i => i.img)).then(() => setImagesReady(true));
-  }, [items]);
 
   // Masonry 布局
   const grid = useMemo(() => {
     if (!width)
       return [];
-    const colHeights = new Array(columns).fill(0);
+    const colHeights = Array.from({ length: columns }, () => 0);
     const totalGaps = (columns - 1) * gap;
     const columnWidth = (width - totalGaps) / columns;
 
-    return items.map((child, idx) => {
+    return items.map((child) => {
       const col = colHeights.indexOf(Math.min(...colHeights));
       const x = col * (columnWidth + gap);
-      const height = itemHeights[idx] ?? 0;
+
+      let height = 300; // 默认高度
+
+      // 优先使用元数据中的宽高
+      if (child.width && child.height) {
+        height = (child.height / child.width) * columnWidth;
+      }
+      else if (dynamicHeights[child.id]) {
+        // 使用动态加载后计算的宽高比
+        height = dynamicHeights[child.id] * columnWidth;
+      }
+      else if (child.height) {
+        // 兼容旧的 height 属性（直接指定高度）
+        height = child.height;
+      }
+
       const y = colHeights[col];
       colHeights[col] += height + gap;
       return { ...child, x, y, w: columnWidth, h: height };
     });
-  }, [columns, items, width, itemHeights, gap]);
+  }, [columns, items, width, dynamicHeights, gap]);
 
   // 容器高度 = 最高的那一列
   const containerHeight = grid.length
@@ -212,11 +211,7 @@ export const Masonry: React.FC<MasonryProps> = ({
           }}
         >
           <motion.div
-            className="relative h-full w-full cursor-pointer rounded-xs bg-cover bg-center shadow-[0px_10px_50px_-10px_rgba(0,0,0,0.2)]"
-            style={{
-              backgroundImage: `url(${items[idx].img})`,
-              willChange: 'transform',
-            }}
+            className="relative h-full w-full cursor-pointer rounded-xs shadow-[0px_10px_50px_-10px_rgba(0,0,0,0.2)]"
             whileHover={scaleOnHover ? { scale: hoverScale } : undefined}
             transition={{
               type: 'tween',
@@ -231,12 +226,17 @@ export const Masonry: React.FC<MasonryProps> = ({
               }
             }}
           >
-            <img
+            <Image
               src={items[idx].url}
               alt={items[idx].id}
+              width={items[idx].width || 500}
+              height={items[idx].height || 500}
+              blurDataURL={items[idx].blurDataURL}
+              placeholder={items[idx].blurDataURL ? 'blur' : 'empty'}
               className="h-full w-full object-cover"
-              onLoad={e => handleImgLoad(idx, e)}
+              onLoad={(e: React.SyntheticEvent<HTMLImageElement>) => handleImgLoad(idx, e)}
               draggable={false}
+              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
             />
             {colorShiftOnHover && (
               <motion.div
