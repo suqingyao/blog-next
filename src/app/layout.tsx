@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import NextTopLoader from 'nextjs-toploader';
 import { Toaster } from 'sonner';
 import { AppContent } from '@/components/application';
+import { GlobalLoading } from '@/components/common/GlobalLoading';
 
 import { MusicPlayer } from '@/components/music-player';
 import { PlumContainer } from '@/components/plum-container';
@@ -55,6 +56,7 @@ export default function RootLayout({
           color="var(--color-primary)"
           showSpinner={false}
         />
+        <GlobalLoading />
         <AppProviders>
           <AppContextProvider>
             <AppContent>
