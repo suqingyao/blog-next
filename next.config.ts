@@ -1,6 +1,6 @@
-import type { NextConfig } from 'next';
+import type NextConfig from 'next';
 
-export default {
+const config: NextConfig = {
   images: {
     formats: ['image/avif', 'image/webp'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
@@ -13,10 +13,13 @@ export default {
       },
     ],
   },
-  webpack(config) {
+  turbopack: {
+    resolveExtensions: ['.tsx', '.ts', '.jsx', '.js', '.json'],
+  },
+  webpack(config: any) {
     // https://github.com/kkomelin/isomorphic-dompurify/issues/54
     // Fix isomorphic-dompurify in app router
-    config.externals = [...config.externals, 'jsdom', 'sharp'];
+    config.externals = [...(config.externals || []), 'jsdom', 'sharp'];
 
     return config;
   },
@@ -24,11 +27,10 @@ export default {
   experimental: {
     optimizePackageImports: ['react-lottie'],
   },
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
   typescript: {
     ignoreBuildErrors: true,
   },
   bundlePagesRouterDependencies: true,
-} as NextConfig;
+};
+
+export default config;

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-export async function ClientOnly({ children }: { children?: React.ReactNode }) {
+export function ClientOnly({ children }: { children?: React.ReactNode }) {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
