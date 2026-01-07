@@ -1,17 +1,52 @@
 'use client';
 
 import type { PhotoFile } from '@/lib/photos';
+import { motion as m } from 'motion/react';
 import dynamic from 'next/dynamic';
 
-const PhotoMap = dynamic(() => import('./Map'), {
+const MapLibreMap = dynamic(() => import('./MapLibreMap'), {
   ssr: false,
-  loading: () => (
-    <div className="flex h-full w-full items-center justify-center bg-gray-100 dark:bg-zinc-800 rounded-xl">
-      <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
-    </div>
-  ),
+  loading: () => <MapLoadingState />,
 });
 
 export function MapClient({ photos }: { photos: PhotoFile[] }) {
-  return <PhotoMap photos={photos} />;
+  return <MapLibreMap photos={photos} />;
+}
+
+function MapLoadingState() {
+  return (
+    <m.div
+      className="flex h-screen w-full items-center justify-center"
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3, delay: 0.1 }}
+    >
+      <div className="text-center">
+        <m.div
+          className="mb-4 text-4xl"
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.4, delay: 0.2 }}
+        >
+          📍
+        </m.div>
+        <m.div
+          className="text-lg font-medium"
+          initial={{ opacity: 0, y: 5 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, delay: 0.3 }}
+        >
+          加载地图中
+        </m.div>
+        <m.p
+          className="text-sm text-zinc-600 dark:text-zinc-400"
+          initial={{ opacity: 0, y: 5 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, delay: 0.4 }}
+        >
+          正在解析位置信息...
+        </m.p>
+      </div>
+    </m.div>
+  );
 }

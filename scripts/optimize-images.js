@@ -9,6 +9,7 @@ const config = {
   inputDir: path.join(process.cwd(), 'public/photos'),
   outputDir: path.join(process.cwd(), 'public/photos'),
   metadataFile: path.join(process.cwd(), 'public/image-metadata.json'),
+  gpsConfigFile: path.join(process.cwd(), 'scripts/gps-config.json'),
   sizes: [640, 828, 1080, 1920], // 响应式尺寸
   quality: {
     jpeg: 80,
@@ -17,6 +18,16 @@ const config = {
   },
   blurSize: 10, // blur placeholder 宽度
 };
+
+// 加载 GPS 配置
+let gpsConfig = {};
+try {
+  gpsConfig = fs.readJsonSync(config.gpsConfigFile);
+  console.log('📍 GPS config loaded\n');
+}
+catch {
+  console.log('⚠️  No GPS config found, will only use EXIF GPS data\n');
+}
 
 // 存储所有图片元数据
 const imageMetadata = {};
@@ -107,6 +118,25 @@ async function generateResponsiveSizes(inputPath, outputDir, filename, ext) {
 }
 
 /**
+ * 获取照片的 GPS 信息（优先使用 EXIF，否则使用配置文件）
+ */
+async function getGpsInfo(inputPath, relativePath) {
+  // 1. 尝试从 EXIF 中读取 GPS
+  const exifGps = await exifr.gps(inputPath);
+  if (exifGps) {
+    return { lat: exifGps.latitude, lng: exifGps.longitude };
+  }
+
+  // 2. 如果没有 EXIF GPS，尝试从配置文件中获取
+  const albumName = path.dirname(relativePath).split(path.sep)[0];
+  if (gpsConfig[albumName] && gpsConfig[albumName].defaultGps) {
+    return gpsConfig[albumName].defaultGps;
+  }
+
+  return null;
+}
+
+/**
  * 优化单张图片
  */
 async function optimizeImage(inputPath, outputDir, relativePath) {
@@ -139,8 +169,8 @@ async function optimizeImage(inputPath, outputDir, relativePath) {
     // 4. 获取图片尺寸信息
     const metadata = await sharp(inputPath).metadata();
 
-    // 5. 获取 GPS 信息
-    const gps = await exifr.gps(inputPath);
+    // 5. 获取 GPS 信息（EXIF 或配置文件）
+    const gps = await getGpsInfo(inputPath, relativePath);
 
     // 6. 保存元数据
     const imageKey = `/photos/${relativePath}`;
@@ -150,7 +180,7 @@ async function optimizeImage(inputPath, outputDir, relativePath) {
       blurDataURL,
       webp: `/photos/${path.relative(config.outputDir, webpPath)}`,
       sizes,
-      gps: gps ? { lat: gps.latitude, lng: gps.longitude } : null,
+      gps,
     };
 
     console.log(`  ✅ Completed: ${relativePath}${gps ? ' 📍' : ''}`);

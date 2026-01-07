@@ -37,3 +37,41 @@ body,
 ::selection {
   @apply bg-primary text-white;
 }
+
+/* MapLibre 地图样式优化 */
+.maplibregl-popup-content {
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  padding: 8px;
+  background: white;
+}
+
+.maplibregl-popup-tip {
+  display: none;
+}
+
+.maplibregl-popup-close-button {
+  display: none;
+}
+
+/* 深色模式下的 Popup */
+.dark .maplibregl-popup-content {
+  background: #18181b;
+  color: #fafafa;
+}
+
+/* MapLibre 控制按钮样式 */
+.maplibregl-ctrl-group {
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.maplibregl-ctrl button {
+  width: 32px;
+  height: 32px;
+}
+
+/* 隐藏默认的 attribution */
+.maplibregl-control-container .maplibregl-ctrl-bottom-right {
+  display: none;
+}
