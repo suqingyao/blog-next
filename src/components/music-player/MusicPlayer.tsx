@@ -445,7 +445,7 @@ export function MusicPlayer() {
 
                   {/* 音量控制 */}
                   <div className="flex items-center">
-                    <Tooltip.Provider delayDuration={200}>
+                    <Tooltip.Provider delayDuration={0}>
                       <Tooltip.Root>
                         <Tooltip.Trigger asChild>
                           <button type="button" className="flex items-center justify-center rounded-full bg-transparent p-2 text-gray-500 transition-all duration-200 hover:bg-black/5 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/10 dark:hover:text-gray-300">
@@ -460,24 +460,29 @@ export function MusicPlayer() {
                         </Tooltip.Trigger>
                         <Tooltip.Content
                           side="top"
+                          sideOffset={10}
                           className="rounded-2xl border-none bg-transparent bg-none p-0 shadow-none ring-0"
                         >
                           <div className="relative flex flex-col items-center">
                             {/* 音量滑块容器 */}
-                            <div className="relative flex h-36 w-10 flex-col items-center justify-between gap-2 rounded-2xl p-2 shadow-lg backdrop-blur-sm dark:bg-black/90">
+                            <div className="relative flex h-32 w-10 flex-col items-center justify-center gap-2 rounded-2xl border border-zinc-200 bg-white/90 p-3 shadow-xl backdrop-blur-md dark:border-zinc-700 dark:bg-zinc-800/90">
+
+                              {/* 百分比显示 */}
+                              <span className="text-[10px] font-medium text-gray-500 dark:text-gray-400">
+                                {Math.round(isMuted ? 0 : volume * 100)}
+                                %
+                              </span>
+
                               {/* 音量滑块轨道 */}
                               <div
-                                className="relative flex h-24 w-1 cursor-pointer flex-col justify-end"
+                                className="relative flex h-20 w-1.5 cursor-pointer flex-col justify-end rounded-full bg-zinc-200 dark:bg-zinc-600"
                                 data-volume-slider
                                 onClick={handleVolumeSliderClick}
                                 onMouseDown={handleVolumeSliderMouseDown}
                               >
-                                {/* 背景轨道 */}
-                                <div className="absolute inset-0 w-1 rounded-full bg-gray-300 dark:bg-gray-600" />
-
                                 {/* 活跃轨道 */}
                                 <div
-                                  className="bg-primary w-1 rounded-full transition-all duration-150"
+                                  className="bg-primary w-full rounded-full transition-all duration-75"
                                   style={{
                                     height: `${(isMuted ? 0 : volume) * 100}%`,
                                   }}
@@ -485,33 +490,12 @@ export function MusicPlayer() {
 
                                 {/* 滑块手柄 */}
                                 <div
-                                  className="bg-primary absolute left-1/2 h-3 w-3 origin-center -translate-x-1/2 translate-y-1/2 rounded-full shadow-md transition-all duration-150 hover:scale-110"
+                                  className="bg-primary ring-offset-background absolute left-1/2 h-3.5 w-3.5 origin-center -translate-x-1/2 translate-y-1/2 rounded-full border-2 border-white shadow-md ring-offset-2 transition-transform duration-75 hover:scale-110 dark:border-zinc-800"
                                   style={{
                                     bottom: `${(isMuted ? 0 : volume) * 100}%`,
                                   }}
                                 />
                               </div>
-
-                              {/* 百分比显示 */}
-                              <span className="text-xs font-light text-gray-600 dark:text-gray-300">
-                                {Math.round(isMuted ? 0 : volume * 100)}
-                                %
-                              </span>
-
-                              {/* 音量图标 */}
-                              <button
-                                type="button"
-                                onClick={toggleMute}
-                                className="cursor-pointer text-gray-600 opacity-80 transition-all duration-150 hover:text-gray-800 hover:opacity-100 dark:text-gray-300 dark:hover:text-gray-100"
-                              >
-                                {isMuted
-                                  ? (
-                                      <i className="i-mingcute-volume-mute-fill h-3 w-3" />
-                                    )
-                                  : (
-                                      <i className="i-mingcute-volume-fill h-3 w-3" />
-                                    )}
-                              </button>
                             </div>
                           </div>
                         </Tooltip.Content>
@@ -521,20 +505,27 @@ export function MusicPlayer() {
                 </div>
 
                 {/* 进度条 */}
-                <div className="flex items-center justify-between gap-2 text-xs text-gray-500 dark:text-gray-400">
-                  <span>{formatTime(currentTime)}</span>
+                <div className="flex items-center justify-between gap-3 text-xs font-medium text-gray-500 dark:text-gray-400">
+                  <span className="w-9 text-right tabular-nums">{formatTime(currentTime)}</span>
                   <div
-                    className="group h-1 flex-1 cursor-pointer rounded-full bg-black/10 dark:bg-white/20"
+                    className="group relative flex h-4 flex-1 cursor-pointer items-center"
                     onClick={handleProgressClick}
                   >
-                    <div
-                      className="bg-primary after:bg-primary relative h-1 rounded-full transition-[width] duration-100 ease-linear after:absolute after:top-1/2 after:-right-1 after:hidden after:h-2 after:w-2 after:translate-y-[-50%] after:rounded-full after:content-[''] group-hover:after:block"
-                      style={{
-                        width: `${progress}%`,
-                      }}
-                    />
+                    {/* 轨道背景 */}
+                    <div className="absolute h-1 w-full rounded-full bg-zinc-200 transition-all duration-200 group-hover:h-1.5 dark:bg-zinc-700">
+                      {/* 进度 */}
+                      <div
+                        className="bg-primary absolute h-full rounded-full transition-all duration-100 ease-linear"
+                        style={{
+                          width: `${progress}%`,
+                        }}
+                      >
+                        {/* 拖拽手柄 - 仅在 hover 时显示 */}
+                        <div className="absolute -right-1.5 top-1/2 h-3 w-3 -translate-y-1/2 scale-0 rounded-full bg-white shadow-md ring-2 ring-primary transition-transform duration-200 group-hover:scale-100 dark:bg-zinc-200" />
+                      </div>
+                    </div>
                   </div>
-                  <span>{formatTime(duration)}</span>
+                  <span className="w-9 tabular-nums">{formatTime(duration)}</span>
                 </div>
               </div>
             )}
