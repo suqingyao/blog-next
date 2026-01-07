@@ -20,6 +20,14 @@ declare global {
     readingTime?: string;
     tags?: string[];
   }
+
+  interface Document {
+    startViewTransition?: (callback: () => void) => {
+      finished: Promise<void>;
+      ready: Promise<void>;
+      updateCallbackDone: Promise<void>;
+    };
+  }
 }
 
 declare module '*.json' {

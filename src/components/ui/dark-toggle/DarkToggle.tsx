@@ -27,6 +27,7 @@ export function DarkToggle() {
     );
 
     const transition = transitionViewIfSupported(() => {
+      // eslint-disable-next-line react-dom/no-flush-sync
       flushSync(() => {
         setTheme(isDark ? 'light' : 'dark');
         isDark ? playOff() : playOn();

@@ -1,5 +1,6 @@
 import path from 'node:path';
 import process from 'node:process';
+import exifr from 'exifr';
 import fs from 'fs-extra';
 import sharp from 'sharp';
 
@@ -138,7 +139,10 @@ async function optimizeImage(inputPath, outputDir, relativePath) {
     // 4. 获取图片尺寸信息
     const metadata = await sharp(inputPath).metadata();
 
-    // 5. 保存元数据
+    // 5. 获取 GPS 信息
+    const gps = await exifr.gps(inputPath);
+
+    // 6. 保存元数据
     const imageKey = `/photos/${relativePath}`;
     imageMetadata[imageKey] = {
       width: metadata.width,
@@ -146,9 +150,10 @@ async function optimizeImage(inputPath, outputDir, relativePath) {
       blurDataURL,
       webp: `/photos/${path.relative(config.outputDir, webpPath)}`,
       sizes,
+      gps: gps ? { lat: gps.latitude, lng: gps.longitude } : null,
     };
 
-    console.log(`  ✅ Completed: ${relativePath}`);
+    console.log(`  ✅ Completed: ${relativePath}${gps ? ' 📍' : ''}`);
   }
   catch (error) {
     console.error(`  ❌ Error processing ${relativePath}:`, error.message);
@@ -172,6 +177,18 @@ async function processDirectory(srcDir, destDir, baseDir = srcDir) {
       await processDirectory(inputPath, outputPath, baseDir);
     }
     else {
+      // 过滤掉已经生成的优化文件（包含 -xxxw 或 .webp）
+      // 这里的逻辑是：只处理原始的 JPG/PNG 图片
+      // 如果文件名匹配 -[数字]w.ext，则跳过
+      if (/-\d+w\./.test(file)) {
+        continue;
+      }
+      // 如果是 .webp 文件且不是我们刚刚生成的（虽然我们生成的 webp 名字跟原图一样，但我们只处理 jpg/png/jpeg 源文件）
+      // 实际上，如果原图就是 webp，我们也应该处理。
+      // 但为了防止处理生成的 webp（通常我们生成的 webp 是基于 jpg 生成的），我们需要小心。
+      // 最安全的做法是：只处理没有被标记为"已优化"的文件。
+      // 但简单起见，我们假设源文件主要是 JPG/PNG，或者命名不包含 -xxxw。
+
       const relativePath = path.relative(baseDir, inputPath);
       await optimizeImage(inputPath, destDir, relativePath);
     }

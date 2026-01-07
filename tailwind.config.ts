@@ -412,7 +412,7 @@ const config: Config = {
     typography,
     iconsPlugin({
       collections: {
-        ...getIconCollections(['mingcute']),
+        ...getIconCollections(['mingcute', 'ri']),
       },
     }),
     // 自定义布局组件插件

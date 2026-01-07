@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useMemo } from 'react';
 
 import { SearchButton } from '@/components/search';
+import { ThemeToggle } from '@/components/ui/dark-toggle/ThemeToggle';
 import { APP_HEADER_HEIGHT } from '@/constants';
 import { useScrollTop } from '@/hooks/use-scroll-top';
 import { cn } from '@/lib/utils';
@@ -14,22 +15,27 @@ const links = [
   {
     label: 'Portfolio',
     path: '/',
-    icon: 'i-mingcute-home-5-fill',
+    icon: 'i-ri-home-2-line',
   },
   {
     label: 'Posts',
     path: '/posts',
-    icon: 'i-mingcute-notebook-2-fill',
+    icon: 'i-ri-file-list-2-line',
   },
   {
     label: 'Tags',
     path: '/tags',
-    icon: 'i-mingcute-tag-fill',
+    icon: 'i-ri-price-tag-3-line',
   },
   {
     label: 'Photos',
     path: '/photos',
-    icon: 'i-mingcute-camera-2-ai-fill',
+    icon: 'i-ri-camera-2-line',
+  },
+  {
+    label: 'Map',
+    path: '/map',
+    icon: 'i-ri-map-2-line',
   },
 ];
 
@@ -78,11 +84,12 @@ export function AppNavbar() {
           <Link
             href={link.path}
             key={link.path}
-            className="flex cursor-pointer items-center justify-center p-2"
+            className="flex cursor-pointer items-center justify-center p-2 transition-colors hover:text-primary"
           >
             <i className={cn(link.icon, 'text-xl')}></i>
           </Link>
         ))}
+        <ThemeToggle />
         <SearchButton />
       </nav>
     </div>
