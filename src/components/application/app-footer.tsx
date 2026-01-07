@@ -1,4 +1,4 @@
-import { APP_NAME, GITHUB_USERNAME } from '@/constants';
+import { APP_NAME } from '@/constants';
 
 export function AppFooter() {
   const currentYear = new Date().getFullYear();
@@ -6,31 +6,6 @@ export function AppFooter() {
   return (
     <footer className="mt-auto w-full border-t border-zinc-100 bg-white/50 py-10 backdrop-blur-sm dark:border-zinc-800 dark:bg-zinc-900/50">
       <div className="mx-auto flex max-w-5xl flex-col items-center justify-center gap-8 px-6">
-        {/* Social Links */}
-        <div className="flex items-center gap-8">
-          <a
-            href={`https://github.com/${GITHUB_USERNAME}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group flex flex-col items-center gap-2 text-zinc-500 transition-colors hover:text-black dark:text-zinc-400 dark:hover:text-white"
-            aria-label="GitHub"
-          >
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-zinc-100 transition-transform group-hover:scale-110 dark:bg-zinc-800">
-              <i className="i-mingcute-github-line h-5 w-5" />
-            </div>
-          </a>
-          <a
-            href="/api/feed"
-            target="_blank"
-            className="group flex flex-col items-center gap-2 text-zinc-500 transition-colors hover:text-[#EE802F] dark:text-zinc-400 dark:hover:text-[#EE802F]"
-            aria-label="RSS"
-          >
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-zinc-100 transition-transform group-hover:scale-110 dark:bg-zinc-800">
-              <i className="i-mingcute-rss-line h-5 w-5" />
-            </div>
-          </a>
-        </div>
-
         {/* Info & Copyright */}
         <div className="flex flex-col items-center gap-4 text-center">
           <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-zinc-600 dark:text-zinc-400">
