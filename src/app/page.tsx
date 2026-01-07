@@ -1,16 +1,15 @@
-import { AppContact, AppLatestPosts } from '@/components/application';
+import { AppLatestPosts } from '@/components/application';
 import { AppHero } from '@/components/application/app-hero';
 
 import { getAllPosts } from '@/models/post.model';
 
 export default async function Home() {
   const posts = await getAllPosts();
-  const latestPosts = posts.slice(0, 5) as any[];
+  const latestPosts = posts.slice(0, 4) as any[];
 
   return (
-    <div className="content-container">
+    <div className="content-container space-y-12">
       <AppHero />
-      <AppContact />
       <AppLatestPosts posts={latestPosts} />
     </div>
   );

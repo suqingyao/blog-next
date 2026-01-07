@@ -4,98 +4,61 @@ import { motion } from 'motion/react';
 import Link from 'next/link';
 
 import dayjs from '@/lib/dayjs';
-import { cn } from '@/lib/utils';
 
-export function AppLatestPosts({ posts }: { posts: Post[] }) {
+export function AppLatestPosts({ posts }: { posts: any[] }) {
   return (
-    <div className={cn('py-4 font-mono')}>
-      <motion.div
-        layout
-        className="flex items-center justify-between"
-      >
-        <motion.h2
-          initial={{ x: 100, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{
-            duration: 0.5,
-          }}
-          className="text-3xl font-semibold"
+    <section className="py-12">
+      <div className="mb-8 flex items-center justify-between">
+        <h2 className="text-2xl font-bold tracking-tight">Latest Writing</h2>
+        <Link
+          href="/posts"
+          className="group flex items-center gap-1 text-sm font-medium text-zinc-500 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
         >
-          Latest Posts
-        </motion.h2>
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5, duration: 0.5 }}
-        >
-          <Link
-            href="/posts"
-            className="opacity-50 hover:opacity-100"
-          >
-            <span className="i-mingcute-arrow-right-up-line text-2xl" />
-          </Link>
-        </motion.div>
-      </motion.div>
-      <motion.ul
-        initial="initial"
-        animate="animate"
-        variants={{
-          initial: {
-            transition: {
-              when: 'afterChildren',
-            },
-          },
-          animate: {
-            transition: {
-              when: 'beforeChildren',
-              staggerChildren: 0.3,
-              ease: 'easeInOut',
-            },
-          },
-        }}
-        className="my-4 flex flex-col gap-2"
-      >
+          View all
+          <span className="i-mingcute-arrow-right-line transition-transform group-hover:translate-x-1" />
+        </Link>
+      </div>
+      <div className="grid gap-6 sm:grid-cols-2">
         {posts.map((post, index) => (
-          <Card
-            post={post}
-            delay={index * 0.06}
-            key={post.slug}
-          />
+          <PostCard key={post.slug} post={post} index={index} />
         ))}
-      </motion.ul>
-    </div>
+      </div>
+    </section>
   );
 }
 
-export function Card({ post, delay }: { post: Post; delay: number }) {
+function PostCard({ post, index }: { post: any; index: number }) {
   return (
-    <motion.li
-      variants={{
-        initial: {
-          opacity: 0,
-          y: 10,
-        },
-        animate: {
-          opacity: 1,
-          y: 0,
-          transition: {
-            ease: 'easeInOut',
-            delay,
-          },
-        },
-      }}
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: index * 0.1 }}
+      className="group relative flex flex-col gap-3 rounded-2xl bg-zinc-50 p-6 transition-colors hover:bg-zinc-100 dark:bg-zinc-900 dark:hover:bg-zinc-800/80"
     >
-      <Link
-        href={`/posts/${post.id}`}
-        className="block rounded-md p-3 transition-colors hover:bg-neutral-400/10 dark:hover:bg-neutral-800/10"
-      >
-        <div className="flex items-center justify-between">
-          <div className="flex-1">{post.title}</div>
-          <div className="hidden font-normal opacity-40 sm:block">
-            {dayjs(post.createdTime).format('MMM DD, YYYY')}
-          </div>
-        </div>
-      </Link>
-    </motion.li>
+      <div className="flex items-center gap-3 text-sm text-zinc-500 dark:text-zinc-400">
+        <time dateTime={post.createdTime}>
+          {dayjs(post.createdTime).format('MMM DD, YYYY')}
+        </time>
+        {post.tags?.[0] && (
+          <>
+            <span>•</span>
+            <span className="font-medium text-zinc-600 dark:text-zinc-300">
+              {post.tags[0]}
+            </span>
+          </>
+        )}
+      </div>
+      <h3 className="text-lg font-semibold tracking-tight text-zinc-900 group-hover:text-primary dark:text-zinc-100 dark:group-hover:text-primary">
+        <Link href={`/posts/${post.slug}`}>
+          <span className="absolute inset-0" />
+          {post.title}
+        </Link>
+      </h3>
+      {post.summary && (
+        <p className="line-clamp-2 text-sm text-zinc-600 dark:text-zinc-400">
+          {post.summary.replace(/^AI摘要：/, '')}
+        </p>
+      )}
+    </motion.div>
   );
 }

@@ -1,4 +1,3 @@
-export * from './app-contact';
 export * from './app-content';
 export * from './app-footer';
 export * from './app-header';
