@@ -423,7 +423,7 @@ export function MusicPlayer() {
 
                                 {/* 滑块手柄 */}
                                 <div
-                                  className="bg-primary ring-offset-background absolute left-1/2 h-3.5 w-3.5 origin-center -translate-x-1/2 translate-y-1/2 rounded-full border-2 border-white shadow-md ring-offset-2 transition-transform duration-75 hover:scale-110 dark:border-zinc-800"
+                                  className="bg-primary absolute left-1/2 h-3.5 w-3.5 origin-center -translate-x-1/2 translate-y-1/2 rounded-full transition-transform duration-75 hover:scale-110 dark:border-zinc-800"
                                   style={{
                                     bottom: `${(isMuted ? 0 : volume) * 100}%`,
                                   }}
