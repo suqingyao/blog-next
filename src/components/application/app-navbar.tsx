@@ -20,7 +20,7 @@ const links = [
   {
     label: 'Posts',
     path: '/posts',
-    icon: 'i-ri-file-list-2-line',
+    icon: 'i-ri-quill-pen-line',
   },
   {
     label: 'Tags',
@@ -35,7 +35,7 @@ const links = [
   {
     label: 'Map',
     path: '/map',
-    icon: 'i-ri-map-2-line',
+    icon: 'i-ri-map-pin-2-line',
   },
 ];
 
