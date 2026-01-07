@@ -1,6 +1,5 @@
 'use client';
 
-import type { PlayerPosition } from '@/store/atoms/music-player';
 import { useEffect, useRef, useState } from 'react';
 import { Tooltip } from '@/components/ui/tooltip';
 import { APP_HEADER_HEIGHT } from '@/constants';
@@ -31,14 +30,12 @@ export function MusicPlayer() {
     formatTime,
     initializePlayer,
     startPlayback,
-    changePosition,
     startDrag,
     endDrag,
   } = useMusicPlayer();
 
   const [isExpanded, setIsExpanded] = useState(false);
   const [dragPosition, setDragPosition] = useState({ x: 0, y: 0 });
-  const [showPositionMenu, setShowPositionMenu] = useState(false);
   const playerRef = useRef<HTMLDivElement>(null);
   const isDraggingRef = useRef(false);
   const hasDraggedRef = useRef(false);
@@ -253,36 +250,6 @@ export function MusicPlayer() {
     }
   }, [isDragging, dragOffset.x, dragOffset.y]);
 
-  // 点击外部关闭位置菜单
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        showPositionMenu
-        && playerRef.current
-        && !playerRef.current.contains(event.target as Node)
-      ) {
-        setShowPositionMenu(false);
-      }
-    };
-
-    if (showPositionMenu) {
-      document.addEventListener('mousedown', handleClickOutside);
-      return () => {
-        document.removeEventListener('mousedown', handleClickOutside);
-      };
-    }
-  }, [showPositionMenu]);
-
-  /**
-   * 位置选择菜单选项
-   */
-  const positionOptions: { value: PlayerPosition; label: string }[] = [
-    { value: 'tl', label: 'top-left' },
-    { value: 'tr', label: 'top-right' },
-    { value: 'bl', label: 'bottom-left' },
-    { value: 'br', label: 'bottom-right' },
-  ];
-
   if (!currentTrack) {
     return null;
   }
@@ -359,40 +326,6 @@ export function MusicPlayer() {
                     </p>
                   </div>
                   <div className="flex items-center gap-2">
-                    {/* 位置选择按钮 */}
-                    <div className="relative">
-                      <button
-                        type="button"
-                        onClick={() => setShowPositionMenu(!showPositionMenu)}
-                        className="flex items-center justify-center rounded-full border-none bg-transparent p-1 text-gray-500 transition-all duration-200 hover:bg-black/5 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/10 dark:hover:text-gray-300"
-                        title="Select Position"
-                      >
-                        <i className="i-mingcute-location-line h-4 w-4" />
-                      </button>
-
-                      {/* 位置选择菜单 */}
-                      {showPositionMenu && (
-                        <div className="absolute top-full right-0 z-[10000] mt-1 min-w-[120px] rounded-lg border border-black/10 bg-white shadow-lg dark:border-white/10 dark:bg-gray-800">
-                          {positionOptions.map(option => (
-                            <button
-                              type="button"
-                              key={option.value}
-                              onClick={() => {
-                                changePosition(option.value);
-                                setShowPositionMenu(false);
-                              }}
-                              className={cn(
-                                'block w-full border-none bg-transparent px-3 py-2 text-left text-xs text-gray-700 transition-colors hover:bg-black/5 dark:text-gray-300 dark:hover:bg-white/10',
-                                position === option.value && 'bg-primary text-white',
-                              )}
-                            >
-                              {option.label}
-                            </button>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-
                     {/* 关闭按钮 */}
                     <button
                       type="button"
