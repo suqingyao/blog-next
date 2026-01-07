@@ -315,9 +315,9 @@ export function MusicPlayer() {
       <div
         ref={playerRef}
         className={cn(
-          'rounded-xl border border-black/10 bg-white/95 backdrop-blur-sm transition-all duration-300 dark:border-white/10 dark:bg-black/90',
+          'border border-black/10 bg-white/95 backdrop-blur-sm transition-all duration-300 dark:border-white/10 dark:bg-black/90',
           isDragging && 'scale-110 shadow-2xl',
-          isExpanded ? 'h-auto w-80 p-3' : 'h-16 w-16 p-2',
+          isExpanded ? 'h-auto w-80 p-3 rounded-xl' : 'h-10 w-10 p-2 rounded-full',
           !isExpanded
             ? isDragging
               ? 'cursor-grabbing'
@@ -330,11 +330,12 @@ export function MusicPlayer() {
         {!isExpanded
           ? (
         /* 收缩状态 - 只显示音乐图标和播放状态 */
-              <div className="relative flex h-full w-full items-center justify-center">
-                <i className="i-mingcute-music-fill h-6 w-6 text-gray-600 dark:text-gray-300" />
-                {isPlaying && (
-                  <div className="bg-primary absolute -top-1 -right-1 h-3 w-3 animate-pulse rounded-full" />
-                )}
+              <div className={cn(
+                'relative flex h-full w-full items-center justify-center',
+                isPlaying && 'animate-[spin_3s_linear_infinite]',
+              )}
+              >
+                <i className="i-mingcute-music-fill h-5 w-5 text-gray-600 dark:text-gray-300" />
               </div>
             )
           : (
