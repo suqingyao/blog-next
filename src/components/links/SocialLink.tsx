@@ -21,7 +21,7 @@ const iconMapper: Record<Platform, PlatformInfo> = {
     label: 'GitHub',
   },
   twitter: {
-    icon: 'i-ri-twitter-x-line',
+    icon: 'i-mingcute-twitter-line',
     platform: 'twitter',
     label: 'Twitter',
   },
@@ -36,7 +36,7 @@ const iconMapper: Record<Platform, PlatformInfo> = {
     label: 'Telegram',
   },
   bilibili: {
-    icon: 'i-ri-bilibili-line',
+    icon: 'i-mingcute-bilibili-line',
     platform: 'bilibili',
     label: '哔哩哔哩',
   },
