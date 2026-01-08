@@ -55,7 +55,7 @@ export function ThemeToggle() {
         className="flex cursor-pointer items-center justify-center p-2 transition-colors hover:text-primary"
         type="button"
       >
-        <i className="i-ri-sun-fill text-xl opacity-0" />
+        <i className="i-mingcute-sun-line text-xl opacity-0" />
       </button>
     );
   }
@@ -73,8 +73,8 @@ export function ThemeToggle() {
         className={cn(
           'text-xl transition-all duration-300',
           isDark
-            ? 'i-ri-moon-line'
-            : 'i-ri-sun-line rotate-90',
+            ? 'i-mingcute-moon-line'
+            : 'i-mingcute-sun-line rotate-90',
         )}
       />
     </button>

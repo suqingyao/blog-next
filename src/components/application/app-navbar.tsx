@@ -15,27 +15,27 @@ const links = [
   {
     label: 'Portfolio',
     path: '/',
-    icon: 'i-ri-home-2-line',
+    icon: 'i-mingcute-home-2-line',
   },
   {
     label: 'Posts',
     path: '/posts',
-    icon: 'i-ri-quill-pen-line',
+    icon: 'i-mingcute-quill-pen-line',
   },
   {
     label: 'Tags',
     path: '/tags',
-    icon: 'i-ri-price-tag-3-line',
+    icon: 'i-mingcute-tag-line',
   },
   {
     label: 'Photos',
     path: '/photos',
-    icon: 'i-ri-camera-2-line',
+    icon: 'i-mingcute-camera-line',
   },
   {
     label: 'Map',
     path: '/map',
-    icon: 'i-ri-map-pin-2-line',
+    icon: 'i-mingcute-map-pin-line',
   },
 ];
 
