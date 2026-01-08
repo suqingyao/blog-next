@@ -1,3 +1,5 @@
+import process from 'node:process';
+
 /**
  * 应用基础配置常量
  */

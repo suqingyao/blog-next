@@ -7,6 +7,8 @@ declare global {
     type IntrinsicElements = Jsx.IntrinsicElements;
   }
 
+  export type Nullable<T> = T | null | undefined;
+
   type Fn = () => void;
 
   interface Post {
