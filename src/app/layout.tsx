@@ -4,7 +4,6 @@ import { Toaster } from 'sonner';
 import { AppContent } from '@/components/application';
 import { DotGrid } from '@/components/common/DotGrid';
 
-import { GlobalLoading } from '@/components/common/GlobalLoading';
 import { MusicPlayer } from '@/components/music-player';
 import { Backtop } from '@/components/ui/backtop';
 import { APP_DESCRIPTION, APP_NAME, OUR_DOMAIN } from '@/constants';
@@ -69,7 +68,6 @@ export default function RootLayout({
           color="var(--color-primary)"
           showSpinner={false}
         />
-        <GlobalLoading />
         <AppProviders>
           <AppContextProvider>
             <AppContent>
@@ -79,7 +77,6 @@ export default function RootLayout({
           </AppContextProvider>
           <Backtop />
           <Toaster />
-
           <MusicPlayer />
         </AppProviders>
       </body>

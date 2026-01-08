@@ -1,14 +1,10 @@
 'use client';
 
-import { motion } from 'motion/react';
+import { m } from 'motion/react';
 
 export function GooeyLoading() {
   return (
     <div className="relative flex h-40 w-40 items-center justify-center" style={{ filter: 'url(#goo-global)' }}>
-      {/* 
-        SVG Filter 定义 
-        使用不同的 ID 避免潜在冲突
-      */}
       <svg className="absolute h-0 w-0">
         <defs>
           <filter id="goo-global">
@@ -25,7 +21,7 @@ export function GooeyLoading() {
       </svg>
 
       {/* 中心主核 */}
-      <motion.div
+      <m.div
         className="absolute h-12 w-12 rounded-full bg-primary"
         animate={{
           scale: [1, 1.2, 1],
@@ -38,10 +34,10 @@ export function GooeyLoading() {
       />
 
       {/* 环绕粒子 */}
-      {[...Array(6)].map((_, index) => {
+      {[...Array.from({ length: 6 })].map((_, index) => {
         const angle = (index / 6) * 360;
         return (
-          <motion.div
+          <m.div
             key={index}
             className="absolute h-10 w-10 rounded-full bg-primary"
             initial={{ x: 0, y: 0 }}
