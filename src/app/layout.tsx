@@ -2,10 +2,10 @@ import type { Metadata } from 'next';
 import NextTopLoader from 'nextjs-toploader';
 import { Toaster } from 'sonner';
 import { AppContent } from '@/components/application';
-import { GlobalLoading } from '@/components/common/GlobalLoading';
+import { DotGrid } from '@/components/common/DotGrid';
 
+import { GlobalLoading } from '@/components/common/GlobalLoading';
 import { MusicPlayer } from '@/components/music-player';
-import { PlumContainer } from '@/components/plum-container';
 import { Backtop } from '@/components/ui/backtop';
 import { APP_DESCRIPTION, APP_NAME, OUR_DOMAIN } from '@/constants';
 import { AppContextProvider } from '@/contexts';
@@ -52,6 +52,19 @@ export default function RootLayout({
           'min-h-screen w-full',
         )}
       >
+        <div style={{ width: '100%', height: '100%', position: 'fixed', inset: 0, zIndex: -1 }}>
+          <DotGrid
+            dotSize={2}
+            gap={40}
+            baseColor="#e5e7eb"
+            activeColor="#a1a1aa"
+            proximity={100}
+            shockRadius={100}
+            shockStrength={2}
+            resistance={1000}
+            returnDuration={1}
+          />
+        </div>
         <NextTopLoader
           color="var(--color-primary)"
           showSpinner={false}
@@ -66,7 +79,7 @@ export default function RootLayout({
           </AppContextProvider>
           <Backtop />
           <Toaster />
-          <PlumContainer />
+
           <MusicPlayer />
         </AppProviders>
       </body>

@@ -40,6 +40,7 @@
     "fast-glob": "^3.3.3",
     "fs-extra": "^11.3.0",
     "gray-matter": "^4.0.3",
+    "gsap": "^3.14.2",
     "hast": "^1.0.0",
     "hast-util-to-html": "^9.0.5",
     "hast-util-to-jsx-runtime": "^2.3.6",

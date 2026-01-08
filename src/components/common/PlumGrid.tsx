@@ -5,7 +5,7 @@ import { useMount } from '@/hooks/use-mount';
 import { useRafFn } from '@/hooks/use-raf-fn';
 import { useWindowSize } from '@/hooks/use-window-size';
 
-export function PlumContainer() {
+export function PlumGrid() {
   const r180 = Math.PI;
   const r90 = Math.PI / 2;
   const r15 = Math.PI / 12;
