@@ -1,55 +1,53 @@
-import './PhotoViewer.css'
+import type { Swiper as SwiperType } from 'swiper';
+import type { LoadingIndicatorRef } from '@/modules/inspector/LoadingIndicator';
+import type { PhotoManifest } from '@/types/photo';
+
+import { AnimatePresence, m } from 'motion/react';
+import { Fragment, Suspense, useCallback, useEffect, useRef, useState } from 'react';
+import { Keyboard, Navigation, Virtual } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Thumbhash } from '@/components/ui/thumbhash';
+import { useMobile } from '@/hooks/use-mobile';
+import { Spring } from '@/lib/spring';
+
+import { LoadingIndicator } from '@/modules/inspector/LoadingIndicator';
+import { PhotoInspector } from '@/modules/inspector/PhotoInspector';
+import { ShareModal } from '@/modules/social/ShareModal';
+// import { ReactionRail } from '../social';
+import { PhotoViewerTransitionPreview } from './animations/PhotoViewerTransitionPreview';
+import { usePhotoViewerTransitions } from './animations/usePhotoViewerTransitions';
+
+import { GalleryThumbnail } from './GalleryThumbnail';
+import { ProgressiveImage } from './ProgressiveImage';
+import './PhotoViewer.css';
 // Import Swiper styles
-import 'swiper/css'
-import 'swiper/css/navigation'
-
-import { Thumbhash } from '@afilmory/ui'
-import { Spring } from '@afilmory/utils'
-import { AnimatePresence, m } from 'motion/react'
-import { Fragment, Suspense, useCallback, useEffect, useRef, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import type { Swiper as SwiperType } from 'swiper'
-import { Keyboard, Navigation, Virtual } from 'swiper/modules'
-import { Swiper, SwiperSlide } from 'swiper/react'
-
-import { useMobile } from '~/hooks/useMobile'
-import type { LoadingIndicatorRef } from '~/modules/inspector/LoadingIndicator'
-import { LoadingIndicator } from '~/modules/inspector/LoadingIndicator'
-import { PhotoInspector } from '~/modules/inspector/PhotoInspector'
-import { ShareModal } from '~/modules/social/ShareModal'
-import type { PhotoManifest } from '~/types/photo'
-
-import { ReactionRail } from '../social'
-import { PhotoViewerTransitionPreview } from './animations/PhotoViewerTransitionPreview'
-import { usePhotoViewerTransitions } from './animations/usePhotoViewerTransitions'
-import { GalleryThumbnail } from './GalleryThumbnail'
-import { ProgressiveImage } from './ProgressiveImage'
+import 'swiper/css';
+import 'swiper/css/navigation';
 
 interface PhotoViewerProps {
-  photos: PhotoManifest[]
-  currentIndex: number
-  isOpen: boolean
-  onClose: () => void
-  onIndexChange: (index: number) => void
-  triggerElement: HTMLElement | null
+  photos: PhotoManifest[];
+  currentIndex: number;
+  isOpen: boolean;
+  onClose: () => void;
+  onIndexChange: (index: number) => void;
+  triggerElement: HTMLElement | null;
 }
 
-export const PhotoViewer = ({
+export function PhotoViewer({
   photos,
   currentIndex,
   isOpen,
   onClose,
   onIndexChange,
   triggerElement,
-}: PhotoViewerProps) => {
-  const { t } = useTranslation()
-  const isMobile = useMobile()
-  const swiperRef = useRef<SwiperType | null>(null)
-  const [isImageZoomed, setIsImageZoomed] = useState(false)
-  const [isInspectorVisible, setIsInspectorVisible] = useState(!isMobile)
-  const [currentBlobSrc, setCurrentBlobSrc] = useState<string | null>(null)
+}: PhotoViewerProps) {
+  const isMobile = useMobile();
+  const swiperRef = useRef<SwiperType | null>(null);
+  const [isImageZoomed, setIsImageZoomed] = useState(false);
+  const [isInspectorVisible, setIsInspectorVisible] = useState(!isMobile);
+  const [currentBlobSrc, setCurrentBlobSrc] = useState<string | null>(null);
 
-  const currentPhoto = photos[currentIndex]
+  const currentPhoto = photos[currentIndex];
 
   const {
     containerRef,
@@ -68,96 +66,99 @@ export const PhotoViewer = ({
     currentPhoto,
     currentBlobSrc,
     isMobile,
-  })
+  });
 
   useEffect(() => {
     if (!isOpen) {
-      setIsImageZoomed(false)
-      setIsInspectorVisible(!isMobile)
-      setCurrentBlobSrc(null)
+      setIsImageZoomed(false);
+      setIsInspectorVisible(!isMobile);
+      setCurrentBlobSrc(null);
     }
-  }, [isMobile, isOpen])
+  }, [isMobile, isOpen]);
 
   const handlePrevious = useCallback(() => {
     if (currentIndex > 0) {
-      onIndexChange(currentIndex - 1)
-      swiperRef.current?.slidePrev()
+      onIndexChange(currentIndex - 1);
+      swiperRef.current?.slidePrev();
     }
-  }, [currentIndex, onIndexChange])
+  }, [currentIndex, onIndexChange]);
 
   const handleNext = useCallback(() => {
     if (currentIndex < photos.length - 1) {
-      onIndexChange(currentIndex + 1)
-      swiperRef.current?.slideNext()
+      onIndexChange(currentIndex + 1);
+      swiperRef.current?.slideNext();
     }
-  }, [currentIndex, photos.length, onIndexChange])
+  }, [currentIndex, photos.length, onIndexChange]);
 
   // 同步 Swiper 的索引
   useEffect(() => {
     if (swiperRef.current && swiperRef.current.activeIndex !== currentIndex) {
-      swiperRef.current.slideTo(currentIndex, 300)
+      swiperRef.current.slideTo(currentIndex, 300);
     }
     // 切换图片时重置缩放状态
-    setIsImageZoomed(false)
-  }, [currentIndex])
+    setIsImageZoomed(false);
+  }, [currentIndex]);
 
   // 当图片缩放状态改变时，控制 Swiper 的触摸行为
   useEffect(() => {
     if (swiperRef.current) {
       if (isImageZoomed) {
         // 图片被缩放时，禁用 Swiper 的触摸滑动
-        swiperRef.current.allowTouchMove = false
-      } else {
+        swiperRef.current.allowTouchMove = false;
+      }
+      else {
         // 图片未缩放时，启用 Swiper 的触摸滑动
-        swiperRef.current.allowTouchMove = true
+        swiperRef.current.allowTouchMove = true;
       }
     }
-  }, [isImageZoomed])
+  }, [isImageZoomed]);
 
-  const loadingIndicatorRef = useRef<LoadingIndicatorRef>(null)
+  const loadingIndicatorRef = useRef<LoadingIndicatorRef>(null);
   // 处理图片缩放状态变化
   const handleZoomChange = useCallback((isZoomed: boolean) => {
-    setIsImageZoomed(isZoomed)
-  }, [])
+    setIsImageZoomed(isZoomed);
+  }, []);
 
   // 处理 blobSrc 变化
   const handleBlobSrcChange = useCallback((blobSrc: string | null) => {
-    setCurrentBlobSrc(blobSrc)
-  }, [])
+    setCurrentBlobSrc(blobSrc);
+  }, []);
 
   // 键盘导航
   useEffect(() => {
-    if (!isOpen) return
+    if (!isOpen)
+      return;
 
     const handleKeyDown = (event: KeyboardEvent) => {
       switch (event.key) {
         case 'ArrowLeft': {
-          event.preventDefault()
-          handlePrevious()
-          break
+          event.preventDefault();
+          handlePrevious();
+          break;
         }
         case 'ArrowRight': {
-          event.preventDefault()
-          handleNext()
-          break
+          event.preventDefault();
+          handleNext();
+          break;
         }
         case 'Escape': {
-          event.preventDefault()
-          onClose()
-          break
+          event.preventDefault();
+          onClose();
+          break;
         }
       }
-    }
+    };
 
-    document.addEventListener('keydown', handleKeyDown)
+    document.addEventListener('keydown', handleKeyDown);
     return () => {
-      document.removeEventListener('keydown', handleKeyDown)
-    }
-  }, [isOpen, handlePrevious, handleNext, onClose])
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isOpen, handlePrevious, handleNext, onClose]);
 
-  if (!currentPhoto) return null
+  if (!currentPhoto)
+    return null;
 
-  const currentThumbHash = transitionThumbHash
+  const currentThumbHash = transitionThumbHash;
 
   return (
     <>
@@ -226,7 +227,7 @@ export const PhotoViewer = ({
                         <button
                           type="button"
                           className={`bg-material-ultra-thick pointer-events-auto flex size-8 items-center justify-center rounded-full text-white backdrop-blur-2xl duration-200 hover:bg-black/40 ${isInspectorVisible ? 'bg-accent' : ''}`}
-                          onClick={() => setIsInspectorVisible((visible) => !visible)}
+                          onClick={() => setIsInspectorVisible(visible => !visible)}
                         >
                           <i className="i-mingcute-information-line" />
                         </button>
@@ -239,15 +240,15 @@ export const PhotoViewer = ({
                       <ShareModal
                         photo={currentPhoto}
                         blobSrc={currentBlobSrc || undefined}
-                        trigger={
+                        trigger={(
                           <button
                             type="button"
                             className="bg-material-ultra-thick pointer-events-auto flex size-8 items-center justify-center rounded-full text-white backdrop-blur-2xl duration-200 hover:bg-black/40"
-                            title={t('photo.share.title')}
+                            title="分享照片"
                           >
                             <i className="i-mingcute-share-2-line" />
                           </button>
-                        }
+                        )}
                       />
 
                       {/* 展开信息面板（桌面端在折叠时显示） */}
@@ -256,7 +257,7 @@ export const PhotoViewer = ({
                           type="button"
                           className="bg-material-ultra-thick pointer-events-auto flex size-8 items-center justify-center rounded-full text-white backdrop-blur-2xl duration-200 hover:bg-black/40"
                           onClick={() => setIsInspectorVisible(true)}
-                          title={t('inspector.tab.info')}
+                          title="信息"
                         >
                           <i className="i-lucide-panel-right-open" />
                         </button>
@@ -287,22 +288,22 @@ export const PhotoViewer = ({
                       onlyInViewport: true,
                     }}
                     onSwiper={(swiper) => {
-                      swiperRef.current = swiper
+                      swiperRef.current = swiper;
                       // 初始化时确保触摸滑动是启用的
-                      swiper.allowTouchMove = !isImageZoomed
+                      swiper.allowTouchMove = !isImageZoomed;
                     }}
                     onSlideChange={(swiper) => {
-                      onIndexChange(swiper.activeIndex)
+                      onIndexChange(swiper.activeIndex);
                     }}
                     className="h-full w-full"
                     style={{ touchAction: isMobile ? 'pan-x' : 'pan-y' }}
                   >
                     {photos.map((photo, index) => {
-                      const isCurrentImage = index === currentIndex
-                      const hideCurrentImage = isEntryAnimating && isCurrentImage
+                      const isCurrentImage = index === currentIndex;
+                      const hideCurrentImage = isEntryAnimating && isCurrentImage;
                       return (
                         <SwiperSlide key={photo.id} className="flex items-center justify-center" virtualIndex={index}>
-                          <ReactionRail photoId={photo.id} />
+                          {/* <ReactionRail photoId={photo.id} /> */}
                           <m.div
                             initial={{ opacity: 0.5, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
@@ -350,7 +351,7 @@ export const PhotoViewer = ({
                             />
                           </m.div>
                         </SwiperSlide>
-                      )
+                      );
                     })}
                   </Swiper>
 
@@ -361,20 +362,20 @@ export const PhotoViewer = ({
                       {currentIndex > 0 && (
                         <button
                           type="button"
-                          className={`bg-material-medium absolute top-1/2 left-4 z-20 flex size-8 -translate-y-1/2 items-center justify-center rounded-full text-white opacity-0 backdrop-blur-sm duration-200 group-hover/photo-viewer:opacity-100 hover:bg-black/40`}
+                          className="bg-material-medium absolute top-1/2 left-4 z-20 flex size-8 -translate-y-1/2 items-center justify-center rounded-full text-white opacity-0 backdrop-blur-sm duration-200 group-hover/photo-viewer:opacity-100 hover:bg-black/40"
                           onClick={handlePrevious}
                         >
-                          <i className={`i-mingcute-left-line text-xl`} />
+                          <i className="i-mingcute-left-line text-xl" />
                         </button>
                       )}
 
                       {currentIndex < photos.length - 1 && (
                         <button
                           type="button"
-                          className={`bg-material-medium absolute top-1/2 right-4 z-20 flex size-8 -translate-y-1/2 items-center justify-center rounded-full text-white opacity-0 backdrop-blur-sm duration-200 group-hover/photo-viewer:opacity-100 hover:bg-black/40`}
+                          className="bg-material-medium absolute top-1/2 right-4 z-20 flex size-8 -translate-y-1/2 items-center justify-center rounded-full text-white opacity-0 backdrop-blur-sm duration-200 group-hover/photo-viewer:opacity-100 hover:bg-black/40"
                           onClick={handleNext}
                         >
-                          <i className={`i-mingcute-right-line text-xl`} />
+                          <i className="i-mingcute-right-line text-xl" />
                         </button>
                       )}
                     </Fragment>
@@ -424,11 +425,12 @@ export const PhotoViewer = ({
         />
       )}
     </>
-  )
+  );
 }
 
-const AnimatePresenceOnlyMobile = ({ children }: { children: React.ReactNode }) => {
-  const isMobile = useMobile()
-  if (!isMobile) return children
-  return <AnimatePresence>{children}</AnimatePresence>
+function AnimatePresenceOnlyMobile({ children }: { children: React.ReactNode }) {
+  const isMobile = useMobile();
+  if (!isMobile)
+    return children;
+  return <AnimatePresence>{children}</AnimatePresence>;
 }

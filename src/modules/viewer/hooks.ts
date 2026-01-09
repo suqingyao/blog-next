@@ -1,39 +1,37 @@
-import { LoadingState } from '@afilmory/webgl-viewer'
-import type { TFunction } from 'i18next'
-import { startTransition, useCallback, useEffect, useRef, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { toast } from 'sonner'
+import type { ProgressiveImageState } from './types';
+import type { LoadingIndicatorRef } from '@/modules/inspector/LoadingIndicator';
+import type { LivePhotoVideoHandle } from '@/modules/media/LivePhotoVideo';
+import { startTransition, useCallback, useEffect, useRef, useState } from 'react';
 
-import { MenuItemSeparator, MenuItemText } from '~/atoms/context-menu'
-import { isMobileDevice } from '~/lib/device-viewport'
-import { ImageLoaderManager } from '~/lib/image-loader-manager'
-import type { LoadingIndicatorRef } from '~/modules/inspector/LoadingIndicator'
-import type { LivePhotoVideoHandle } from '~/modules/media/LivePhotoVideo'
+import { toast } from 'sonner';
+import { isMobileDevice } from '@/lib/device-viewport';
+import { ImageLoaderManager } from '@/lib/image-loader-manager';
+import { LoadingState } from '@/lib/webgl-viewer';
 
-import type { ProgressiveImageState } from './types'
-import { SHOW_SCALE_INDICATOR_DURATION } from './types'
+import { MenuItemSeparator, MenuItemText } from '@/store/atoms/context-menu';
+import { SHOW_SCALE_INDICATOR_DURATION } from './types';
 
-export const useProgressiveImageState = (): [
+export function useProgressiveImageState(): [
   ProgressiveImageState,
   {
-    setBlobSrc: (src: string | null) => void
-    setHighResLoaded: (loaded: boolean) => void
-    setError: (error: boolean) => void
-    setIsHighResImageRendered: (rendered: boolean) => void
-    setCurrentScale: (scale: number) => void
-    setShowScaleIndicator: (show: boolean) => void
-    setIsThumbnailLoaded: (loaded: boolean) => void
-    setIsLivePhotoPlaying: (playing: boolean) => void
+    setBlobSrc: (src: string | null) => void;
+    setHighResLoaded: (loaded: boolean) => void;
+    setError: (error: boolean) => void;
+    setIsHighResImageRendered: (rendered: boolean) => void;
+    setCurrentScale: (scale: number) => void;
+    setShowScaleIndicator: (show: boolean) => void;
+    setIsThumbnailLoaded: (loaded: boolean) => void;
+    setIsLivePhotoPlaying: (playing: boolean) => void;
   },
-] => {
-  const [blobSrc, setBlobSrc] = useState<string | null>(null)
-  const [highResLoaded, setHighResLoaded] = useState(false)
-  const [error, setError] = useState(false)
-  const [isHighResImageRendered, setIsHighResImageRendered] = useState(false)
-  const [currentScale, setCurrentScale] = useState(1)
-  const [showScaleIndicator, setShowScaleIndicator] = useState(false)
-  const [isThumbnailLoaded, setIsThumbnailLoaded] = useState(false)
-  const [isLivePhotoPlaying, setIsLivePhotoPlaying] = useState(false)
+] {
+  const [blobSrc, setBlobSrc] = useState<string | null>(null);
+  const [highResLoaded, setHighResLoaded] = useState(false);
+  const [error, setError] = useState(false);
+  const [isHighResImageRendered, setIsHighResImageRendered] = useState(false);
+  const [currentScale, setCurrentScale] = useState(1);
+  const [showScaleIndicator, setShowScaleIndicator] = useState(false);
+  const [isThumbnailLoaded, setIsThumbnailLoaded] = useState(false);
+  const [isLivePhotoPlaying, setIsLivePhotoPlaying] = useState(false);
 
   return [
     {
@@ -56,42 +54,29 @@ export const useProgressiveImageState = (): [
       setIsThumbnailLoaded,
       setIsLivePhotoPlaying,
     },
-  ]
+  ];
 }
 
-export const useImageLoader = (
-  src: string,
-  isCurrentImage: boolean,
-  highResLoaded: boolean,
-  error: boolean,
-  onProgress?: (progress: number) => void,
-  onError?: () => void,
-  onBlobSrcChange?: (blobSrc: string | null) => void,
-  loadingIndicatorRef?: React.RefObject<LoadingIndicatorRef | null>,
-  setBlobSrc?: (src: string | null) => void,
-  setHighResLoaded?: (loaded: boolean) => void,
-  setError?: (error: boolean) => void,
-  setIsHighResImageRendered?: (rendered: boolean) => void,
-) => {
-  const { t } = useTranslation()
-  const imageLoaderManagerRef = useRef<ImageLoaderManager | null>(null)
+export function useImageLoader(src: string, isCurrentImage: boolean, highResLoaded: boolean, error: boolean, onProgress?: (progress: number) => void, onError?: () => void, onBlobSrcChange?: (blobSrc: string | null) => void, loadingIndicatorRef?: React.RefObject<LoadingIndicatorRef | null>, setBlobSrc?: (src: string | null) => void, setHighResLoaded?: (loaded: boolean) => void, setError?: (error: boolean) => void, setIsHighResImageRendered?: (rendered: boolean) => void) {
+  const imageLoaderManagerRef = useRef<ImageLoaderManager | null>(null);
 
   useEffect(() => {
-    if (highResLoaded || error || !isCurrentImage) return
+    if (highResLoaded || error || !isCurrentImage)
+      return;
 
     // Create new image loader manager
-    const imageLoaderManager = new ImageLoaderManager()
-    imageLoaderManagerRef.current = imageLoaderManager
+    const imageLoaderManager = new ImageLoaderManager();
+    imageLoaderManagerRef.current = imageLoaderManager;
 
     function cleanup() {
-      setHighResLoaded?.(false)
-      setBlobSrc?.(null)
-      setError?.(false)
-      onBlobSrcChange?.(null)
-      setIsHighResImageRendered?.(false)
+      setHighResLoaded?.(false);
+      setBlobSrc?.(null);
+      setError?.(false);
+      onBlobSrcChange?.(null);
+      setIsHighResImageRendered?.(false);
 
       // Reset loading indicator
-      loadingIndicatorRef?.current?.resetLoadingState()
+      loadingIndicatorRef?.current?.resetLoadingState();
     }
 
     const loadImage = async () => {
@@ -100,32 +85,33 @@ export const useImageLoader = (
           onProgress,
           onError,
           onLoadingStateUpdate: (state) => {
-            loadingIndicatorRef?.current?.updateLoadingState(state)
+            loadingIndicatorRef?.current?.updateLoadingState(state);
           },
-        })
+        });
 
-        setBlobSrc?.(result.blobSrc)
-        onBlobSrcChange?.(result.blobSrc)
-        setHighResLoaded?.(true)
-      } catch (loadError) {
-        console.error('Failed to load image:', loadError)
-        setError?.(true)
+        setBlobSrc?.(result.blobSrc);
+        onBlobSrcChange?.(result.blobSrc);
+        setHighResLoaded?.(true);
+      }
+      catch (loadError) {
+        console.error('Failed to load image:', loadError);
+        setError?.(true);
 
         // 显示错误状态，而不是完全隐藏图片
         loadingIndicatorRef?.current?.updateLoadingState({
           isVisible: true,
           isError: true,
-          errorMessage: t('photo.error.loading'),
-        })
+          errorMessage: '图片加载失败',
+        });
       }
-    }
+    };
 
-    cleanup()
-    loadImage()
+    cleanup();
+    loadImage();
 
     return () => {
-      imageLoaderManager.cleanup()
-    }
+      imageLoaderManager.cleanup();
+    };
   }, [
     highResLoaded,
     error,
@@ -135,108 +121,100 @@ export const useImageLoader = (
     isCurrentImage,
     onBlobSrcChange,
     loadingIndicatorRef,
-    t,
     setBlobSrc,
     setHighResLoaded,
     setError,
     setIsHighResImageRendered,
-  ])
+  ]);
 
-  return imageLoaderManagerRef
+  return imageLoaderManagerRef;
 }
 
-export const useScaleIndicator = (
-  onZoomChange?: (isZoomed: boolean) => void,
-  setCurrentScale?: (scale: number) => void,
-  setShowScaleIndicator?: (show: boolean) => void,
-) => {
-  const scaleIndicatorTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+export function useScaleIndicator(onZoomChange?: (isZoomed: boolean) => void, setCurrentScale?: (scale: number) => void, setShowScaleIndicator?: (show: boolean) => void) {
+  const scaleIndicatorTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleScaleChange = useCallback(
     (scale: number, isZoomed: boolean) => {
       // 更新缩放倍率并显示提示
       startTransition(() => {
-        setCurrentScale?.(scale)
-        setShowScaleIndicator?.(true)
-      })
+        setCurrentScale?.(scale);
+        setShowScaleIndicator?.(true);
+      });
 
       // 清除之前的定时器
       if (scaleIndicatorTimeoutRef.current) {
-        clearTimeout(scaleIndicatorTimeoutRef.current)
+        clearTimeout(scaleIndicatorTimeoutRef.current);
       }
 
       scaleIndicatorTimeoutRef.current = setTimeout(() => {
-        setShowScaleIndicator?.(false)
-      }, SHOW_SCALE_INDICATOR_DURATION)
+        setShowScaleIndicator?.(false);
+      }, SHOW_SCALE_INDICATOR_DURATION);
 
-      onZoomChange?.(isZoomed)
+      onZoomChange?.(isZoomed);
     },
     [onZoomChange, setCurrentScale, setShowScaleIndicator],
-  )
+  );
 
   // WebGL Image Viewer 的缩放变化处理
   const onTransformed = useCallback(
     (originalScale: number, relativeScale: number) => {
-      const isZoomed = Math.abs(relativeScale - 1) > 0.01
-      handleScaleChange(originalScale, isZoomed)
+      const isZoomed = Math.abs(relativeScale - 1) > 0.01;
+      handleScaleChange(originalScale, isZoomed);
     },
     [handleScaleChange],
-  )
+  );
 
   // DOM Image Viewer 的缩放变化处理
   const onDOMTransformed = useCallback(
     (isZoomed: boolean, scale: number) => {
-      handleScaleChange(scale, isZoomed)
+      handleScaleChange(scale, isZoomed);
     },
     [handleScaleChange],
-  )
+  );
 
-  return { onTransformed, onDOMTransformed }
+  return { onTransformed, onDOMTransformed };
 }
 
-export const useLivePhotoControls = (
-  isLivePhoto: boolean,
-  isLivePhotoPlaying: boolean,
-  livePhotoRef: React.RefObject<LivePhotoVideoHandle | null>,
-) => {
-  const longPressTimerRef = useRef<NodeJS.Timeout | null>(null)
+export function useLivePhotoControls(isLivePhoto: boolean, isLivePhotoPlaying: boolean, livePhotoRef: React.RefObject<LivePhotoVideoHandle | null>) {
+  const longPressTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleLongPressStart = useCallback(() => {
-    if (!isMobileDevice) return
-    const playVideo = () => livePhotoRef.current?.play()
+    if (!isMobileDevice)
+      return;
+    const playVideo = () => livePhotoRef.current?.play();
     if (!isLivePhoto || !livePhotoRef.current?.getIsVideoLoaded() || isLivePhotoPlaying) {
-      return
+      return;
     }
     if (longPressTimerRef.current) {
-      clearTimeout(longPressTimerRef.current)
+      clearTimeout(longPressTimerRef.current);
     }
-    longPressTimerRef.current = setTimeout(playVideo, 200)
-  }, [isLivePhoto, isLivePhotoPlaying, livePhotoRef])
+    longPressTimerRef.current = setTimeout(playVideo, 200);
+  }, [isLivePhoto, isLivePhotoPlaying, livePhotoRef]);
 
   const handleLongPressEnd = useCallback(() => {
-    if (!isMobileDevice) return
+    if (!isMobileDevice)
+      return;
     if (longPressTimerRef.current) {
-      clearTimeout(longPressTimerRef.current)
+      clearTimeout(longPressTimerRef.current);
     }
     if (isLivePhotoPlaying) {
-      livePhotoRef.current?.stop()
+      livePhotoRef.current?.stop();
     }
-  }, [isLivePhotoPlaying, livePhotoRef])
+  }, [isLivePhotoPlaying, livePhotoRef]);
 
-  return { handleLongPressStart, handleLongPressEnd }
+  return { handleLongPressStart, handleLongPressEnd };
 }
 
-export const useWebGLLoadingState = (loadingIndicatorRef: React.RefObject<LoadingIndicatorRef | null>) => {
-  const { t } = useTranslation()
-
+export function useWebGLLoadingState(loadingIndicatorRef: React.RefObject<LoadingIndicatorRef | null>) {
   const handleWebGLLoadingStateChange = useCallback(
     (isLoading: boolean, state?: LoadingState, quality?: 'high' | 'medium' | 'low' | 'unknown') => {
-      let message = ''
+      let message = '';
 
       if (state === LoadingState.CREATE_TEXTURE) {
-        message = t('photo.webgl.creatingTexture')
-      } else if (state === LoadingState.IMAGE_LOADING) {
-        message = t('photo.webgl.loadingImage')
+        message = '正在创建纹理...';
+      }
+      else if (state === LoadingState.IMAGE_LOADING) {
+        message = '正在加载图像...';
       }
 
       loadingIndicatorRef.current?.updateLoadingState({
@@ -244,89 +222,95 @@ export const useWebGLLoadingState = (loadingIndicatorRef: React.RefObject<Loadin
         isWebGLLoading: isLoading,
         webglMessage: message,
         webglQuality: quality,
-      })
+      });
     },
-    [t, loadingIndicatorRef],
-  )
+    [loadingIndicatorRef],
+  );
 
-  return handleWebGLLoadingStateChange
+  return handleWebGLLoadingStateChange;
 }
 
-export const createContextMenuItems = (blobSrc: string, alt: string, t: TFunction<'app', undefined>) => [
-  new MenuItemText({
-    label: t('photo.copy.image'),
-    click: async () => {
-      const loadingToast = toast.loading(t('photo.copying'))
+export function createContextMenuItems(blobSrc: string, alt: string) {
+  return [
+    new MenuItemText({
+      label: '复制图像',
+      click: async () => {
+        const loadingToast = toast.loading('正在复制图像...');
 
-      try {
-        // Create a canvas to convert the image to PNG
-        const img = new Image()
-        img.crossOrigin = 'anonymous'
-
-        await new Promise((resolve, reject) => {
-          img.onload = resolve
-          img.onerror = reject
-          img.src = blobSrc
-        })
-
-        const canvas = document.createElement('canvas')
-        const ctx = canvas.getContext('2d')
-        canvas.width = img.naturalWidth
-        canvas.height = img.naturalHeight
-
-        ctx?.drawImage(img, 0, 0)
-
-        // Convert to PNG blob
-        await new Promise<void>((resolve, reject) => {
-          canvas.toBlob(async (pngBlob) => {
-            try {
-              if (pngBlob) {
-                await navigator.clipboard.write([
-                  new ClipboardItem({
-                    'image/png': pngBlob,
-                  }),
-                ])
-                resolve()
-              } else {
-                reject(new Error('Failed to convert image to PNG'))
-              }
-            } catch (error) {
-              reject(error)
-            }
-          }, 'image/png')
-        })
-
-        toast.dismiss(loadingToast)
-        toast.success(t('photo.copy.success'))
-      } catch (error) {
-        console.error('Failed to copy image:', error)
-
-        // Fallback: try to copy the original blob
         try {
-          const blob = await fetch(blobSrc).then((res) => res.blob())
-          await navigator.clipboard.write([
-            new ClipboardItem({
-              [blob.type]: blob,
-            }),
-          ])
-          toast.dismiss(loadingToast)
-          toast.success(t('photo.copy.success'))
-        } catch (fallbackError) {
-          console.error('Fallback copy also failed:', fallbackError)
-          toast.dismiss(loadingToast)
-          toast.error(t('photo.copy.error'))
+        // Create a canvas to convert the image to PNG
+          const img = new Image();
+          img.crossOrigin = 'anonymous';
+
+          await new Promise((resolve, reject) => {
+            img.onload = resolve;
+            img.onerror = reject;
+            img.src = blobSrc;
+          });
+
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+          canvas.width = img.naturalWidth;
+          canvas.height = img.naturalHeight;
+
+          ctx?.drawImage(img, 0, 0);
+
+          // Convert to PNG blob
+          await new Promise<void>((resolve, reject) => {
+            canvas.toBlob(async (pngBlob) => {
+              try {
+                if (pngBlob) {
+                  await navigator.clipboard.write([
+                    new ClipboardItem({
+                      'image/png': pngBlob,
+                    }),
+                  ]);
+                  resolve();
+                }
+                else {
+                  reject(new Error('Failed to convert image to PNG'));
+                }
+              }
+              catch (error) {
+                reject(error);
+              }
+            }, 'image/png');
+          });
+
+          toast.dismiss(loadingToast);
+          toast.success('图像已复制到剪贴板');
         }
-      }
-    },
-  }),
-  MenuItemSeparator.default,
-  new MenuItemText({
-    label: t('photo.download'),
-    click: () => {
-      const a = document.createElement('a')
-      a.href = blobSrc
-      a.download = alt
-      a.click()
-    },
-  }),
-]
+        catch (error) {
+          console.error('Failed to copy image:', error);
+
+          // Fallback: try to copy the original blob
+          try {
+            const blob = await fetch(blobSrc).then(res => res.blob());
+            await navigator.clipboard.write([
+              new ClipboardItem({
+                [blob.type]: blob,
+              }),
+            ]);
+            toast.dismiss(loadingToast);
+            toast.success('图像已复制到剪贴板');
+          }
+          catch (fallbackError) {
+            console.error('Fallback copy also failed:', fallbackError);
+            toast.dismiss(loadingToast);
+            toast.error('复制图像失败，请稍后重试');
+          }
+        }
+      },
+    }),
+    MenuItemSeparator.default,
+    new MenuItemText({
+      label: '下载图像',
+      click: () => {
+        const a = document.createElement('a');
+        a.href = blobSrc;
+        a.download = alt;
+        a.click();
+      },
+    }),
+  ];
+}

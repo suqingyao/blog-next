@@ -4,11 +4,12 @@ import { useVirtualizer } from '@tanstack/react-virtual';
 import { m } from 'motion/react';
 import { useEffect, useRef, useState } from 'react';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card/HoverCard2';
-import { Thumbhash } from '@/components/ui/thumbhash/ThumbhashImage';
+import { Thumbhash } from '@/components/ui/thumbhash';
 
 import { useMobile } from '@/hooks/use-mobile';
 import { nextFrame } from '@/lib/dom';
-import { clsxm, Spring } from '@/lib/utils';
+import { Spring } from '@/lib/spring';
+import { cn } from '@/lib/utils';
 
 const thumbnailSize = {
   mobile: 48,
@@ -171,12 +172,75 @@ export const GalleryThumbnail: FC<{
                   transform: `translateX(${virtualItem.start}px)`,
                 }}
               >
-                {!isMobile ? (
-                  <HoverCard openDelay={100} closeDelay={0}>
-                    <HoverCardTrigger asChild>
+                {!isMobile
+                  ? (
+                      <HoverCard openDelay={100} closeDelay={0}>
+                        <HoverCardTrigger asChild>
+                          <button
+                            type="button"
+                            className={cn(
+                              'contain-intrinsic-size h-full w-full overflow-hidden transition-all',
+                              'hover:grayscale-0',
+                              isCurrent
+                                ? 'scale-110 border-accent shadow-[0_0_20px_color-mix(in_srgb,var(--color-accent)_20%,transparent)]'
+                                : 'grayscale border-accent/20',
+                            )}
+                            onClick={() => onIndexChange(virtualItem.index)}
+                          >
+                            {photo.thumbHash && (
+                              <Thumbhash thumbHash={photo.thumbHash} className="size-fill absolute inset-0" />
+                            )}
+                            <img
+                              src={photo.thumbnailUrl}
+                              alt={photo.title}
+                              className="absolute inset-0 h-full w-full object-cover"
+                            />
+                          </button>
+                        </HoverCardTrigger>
+
+                        <HoverCardContent
+                          side="top"
+                          align="center"
+                          sideOffset={0}
+                          alignOffset={0}
+                          className="w-80 overflow-hidden rounded-none border-0 p-0 shadow-[8px_-9px_20px_13px_var(--color-accent)]"
+                        >
+                          <div className="relative">
+                            {/* Preview image */}
+                            <div
+                              className="relative w-full overflow-hidden"
+                              style={{ aspectRatio: photo.aspectRatio, height: 'auto' }}
+                            >
+                              {photo.thumbHash && (
+                                <Thumbhash thumbHash={photo.thumbHash} className="absolute inset-0 size-full" />
+                              )}
+                              <img
+                                src={photo.thumbnailUrl}
+                                alt={photo.title}
+                                className="absolute inset-0 h-full w-full object-cover"
+                              />
+                            </div>
+                            {/* Photo info overlay */}
+                            {(photo.title || photo.dateTaken) && (
+                              <div className="absolute right-0 bottom-0 left-0 bg-linear-to-t from-black/60 to-transparent p-3">
+                                {photo.title && (
+                                  <div className="truncate text-sm font-medium text-white">{photo.title}</div>
+                                )}
+                                {photo.dateTaken && (
+                                  <div className="mt-1 text-xs text-white/80">
+                                    {new Date(photo.dateTaken).toLocaleDateString()}
+                                  </div>
+                                )}
+                              </div>
+                            )}
+                          </div>
+                        </HoverCardContent>
+                      </HoverCard>
+                    )
+                  : (
                       <button
                         type="button"
-                        className={clsxm(
+                        className={cn(
                           'contain-intrinsic-size h-full w-full overflow-hidden transition-all',
                           'hover:grayscale-0',
                           isCurrent
@@ -194,68 +258,7 @@ export const GalleryThumbnail: FC<{
                           className="absolute inset-0 h-full w-full object-cover"
                         />
                       </button>
-                    </HoverCardTrigger>
-
-                    <HoverCardContent
-                      side="top"
-                      align="center"
-                      sideOffset={0}
-                      alignOffset={0}
-                      className="w-80 overflow-hidden rounded-none border-0 p-0 shadow-[8px_-9px_20px_13px_var(--color-accent)]"
-                    >
-                      <div className="relative">
-                        {/* Preview image */}
-                        <div
-                          className="relative w-full overflow-hidden"
-                          style={{ aspectRatio: photo.aspectRatio, height: 'auto' }}
-                        >
-                          {photo.thumbHash && (
-                            <Thumbhash thumbHash={photo.thumbHash} className="absolute inset-0 size-full" />
-                          )}
-                          <img
-                            src={photo.thumbnailUrl}
-                            alt={photo.title}
-                            className="absolute inset-0 h-full w-full object-cover"
-                          />
-                        </div>
-                        {/* Photo info overlay */}
-                        {(photo.title || photo.dateTaken) && (
-                          <div className="absolute right-0 bottom-0 left-0 bg-linear-to-t from-black/60 to-transparent p-3">
-                            {photo.title && (
-                              <div className="truncate text-sm font-medium text-white">{photo.title}</div>
-                            )}
-                            {photo.dateTaken && (
-                              <div className="mt-1 text-xs text-white/80">
-                                {new Date(photo.dateTaken).toLocaleDateString()}
-                              </div>
-                            )}
-                          </div>
-                        )}
-                      </div>
-                    </HoverCardContent>
-                  </HoverCard>
-                ) : (
-                  <button
-                    type="button"
-                    className={clsxm(
-                      'contain-intrinsic-size h-full w-full overflow-hidden transition-all',
-                      'hover:grayscale-0',
-                      isCurrent
-                        ? 'scale-110 border-accent shadow-[0_0_20px_color-mix(in_srgb,var(--color-accent)_20%,transparent)]'
-                        : 'grayscale border-accent/20',
                     )}
-                    onClick={() => onIndexChange(virtualItem.index)}
-                  >
-                    {photo.thumbHash && (
-                      <Thumbhash thumbHash={photo.thumbHash} className="size-fill absolute inset-0" />
-                    )}
-                    <img
-                      src={photo.thumbnailUrl}
-                      alt={photo.title}
-                      className="absolute inset-0 h-full w-full object-cover"
-                    />
-                  </button>
-                )}
               </div>
             );
           })}
