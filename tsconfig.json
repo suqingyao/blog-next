@@ -14,7 +14,8 @@
     "paths": {
       "@/*": [
         "./src/*"
-      ]
+      ],
+      "@pkg": ["./package.json"],
     },
     "resolveJsonModule": true,
     "allowJs": true,

@@ -1,16 +1,42 @@
 'use client';
 
-import type { PhotoFile } from '@/lib/photos';
 import { motion as m } from 'motion/react';
 import dynamic from 'next/dynamic';
+import { usePhotos } from '@/providers/photos-provider';
 
 const MapLibreMap = dynamic(() => import('./MapLibreMap'), {
   ssr: false,
   loading: () => <MapLoadingState />,
 });
 
-export function MapClient({ photos }: { photos: PhotoFile[] }) {
-  return <MapLibreMap photos={photos} />;
+export function MapClient() {
+  const photos = usePhotos();
+
+  if (photos.length === 0) {
+    return <MapLoadingState />;
+  }
+
+  // Convert to PhotoFile like structure expected by MapLibreMap if needed, 
+  // but better to update MapLibreMap to accept Photo[]
+  // Based on current Photo type: { id, url, filename, album, ... }
+  // Old PhotoFile: { album, name, url, absUrl }
+  // Mapping: absUrl -> url, name -> filename
+  
+  const mappedPhotos = photos
+    .filter(p => p.location)
+    .map(p => ({
+      album: p.album || '',
+      name: p.filename || '',
+      url: p.originalUrl,
+      absUrl: p.originalUrl,
+      // Add GPS for map - adapt to what MapLibreMap expects
+      gps: {
+        lat: p.location!.latitude,
+        lng: p.location!.longitude
+      }
+    }));
+
+  return <MapLibreMap photos={mappedPhotos} />;
 }
 
 function MapLoadingState() {

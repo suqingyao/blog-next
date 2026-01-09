@@ -8,7 +8,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { Image } from '@/components/ui/image/Image';
+import { PhotoCard } from '@/components/site/PhotoCard';
 
 function useMedia(queries: string[], values: number[], defaultValue: number): number {
   const get = () => {
@@ -61,6 +61,7 @@ export interface Item {
   width?: number;
   height?: number;
   blurDataURL?: string;
+  blurhash?: string;
 }
 
 interface MasonryProps {
@@ -219,6 +220,9 @@ export const Masonry: React.FC<MasonryProps> = ({
               ease: 'easeOut',
             }}
             onClick={(e: React.MouseEvent) => {
+              // PhotoCard handles onClick but we keep this for consistency if needed,
+              // BUT PhotoCard is rendered inside here.
+              // Actually Masonry renders Image currently. We need to switch to PhotoCard.
               e.preventDefault();
               e.stopPropagation();
               if (onItemClick) {
@@ -226,26 +230,16 @@ export const Masonry: React.FC<MasonryProps> = ({
               }
             }}
           >
-            <Image
-              src={items[idx].url}
-              alt={items[idx].id}
-              width={items[idx].width || 500}
-              height={items[idx].height || 500}
-              blurDataURL={items[idx].blurDataURL}
-              placeholder={items[idx].blurDataURL ? 'blur' : 'empty'}
-              className="h-full w-full object-cover"
-              onLoad={(e: React.SyntheticEvent<HTMLImageElement>) => handleImgLoad(idx, e)}
-              draggable={false}
-              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
+            <PhotoCard
+              photo={items[idx]}
+              className="h-full w-full"
+              // Remove explicit onClick here as the wrapper handles it, or pass it if PhotoCard needs internal logic.
+              // But PhotoCard is designed to take an onClick.
+              // Let's pass null here and let the wrapper handle the click OR remove the wrapper click and pass it here.
+              // The wrapper has motion effects. PhotoCard also has motion effects in the new implementation.
+              // This might cause double scaling.
+              // Let's replace the content with PhotoCard.
             />
-            {colorShiftOnHover && (
-              <motion.div
-                className="color-overlay pointer-events-none absolute inset-0 rounded-[10px] bg-gradient-to-tr from-pink-500/50 to-sky-500/50"
-                initial={{ opacity: 0 }}
-                whileHover={{ opacity: 0.3 }}
-                animate={{ opacity: 0 }}
-              />
-            )}
           </motion.div>
         </motion.div>
       ))}

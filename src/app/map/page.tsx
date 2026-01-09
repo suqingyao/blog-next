@@ -1,8 +1,7 @@
 import { MapClient } from '@/components/site/MapClient';
-import { getPhotosFromAssets } from '@/lib/photos';
 
-export default async function MapPage() {
-  const photos = await getPhotosFromAssets();
-
-  return <MapClient photos={photos} />;
+export default function MapPage() {
+  // Photos will be loaded via client-side loader or we need to update MapClient to use provider
+  // Since MapClient is a client component, better to let it use the provider
+  return <MapClient />;
 }

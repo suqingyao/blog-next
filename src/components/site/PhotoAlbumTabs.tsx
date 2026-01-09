@@ -11,7 +11,7 @@ export const PhotoAlbumTabs = memo(
     photos,
     setCurrentAlbum,
   }: {
-    photos: PhotoFile[];
+    photos: { album: string; absUrl?: string }[];
     setCurrentAlbum: (album: string) => void;
   }) => {
     // 统计每个相册的照片数量
@@ -27,7 +27,14 @@ export const PhotoAlbumTabs = memo(
       }));
     }, [photos]);
 
-    const [current, setCurrent] = useState(albums[0]?.name);
+    const [current, setCurrent] = useState<string | null>(null);
+
+    // Initialize current on mount if albums exist
+    useMemo(() => {
+      if (albums.length > 0 && !current) {
+        setCurrent(albums[0].name);
+      }
+    }, [albums, current]);
 
     if (!albums.length) return null;
 

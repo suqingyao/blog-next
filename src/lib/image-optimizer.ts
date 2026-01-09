@@ -8,9 +8,10 @@ import process from 'node:process';
 export interface ImageMetadata {
   width: number;
   height: number;
-  blurDataURL: string | null;
-  webp: string;
-  sizes: Record<number, { jpeg: string; webp: string }>;
+  blurhash?: string | null;
+  blurDataURL?: string | null; // Keep for backward compatibility if needed
+  webp?: string;
+  sizes?: Record<number, { jpeg: string; webp: string }>;
 }
 
 export interface OptimizedImageProps {
@@ -18,6 +19,7 @@ export interface OptimizedImageProps {
   width?: number;
   height?: number;
   blurDataURL?: string;
+  blurhash?: string;
   placeholder?: 'blur' | 'empty';
   sizes?: string;
 }
@@ -100,7 +102,7 @@ export function getOptimizedImageProps(
   }
 
   // 构建响应式 sizes 属性
-  const sizeEntries = Object.entries(imageData.sizes);
+  const sizeEntries = imageData.sizes ? Object.entries(imageData.sizes) : [];
   const sizes = sizeEntries.length > 0
     ? `(max-width: 640px) 640px, (max-width: 1080px) 1080px, 1920px`
     : undefined;
@@ -110,7 +112,8 @@ export function getOptimizedImageProps(
     width: imageData.width,
     height: imageData.height,
     blurDataURL: imageData.blurDataURL || undefined,
-    placeholder: imageData.blurDataURL ? 'blur' : undefined,
+    blurhash: imageData.blurhash || undefined,
+    placeholder: (imageData.blurDataURL || imageData.blurhash) ? 'blur' : undefined,
     sizes,
   };
 }

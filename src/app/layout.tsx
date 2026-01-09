@@ -9,6 +9,7 @@ import { Backtop } from '@/components/ui/backtop';
 import { APP_DESCRIPTION, APP_NAME, OUR_DOMAIN } from '@/constants';
 import { AppContextProvider } from '@/contexts';
 import { interFont, monoFont, sansFont, serifFont } from '@/lib/fonts';
+import { fetchManifest, photoLoader } from '@/lib/photo-loader';
 
 import { cn } from '@/lib/utils';
 import { AppProviders } from '@/providers';
@@ -30,13 +31,18 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
   modal,
 }: {
   children: React.ReactNode;
   modal: React.ReactNode;
 }) {
+  // Load manifest data on server
+  const photos = await fetchManifest();
+  // Initialize loader (though mostly for client use, but good for consistency)
+  photoLoader.init(photos);
+
   return (
     <html
       lang="en"
@@ -68,7 +74,7 @@ export default function RootLayout({
           color="var(--color-primary)"
           showSpinner={false}
         />
-        <AppProviders>
+        <AppProviders photos={photos}>
           <AppContextProvider>
             <AppContent>
               {children}

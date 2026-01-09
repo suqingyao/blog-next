@@ -18,6 +18,7 @@ export * from './GithubIcon';
 export * from './HorizontalIcon';
 export * from './HourglassIcon';
 export * from './MailIcon';
+export * from './other';
 export * from './PencilSwooshIcon';
 export * from './RSSIcon';
 export * from './ScriptIcon';

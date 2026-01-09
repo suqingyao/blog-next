@@ -1,25 +1,21 @@
 import path from 'node:path';
 import process from 'node:process';
+import { encode } from 'blurhash';
 import exifr from 'exifr';
 import fs from 'fs-extra';
 import sharp from 'sharp';
 
-// 配置
+// Configuration
 const config = {
-  inputDir: path.join(process.cwd(), 'public/photos'),
+  inputDir: path.join(process.cwd(), 'src/assets/photos'),
   outputDir: path.join(process.cwd(), 'public/photos'),
   metadataFile: path.join(process.cwd(), 'public/image-metadata.json'),
   gpsConfigFile: path.join(process.cwd(), 'scripts/gps-config.json'),
-  sizes: [640, 828, 1080, 1920], // 响应式尺寸
-  quality: {
-    jpeg: 80,
-    webp: 80,
-    blur: 10, // blur placeholder quality
-  },
-  blurSize: 10, // blur placeholder 宽度
+  maxSize: 1440,
+  quality: 80,
 };
 
-// 加载 GPS 配置
+// Load GPS config
 let gpsConfig = {};
 try {
   gpsConfig = fs.readJsonSync(config.gpsConfigFile);
@@ -29,8 +25,8 @@ catch {
   console.log('⚠️  No GPS config found, will only use EXIF GPS data\n');
 }
 
-// 存储所有图片元数据
-const imageMetadata = {};
+// Store metadata
+const imageMetadata = [];
 
 function ensureDirSync(dir) {
   if (!fs.existsSync(dir)) {
@@ -39,185 +35,178 @@ function ensureDirSync(dir) {
 }
 
 /**
- * 生成 blur placeholder (base64)
+ * Encode image to blurhash
  */
-async function generateBlurPlaceholder(imagePath) {
+async function encodeBlurhash(imageBuffer) {
   try {
-    const buffer = await sharp(imagePath)
-      .resize(config.blurSize, null, { withoutEnlargement: true })
-      .jpeg({ quality: config.quality.blur })
-      .toBuffer();
+    const { data, info } = await sharp(imageBuffer)
+      .raw()
+      .ensureAlpha()
+      .resize(32, 32, { fit: 'inside' })
+      .toBuffer({ resolveWithObject: true });
 
-    return `data:image/jpeg;base64,${buffer.toString('base64')}`;
+    return encode(new Uint8ClampedArray(data), info.width, info.height, 4, 4);
   }
   catch (error) {
-    console.error(`Error generating blur for ${imagePath}:`, error.message);
+    console.error('Error generating blurhash:', error);
     return null;
   }
 }
 
 /**
- * 生成 WebP 版本
- */
-async function generateWebP(inputPath, outputPath, width = null) {
-  const sharpInstance = sharp(inputPath);
-
-  if (width) {
-    sharpInstance.resize(width, null, { withoutEnlargement: true });
-  }
-
-  await sharpInstance
-    .webp({ quality: config.quality.webp })
-    .toFile(outputPath);
-}
-
-/**
- * 生成多尺寸版本
- */
-async function generateResponsiveSizes(inputPath, outputDir, filename, ext) {
-  const nameWithoutExt = path.basename(filename, ext);
-  const results = {};
-
-  // 获取原始图片尺寸
-  const metadata = await sharp(inputPath).metadata();
-  const originalWidth = metadata.width;
-
-  for (const size of config.sizes) {
-    // 跳过比原图更大的尺寸
-    if (size > originalWidth)
-      continue;
-
-    const outputFilename = `${nameWithoutExt}-${size}w${ext}`;
-    const outputPath = path.join(outputDir, outputFilename);
-
-    // 生成压缩的 JPEG/PNG
-    if (!fs.existsSync(outputPath)) {
-      await sharp(inputPath)
-        .resize(size, null, { withoutEnlargement: true })
-        .jpeg({ quality: config.quality.jpeg })
-        .toFile(outputPath);
-      console.log(`  ✓ Generated ${size}w: ${outputFilename}`);
-    }
-
-    // 生成 WebP 版本
-    const webpFilename = `${nameWithoutExt}-${size}w.webp`;
-    const webpPath = path.join(outputDir, webpFilename);
-
-    if (!fs.existsSync(webpPath)) {
-      await generateWebP(inputPath, webpPath, size);
-      console.log(`  ✓ Generated ${size}w WebP: ${webpFilename}`);
-    }
-
-    results[size] = {
-      jpeg: `/photos/${path.relative(config.outputDir, outputPath)}`,
-      webp: `/photos/${path.relative(config.outputDir, webpPath)}`,
-    };
-  }
-
-  return results;
-}
-
-/**
- * 获取照片的 GPS 信息（优先使用 EXIF，否则使用配置文件）
+ * Get GPS info
  */
 async function getGpsInfo(inputPath, relativePath) {
-  // 1. 尝试从 EXIF 中读取 GPS
-  const exifGps = await exifr.gps(inputPath);
-  if (exifGps) {
-    return { lat: exifGps.latitude, lng: exifGps.longitude };
-  }
+  try {
+    // 1. Try EXIF
+    const exifGps = await exifr.gps(inputPath);
+    if (exifGps) {
+      return { lat: exifGps.latitude, lng: exifGps.longitude };
+    }
 
-  // 2. 如果没有 EXIF GPS，尝试从配置文件中获取
-  const albumName = path.dirname(relativePath).split(path.sep)[0];
-  if (gpsConfig[albumName] && gpsConfig[albumName].defaultGps) {
-    return gpsConfig[albumName].defaultGps;
+    // 2. Try config
+    const albumName = path.dirname(relativePath).split(path.sep)[0];
+    if (gpsConfig[albumName] && gpsConfig[albumName].defaultGps) {
+      return gpsConfig[albumName].defaultGps;
+    }
   }
-
+  catch (error) {
+    console.warn(`Error reading GPS for ${relativePath}:`, error.message);
+  }
   return null;
 }
 
 /**
- * 优化单张图片
+ * Get EXIF info
  */
-async function optimizeImage(inputPath, outputDir, relativePath) {
-  const ext = path.extname(inputPath).toLowerCase();
-  const filename = path.basename(inputPath);
-  const nameWithoutExt = path.basename(filename, ext);
-
-  if (!['.jpg', '.jpeg', '.png'].includes(ext)) {
-    return;
-  }
-
-  console.log(`\n📸 Processing: ${relativePath}`);
-
+async function getExifInfo(inputPath) {
   try {
-    // 1. 生成 blur placeholder
-    const blurDataURL = await generateBlurPlaceholder(inputPath);
-
-    // 2. 生成多尺寸版本（包括 WebP）
-    const sizes = await generateResponsiveSizes(inputPath, outputDir, filename, ext);
-
-    // 3. 生成原图的 WebP 版本
-    const webpFilename = `${nameWithoutExt}.webp`;
-    const webpPath = path.join(outputDir, webpFilename);
-
-    if (!fs.existsSync(webpPath)) {
-      await generateWebP(inputPath, webpPath);
-      console.log(`  ✓ Generated full-size WebP: ${webpFilename}`);
-    }
-
-    // 4. 获取图片尺寸信息
-    const metadata = await sharp(inputPath).metadata();
-
-    // 5. 获取 GPS 信息（EXIF 或配置文件）
-    const gps = await getGpsInfo(inputPath, relativePath);
-
-    // 6. 保存元数据
-    const imageKey = `/photos/${relativePath}`;
-    imageMetadata[imageKey] = {
-      width: metadata.width,
-      height: metadata.height,
-      blurDataURL,
-      webp: `/photos/${path.relative(config.outputDir, webpPath)}`,
-      sizes,
-      gps,
-    };
-
-    console.log(`  ✅ Completed: ${relativePath}${gps ? ' 📍' : ''}`);
+    const exif = await exifr.parse(inputPath, [
+      'Make',
+      'Model',
+      'ISO',
+      'FNumber',
+      'ExposureTime',
+      'FocalLength',
+      'FocalLengthIn35mmFormat',
+      'DateTimeOriginal',
+    ]);
+    return exif;
   }
   catch (error) {
-    console.error(`  ❌ Error processing ${relativePath}:`, error.message);
+    console.warn(`Error reading EXIF for ${inputPath}:`, error.message);
+    return null;
   }
 }
 
 /**
- * 递归处理目录
+ * Optimize single image
+ */
+async function optimizeImage(inputPath, outputDir, relativePath) {
+  const ext = path.extname(inputPath).toLowerCase();
+
+  if (!['.jpg', '.jpeg', '.png', '.webp'].includes(ext)) {
+    return;
+  }
+
+  // Determine output path (mirroring input structure)
+  // We'll keep the same filename but ensure it's in the output directory
+  const outputPath = path.join(outputDir, relativePath);
+  ensureDirSync(path.dirname(outputPath));
+
+  console.log(`\n📸 Processing: ${relativePath}`);
+
+  try {
+    const inputBuffer = await fs.readFile(inputPath);
+    const sharpInstance = sharp(inputBuffer);
+    const metadata = await sharpInstance.metadata();
+
+    // Resize and compress
+    let pipeline = sharpInstance;
+
+    if (metadata.width > config.maxSize || metadata.height > config.maxSize) {
+      pipeline = pipeline.resize(config.maxSize, config.maxSize, {
+        fit: 'inside',
+        withoutEnlargement: true,
+      });
+    }
+
+    // Determine format-specific options
+    if (ext === '.png') {
+      pipeline = pipeline.png({ quality: 100, compressionLevel: 9 }); // Lossless-ish
+    }
+    else if (ext === '.webp') {
+      pipeline = pipeline.webp({ quality: config.quality });
+    }
+    else {
+      pipeline = pipeline.jpeg({ quality: config.quality, mozjpeg: true });
+    }
+
+    await pipeline.toFile(outputPath);
+
+    // Generate Blurhash
+    const blurhash = await encodeBlurhash(inputBuffer);
+
+    // Get final metadata
+    const outputMetadata = await sharp(outputPath).metadata();
+    const gps = await getGpsInfo(inputPath, relativePath);
+    const exif = await getExifInfo(inputPath);
+
+    // Create photo object for manifest (afilmory style)
+    const photo = {
+      id: relativePath.replace(/[./\\]/g, '-'), // Generate ID from path
+      originalUrl: `/photos/${relativePath}`,
+      thumbnailUrl: `/photos/${relativePath}`, // For now use same, optimizations later
+      format: ext.replace('.', ''),
+      width: outputMetadata.width,
+      height: outputMetadata.height,
+      aspectRatio: outputMetadata.width / outputMetadata.height,
+      s3Key: relativePath,
+      lastModified: new Date().toISOString(),
+      size: outputMetadata.size,
+      exif,
+      location: gps ? {
+        latitude: gps.lat,
+        longitude: gps.lng,
+      } : null,
+      toneAnalysis: null,
+      
+      // Extra fields for blog-next compatibility (mapped to new fields or kept)
+      filename: path.basename(relativePath),
+      album: path.dirname(relativePath).split(path.sep)[0],
+      blurhash,
+      dateTaken: exif?.DateTimeOriginal ? exif.DateTimeOriginal.toISOString() : new Date().toISOString(),
+      tags: [],
+      title: path.basename(relativePath, ext),
+      description: '',
+    };
+
+    imageMetadata.push(photo);
+
+    console.log(`  ✅ Optimized: ${outputMetadata.width}x${outputMetadata.height} ${gps ? '📍' : ''} ${exif ? '📷' : ''}`);
+  }
+  catch (error) {
+    console.error(`  ❌ Error:`, error.message);
+  }
+}
+
+/**
+ * Recursively process directory
  */
 async function processDirectory(srcDir, destDir, baseDir = srcDir) {
-  ensureDirSync(destDir);
-
-  const files = fs.readdirSync(srcDir);
+  const files = await fs.readdir(srcDir);
 
   for (const file of files) {
     const inputPath = path.join(srcDir, file);
-    const outputPath = path.join(destDir, file);
-    const stat = fs.statSync(inputPath);
+    const stat = await fs.stat(inputPath);
 
     if (stat.isDirectory()) {
-      await processDirectory(inputPath, outputPath, baseDir);
+      await processDirectory(inputPath, destDir, baseDir);
     }
     else {
-      // 过滤掉已经生成的优化文件（包含 -xxxw 或 .webp）
-      // 这里的逻辑是：只处理原始的 JPG/PNG 图片
-      // 如果文件名匹配 -[数字]w.ext，则跳过
-      if (/-\d+w\./.test(file)) {
+      // Ignore hidden files or non-images handled in optimizeImage
+      if (file.startsWith('.'))
         continue;
-      }
-      // 如果是 .webp 文件且不是我们刚刚生成的（虽然我们生成的 webp 名字跟原图一样，但我们只处理 jpg/png/jpeg 源文件）
-      // 实际上，如果原图就是 webp，我们也应该处理。
-      // 但为了防止处理生成的 webp（通常我们生成的 webp 是基于 jpg 生成的），我们需要小心。
-      // 最安全的做法是：只处理没有被标记为"已优化"的文件。
-      // 但简单起见，我们假设源文件主要是 JPG/PNG，或者命名不包含 -xxxw。
 
       const relativePath = path.relative(baseDir, inputPath);
       await optimizeImage(inputPath, destDir, relativePath);
@@ -225,36 +214,26 @@ async function processDirectory(srcDir, destDir, baseDir = srcDir) {
   }
 }
 
-/**
- * 主函数
- */
 async function main() {
-  console.log('🚀 Starting image optimization...\n');
-  console.log(`Input directory: ${config.inputDir}`);
-  console.log(`Output directory: ${config.outputDir}`);
-  console.log(`Sizes: ${config.sizes.join(', ')}`);
-  console.log(`Quality: JPEG=${config.quality.jpeg}, WebP=${config.quality.webp}\n`);
+  console.log('🚀 Starting image optimization (antfu.me style)...\n');
 
-  const startTime = Date.now();
+  // Clean output directory
+  console.log(`Cleaning output directory: ${config.outputDir}`);
+  fs.emptyDirSync(config.outputDir);
 
-  // 处理所有图片
   await processDirectory(config.inputDir, config.outputDir);
+  
+  // Sort photos by date (newest first)
+  imageMetadata.sort((a, b) => {
+    if (!a.date) return 1;
+    if (!b.date) return -1;
+    return new Date(b.date) - new Date(a.date);
+  });
 
-  // 保存元数据到 JSON 文件
+  // Save metadata
   fs.writeJsonSync(config.metadataFile, imageMetadata, { spaces: 2 });
   console.log(`\n💾 Metadata saved to: ${config.metadataFile}`);
-
-  const duration = ((Date.now() - startTime) / 1000).toFixed(2);
-  const imageCount = Object.keys(imageMetadata).length;
-
-  console.log(`\n✨ Optimization complete!`);
-  console.log(`   Processed ${imageCount} images in ${duration}s`);
-  console.log(`\n📖 Usage:`);
-  console.log(`   import imageMetadata from '@/public/image-metadata.json';`);
-  console.log(`   const metadata = imageMetadata['/photos/your-image.jpg'];`);
+  console.log(`✨ Processed ${imageMetadata.length} images.`);
 }
 
-main().catch((error) => {
-  console.error('Fatal error:', error);
-  process.exit(1);
-});
+main().catch(console.error);

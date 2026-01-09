@@ -18,10 +18,9 @@ import { MapInfoPanel } from '@/components/site/MapInfoPanel';
 import { useIsMounted } from '@/hooks/use-is-mounted';
 import { calculateInitialView, clusterMarkers } from '@/lib/map-clustering';
 import { getMapStyle } from '@/lib/map-style';
-import imageMetadata from '../../../public/image-metadata.json';
 import 'maplibre-gl/dist/maplibre-gl.css';
 
-export default function MapLibreMap({ photos }: { photos: PhotoFile[] }) {
+export default function MapLibreMap({ photos }: { photos: any[] }) {
   const isMounted = useIsMounted();
   const mapRef = useRef<MapRef>(null);
   const searchParams = useSearchParams();
@@ -33,16 +32,18 @@ export default function MapLibreMap({ photos }: { photos: PhotoFile[] }) {
   // 转换照片为标记
   const markers = useMemo<PhotoMarker[]>(() => {
     return photos
-      .map((photo) => {
-        const metadata = (imageMetadata as Record<string, any>)[photo.absUrl];
-        if (!metadata?.gps?.lat || !metadata?.gps?.lng)
+      .map((photo: any) => {
+        // Support both new structure (photo.gps) and old structure if any
+        const gps = photo.gps;
+        
+        if (!gps?.lat || !gps?.lng)
           return null;
 
         return {
           id: photo.absUrl,
-          latitude: metadata.gps.lat,
-          longitude: metadata.gps.lng,
-          photo,
+          latitude: gps.lat,
+          longitude: gps.lng,
+          photo, // Pass the whole photo object, markers assume PhotoFile structure (name, album, absUrl, url)
         };
       })
       .filter((m): m is PhotoMarker => m !== null);
