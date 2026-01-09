@@ -1,65 +1,38 @@
-import type { PhotoManifestItem } from '@/types/photo'
+import type { PhotoManifestItem } from '@/types/photo';
+import { readFileSync } from 'node:fs';
 
-// Since we don't have __MANIFEST__ global injection, we simulate loading it.
-// In afilmory, this class wraps the manifest. Here we'll allow initializing it with data.
+import { join } from 'node:path';
+import process from 'node:process';
 
-class PhotoLoader {
-  private photos: PhotoManifestItem[] = []
-  private photoMap: Record<string, PhotoManifestItem> = {}
-  private initialized = false
+class BuildTimePhotoLoader {
+  private photos: PhotoManifestItem[] = [];
+  private photoMap: Record<string, PhotoManifestItem> = {};
 
   constructor() {
-    this.getAllTags = this.getAllTags.bind(this)
-    this.getPhotos = this.getPhotos.bind(this)
-    this.getPhoto = this.getPhoto.bind(this)
-  }
+    try {
+      const manifestPath = join(process.cwd(), '/photos-manifest.json');
+      const manifestContent = readFileSync(manifestPath, 'utf-8');
+      this.photos = JSON.parse(manifestContent).data as PhotoManifestItem[];
 
-  // Initialize with data (called from RootLayout or similar)
-  init(data: PhotoManifestItem[]) {
-    if (this.initialized) return
-    this.photos = data
-    this.photos.forEach((photo) => {
-      this.photoMap[photo.id] = photo
-    })
-    this.initialized = true
+      this.photos.forEach((photo) => {
+        this.photoMap[photo.id] = photo;
+      });
+
+      console.info(`📚 Loaded ${this.photos.length} photos from manifest`);
+    }
+    catch (error) {
+      console.error('❌ Failed to load photos manifest:', error);
+      this.photos = [];
+    }
   }
 
   getPhotos() {
-    return this.photos
+    return this.photos;
   }
 
   getPhoto(id: string) {
-    return this.photoMap[id]
-  }
-
-  getAllTags() {
-    const tagSet = new Set<string>()
-    this.photos.forEach((photo) => {
-      photo.tags.forEach((tag) => tagSet.add(tag))
-    })
-    return Array.from(tagSet).sort()
+    return this.photoMap[id];
   }
 }
 
-export const photoLoader = new PhotoLoader()
-
-// Helper to fetch data (not in afilmory but needed for Next.js setup)
-export async function fetchManifest(): Promise<PhotoManifestItem[]> {
-  try {
-    if (typeof window === 'undefined') {
-      const { promises: fs } = await import('node:fs');
-      const { join } = await import('node:path');
-      const process = await import('node:process');
-      const manifestPath = join(process.cwd(), 'public/image-metadata.json');
-      const content = await fs.readFile(manifestPath, 'utf-8');
-      return JSON.parse(content);
-    } else {
-      const res = await fetch('/image-metadata.json');
-      if (!res.ok) throw new Error('Failed to load manifest');
-      return await res.json();
-    }
-  } catch (e) {
-    console.error('Failed to load photo manifest', e);
-    return [];
-  }
-}
+export const buildTimePhotoLoader = new BuildTimePhotoLoader();
