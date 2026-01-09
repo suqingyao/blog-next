@@ -1,4 +1,5 @@
 import { join } from 'node:path';
+import process from 'node:process';
 import fg from 'fast-glob';
 import fs from 'fs-extra';
 import { IS_PROD, OUR_DOMAIN } from '@/constants';
@@ -212,7 +213,8 @@ export async function getAllTags() {
   posts.forEach((post) => {
     if (post.tags && Array.isArray(post.tags)) {
       post.tags.forEach((tag: string) => {
-        tagCount.set(tag, (tagCount.get(tag) || 0) + 1);
+        const upperTag = tag.toUpperCase();
+        tagCount.set(upperTag, (tagCount.get(upperTag) || 0) + 1);
       });
     }
   });

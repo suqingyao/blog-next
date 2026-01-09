@@ -1,74 +1,105 @@
 'use client';
 
-import { motion } from 'motion/react';
+import { AnimatePresence, motion } from 'motion/react';
 import Link from 'next/link';
+import { useMemo, useState } from 'react';
 import dayjs from '@/lib/dayjs';
 
-export function PostList({ posts }: { posts: Record<string, any>[] }) {
-  const getYear = (a: Date | string | number) => new Date(a).getFullYear();
-  const isSameYear = (a?: Date | string | number, b?: Date | string | number) =>
-    a && b && getYear(a) === getYear(b);
-  function isSameGroup(a: Post, b?: Post) {
-    return !!isSameYear(a.createdTime, b?.createdTime);
-  }
+export function PostList({ posts, showSearch = true }: { posts: Record<string, any>[]; showSearch?: boolean }) {
+  const [searchValue, setSearchValue] = useState('');
+
+  const filteredPosts = useMemo(() => {
+    if (!searchValue)
+      return posts;
+    const lower = searchValue.toLowerCase();
+    return posts.filter((post) => {
+      return (
+        post.title.toLowerCase().includes(lower)
+        || post.summary?.toLowerCase().includes(lower)
+      );
+    });
+  }, [posts, searchValue]);
+
+  // Group by year
+  const groupedPosts = useMemo(() => {
+    const groups: Record<string, typeof posts> = {};
+    filteredPosts.forEach((post) => {
+      const year = new Date(post.createdTime).getFullYear();
+      if (!groups[year])
+        groups[year] = [];
+      groups[year].push(post);
+    });
+    return Object.entries(groups).sort((a, b) => Number(b[0]) - Number(a[0]));
+  }, [filteredPosts]);
 
   return (
-    <motion.ul
-      initial="initial"
-      animate="animate"
-      variants={{
-        initial: {
-          transition: {
-            when: 'afterChildren',
-          },
-        },
-        animate: {
-          transition: {
-            when: 'beforeChildren',
-            staggerChildren: 0.2,
-          },
-        },
-      }}
-    >
-      {posts.map((post, idx) => (
-        <motion.li
-          variants={{
-            initial: {
-              opacity: 0,
-              y: 10,
-            },
-            animate: {
-              opacity: 1,
-              y: 0,
-              transition: {
-                delay: idx * 0.06,
-                ease: 'easeInOut',
-              },
-            },
-          }}
-          key={post.id}
-        >
-          {!isSameGroup(post as Post, posts[idx - 1] as Post | undefined) && (
-            <motion.div className="pointer-events-none relative h-20 select-none">
-              <span className="text-stroke font-inter absolute -top-8 -left-12 text-[8em] font-bold text-black/200 opacity-10">
-                {getYear(post.createdTime)}
-              </span>
-            </motion.div>
-          )}
-          <Link
-            href={`/posts/${post.id}`}
-            className="mt-2 mb-6 flex items-center gap-2 opacity-50 transition-opacity hover:opacity-100"
-          >
-            <span className="text-lg leading-[1.2em]">{post.title}</span>
-            <span className="text-sm whitespace-nowrap opacity-50">
-              {dayjs(post.createdTime).format('MMM DD, YYYY')}
-            </span>
-            <span className="text-sm whitespace-nowrap opacity-40">
-              {post.readingTime}
-            </span>
-          </Link>
-        </motion.li>
-      ))}
-    </motion.ul>
+    <div className="mx-auto max-w-3xl py-12">
+      {showSearch && (
+        <div className="mb-12 space-y-6">
+          <h1 className="text-4xl font-bold tracking-tight">Writing</h1>
+          <div className="relative">
+            <input
+              type="text"
+              value={searchValue}
+              onChange={e => setSearchValue(e.target.value)}
+              placeholder="Search posts..."
+              className="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3 text-base outline-none transition-all placeholder:text-zinc-400 focus:border-zinc-400 focus:ring-4 focus:ring-zinc-100 dark:border-zinc-800 dark:bg-zinc-900 dark:focus:border-zinc-700 dark:focus:ring-zinc-800"
+            />
+            <div className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-400">
+              <i className="i-mingcute-search-line text-lg" />
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div className="space-y-12">
+        <AnimatePresence mode="popLayout">
+          {groupedPosts.map(([year, yearPosts]) => (
+            <motion.section
+              key={year}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+            >
+              <h2 className="mb-6 text-2xl font-bold text-zinc-300 dark:text-zinc-700">{year}</h2>
+              <div className="space-y-4">
+                {yearPosts.map(post => (
+                  <Link
+                    key={post.id}
+                    href={`/posts/${post.slug}`}
+                    className="group block rounded-xl p-4 transition-colors hover:bg-zinc-100 dark:hover:bg-zinc-800/50"
+                  >
+                    <article className="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between">
+                      <h3 className="text-lg font-medium text-zinc-900 transition-colors group-hover:text-primary dark:text-zinc-100 dark:group-hover:text-primary">
+                        {post.title}
+                      </h3>
+                      <div className="flex shrink-0 items-center gap-3 text-sm text-zinc-500 dark:text-zinc-400">
+                        <time dateTime={new Date(post.createdTime).toISOString()} className="font-mono" suppressHydrationWarning>
+                          {dayjs(post.createdTime).format('MMM DD')}
+                        </time>
+                        {post.readingTime && (
+                          <span className="opacity-0 transition-opacity group-hover:opacity-100">
+                            {post.readingTime}
+                          </span>
+                        )}
+                      </div>
+                    </article>
+                  </Link>
+                ))}
+              </div>
+            </motion.section>
+          ))}
+        </AnimatePresence>
+
+        {filteredPosts.length === 0 && (
+          <div className="py-12 text-center text-zinc-500">
+            No posts found matching "
+            {searchValue}
+            "
+          </div>
+        )}
+      </div>
+    </div>
   );
 }

@@ -36,7 +36,7 @@ function PostCard({ post, index }: { post: any; index: number }) {
       className="group relative flex flex-col gap-3 rounded-2xl bg-zinc-50 p-6 transition-colors hover:bg-zinc-100 dark:bg-zinc-900 dark:hover:bg-zinc-800/80"
     >
       <div className="flex items-center gap-3 text-sm text-zinc-500 dark:text-zinc-400">
-        <time dateTime={post.createdTime}>
+        <time dateTime={new Date(post.createdTime).toISOString()} suppressHydrationWarning>
           {dayjs(post.createdTime).format('MMM DD, YYYY')}
         </time>
         {post.tags?.[0] && (

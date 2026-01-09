@@ -31,12 +31,18 @@ export function TagList({ tags, posts }: TagListProps) {
   );
 
   /**
-   * Filter posts based on selected tag
+   * Filter posts based on selected tag or search query
    */
   const filteredPosts
     = selectedTag === null
-      ? posts
-      : posts.filter(post => post.tags && post.tags.includes(selectedTag));
+      ? (searchQuery
+          ? posts.filter(post =>
+            post.tags && post.tags.some(tag =>
+              tag.toLowerCase().includes(searchQuery.toLowerCase()),
+            ),
+          )
+          : posts)
+      : posts.filter(post => post.tags && post.tags.some(tag => tag.toUpperCase() === selectedTag));
 
   /**
    * Handle tag click event
@@ -86,7 +92,7 @@ export function TagList({ tags, posts }: TagListProps) {
               {posts.length}
             </span>
           </motion.button>
-          
+
           <AnimatePresence>
             {filteredTags.map(tag => (
               <motion.button
@@ -120,7 +126,7 @@ export function TagList({ tags, posts }: TagListProps) {
               </motion.button>
             ))}
           </AnimatePresence>
-          
+
           {filteredTags.length === 0 && (
             <span className="text-sm text-muted-foreground">No tags found.</span>
           )}
@@ -140,14 +146,16 @@ export function TagList({ tags, posts }: TagListProps) {
         >
           <div className="mb-6 flex items-center justify-between">
             <h2 className="text-xl font-bold">
-              {selectedTag ? (
-                <span className="flex items-center gap-2 uppercase">
-                  <i className="i-mingcute-hashtag-fill text-primary" />
-                  {selectedTag}
-                </span>
-              ) : (
-                'All Posts'
-              )}
+              {selectedTag
+                ? (
+                    <span className="flex items-center gap-2 uppercase">
+                      <i className="i-mingcute-hashtag-fill text-primary" />
+                      {selectedTag}
+                    </span>
+                  )
+                : (
+                    'All Posts'
+                  )}
             </h2>
             <span className="text-sm text-muted-foreground">
               {filteredPosts.length}
@@ -156,14 +164,16 @@ export function TagList({ tags, posts }: TagListProps) {
             </span>
           </div>
 
-          {filteredPosts.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-20 text-center text-muted-foreground">
-              <i className="i-mingcute-ghost-line mb-4 text-4xl opacity-20" />
-              <p>No posts found with this tag.</p>
-            </div>
-          ) : (
-            <PostList posts={filteredPosts} />
-          )}
+          {filteredPosts.length === 0
+            ? (
+                <div className="flex flex-col items-center justify-center py-20 text-center text-muted-foreground">
+                  <i className="i-mingcute-ghost-line mb-4 text-4xl opacity-20" />
+                  <p>No posts found with this tag.</p>
+                </div>
+              )
+            : (
+                <PostList posts={filteredPosts} showSearch={false} />
+              )}
         </motion.div>
       </AnimatePresence>
     </div>
