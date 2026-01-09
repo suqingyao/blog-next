@@ -1,3 +1,5 @@
+'use client';
+
 import type { ContainerPosition, MasonryProps, MasonryScrollerProps, Positioner } from 'masonic';
 import { clearRequestTimeout, requestTimeout } from '@essentials/request-timeout';
 import { useWindowSize } from '@react-hook/window-size';
@@ -165,7 +167,7 @@ function MasonryScroller<Item>(
 }
 
 function useContainerPosition(
-  elementRef: React.MutableRefObject<HTMLElement | null>,
+  elementRef: React.RefObject<HTMLElement | null>,
   deps: React.DependencyList = [],
 ): ContainerPosition & {
   height: number;
@@ -225,7 +227,22 @@ function useContainerPosition(
 
 function useResizeObserver(positioner: Positioner) {
   const [forceUpdate] = useForceUpdate();
-  const resizeObserver = createResizeObserver(positioner, throttle(forceUpdate, 1000 / 12));
+  // Lazy initialization to avoid SSR issues with ResizeObserver
+  const resizeObserver = React.useMemo(
+    () => {
+      if (typeof window === 'undefined') {
+        // Return a mock observer for SSR
+        return {
+          observe: () => {},
+          unobserve: () => {},
+          disconnect: () => {},
+        } as ReturnType<typeof createResizeObserver>;
+      }
+      return createResizeObserver(positioner, throttle(forceUpdate, 1000 / 12));
+    },
+    [positioner, forceUpdate],
+  );
+  
   // Cleans up the resize observers when they change or the
   // component unmounts
   React.useEffect(() => () => resizeObserver.disconnect(), [resizeObserver]);
