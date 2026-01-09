@@ -2,7 +2,7 @@ import type { DebugInfo, WebGLImageViewerProps } from './interface';
 import { LoadingState } from './enum';
 import { ImageViewerEngineBase } from './ImageViewerEngineBase';
 import { createShader, FRAGMENT_SHADER_SOURCE, VERTEX_SHADER_SOURCE } from './shaders';
-import TextureWorkerRaw from './texture.worker?raw';
+// import TextureWorkerRaw from './texture.worker?raw';
 
 // 瓦片系统配置
 const TILE_SIZE = 512; // 每个瓦片的像素大小
@@ -341,7 +341,10 @@ export class WebGLImageViewerEngine extends ImageViewerEngineBase {
   }
 
   private initWorker() {
-    this.worker = new Worker(URL.createObjectURL(new Blob([TextureWorkerRaw])), {
+    // this.worker = new Worker(URL.createObjectURL(new Blob([TextureWorkerRaw])), {
+    //   name: 'texture-worker',
+    // });
+    this.worker = new Worker(new URL('./texture.worker.js', import.meta.url), {
       name: 'texture-worker',
     });
 
