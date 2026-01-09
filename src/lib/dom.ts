@@ -65,3 +65,21 @@ export function getTargetRect(target: HTMLElement | Window) {
       }
     : target.getBoundingClientRect();
 }
+
+export function nextFrame(fn: (...args: any[]) => any) {
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      fn();
+    });
+  });
+}
+
+export function getElementTop(element: HTMLElement) {
+  let actualTop = element.offsetTop;
+  let current = element.offsetParent as HTMLElement;
+  while (current !== null) {
+    actualTop += current.offsetTop;
+    current = current.offsetParent as HTMLElement;
+  }
+  return actualTop;
+}
