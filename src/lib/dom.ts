@@ -4,7 +4,6 @@ import { NOOP } from './utils';
 
 export function transitionViewIfSupported(callback: () => void) {
   const isAppearanceTransition
-    // @ts-expect-error experimental API
     = document.startViewTransition
       && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -12,6 +11,7 @@ export function transitionViewIfSupported(callback: () => void) {
     callback();
     return;
   }
+  // @ts-expect-error experimental API
   return document.startViewTransition(callback);
 }
 
@@ -24,7 +24,7 @@ const isServerRendering = (function () {
   try {
     return !(typeof window !== 'undefined' && document !== undefined);
   }
-  catch (error) {
+  catch {
     return true;
   }
 })();
