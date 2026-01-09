@@ -1,5 +1,6 @@
 @import 'tailwindcss';
 @import 'tailwind-scrollbar-hide/v4';
+@plugin '@egoist/tailwindcss-icons';
 @config '../../tailwind.config.ts';
 
 @utility text-link {
@@ -123,4 +124,52 @@
 .post-toc .katex {
   font: unset;
   line-height: unset;
+}
+
+@layer components {
+  /* Glassmorphic button hover effect */
+  .glassmorphic-btn:hover {
+    background: linear-gradient(
+      to right,
+      color-mix(in srgb, var(--color-accent) 8%, transparent),
+      color-mix(in srgb, var(--color-accent) 5%, transparent)
+    ) !important;
+    color: var(--color-accent) !important;
+  }
+
+  /* Command item hover/selected effect */
+  .command-item:hover,
+  .command-item.selected {
+    background: linear-gradient(
+      to right,
+      color-mix(in srgb, var(--color-accent) 8%, transparent),
+      color-mix(in srgb, var(--color-accent) 5%, transparent)
+    ) !important;
+  }
+}
+
+@layer utilities {
+  .animate-shake {
+    animation: shake 0.5s ease-in-out;
+  }
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translateX(-4px);
+  }
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translateX(4px);
+  }
 }

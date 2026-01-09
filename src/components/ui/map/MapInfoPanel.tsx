@@ -1,3 +1,5 @@
+'use client';
+
 import { m } from 'motion/react';
 import { useState } from 'react';
 

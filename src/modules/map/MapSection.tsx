@@ -1,16 +1,17 @@
+'use client';
 import type { MapBounds, PhotoMarker } from '@/types/map';
 import { m } from 'motion/react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { GenericMap, MapBackButton, MapInfoPanel, MapLoadingState } from '@/components/ui/map';
+import { photoLoader } from '@/lib/data';
 import {
   calculateMapBounds,
   convertExifGPSToDecimal,
   convertPhotosToMarkersFromEXIF,
   getInitialViewStateForMarkers,
 } from '@/lib/map-utils';
-import { photoLoader } from '@/lib/photo-loader';
 import { MapProvider } from '@/modules/map/MapProvider';
 
 export function MapSection() {

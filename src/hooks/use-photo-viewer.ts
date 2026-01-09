@@ -1,8 +1,8 @@
 import { atom, useAtom, useAtomValue } from 'jotai';
 import { use, useCallback, useMemo } from 'react';
-import { jotaiStore } from '@/lib/jotai';
+import { photoLoader } from '@/lib/data';
 
-import { photoLoader } from '@/lib/photo-loader';
+import { jotaiStore } from '@/lib/jotai';
 import { trackView } from '@/lib/tracker';
 import { PhotosContext } from '@/providers/photos-provider';
 import { gallerySettingAtom } from '@/store/atoms/app';

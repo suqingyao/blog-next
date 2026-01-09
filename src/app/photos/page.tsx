@@ -1,18 +1,26 @@
-import { PhotoList } from '@/components/site/PhotoList';
+'use client';
 
-async function PhotosPage() {
+import { ScrollArea, ScrollElementContext } from '@/components/ui/scroll-areas';
+import { useMobile } from '@/hooks/use-mobile';
+import { PhotosRoot } from '@/modules/gallery/PhotosRoot';
+
+export default function PhotosPage() {
+  const isMobile = useMobile();
+
   // Photos are now loaded client-side via PhotosProvider in RootLayout
   return (
     <div className="container mx-auto px-4 pb-20">
-      <div className="mb-12 pt-10 text-center">
-        <h1 className="mb-4 text-4xl font-bold tracking-tight">Gallery</h1>
-        <p className="text-muted-foreground">
-          A collection of moments captured in time.
-        </p>
-      </div>
-      <PhotoList />
+      {isMobile
+        ? (
+            <ScrollElementContext value={document.body}>
+              <PhotosRoot />
+            </ScrollElementContext>
+          )
+        : (
+            <ScrollArea rootClassName="h-svh w-full" viewportClassName="size-full" scrollbarClassName="mt-12">
+              <PhotosRoot />
+            </ScrollArea>
+          )}
     </div>
   );
 }
-
-export default PhotosPage;

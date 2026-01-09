@@ -1,13 +1,17 @@
-import type { StyleSpecification } from 'maplibre-gl'
+import type { StyleSpecification } from 'maplibre-gl';
 
-import { siteConfig } from '~/config'
+import BUILTIN_MAP_STYLE from '../../components/ui/map/MapLibreStyle.json';
 
-import BUILTIN_MAP_STYLE from '../../components/ui/map/MapLibreStyle.json'
+// import { siteConfig } from '~/config';
 
-export const getMapStyle = (): string | StyleSpecification => {
-  const builtinStyle = BUILTIN_MAP_STYLE as StyleSpecification
+const siteConfig = {
+  mapStyle: 'builtin',
+};
+
+export function getMapStyle(): string | StyleSpecification {
+  const builtinStyle = BUILTIN_MAP_STYLE as StyleSpecification;
   if (!siteConfig.mapStyle) {
-    return builtinStyle
+    return builtinStyle;
   }
-  return siteConfig.mapStyle === 'builtin' ? builtinStyle : siteConfig.mapStyle
+  return siteConfig.mapStyle === 'builtin' ? builtinStyle : siteConfig.mapStyle;
 }

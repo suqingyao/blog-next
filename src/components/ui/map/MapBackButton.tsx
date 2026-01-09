@@ -1,3 +1,5 @@
+'use client';
+
 import { useRouter } from 'next/navigation';
 import { startTransition } from 'react';
 import { GlassButton } from '@/components/ui/button';

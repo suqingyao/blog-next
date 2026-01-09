@@ -1,3 +1,5 @@
+'use client';
+
 import { useCallback, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { Thumbhash } from '@/components/ui/thumbhash';

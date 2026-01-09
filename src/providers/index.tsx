@@ -1,12 +1,13 @@
 'use client';
 
-import type { PhotoManifest } from '@/types/photo';
 import { ThemeProvider as NextThemeProvider } from 'next-themes';
+import { usePhotos } from '@/hooks/use-photo-viewer';
 import { JotaiProvider } from './jotai-provider';
 import { PhotosProvider } from './photos-provider';
 import { ReactQueryProvider } from './react-query-provider';
 
-export function AppProviders({ children, photos }: { children: React.ReactNode; photos: PhotoManifest[] }) {
+export function AppProviders({ children }: { children: React.ReactNode }) {
+  const photos = usePhotos();
   return (
     <ReactQueryProvider>
       <JotaiProvider>

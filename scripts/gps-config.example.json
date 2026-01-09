@@ -1,0 +1,24 @@
+{
+  "$schema": "GPS configuration for albums without EXIF GPS data",
+  "qingdao": {
+    "defaultGps": {
+      "latitude": 36.067,
+      "longitude": 120.383
+    },
+    "description": "Qingdao, Shandong Province"
+  },
+  "wuhan": {
+    "defaultGps": {
+      "latitude": 30.593,
+      "longitude": 114.305
+    },
+    "description": "Wuhan, Hubei Province"
+  },
+  "sichuan": {
+    "defaultGps": {
+      "latitude": 30.650,
+      "longitude": 104.065
+    },
+    "description": "Chengdu, Sichuan Province"
+  }
+}

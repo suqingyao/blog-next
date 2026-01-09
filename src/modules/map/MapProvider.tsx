@@ -1,3 +1,5 @@
+'use client';
+
 import type { BaseMapProps } from '@/types/map';
 
 import { createContext, use, useMemo } from 'react';

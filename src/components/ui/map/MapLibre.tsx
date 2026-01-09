@@ -1,3 +1,5 @@
+'use client';
+
 import type { PhotoMarker } from '@/types/map';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';

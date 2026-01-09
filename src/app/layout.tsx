@@ -8,9 +8,8 @@ import { MusicPlayer } from '@/components/music-player';
 import { Backtop } from '@/components/ui/backtop';
 import { APP_DESCRIPTION, APP_NAME, OUR_DOMAIN } from '@/constants';
 import { AppContextProvider } from '@/contexts';
-import { interFont, monoFont, sansFont, serifFont } from '@/lib/fonts';
-import { fetchManifest, photoLoader } from '@/lib/photo-loader';
 
+import { interFont, monoFont, sansFont, serifFont } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
 import { AppProviders } from '@/providers';
 import '@/styles/main.css';
@@ -38,11 +37,6 @@ export default async function RootLayout({
   children: React.ReactNode;
   modal: React.ReactNode;
 }) {
-  // Load manifest data on server
-  const photos = await fetchManifest();
-  // Initialize loader (though mostly for client use, but good for consistency)
-  photoLoader.init(photos);
-
   return (
     <html
       lang="en"
@@ -74,7 +68,7 @@ export default async function RootLayout({
           color="var(--color-primary)"
           showSpinner={false}
         />
-        <AppProviders photos={photos}>
+        <AppProviders>
           <AppContextProvider>
             <AppContent>
               {children}
