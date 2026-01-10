@@ -1,3 +1,5 @@
+'use client';
+
 import type { MasonryRef } from './Masonic';
 import type { PhotoManifestItem as PhotoManifest } from '@/types/photo';
 

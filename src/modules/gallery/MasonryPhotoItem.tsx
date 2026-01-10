@@ -1,3 +1,5 @@
+'use client';
+
 import type { PhotoManifestItem as PhotoManifest } from '@/types/photo';
 import clsx from 'clsx';
 import { m } from 'motion/react';

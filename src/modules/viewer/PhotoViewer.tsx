@@ -237,7 +237,7 @@ export function PhotoViewer({
                     {/* 右侧按钮组 */}
                     <div className="flex items-center gap-2">
                       {/* 分享按钮 */}
-                      <ShareModal
+                      {/* <ShareModal
                         photo={currentPhoto}
                         blobSrc={currentBlobSrc || undefined}
                         trigger={(
@@ -249,7 +249,7 @@ export function PhotoViewer({
                             <i className="i-mingcute-share-2-line" />
                           </button>
                         )}
-                      />
+                      /> */}
 
                       {/* 展开信息面板（桌面端在折叠时显示） */}
                       {!isMobile && !isInspectorVisible && (

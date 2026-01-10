@@ -1,17 +1,19 @@
-import { Thumbhash } from '@afilmory/ui'
-import { Spring } from '@afilmory/utils'
-import { m } from 'motion/react'
+'use client';
 
-import type { PhotoViewerTransition } from './types'
+import type { PhotoViewerTransition } from './types';
+import { m } from 'motion/react';
+import { Thumbhash } from '@/components/ui/thumbhash';
+
+import { Spring } from '@/lib/spring';
 
 interface PhotoViewerTransitionPreviewProps {
-  transition: PhotoViewerTransition
-  onComplete: () => void
+  transition: PhotoViewerTransition;
+  onComplete: () => void;
 }
 
-export const PhotoViewerTransitionPreview = ({ transition, onComplete }: PhotoViewerTransitionPreviewProps) => {
-  const baseTransition = Spring.snappy(0.5)
-  const thumbHash = typeof transition.thumbHash === 'string' ? transition.thumbHash : null
+export function PhotoViewerTransitionPreview({ transition, onComplete }: PhotoViewerTransitionPreviewProps) {
+  const baseTransition = Spring.snappy(0.5);
+  const thumbHash = typeof transition.thumbHash === 'string' ? transition.thumbHash : null;
 
   return (
     <m.div
@@ -48,5 +50,5 @@ export const PhotoViewerTransitionPreview = ({ transition, onComplete }: PhotoVi
         />
       </div>
     </m.div>
-  )
+  );
 }

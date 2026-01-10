@@ -1,3 +1,5 @@
+'use client';
+
 import type { PhotoManifestItem as PhotoManifest } from '@/types/photo';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { useRef } from 'react';

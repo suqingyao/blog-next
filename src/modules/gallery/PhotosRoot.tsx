@@ -1,3 +1,5 @@
+'use client';
+
 import type { PanelType } from './ActionPanel';
 import { useAtomValue } from 'jotai';
 import { useEffect, useState } from 'react';
@@ -53,7 +55,7 @@ export function PhotosRoot() {
 
       {hasActiveFilters && <ActiveFiltersHero />}
 
-      <div className={cn('p-1 **:select-none! lg:px-0 lg:pb-0', !hasActiveFilters && 'mt-12')}>
+      <div className={cn('p-1 **:select-none! lg:px-0 lg:pb-0', hasActiveFilters && 'mt-12')}>
         {viewMode === 'list' ? <ListView photos={photos} /> : <MasonryView photos={photos} onRender={handleRender} />}
       </div>
 

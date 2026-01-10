@@ -1,5 +1,5 @@
 import { atom, useAtom, useAtomValue } from 'jotai';
-import { use, useCallback, useMemo } from 'react';
+import { use, useCallback, useEffect, useMemo } from 'react';
 import { photoLoader } from '@/lib/data';
 
 import { jotaiStore } from '@/lib/jotai';
@@ -134,8 +134,10 @@ export function usePhotoViewer() {
       setCurrentIndex(index);
       setTriggerElement(element || null);
       setIsOpen(true);
-      // 防止背景滚动
-      document.body.style.overflow = 'hidden';
+      // 防止背景滚动 (SSR safe)
+      if (typeof document !== 'undefined') {
+        document.body.style.overflow = 'hidden';
+      }
 
       trackView(id);
     },
@@ -145,8 +147,10 @@ export function usePhotoViewer() {
   const closeViewer = useCallback(() => {
     setIsOpen(false);
     setTriggerElement(null);
-    // 恢复背景滚动
-    document.body.style.overflow = '';
+    // 恢复背景滚动 (SSR safe)
+    if (typeof document !== 'undefined') {
+      document.body.style.overflow = '';
+    }
   }, [setIsOpen, setTriggerElement]);
 
   const goToIndex = useCallback(
@@ -158,6 +162,23 @@ export function usePhotoViewer() {
     },
     [photos, setCurrentIndex],
   );
+
+  // Cleanup effect: ensure overflow is restored when component unmounts or viewer closes
+  useEffect(() => {
+    return () => {
+      // Always restore overflow when unmounting
+      if (typeof document !== 'undefined') {
+        document.body.style.overflow = '';
+      }
+    };
+  }, []);
+
+  // Also restore overflow when isOpen changes to false
+  useEffect(() => {
+    if (!isOpen && typeof document !== 'undefined') {
+      document.body.style.overflow = '';
+    }
+  }, [isOpen]);
 
   return {
     isOpen,
