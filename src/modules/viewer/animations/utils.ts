@@ -1,76 +1,75 @@
-import type { PhotoManifest } from '~/types/photo'
+import type { AnimationFrameRect } from './types';
 
-import type { AnimationFrameRect } from './types'
+import type { PhotoManifest } from '@/types/photo';
 
-export const DESKTOP_EXIF_PANEL_WIDTH_REM = 20
+export const DESKTOP_EXIF_PANEL_WIDTH_REM = 20;
 
 const THUMBNAIL_SIZE = {
   mobile: 48,
   desktop: 64,
-} as const
+} as const;
 
-export const escapeAttributeValue = (value: string) => {
+export function escapeAttributeValue(value: string) {
   if (window.CSS?.escape) {
-    return window.CSS.escape(value)
+    return window.CSS.escape(value);
   }
 
-  return value.replaceAll(/['\\]/g, '\\$&')
+  return value.replaceAll(/['\\]/g, '\\$&');
 }
 
-const getRootFontSize = () => {
-  const value = window.getComputedStyle(document.documentElement).fontSize
-  const parsed = Number.parseFloat(value || '16')
-  return Number.isNaN(parsed) ? 16 : parsed
+function getRootFontSize() {
+  const value = window.getComputedStyle(document.documentElement).fontSize;
+  const parsed = Number.parseFloat(value || '16');
+  return Number.isNaN(parsed) ? 16 : parsed;
 }
 
-export const getBorderRadius = (element: Element | null) => {
-  if (!element) return 0
+export function getBorderRadius(element: Element | null) {
+  if (!element)
+    return 0;
 
-  const computedStyle = window.getComputedStyle(element)
+  const computedStyle = window.getComputedStyle(element);
   const radiusCandidates = [
     computedStyle.borderRadius,
     computedStyle.borderTopLeftRadius,
     computedStyle.borderTopRightRadius,
-  ].filter((value) => value && value !== '0px')
+  ].filter(value => value && value !== '0px');
 
-  if (radiusCandidates.length === 0) return 0
+  if (radiusCandidates.length === 0)
+    return 0;
 
-  const parsed = Number.parseFloat(radiusCandidates[0] || '0')
-  if (Number.isNaN(parsed)) return 0
-  return Math.max(0, parsed)
+  const parsed = Number.parseFloat(radiusCandidates[0] || '0');
+  if (Number.isNaN(parsed))
+    return 0;
+  return Math.max(0, parsed);
 }
 
-export const computeViewerImageFrame = (
-  photo: PhotoManifest,
-  viewportRect: DOMRect | null,
-  isMobile: boolean,
-): AnimationFrameRect => {
-  const baseFontSize = getRootFontSize()
-  const exifWidth = isMobile ? 0 : DESKTOP_EXIF_PANEL_WIDTH_REM * baseFontSize
-  const thumbnailHeight = isMobile ? THUMBNAIL_SIZE.mobile : THUMBNAIL_SIZE.desktop
+export function computeViewerImageFrame(photo: PhotoManifest, viewportRect: DOMRect | null, isMobile: boolean): AnimationFrameRect {
+  const baseFontSize = getRootFontSize();
+  const exifWidth = isMobile ? 0 : DESKTOP_EXIF_PANEL_WIDTH_REM * baseFontSize;
+  const thumbnailHeight = isMobile ? THUMBNAIL_SIZE.mobile : THUMBNAIL_SIZE.desktop;
 
-  const viewportWidth = viewportRect?.width ?? window.innerWidth
-  const viewportHeight = viewportRect?.height ?? window.innerHeight
-  const viewportLeft = viewportRect?.left ?? 0
-  const viewportTop = viewportRect?.top ?? 0
+  const viewportWidth = viewportRect?.width ?? window.innerWidth;
+  const viewportHeight = viewportRect?.height ?? window.innerHeight;
+  const viewportLeft = viewportRect?.left ?? 0;
+  const viewportTop = viewportRect?.top ?? 0;
 
-  const contentWidth = Math.max(0, viewportWidth - exifWidth)
-  const contentHeight = Math.max(0, viewportHeight - thumbnailHeight)
+  const contentWidth = Math.max(0, viewportWidth - exifWidth);
+  const contentHeight = Math.max(0, viewportHeight - thumbnailHeight);
 
-  const photoWidth = photo.width || contentWidth
-  const photoHeight = photo.height || contentHeight || 1
-  const photoAspect = photoWidth / photoHeight || 1
+  const photoWidth = photo.width || contentWidth;
+  const photoHeight = photo.height || contentHeight || 1;
+  const photoAspect = photoWidth / photoHeight || 1;
 
-  let displayWidth = contentWidth
-  let displayHeight = contentWidth / photoAspect
+  let displayWidth = contentWidth;
+  let displayHeight = contentWidth / photoAspect;
 
   if (displayHeight > contentHeight) {
-    displayHeight = contentHeight
-    displayWidth = contentHeight * photoAspect
+    displayHeight = contentHeight;
+    displayWidth = contentHeight * photoAspect;
   }
 
-  const left = viewportLeft + (contentWidth - displayWidth) / 2
-  const top = viewportTop + (contentHeight - displayHeight) / 2
+  const left = viewportLeft + (contentWidth - displayWidth) / 2;
+  const top = viewportTop + (contentHeight - displayHeight) / 2;
 
   return {
     left,
@@ -78,5 +77,5 @@ export const computeViewerImageFrame = (
     width: displayWidth,
     height: displayHeight,
     borderRadius: 0,
-  }
+  };
 }

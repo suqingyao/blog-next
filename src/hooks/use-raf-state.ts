@@ -2,12 +2,12 @@ import type { Dispatch, SetStateAction } from 'react';
 import { useCallback, useRef, useState } from 'react';
 import { useUnmount } from './use-unmount';
 
-interface useRafState {
+interface useRafStateReturnType {
   <S>(initialState: S | (() => S)): [S, Dispatch<SetStateAction<S>>];
   <S = undefined>(): [S | undefined, Dispatch<SetStateAction<S | undefined>>];
 }
 
-export const useRafState: useRafState = <S>(initialState?: S | (() => S)) => {
+export const useRafState: useRafStateReturnType = <S>(initialState?: S | (() => S)) => {
   const ref = useRef(0);
   const [state, setState] = useState(initialState);
 
