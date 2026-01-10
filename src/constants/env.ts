@@ -1,6 +1,4 @@
-/**
- * 环境和运行时相关常量
- */
+import process from 'node:process';
 
 /** 判断是否在浏览器环境 */
 export const IS_BROWSER = typeof document !== 'undefined';
