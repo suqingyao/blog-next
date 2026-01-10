@@ -186,7 +186,6 @@ export function usePhotoViewer() {
     triggerElement,
     openViewer,
     closeViewer,
-
     goToIndex,
   };
 }

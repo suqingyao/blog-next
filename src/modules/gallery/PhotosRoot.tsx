@@ -3,13 +3,14 @@
 import type { PanelType } from './ActionPanel';
 import { useAtomValue } from 'jotai';
 import { useEffect, useState } from 'react';
-import { useScrollViewElement } from '@/components/ui/scroll-areas';
+import { ClientOnly } from '@/components/common/ClientOnly';
 
+import { useScrollViewElement } from '@/components/ui/scroll-areas';
 import { useHasActiveFilters } from '@/hooks/use-has-active-filters';
 import { useContextPhotos } from '@/hooks/use-photo-viewer';
 import { useVisiblePhotosDateRange } from '@/hooks/use-visible-photos-date-range';
-import { cn } from '@/lib/utils';
 
+import { cn } from '@/lib/utils';
 import { gallerySettingAtom } from '@/store/atoms/app';
 import { ActionPanel } from './ActionPanel';
 import { ActiveFiltersHero } from './ActiveFiltersHero';
@@ -46,7 +47,7 @@ export function PhotosRoot() {
   const hasActiveFilters = useHasActiveFilters();
 
   return (
-    <>
+    <ClientOnly>
       {/* <PageHeader
         dateRange={dateRange.formattedRange}
         location={dateRange.location}
@@ -68,6 +69,6 @@ export function PhotosRoot() {
         }}
         type={activePanel}
       />
-    </>
+    </ClientOnly>
   );
 }

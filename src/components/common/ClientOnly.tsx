@@ -1,13 +1,9 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useIsMounted } from '@/hooks/use-is-mounted';
 
 export function ClientOnly({ children }: { children?: React.ReactNode }) {
-  const [isMounted, setIsMounted] = useState(false);
+  const mounted = useIsMounted();
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  return isMounted ? children : null;
+  return mounted ? children : null;
 }

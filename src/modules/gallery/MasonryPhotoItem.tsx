@@ -47,6 +47,14 @@ export const MasonryPhotoItem = memo(({ data, width }: { data: PhotoManifest; wi
   const router = useRouter();
 
   const handleClick = () => {
+    const photoIndex = photos.findIndex(photo => photo.id === data.id);
+    if (photoIndex !== -1) {
+      const triggerEl
+        = imageRef.current?.parentElement instanceof HTMLElement ? imageRef.current.parentElement : imageRef.current;
+
+      photoViewer.openViewer(photoIndex, triggerEl ?? undefined);
+    }
+
     // Navigate to photo route - this will be intercepted by @modal/(.)photos/[photoId]
     router.push(`/photos/${data.id}`);
   };
