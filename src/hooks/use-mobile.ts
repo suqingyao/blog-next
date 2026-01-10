@@ -5,6 +5,10 @@ export function useMobile() {
 }
 
 export function isMobile() {
+  // SSR safe: check if window exists
+  if (typeof window === 'undefined') {
+    return false; // Default to desktop during SSR
+  }
   const w = window.innerWidth;
   return w < 1024 && w !== 0;
 }
