@@ -1,10 +1,10 @@
 import type { FC } from 'react';
 import type { LivePhotoBadgeProps } from '@/modules/viewer/types';
-import process from 'node:process';
 import { AnimatePresence, m } from 'motion/react';
 import { useCallback } from 'react';
 
 import { isMobileDevice } from '@/lib/device-viewport';
+import { isDevelopment } from '@/lib/env';
 import { cn } from '@/lib/utils';
 
 export const LivePhotoBadge: FC<LivePhotoBadgeProps> = ({ livePhotoRef, isLivePhotoPlaying }) => {
@@ -40,7 +40,7 @@ export const LivePhotoBadge: FC<LivePhotoBadgeProps> = ({ livePhotoRef, isLivePh
           'absolute z-20 flex items-center space-x-1 rounded-xl bg-black/50 px-1 py-1 text-xs text-white transition-all duration-200',
           'cursor-pointer hover:bg-black/70',
           isLivePhotoPlaying && 'bg-accent/70 hover:bg-accent/80',
-          process.env.NODE_ENV === 'development' ? 'top-16 right-4' : 'top-12 lg:top-4 left-4',
+          isDevelopment ? 'top-16 right-4' : 'top-12 lg:top-4 left-4',
         )}
         onClick={handleClick}
       >

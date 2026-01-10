@@ -5,7 +5,7 @@ import type { LoadingIndicatorRef } from '@/modules/inspector/LoadingIndicator';
 import type { PhotoManifest } from '@/types/photo';
 
 import { AnimatePresence, m } from 'motion/react';
-import { Fragment, Suspense, useCallback, useEffect, useRef, useState } from 'react';
+import { Fragment, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Keyboard, Navigation, Virtual } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Thumbhash } from '@/components/ui/thumbhash';
@@ -49,7 +49,7 @@ export function PhotoViewer({
   const [isInspectorVisible, setIsInspectorVisible] = useState(!isMobile);
   const [currentBlobSrc, setCurrentBlobSrc] = useState<string | null>(null);
 
-  const currentPhoto = photos[currentIndex];
+  const currentPhoto = useMemo(() => photos[currentIndex], [currentIndex, photos]);
 
   const {
     containerRef,
