@@ -2,6 +2,7 @@
 
 import type { PhotoManifestItem as PhotoManifest } from '@/types/photo';
 import { useVirtualizer } from '@tanstack/react-virtual';
+import { useRouter } from 'next/navigation';
 import { useRef } from 'react';
 
 import { useScrollViewElement } from '@/components/ui/scroll-areas';
@@ -82,14 +83,11 @@ function PhotoCard({ photo }: { photo: PhotoManifest }) {
   const photoViewer = usePhotoViewer();
   const imageRef = useRef<HTMLImageElement>(null);
 
-  const handleClick = () => {
-    const photoIndex = photos.findIndex(p => p.id === photo.id);
-    if (photoIndex !== -1) {
-      const triggerEl
-        = imageRef.current?.parentElement instanceof HTMLElement ? imageRef.current.parentElement : imageRef.current;
+  const router = useRouter();
 
-      photoViewer.openViewer(photoIndex, triggerEl ?? undefined);
-    }
+  const handleClick = () => {
+    // Navigate to photo route - this will be intercepted by @modal/(.)photos/[photoId]
+    router.push(`/photos/${photo.id}`);
   };
 
   const formatDate = (timestamp: number) => {

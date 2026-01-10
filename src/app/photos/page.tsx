@@ -11,7 +11,7 @@ import { gallerySettingAtom } from '@/store/atoms/app';
 
 export default function PhotosPage() {
   useStateRestoreFromUrl();
-  useSyncStateToUrl();
+  useSyncFiltersToUrl();
   const isMobile = useMobile();
 
   // Photos are now loaded client-side via PhotosProvider in RootLayout
@@ -81,36 +81,14 @@ function useStateRestoreFromUrl() {
   }, [openViewer, photoId, searchParams, setGallerySetting]);
 }
 
-function useSyncStateToUrl() {
+// Simplified function to only sync filter params (tags, cameras, etc.) to URL
+// Photo navigation is now handled by Next.js routing and @modal slot
+function useSyncFiltersToUrl() {
   const { selectedTags, selectedCameras, selectedLenses, selectedRatings, tagFilterMode }
     = useAtomValue(gallerySettingAtom);
   const searchParams = useSearchParams();
   const router = useRouter();
-
   const pathname = usePathname();
-  const { isOpen, currentIndex } = usePhotoViewer();
-
-  useEffect(() => {
-    if (!isRestored)
-      return;
-
-    if (!isOpen) {
-      const isMapPath = pathname === '/map';
-      if (!isMapPath) {
-        const timer = setTimeout(() => {
-          router.push('/');
-        }, 500);
-        return () => clearTimeout(timer);
-      }
-    }
-    else {
-      const photos = getFilteredPhotos();
-      const targetPathname = `/photos/${photos[currentIndex].id}`;
-      if (pathname !== targetPathname) {
-        router.push(targetPathname);
-      }
-    }
-  }, [currentIndex, isOpen, pathname, router]);
 
   // Get a new searchParams string by merging the current
   // searchParams with a provided key/value pair

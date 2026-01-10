@@ -12,6 +12,13 @@ export const RootPortal: FC<
 > = (props) => {
   const to = useRootPortal();
 
-  return createPortal(props.children, props.to || to || document.body);
+  // SSR safe: only render portal on client side
+  const target = props.to || to || (typeof document !== 'undefined' ? document.body : null);
+  
+  if (!target) {
+    return null; // Don't render during SSR if no target
+  }
+
+  return createPortal(props.children, target);
 };
 export { RootPortalProvider } from './provider';
