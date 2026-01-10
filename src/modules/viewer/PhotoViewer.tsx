@@ -12,7 +12,7 @@ import { Spring } from '@/lib/spring';
 
 import { LoadingIndicator } from '@/modules/inspector/LoadingIndicator';
 import { PhotoInspector } from '@/modules/inspector/PhotoInspector';
-import { ShareModal } from '@/modules/social/ShareModal';
+// import { ShareModal } from '@/modules/social/ShareModal';
 // import { ReactionRail } from '../social';
 import { PhotoViewerTransitionPreview } from './animations/PhotoViewerTransitionPreview';
 import { usePhotoViewerTransitions } from './animations/usePhotoViewerTransitions';

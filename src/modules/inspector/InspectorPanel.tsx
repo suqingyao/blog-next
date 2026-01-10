@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import type { PhotoManifest, PickedExif } from '@/types/photo';
-import { useQuery } from '@tanstack/react-query';
-import clsx from 'clsx';
+// import { useQuery } from '@tanstack/react-query';
+// import clsx from 'clsx';
 import { m } from 'motion/react';
 import { useState } from 'react';
 // import { useTranslation } from 'react-i18next';
@@ -13,7 +13,7 @@ import { useMobile } from '@/hooks/use-mobile';
 // import { commentsApi } from '@/lib/api/comments';
 import { Spring } from '@/lib/spring';
 import { ExifPanelContent } from '@/modules/metadata/ExifPanel';
-import { CommentsPanel } from '@/modules/social/comments';
+// import { CommentsPanel } from '@/modules/social/comments';
 
 type Tab = 'info' | 'comments';
 
@@ -171,7 +171,8 @@ export const InspectorPanel: FC<{
               <ExifPanelContent currentPhoto={currentPhoto} exifData={exifData} />
             )
           : (
-              <CommentsPanel photoId={currentPhoto.id} visible={visible} />
+              // <CommentsPanel photoId={currentPhoto.id} visible={visible} />
+              null
             )}
       </div>
     </m.div>
