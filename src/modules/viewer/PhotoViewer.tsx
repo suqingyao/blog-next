@@ -1,3 +1,5 @@
+'use client';
+
 import type { Swiper as SwiperType } from 'swiper';
 import type { LoadingIndicatorRef } from '@/modules/inspector/LoadingIndicator';
 import type { PhotoManifest } from '@/types/photo';
