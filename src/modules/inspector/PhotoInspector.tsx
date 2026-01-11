@@ -4,7 +4,7 @@ import type { PhotoManifest, PickedExif } from '@/types/photo';
 import { ExifPanel } from '@/modules/metadata/ExifPanel';
 // import { injectConfig } from '~/config';
 
-// import { InspectorPanel } from './InspectorPanel';
+import { InspectorPanel } from './InspectorPanel';
 
 export interface PhotoInspectorProps {
   currentPhoto: PhotoManifest;
@@ -13,11 +13,11 @@ export interface PhotoInspectorProps {
   onClose?: () => void;
 }
 
-// const CloudInspector: FC<PhotoInspectorProps> = props => <InspectorPanel {...props} />;
+const CloudInspector: FC<PhotoInspectorProps> = props => <InspectorPanel {...props} />;
 
 const LegacyInspector: FC<PhotoInspectorProps> = ({ currentPhoto, exifData, ...rest }) => (
   <ExifPanel currentPhoto={currentPhoto} exifData={exifData} {...rest} />
 );
 
-export const PhotoInspector: FC<PhotoInspectorProps> = LegacyInspector;
+export const PhotoInspector: FC<PhotoInspectorProps> = CloudInspector;
 // injectConfig.useCloud ? CloudInspector : LegacyInspector;

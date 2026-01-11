@@ -1,13 +1,14 @@
 import type { FC } from 'react';
 import type { PhotoManifest, PickedExif } from '@/types/photo';
+import clsx from 'clsx';
 // import { useQuery } from '@tanstack/react-query';
 // import clsx from 'clsx';
 import { m } from 'motion/react';
 import { useState } from 'react';
 // import { useTranslation } from 'react-i18next';
 import { MobileTabGroup, MobileTabItem } from '@/components/ui/mobile-tab';
-import { SegmentGroup, SegmentItem } from '@/components/ui/segment';
 
+import { SegmentGroup, SegmentItem } from '@/components/ui/segment';
 // import { injectConfig } from '@/config';
 import { useMobile } from '@/hooks/use-mobile';
 // import { commentsApi } from '@/lib/api/comments';
@@ -27,6 +28,8 @@ export const InspectorPanel: FC<{
   const isMobile = useMobile();
   const [activeTab, setActiveTab] = useState<Tab>('info');
 
+  const showSocialFeatures = false;
+  const hasComments = false;
   // const showSocialFeatures = injectConfig.useCloud;
   // const { data: commentCount } = useQuery({
   //   queryKey: ['comment-count', currentPhoto.id],
@@ -90,18 +93,19 @@ export const InspectorPanel: FC<{
                       </div>
                     )}
                   />
-                  {/* {showSocialFeatures && (
+                  {showSocialFeatures && (
                     <MobileTabItem
                       value="comments"
                       label={(
                         <div className="flex items-center">
                           <i className="i-mingcute-comment-line mr-1.5 text-base" />
-                          {t('inspector.tab.comments')}
-                          {hasComments && <div className="bg-accent ml-1.5 size-1.5 rounded-full" />}
+                          {/* {t('inspector.tab.comments')} */}
+                          评论
+                          {/* {hasComments && <div className="bg-accent ml-1.5 size-1.5 rounded-full" />} */}
                         </div>
                       )}
                     />
-                  )} */}
+                  )}
                 </MobileTabGroup>
                 {onClose && (
                   <button
@@ -135,7 +139,7 @@ export const InspectorPanel: FC<{
                       </div>
                     )}
                   />
-                  {/* {showSocialFeatures && (
+                  {showSocialFeatures && (
                     <SegmentItem
                       value="comments"
                       activeBgClassName="bg-accent/20"
@@ -143,12 +147,13 @@ export const InspectorPanel: FC<{
                       label={(
                         <div className={clsx('flex items-center', hasComments && 'pr-0.5')}>
                           <i className="i-mingcute-comment-line mr-1.5" />
-                          {t('inspector.tab.comments')}
-                          {hasComments && <div className="bg-accent absolute top-1 right-1 size-1.5 rounded-full" />}
+                          {/* {t('inspector.tab.comments')} */}
+                          评论
+                          {/* {hasComments && <div className="bg-accent absolute top-1 right-1 size-1.5 rounded-full" />} */}
                         </div>
                       )}
                     />
-                  )} */}
+                  )}
                 </SegmentGroup>
                 {onClose && (
                   <button
