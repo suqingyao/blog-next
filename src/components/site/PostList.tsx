@@ -1,6 +1,6 @@
 'use client';
 
-import { AnimatePresence, motion } from 'motion/react';
+import { AnimatePresence, m } from 'motion/react';
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import dayjs from '@/lib/dayjs';
@@ -55,7 +55,7 @@ export function PostList({ posts, showSearch = true }: { posts: Record<string, a
       <div className="space-y-12">
         <AnimatePresence mode="popLayout">
           {groupedPosts.map(([year, yearPosts]) => (
-            <motion.section
+            <m.section
               key={year}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -88,7 +88,7 @@ export function PostList({ posts, showSearch = true }: { posts: Record<string, a
                   </Link>
                 ))}
               </div>
-            </motion.section>
+            </m.section>
           ))}
         </AnimatePresence>
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { AnimatePresence, motion } from 'motion/react';
+import { AnimatePresence, m } from 'motion/react';
 import { useState } from 'react';
 import { PostList } from '@/components/site/PostList';
 import { cn } from '@/lib/utils';
@@ -37,10 +37,10 @@ export function TagList({ tags, posts }: TagListProps) {
     = selectedTag === null
       ? (searchQuery
           ? posts.filter(post =>
-            post.tags && post.tags.some(tag =>
-              tag.toLowerCase().includes(searchQuery.toLowerCase()),
-            ),
-          )
+              post.tags && post.tags.some(tag =>
+                tag.toLowerCase().includes(searchQuery.toLowerCase()),
+              ),
+            )
           : posts)
       : posts.filter(post => post.tags && post.tags.some(tag => tag.toUpperCase() === selectedTag));
 
@@ -68,7 +68,7 @@ export function TagList({ tags, posts }: TagListProps) {
         </div>
 
         <div className="flex flex-wrap items-center gap-3">
-          <motion.button
+          <m.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => handleTagClick(null)}
@@ -91,11 +91,11 @@ export function TagList({ tags, posts }: TagListProps) {
             >
               {posts.length}
             </span>
-          </motion.button>
+          </m.button>
 
           <AnimatePresence>
             {filteredTags.map(tag => (
-              <motion.button
+              <m.button
                 key={tag.name}
                 layout
                 initial={{ opacity: 0, scale: 0.8 }}
@@ -123,7 +123,7 @@ export function TagList({ tags, posts }: TagListProps) {
                 >
                   {tag.count}
                 </span>
-              </motion.button>
+              </m.button>
             ))}
           </AnimatePresence>
 
@@ -137,7 +137,7 @@ export function TagList({ tags, posts }: TagListProps) {
 
       {/* Post list */}
       <AnimatePresence mode="wait">
-        <motion.div
+        <m.div
           key={selectedTag || 'all'}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -174,7 +174,7 @@ export function TagList({ tags, posts }: TagListProps) {
             : (
                 <PostList posts={filteredPosts} showSearch={false} />
               )}
-        </motion.div>
+        </m.div>
       </AnimatePresence>
     </div>
   );
