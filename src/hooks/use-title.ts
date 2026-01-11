@@ -10,7 +10,8 @@ const DEFAULT_USE_TITLE_OPTIONS: UseTitleOptions = {
 };
 
 const titleTemplate = `%s | ${APP_NAME}`;
-function useTitlePrimitive(title: string, options: UseTitleOptions = DEFAULT_USE_TITLE_OPTIONS) {
+
+export function useTitle(title: string, options: UseTitleOptions = DEFAULT_USE_TITLE_OPTIONS) {
   // SSR safe: store initial title in ref, but only access in useEffect
   const prevTitleRef = useRef<string>('');
 
@@ -39,5 +40,3 @@ function useTitlePrimitive(title: string, options: UseTitleOptions = DEFAULT_USE
     }
   }, [title, options.restoreOnUnmount]);
 }
-
-export const useTitle = typeof document !== 'undefined' ? useTitlePrimitive : (_title: string) => {};
