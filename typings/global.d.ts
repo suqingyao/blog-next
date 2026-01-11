@@ -12,6 +12,10 @@ declare global {
 
   type NilValue = null | undefined | false | '';
 
+  type Prettify<T> = {
+    [K in keyof T]: T[K]
+  } & {};
+
   type Fn = () => void;
 
   interface Post {
