@@ -5,5 +5,5 @@ import { createContext } from 'react';
 export const PhotosContext = createContext<PhotoManifest[]>(null!);
 
 export function PhotosProvider({ children, photos }: { children: React.ReactNode; photos: PhotoManifest[] }) {
-  return <PhotosContext value={photos}>{children}</PhotosContext>;
+  return <PhotosContext.Provider value={photos}>{children}</PhotosContext.Provider>;
 }

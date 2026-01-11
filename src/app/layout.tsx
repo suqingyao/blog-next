@@ -7,11 +7,11 @@ import { DotGrid } from '@/components/common/DotGrid';
 import { MusicPlayer } from '@/components/music-player';
 import { Backtop } from '@/components/ui/backtop';
 import { APP_DESCRIPTION, APP_NAME, OUR_DOMAIN } from '@/constants';
-import { AppContextProvider } from '@/contexts';
 
 import { interFont, monoFont, sansFont, serifFont } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
 import { AppProviders } from '@/providers';
+
 import '@/styles/main.css';
 
 export const metadata: Metadata = {
@@ -56,24 +56,22 @@ export default async function RootLayout({
           showSpinner={false}
         />
         <AppProviders>
-          <AppContextProvider>
-            <AppContent>
-              {children}
-              {modal}
-              <DotGrid
-                dotSize={2}
-                gap={40}
-                baseColor="#e5e7eb"
-                activeColor="#a1a1aa"
-                proximity={100}
-                shockRadius={100}
-                shockStrength={2}
-                resistance={1000}
-                returnDuration={1}
-                style={{ width: '100%', height: '100%', position: 'fixed', inset: 0, zIndex: -1 }}
-              />
-            </AppContent>
-          </AppContextProvider>
+          <AppContent>
+            {children}
+            {modal}
+            <DotGrid
+              dotSize={2}
+              gap={40}
+              baseColor="#e5e7eb"
+              activeColor="#a1a1aa"
+              proximity={100}
+              shockRadius={100}
+              shockStrength={2}
+              resistance={1000}
+              returnDuration={1}
+              style={{ width: '100%', height: '100%', position: 'fixed', inset: 0, zIndex: -1 }}
+            />
+          </AppContent>
           <Backtop />
           <Toaster />
           <MusicPlayer />

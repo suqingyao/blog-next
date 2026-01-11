@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'motion/react';
+import { m } from 'motion/react';
 import Link from 'next/link';
 import { useMemo } from 'react';
 
@@ -66,7 +66,7 @@ export function AppNavbar() {
   return (
     <div className="ml-auto flex items-center">
       {showPageTitle && (
-        <motion.h2
+        <m.h2
           variants={floatingTitleVariants}
           initial="initial"
           animate="animate"
@@ -77,7 +77,7 @@ export function AppNavbar() {
           }}
         >
           {headerAtom.pageTitle}
-        </motion.h2>
+        </m.h2>
       )}
       <nav className="mr-4 flex h-full items-center gap-4">
         {links.map(link => (
