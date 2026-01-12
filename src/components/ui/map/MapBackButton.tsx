@@ -9,7 +9,7 @@ export function MapBackButton() {
 
   const handleBack = () => {
     startTransition(() => {
-      router.push('/');
+      router.back();
     });
   };
 
