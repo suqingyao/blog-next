@@ -1,4 +1,5 @@
 import type { Tags } from 'exiftool-vendored';
+import type { Buffer } from 'node:buffer';
 
 // 地理位置信息
 export interface LocationInfo {
