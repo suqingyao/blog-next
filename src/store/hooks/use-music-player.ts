@@ -185,7 +185,7 @@ export function useMusicPlayer() {
    * 格式化时间显示
    */
   const formatTime = useCallback((seconds: number) => {
-    if (isNaN(seconds))
+    if (Number.isNaN(seconds))
       return '0:00';
     const mins = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);
