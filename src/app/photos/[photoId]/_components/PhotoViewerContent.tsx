@@ -1,34 +1,20 @@
 'use client';
 
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import { RemoveScroll } from 'react-remove-scroll';
 import { NotFound } from '@/components/common/NotFound';
 import { RootPortal, RootPortalProvider } from '@/components/ui/portal';
-
 import { useContextPhotos, usePhotoViewer } from '@/hooks/use-photo-viewer';
 import { useTitle } from '@/hooks/use-title';
 import { deriveAccentFromSources } from '@/lib/color';
 import { cn } from '@/lib/utils';
 import { PhotoViewer } from '@/modules/viewer';
 
-export default function PhotoModalPage() {
-  const params = useParams();
-  const router = useRouter();
+export function PhotoViewerContent() {
   const photoViewer = usePhotoViewer();
   const photos = useContextPhotos();
-
-  const photoId = params.photoId as string;
-
-  // Find photo index and open viewer when photoId changes
-  useEffect(() => {
-    if (photoId) {
-      const targetIndex = photos.findIndex(photo => photo.id === photoId);
-      if (targetIndex !== -1 && !photoViewer.isOpen) {
-        photoViewer.openViewer(targetIndex);
-      }
-    }
-  }, [photoId, photos, photoViewer]);
+  const { photoId } = useParams<{ photoId: string }>();
 
   const [ref, setRef] = useState<HTMLElement | null>(null);
   const rootPortalValue = useMemo(
@@ -38,18 +24,20 @@ export default function PhotoModalPage() {
     [ref],
   );
 
-  const currentPhoto = photos[photoViewer.currentIndex];
+  const currentIndex = useMemo(() => photos.findIndex(p => p.id === photoId), [photoId, photos]);
+  const currentPhoto = useMemo(() => photos[currentIndex], [currentIndex, photos]);
   useTitle(currentPhoto?.title || 'Not Found');
 
   const [accentColor, setAccentColor] = useState<string | null>(null);
 
+  // Handle accent color
   useEffect(() => {
     if (!currentPhoto)
       return;
 
-    let isCancelled = false;
+    let isCancelled = false
 
-    (async () => {
+    ;(async () => {
       try {
         const color = await deriveAccentFromSources({
           thumbHash: currentPhoto.thumbHash,
@@ -82,21 +70,6 @@ export default function PhotoModalPage() {
     };
   }, [currentPhoto]);
 
-  // Handle close - navigate back to /photos
-  const handleClose = () => {
-    photoViewer.closeViewer();
-    router.push('/photos');
-  };
-
-  // Handle index change - update URL
-  const handleIndexChange = (newIndex: number) => {
-    photoViewer.goToIndex(newIndex);
-    const newPhoto = photos[newIndex];
-    if (newPhoto) {
-      router.push(`/photos/${newPhoto.id}`, { scroll: false });
-    }
-  };
-
   if (!currentPhoto) {
     return <NotFound />;
   }
@@ -111,15 +84,15 @@ export default function PhotoModalPage() {
             } as React.CSSProperties
           }
           ref={setRef}
-          className={cn(photoViewer.isOpen ? 'fixed inset-0 z-9999' : 'pointer-events-none fixed inset-0 z-40')}
+          className={cn(photoViewer.isOpen ? 'fixed inset-0 z-99999' : 'pointer-events-none fixed inset-0 z-40')}
         >
           <PhotoViewer
             photos={photos}
             currentIndex={photoViewer.currentIndex}
             isOpen={photoViewer.isOpen}
             triggerElement={photoViewer.triggerElement}
-            onClose={handleClose}
-            onIndexChange={handleIndexChange}
+            onClose={photoViewer.closeViewer}
+            onIndexChange={photoViewer.goToIndex}
           />
         </RemoveScroll>
       </RootPortalProvider>
