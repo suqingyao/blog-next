@@ -1,7 +1,32 @@
 @import 'tailwindcss';
-@import 'tailwind-scrollbar-hide/v4';
+@plugin '@tailwindcss/typography';
 @plugin '@egoist/tailwindcss-icons';
+@plugin 'daisyui';
+@plugin 'tailwindcss-animate';
+@plugin 'tailwind-scrollbar';
+@import 'tailwind-scrollbar-hide/v4';
+@import 'tailwindcss-safe-area';
+@import 'tailwindcss-uikit-colors/v4/macos.css';
 @config '../../tailwind.config.ts';
+
+@plugin "daisyui/theme" {
+  name: 'dark';
+  prefersdark: true;
+  color-scheme: dark;
+  --color-primary: theme('colors.orange.500');
+  --color-secondary: theme('colors.orange.400');
+  --color-accent: theme('colors.orange.500');
+  /* --color-neutral: #48484a; */
+  /* --color-base-100: #1c1c1e; */
+  /* --color-base-content: #fff; */
+  /* --color-info: theme('colors.orange.500'); */
+  --color-success: #30d158;
+  --color-warning: #ff9f0a;
+  --color-error: #ff453a;
+  --rounded-btn: 1.9rem;
+  --tab-border: 2px;
+  --tab-radius: 0.5rem;
+}
 
 @utility text-link {
   @apply cursor-pointer border-b border-[--color-hover] no-underline transition-colors duration-300 hover:border-[#555] dark:hover:border-[#bbb];
@@ -120,10 +145,82 @@
   --color-theme: var(--auto-theme-color, theme('colors.orange.500'));
 }
 
-@safelist i-mingcute-copy-2-line;
+@safelist i-mingcute-copy-2-line, bg-material-opaque, bg-material-ultra-thick, bg-material-thick, bg-material-medium, bg-material-thin, bg-material-ultra-thin;
 .post-toc .katex {
   font: unset;
   line-height: unset;
+}
+
+@layer components {
+  .shadow-context-menu {
+    box-shadow:
+      rgba(0, 0, 0, 0.067) 0px 3px 8px,
+      rgba(0, 0, 0, 0.067) 0px 2px 5px,
+      rgba(0, 0, 0, 0.067) 0px 1px 1px;
+  }
+
+  .content-container {
+    @apply mx-auto w-[75ch];
+  }
+}
+
+@layer components {
+  .shadow-tooltip-bottom {
+    --bg: var(--color-primary);
+    box-shadow: 0px 5px 20px -11px var(--bg);
+  }
+
+  .shadow-tooltip-top {
+    --bg: var(--color-primary);
+    box-shadow: 0px -5px 20px -11px var(--bg);
+  }
+
+  /* Glassmorphic menu item highlight effect */
+  [data-highlighted] {
+    background: var(--highlight-bg, transparent);
+  }
+}
+
+[data-sonner-toast] {
+  border-color: color-mix(in srgb, var(--color-accent) 20%, transparent) !important;
+  box-shadow:
+    0 8px 32px color-mix(in srgb, var(--color-accent) 8%, transparent),
+    0 4px 16px color-mix(in srgb, var(--color-accent) 6%, transparent),
+    0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+[data-sonner-toast][data-type='success'] {
+  border-color: rgba(48, 209, 88, 0.3) !important;
+}
+
+[data-sonner-toast][data-type='error'] {
+  border-color: rgba(255, 69, 58, 0.3) !important;
+}
+
+[data-sonner-toast][data-type='warning'] {
+  border-color: rgba(255, 159, 10, 0.3) !important;
+}
+
+[data-sonner-toast][data-type='info'] {
+  border-color: rgba(10, 132, 255, 0.3) !important;
+}
+
+[data-sonner-toast][data-type='loading'] {
+  border-color: rgba(142, 142, 147, 0.3) !important;
+}
+
+[data-sonner-toast]::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 1rem;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom right,
+    color-mix(in srgb, var(--color-accent) 5%, transparent),
+    transparent,
+    color-mix(in srgb, var(--color-accent) 5%, transparent)
+  );
 }
 
 @layer components {

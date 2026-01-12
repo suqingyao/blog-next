@@ -188,7 +188,7 @@ export function PhotoViewer({
             transition={Spring.presets.snappy}
             className="fixed inset-0"
           >
-            {currentThumbHash && <Thumbhash thumbHash={currentThumbHash} className="size-fill scale-110" />}
+            {currentThumbHash && <Thumbhash thumbHash={currentThumbHash} className="size-full scale-110" />}
           </m.div>
         )}
       </AnimatePresence>

@@ -3,7 +3,6 @@
 import type { PhotoManifestItem as PhotoManifest } from '@/types/photo';
 import clsx from 'clsx';
 import { m } from 'motion/react';
-import { useRouter } from 'next/navigation';
 import { Fragment, memo, useCallback, useEffect, useRef, useState } from 'react';
 // import { useTranslation } from 'react-i18next';
 
@@ -44,8 +43,6 @@ export const MasonryPhotoItem = memo(({ data, width }: { data: PhotoManifest; wi
     setImageError(true);
   };
 
-  const router = useRouter();
-
   const handleClick = () => {
     const photoIndex = photos.findIndex(photo => photo.id === data.id);
     if (photoIndex !== -1) {
@@ -54,9 +51,6 @@ export const MasonryPhotoItem = memo(({ data, width }: { data: PhotoManifest; wi
 
       photoViewer.openViewer(photoIndex, triggerEl ?? undefined);
     }
-
-    // Navigate to photo route - this will be intercepted by @modal/(.)photos/[photoId]
-    router.push(`/photos/${data.id}`);
   };
 
   // 计算基于宽度的高度

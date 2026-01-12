@@ -1,6 +1,4 @@
 import type { Config } from 'tailwindcss';
-import { getIconCollections, iconsPlugin } from '@egoist/tailwindcss-icons';
-import typography from '@tailwindcss/typography';
 
 const config: Config = {
   darkMode: ['class', 'html.dark'],
@@ -409,20 +407,14 @@ const config: Config = {
     }),
   },
   plugins: [
-    typography,
-    iconsPlugin({
-      collections: {
-        ...getIconCollections(['mingcute', 'ri']),
-      },
-    }),
     // 自定义布局组件插件
-    function ({ addComponents }: { addComponents: any }) {
-      addComponents({
-        '.content-container': {
-          '@apply mx-auto w-[75ch]': {},
-        },
-      });
-    },
+    // function ({ addComponents }: { addComponents: any }) {
+    //   addComponents({
+    //     '.content-container': {
+    //       '@apply mx-auto w-[75ch]': {},
+    //     },
+    //   });
+    // },
   ],
 };
 

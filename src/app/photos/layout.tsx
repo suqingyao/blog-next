@@ -3,11 +3,18 @@
 import type { PropsWithChildren } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { RemoveScroll } from 'react-remove-scroll';
+import { ClientOnly } from '@/components/common/ClientOnly';
+import { RootPortal, RootPortalProvider } from '@/components/ui/portal';
 import { ScrollArea, ScrollElementContext } from '@/components/ui/scroll-areas';
 import { useMobile } from '@/hooks/use-mobile';
-import { getFilteredPhotos, usePhotoViewer } from '@/hooks/use-photo-viewer';
+import { getFilteredPhotos, useContextPhotos, usePhotoViewer } from '@/hooks/use-photo-viewer';
+import { useTitle } from '@/hooks/use-title';
+import { deriveAccentFromSources } from '@/lib/color';
+import { cn } from '@/lib/utils';
 import { PhotosRoot } from '@/modules/gallery/PhotosRoot';
+import { PhotoViewer } from '@/modules/viewer';
 import { gallerySettingAtom } from '@/store/atoms/app';
 
 // const siteConfig = {
@@ -46,6 +53,10 @@ export default function PhotosLayout({ children }: PropsWithChildren) {
               <PhotosRoot />
             </ScrollArea>
           )}
+
+      {/* Viewer 始终在 layout 中，由 URL 控制显示/隐藏 */}
+      <PhotoViewerContainer />
+
       {children}
     </>
   );
@@ -107,29 +118,48 @@ function useSyncStateToUrl() {
   const { selectedTags, selectedCameras, selectedLenses, selectedRatings, tagFilterMode }
     = useAtomValue(gallerySettingAtom);
   const searchParams = useSearchParams();
-  const router = useRouter();
+  // const router = useRouter();
   const pathname = usePathname();
   const { isOpen, currentIndex } = usePhotoViewer();
 
+  // 处理 Viewer 关闭时的导航
   useEffect(() => {
     if (!isRestored)
       return;
 
     if (!isOpen) {
       const timer = setTimeout(() => {
-        router.push('/photos');
+        window.history.replaceState(
+          { ...window.history.state, as: '/photos', url: '/photos' },
+          '',
+          '/photos',
+        );
       }, 500);
       return () => clearTimeout(timer);
     }
-    else {
-      const photos = getFilteredPhotos();
-      const targetPathname = `/photos/${photos[currentIndex].id}`;
-      if (pathname !== targetPathname) {
-        router.push(targetPathname);
-      }
-    }
-  }, [isOpen, currentIndex, pathname, router]);
+  }, [isOpen]);
 
+  // 同步 currentIndex 到 URL（使用 history API 避免页面刷新）
+  useEffect(() => {
+    if (!isRestored || !isOpen)
+      return;
+
+    const photos = getFilteredPhotos();
+    const targetPathname = `/photos/${photos[currentIndex].id}`;
+
+    if (pathname !== targetPathname) {
+      // 使用 history.replaceState 避免触发 Next.js 路由导航
+      const url = new URL(window.location.href);
+      url.pathname = targetPathname;
+      window.history.replaceState(
+        { ...window.history.state, as: url.pathname, url: url.pathname },
+        '',
+        url.toString(),
+      );
+    }
+  }, [isOpen, currentIndex, pathname]);
+
+  // 同步过滤参数到 URL（使用 history API 避免触发路由）
   useEffect(() => {
     if (!isRestored)
       return;
@@ -162,6 +192,108 @@ function useSyncStateToUrl() {
     rating ? newer.set('rating', rating) : newer.delete('rating');
     tagMode ? newer.set('tag_mode', tagMode) : newer.delete('tag_mode');
 
-    router.replace(`${pathname}?${newer.toString()}`, { scroll: false });
-  }, [selectedTags, selectedCameras, selectedLenses, selectedRatings, tagFilterMode, pathname, searchParams.toString(), router]);
+    // 使用 history.replaceState 避免触发 Next.js 路由导航
+    const url = new URL(window.location.href);
+    url.search = newer.toString();
+    window.history.replaceState(
+      { ...window.history.state, as: url.pathname + url.search, url: url.pathname + url.search },
+      '',
+      url.toString(),
+    );
+  }, [selectedTags, selectedCameras, selectedLenses, selectedRatings, tagFilterMode, searchParams]);
+}
+
+// Viewer 容器组件
+function PhotoViewerContainer() {
+  const photoViewer = usePhotoViewer();
+  const photos = useContextPhotos();
+  const { photoId } = useParams<{ photoId?: string }>();
+
+  const [ref, setRef] = useState<HTMLElement | null>(null);
+  const rootPortalValue = useMemo(
+    () => ({
+      to: ref as HTMLElement,
+    }),
+    [ref],
+  );
+
+  const currentIndex = useMemo(() => {
+    if (!photoId)
+      return -1;
+    return photos.findIndex(p => p.id === photoId);
+  }, [photoId, photos]);
+
+  const currentPhoto = useMemo(() => photos[currentIndex], [currentIndex, photos]);
+  useTitle(currentPhoto?.title || '');
+
+  const [accentColor, setAccentColor] = useState<string | null>(null);
+
+  // Handle accent color
+  useEffect(() => {
+    if (!currentPhoto)
+      return;
+
+    let isCancelled = false
+
+    ;(async () => {
+      try {
+        const color = await deriveAccentFromSources({
+          thumbHash: currentPhoto.thumbHash,
+          thumbnailUrl: currentPhoto.thumbnailUrl,
+        });
+        if (!isCancelled) {
+          const $css = document.createElement('style');
+          $css.textContent = `
+         * {
+             transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
+            }
+          `;
+          document.head.append($css);
+
+          setTimeout(() => {
+            $css.remove();
+          }, 100);
+
+          setAccentColor(color ?? null);
+        }
+      }
+      catch {
+        if (!isCancelled)
+          setAccentColor(null);
+      }
+    })();
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [currentPhoto]);
+
+  // 不要条件渲染！让 PhotoViewer 内部的 AnimatePresence 处理退出动画
+  return (
+    <ClientOnly>
+      <RootPortal>
+        <RootPortalProvider value={rootPortalValue}>
+          <RemoveScroll
+            enabled={photoViewer.isOpen}
+            style={
+              {
+                ...(accentColor ? { '--color-accent': accentColor } : {}),
+              } as React.CSSProperties
+            }
+            ref={setRef}
+            className={cn(photoViewer.isOpen ? 'fixed inset-0 z-99999' : 'pointer-events-none fixed inset-0 z-40')}
+          >
+            <PhotoViewer
+              photos={photos}
+              currentIndex={photoViewer.currentIndex}
+              isOpen={photoViewer.isOpen}
+              triggerElement={photoViewer.triggerElement}
+              onClose={photoViewer.closeViewer}
+              onIndexChange={photoViewer.goToIndex}
+            />
+          </RemoveScroll>
+        </RootPortalProvider>
+      </RootPortal>
+    </ClientOnly>
+  );
 }

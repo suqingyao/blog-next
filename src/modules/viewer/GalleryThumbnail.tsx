@@ -188,7 +188,7 @@ export const GalleryThumbnail: FC<{
                             onClick={() => onIndexChange(virtualItem.index)}
                           >
                             {photo.thumbHash && (
-                              <Thumbhash thumbHash={photo.thumbHash} className="size-fill absolute inset-0" />
+                              <Thumbhash thumbHash={photo.thumbHash} className="size-full absolute inset-0" />
                             )}
                             <img
                               src={photo.thumbnailUrl}
@@ -250,7 +250,7 @@ export const GalleryThumbnail: FC<{
                         onClick={() => onIndexChange(virtualItem.index)}
                       >
                         {photo.thumbHash && (
-                          <Thumbhash thumbHash={photo.thumbHash} className="size-fill absolute inset-0" />
+                          <Thumbhash thumbHash={photo.thumbHash} className="size-full absolute inset-0" />
                         )}
                         <img
                           src={photo.thumbnailUrl}

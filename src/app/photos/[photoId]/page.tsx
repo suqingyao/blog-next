@@ -1,33 +1,6 @@
-import { ClientOnly } from '@/components/common/ClientOnly';
-
-import { photoLoader } from '@/lib/data';
-import { PhotoViewerContent } from './_components/PhotoViewerContent';
-
-export default function PhotoViewerPage() {
-  return (
-    <ClientOnly>
-      <PhotoViewerContent />
-    </ClientOnly>
-  );
-}
-
-export async function generateStaticParams() {
-  const photos = photoLoader.getPhotos();
-  return photos.map(photo => ({ photoId: photo.id }));
-}
-
-export async function generateMetadata({ params }: { params: { photoId: string } }) {
-  const { photoId } = await params;
-  const photos = photoLoader.getPhotos();
-  const photo = photos.find(p => p.id === photoId);
-
-  if (!photo) {
-    return {
-      title: 'Photo Not Found',
-    };
-  }
-
-  return {
-    title: photo.title,
-  };
+// 这个空页面是必需的！
+// 作用：让 Next.js 路由系统识别 /photos/[photoId] 为有效路由
+// 真正的渲染逻辑在 layout.tsx 的 PhotoViewerContainer 中
+export default function PhotoIdPage() {
+  return null;
 }
