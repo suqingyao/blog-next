@@ -1,38 +1,38 @@
-import 'dotenv-expand/config'
+import type { BuildProgressListener } from './builder/builder.js';
 
-import { execSync } from 'node:child_process'
-import cluster from 'node:cluster'
-import { join } from 'node:path'
-import process from 'node:process'
-import { fileURLToPath } from 'node:url'
+import { execSync } from 'node:child_process';
+import cluster from 'node:cluster';
+import { join } from 'node:path';
+import process from 'node:process';
+import { fileURLToPath } from 'node:url';
 
-import type { BuildProgressListener } from './builder/builder.js'
-import { AfilmoryBuilder } from './builder/index.js'
-import { loadBuilderConfig } from './config/index.js'
-import { logger, setLogListener } from './logger/index.js'
-import { runAsWorker } from './runAsWorker.js'
+import { AfilmoryBuilder } from './builder/index.js';
+import { loadBuilderConfig } from './config/index.js';
+import { logger, setLogListener } from './logger/index.js';
+import { runAsWorker } from './runAsWorker.js';
+import 'dotenv-expand/config';
 
-type BuilderTUI = import('./cli/tui.js').BuilderTUI
+type BuilderTUI = import('./cli/tui.js').BuilderTUI;
 
 async function main() {
   // 检查是否作为 cluster worker 运行
   if (process.env.CLUSTER_WORKER === 'true' || process.argv.includes('--cluster-worker') || cluster.isWorker) {
-    await runAsWorker()
-    return
+    await runAsWorker();
+    return;
   }
 
   const builderConfig = await loadBuilderConfig({
     cwd: join(fileURLToPath(import.meta.url), '../../../..'),
-  })
-  const cliBuilder = new AfilmoryBuilder(builderConfig)
-  process.title = 'photo-gallery-builder-main'
+  });
+  const cliBuilder = new AfilmoryBuilder(builderConfig);
+  process.title = 'photo-gallery-builder-main';
 
   // 解析命令行参数
-  const args = new Set(process.argv.slice(2))
-  const isForceMode = args.has('--force')
-  const isForceManifest = args.has('--force-manifest')
-  const isForceThumbnails = args.has('--force-thumbnails')
-  const disableUi = args.has('--no-ui')
+  const args = new Set(process.argv.slice(2));
+  const isForceMode = args.has('--force');
+  const isForceManifest = args.has('--force-manifest');
+  const isForceThumbnails = args.has('--force-thumbnails');
+  const disableUi = args.has('--no-ui');
 
   // 显示帮助信息
   if (args.has('--help') || args.has('-h')) {
@@ -56,100 +56,103 @@ async function main() {
   tsx src/core/cli.ts --config                  # 显示配置信息
 
 配置：
-  在 builder.config.ts 中设置 performance.worker.useClusterMode = true 
+  在 builder.config.ts 中设置 performance.worker.useClusterMode = true
   可启用多进程集群模式，发挥多核心优势。
 
-`)
-    return
+`);
+    return;
   }
 
   // 显示配置信息
   if (args.has('--config')) {
-    const config = cliBuilder.getConfig()
-    const userConfig = config.user
-    const storage = userConfig?.storage
+    const config = cliBuilder.getConfig();
+    const userConfig = config.user;
+    const storage = userConfig?.storage;
     if (!storage) {
-      logger.main.error('未配置存储提供商，请先在配置文件中设置 storage 字段')
-      return
+      logger.main.error('未配置存储提供商，请先在配置文件中设置 storage 字段');
+      return;
     }
-    logger.main.info('🔧 当前配置：')
-    logger.main.info(`   存储提供商：${storage.provider}`)
+    logger.main.info('🔧 当前配置：');
+    logger.main.info(`   存储提供商：${storage.provider}`);
 
     switch (storage.provider) {
       case 's3':
       case 'oss':
       case 'cos': {
-        logger.main.info(`   存储桶：${storage.bucket}`)
-        logger.main.info(`   区域：${storage.region || '未设置'}`)
-        logger.main.info(`   端点：${storage.endpoint || '默认'}`)
-        logger.main.info(`   自定义域名：${storage.customDomain || '未设置'}`)
-        logger.main.info(`   前缀：${storage.prefix || '无'}`)
-        break
+        logger.main.info(`   存储桶：${storage.bucket}`);
+        logger.main.info(`   区域：${storage.region || '未设置'}`);
+        logger.main.info(`   端点：${storage.endpoint || '默认'}`);
+        logger.main.info(`   自定义域名：${storage.customDomain || '未设置'}`);
+        logger.main.info(`   前缀：${storage.prefix || '无'}`);
+        break;
       }
       case 'github': {
-        logger.main.info(`   仓库所有者：${storage.owner}`)
-        logger.main.info(`   仓库名称：${storage.repo}`)
-        logger.main.info(`   分支：${storage.branch || 'main'}`)
-        logger.main.info(`   路径：${storage.path || '无'}`)
-        logger.main.info(`   使用原始 URL：${storage.useRawUrl || '否'}`)
-        break
+        logger.main.info(`   仓库所有者：${storage.owner}`);
+        logger.main.info(`   仓库名称：${storage.repo}`);
+        logger.main.info(`   分支：${storage.branch || 'main'}`);
+        logger.main.info(`   路径：${storage.path || '无'}`);
+        logger.main.info(`   使用原始 URL：${storage.useRawUrl || '否'}`);
+        break;
       }
     }
-    logger.main.info(`   默认并发数：${config.system.processing.defaultConcurrency}`)
-    logger.main.info(`   Live Photo 检测：${config.system.processing.enableLivePhotoDetection ? '启用' : '禁用'}`)
-    logger.main.info(`   照片后缀摘要长度：${config.system.processing.digestSuffixLength}`)
-    logger.main.info(`   Worker 数：${config.system.observability.performance.worker.workerCount}`)
-    logger.main.info(`   Worker 超时：${config.system.observability.performance.worker.timeout}ms`)
-    logger.main.info(`   集群模式：${config.system.observability.performance.worker.useClusterMode ? '启用' : '禁用'}`)
-    logger.main.info('')
+    logger.main.info(`   默认并发数：${config.system.processing.defaultConcurrency}`);
+    logger.main.info(`   Live Photo 检测：${config.system.processing.enableLivePhotoDetection ? '启用' : '禁用'}`);
+    logger.main.info(`   照片后缀摘要长度：${config.system.processing.digestSuffixLength}`);
+    logger.main.info(`   Worker 数：${config.system.observability.performance.worker.workerCount}`);
+    logger.main.info(`   Worker 超时：${config.system.observability.performance.worker.timeout}ms`);
+    logger.main.info(`   集群模式：${config.system.observability.performance.worker.useClusterMode ? '启用' : '禁用'}`);
+    logger.main.info('');
     if (!userConfig) {
-      logger.main.warn('未配置用户级存储设置')
-      return
+      logger.main.warn('未配置用户级存储设置');
+      return;
     }
-    return
+    return;
   }
 
   // 确定运行模式
-  let runMode = '增量更新'
+  let runMode = '增量更新';
   if (isForceMode) {
-    runMode = '全量更新'
-  } else if (isForceManifest && isForceThumbnails) {
-    runMode = '强制刷新 manifest 和缩略图'
-  } else if (isForceManifest) {
-    runMode = '强制刷新 manifest'
-  } else if (isForceThumbnails) {
-    runMode = '强制刷新缩略图'
+    runMode = '全量更新';
+  }
+  else if (isForceManifest && isForceThumbnails) {
+    runMode = '强制刷新 manifest 和缩略图';
+  }
+  else if (isForceManifest) {
+    runMode = '强制刷新 manifest';
+  }
+  else if (isForceThumbnails) {
+    runMode = '强制刷新缩略图';
   }
 
-  const config = cliBuilder.getConfig()
-  const concurrencyLimit = config.system.observability.performance.worker.workerCount
-  const finalConcurrency = concurrencyLimit ?? config.system.processing.defaultConcurrency
-  const processingMode = config.system.observability.performance.worker.useClusterMode ? '多进程集群' : '并发线程池'
-  const processingModeKey = config.system.observability.performance.worker.useClusterMode ? 'cluster' : 'worker'
+  const config = cliBuilder.getConfig();
+  const concurrencyLimit = config.system.observability.performance.worker.workerCount;
+  const finalConcurrency = concurrencyLimit ?? config.system.processing.defaultConcurrency;
+  const processingMode = config.system.observability.performance.worker.useClusterMode ? '多进程集群' : '并发线程池';
+  const processingModeKey = config.system.observability.performance.worker.useClusterMode ? 'cluster' : 'worker';
 
-  const useTui = process.stdout.isTTY && !disableUi
-  let tui: BuilderTUI | null = null
-  let progressListener: BuildProgressListener | undefined
+  const useTui = process.stdout.isTTY && !disableUi;
+  let tui: BuilderTUI | null = null;
+  let progressListener: BuildProgressListener | undefined;
 
   if (useTui) {
-    const { BuilderTUI } = await import('./cli/tui.js')
-    tui = new BuilderTUI()
-    tui.attach()
+    const { BuilderTUI } = await import('./cli/tui.js');
+    tui = new BuilderTUI();
+    tui.attach();
     tui.setRunMetadata({
       runMode,
       concurrency: finalConcurrency,
       processingMode: processingModeKey,
-    })
-    progressListener = tui.createProgressListener()
-    setLogListener((message) => tui?.handleLog(message), { forwardToConsole: false })
+    });
+    progressListener = tui.createProgressListener();
+    setLogListener(message => tui?.handleLog(message), { forwardToConsole: false });
   }
 
-  logger.main.info(`🚀 运行模式：${runMode}`)
-  logger.main.info(`⚡ 最大并发数：${finalConcurrency}`)
-  logger.main.info(`🔧 处理模式：${processingMode}`)
-  logger.main.info(`🏗️ 使用构建器：AfilmoryBuilder (适配器模式)`)
+  logger.main.info(`🚀 运行模式：${runMode}`);
+  logger.main.info(`⚡ 最大并发数：${finalConcurrency}`);
+  logger.main.info(`🔧 处理模式：${processingMode}`);
+  logger.main.info(`🏗️ 使用构建器：AfilmoryBuilder (适配器模式)`);
 
-  environmentCheck()
+  environmentCheck();
 
   // 启动构建过程
   try {
@@ -159,38 +162,40 @@ async function main() {
       isForceThumbnails,
       concurrencyLimit,
       progressListener,
-    })
+    });
 
-    tui?.markSuccess(result)
-  } catch (error) {
-    tui?.markError(error)
-    throw error
-  } finally {
+    tui?.markSuccess(result);
+  }
+  catch (error) {
+    tui?.markError(error);
+    throw error;
+  }
+  finally {
     if (useTui) {
-      setLogListener(null, { forwardToConsole: true })
-      tui?.detach()
+      setLogListener(null, { forwardToConsole: true });
+      tui?.detach();
     }
   }
 
-  // eslint-disable-next-line unicorn/no-process-exit
-  process.exit(0)
+  process.exit(0);
 }
 
 // 运行主函数
 main().catch((error) => {
-  logger.main.error('构建失败：', error)
-  throw error
-})
+  logger.main.error('构建失败：', error);
+  throw error;
+});
 
 function environmentCheck() {
   try {
-    execSync('perl -v', { stdio: 'ignore' })
+    execSync('perl -v', { stdio: 'ignore' });
 
-    logger.main.info('Perl 已安装')
-  } catch (err) {
-    console.error(err)
-    logger.main.error('Perl 未安装，请安装 Perl 并重新运行')
-    // eslint-disable-next-line unicorn/no-process-exit
-    process.exit(1)
+    logger.main.info('Perl 已安装');
+  }
+  catch (err) {
+    console.error(err);
+    logger.main.error('Perl 未安装，请安装 Perl 并重新运行');
+
+    process.exit(1);
   }
 }
