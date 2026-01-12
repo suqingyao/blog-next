@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'motion/react';
+import { m } from 'motion/react';
 import Link from 'next/link';
 
 import dayjs from '@/lib/dayjs';
@@ -29,7 +29,7 @@ export function AppLatestPosts({ posts }: { posts: any[] }) {
 
 function PostCard({ post, index }: { post: any; index: number }) {
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.1 }}
@@ -59,6 +59,6 @@ function PostCard({ post, index }: { post: any; index: number }) {
           {post.summary.replace(/^AI摘要：/, '')}
         </p>
       )}
-    </motion.div>
+    </m.div>
   );
 }

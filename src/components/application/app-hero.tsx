@@ -1,7 +1,7 @@
 'use client';
 
 import type { Platform } from '@/components/links';
-import { motion } from 'motion/react';
+import { m } from 'motion/react';
 import Image from 'next/image';
 import { SocialLink } from '@/components/links';
 
@@ -15,7 +15,7 @@ const SOCIAL_LINKS: { href: string; platform: Platform }[] = [
 
 export function AppHero() {
   return (
-    <motion.section
+    <m.section
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
@@ -23,25 +23,25 @@ export function AppHero() {
     >
       <div className="flex-1 space-y-6">
         <div className="space-y-2">
-          <motion.h1
+          <m.h1
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
             className="text-4xl font-bold tracking-tight sm:text-5xl"
           >
             Hi, I'm SuQingyao
-          </motion.h1>
-          <motion.p
+          </m.h1>
+          <m.p
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.3 }}
             className="text-xl font-medium text-zinc-600 dark:text-zinc-400"
           >
             FrontEnd Developer
-          </motion.p>
+          </m.p>
         </div>
 
-        <motion.p
+        <m.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4 }}
@@ -52,9 +52,9 @@ export function AppHero() {
           Loves music, programming and exploring new technologies.
           <br />
           Introverted but friendly.
-        </motion.p>
+        </m.p>
 
-        <motion.div
+        <m.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
@@ -63,10 +63,10 @@ export function AppHero() {
           {SOCIAL_LINKS.map(link => (
             <SocialLink key={link.href} {...link} />
           ))}
-        </motion.div>
+        </m.div>
       </div>
 
-      <motion.div
+      <m.div
         initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
         animate={{ opacity: 1, scale: 1, rotate: 0 }}
         transition={{ delay: 0.2, type: 'spring', stiffness: 200, damping: 20 }}
@@ -84,7 +84,7 @@ export function AppHero() {
             sizes="(max-width: 768px) 160px, 208px"
           />
         </div>
-      </motion.div>
-    </motion.section>
+      </m.div>
+    </m.section>
   );
 }
