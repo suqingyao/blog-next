@@ -14,7 +14,7 @@ import type { PhotoManifestItem } from '@/types/photo';
 
 // Dynamic import of the manifest data
 // During build, Next.js will bundle this JSON into the client bundle
-import manifestData from '../../photos-manifest.json' with { type: 'json' };
+import manifestData from '@/data/photos-manifest.json' with { type: 'json' };
 
 class PhotoLoader {
   private photos: PhotoManifestItem[];

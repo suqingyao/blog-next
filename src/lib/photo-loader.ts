@@ -10,7 +10,7 @@ class BuildTimePhotoLoader {
 
   constructor() {
     try {
-      const manifestPath = join(process.cwd(), '/photos-manifest.json');
+      const manifestPath = join(process.cwd(), '../data/photos-manifest.json');
       const manifestContent = readFileSync(manifestPath, 'utf-8');
       this.photos = JSON.parse(manifestContent).data as PhotoManifestItem[];
 
