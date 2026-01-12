@@ -127,6 +127,10 @@ export function useMusicPlayer() {
     if (audioRef.current) {
       if (state.isPlaying && state.currentTrack) {
         audioRef.current.play().catch((error) => {
+          // 忽略 AbortError，这是正常的暂停行为
+          if (error.name === 'AbortError') {
+            return;
+          }
           consoleLog('WARN', '播放失败:', error.message);
           // 如果是自动播放被阻止，重置播放状态并标记需要用户交互
           if (error.name === 'NotAllowedError') {

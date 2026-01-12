@@ -281,7 +281,7 @@ function PhotoViewerContainer() {
               } as React.CSSProperties
             }
             ref={setRef}
-            className={cn(photoViewer.isOpen ? 'fixed inset-0 z-99999' : 'pointer-events-none fixed inset-0 z-40')}
+            className={cn(photoViewer.isOpen ? 'fixed inset-0 z-9999' : 'pointer-events-none fixed inset-0 z-40')}
           >
             <PhotoViewer
               photos={photos}
