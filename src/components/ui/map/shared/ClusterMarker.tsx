@@ -1,7 +1,7 @@
 import type { ClusterMarkerProps } from './types';
 import { m } from 'motion/react';
 import { Marker } from 'react-map-gl/maplibre';
-import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card/HoverCard2';
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
 
 import { LazyImage } from '@/components/ui/lazy-image';
 import { ClusterPhotoGrid } from '../ClusterPhotoGrid';

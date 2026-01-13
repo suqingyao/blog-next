@@ -7,9 +7,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { encode } from 'qss';
 import React from 'react';
-import { cn } from '@/lib/utils';
 
-import { HoverCard } from '../ui/hover-card';
+import { useIsMounted } from '@/hooks/use-is-mounted';
+import { cn } from '@/lib/utils';
+import { HoverCard, HoverCardContent, HoverCardPortal, HoverCardTrigger } from '../ui/hover-card';
 import { RichLink } from './RichLink';
 
 type PeekabooLinkProps = LinkProps
@@ -23,7 +24,8 @@ export function PeekabooLink({
   ...props
 }: PeekabooLinkProps) {
   const [isOpen, setIsOpen] = React.useState(false);
-  const [isMounted, setIsMounted] = React.useState(false);
+
+  const isMounted = useIsMounted();
 
   // 生成 microlink.io URL，与 LinkPreview 组件保持一致
   const params = encode({
@@ -38,10 +40,6 @@ export function PeekabooLink({
     'viewport.height': 250 * 3,
   });
   const microlinkSrc = `https://api.microlink.io/?${params}`;
-
-  React.useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   // if it's a relative link, use a fallback Link
   if (!href.startsWith('http')) {
@@ -77,12 +75,12 @@ export function PeekabooLink({
   }
 
   return (
-    <HoverCard.Root
+    <HoverCard
       openDelay={0}
       closeDelay={50}
       onOpenChange={onOpenChange}
     >
-      <HoverCard.Trigger asChild>
+      <HoverCardTrigger asChild>
         <RichLink
           href={href}
           className={cn(
@@ -94,7 +92,7 @@ export function PeekabooLink({
         >
           {children}
         </RichLink>
-      </HoverCard.Trigger>
+      </HoverCardTrigger>
       <>
         {isMounted
           ? (
@@ -114,8 +112,8 @@ export function PeekabooLink({
           : null}
         <AnimatePresence mode="wait">
           {isOpen && (
-            <HoverCard.Portal forceMount>
-              <HoverCard.Content
+            <HoverCardPortal forceMount>
+              <HoverCardContent
                 asChild
                 collisionPadding={250}
               >
@@ -161,11 +159,11 @@ export function PeekabooLink({
                     />
                   </Link>
                 </m.div>
-              </HoverCard.Content>
-            </HoverCard.Portal>
+              </HoverCardContent>
+            </HoverCardPortal>
           )}
         </AnimatePresence>
       </>
-    </HoverCard.Root>
+    </HoverCard>
   );
 }

@@ -3,7 +3,7 @@ import { m } from 'motion/react';
 import Link from 'next/link';
 import { Marker } from 'react-map-gl/maplibre';
 import { GlassButton } from '@/components/ui/button';
-import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card/HoverCard2';
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
 
 import { LazyImage } from '@/components/ui/lazy-image';
 

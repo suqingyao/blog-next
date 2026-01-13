@@ -3,7 +3,7 @@ import type { PhotoManifestItem as PhotoManifest } from '@/types/photo';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { m } from 'motion/react';
 import { useEffect, useRef, useState } from 'react';
-import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card/HoverCard2';
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
 import { Thumbhash } from '@/components/ui/thumbhash';
 
 import { useMobile } from '@/hooks/use-mobile';
