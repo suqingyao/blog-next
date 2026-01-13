@@ -18,7 +18,7 @@ function ContextMenuSubTrigger({
 }: React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.SubTrigger> & {
   inset?: boolean;
 } & {
-  ref?: React.Ref<React.ElementRef<typeof ContextMenuPrimitive.SubTrigger> | null>;
+  ref?: React.Ref<React.ComponentRef<typeof ContextMenuPrimitive.SubTrigger> | null>;
 }) {
   return (
     <ContextMenuPrimitive.SubTrigger
@@ -44,7 +44,7 @@ function ContextMenuSubContent({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.SubContent> & {
-  ref?: React.Ref<React.ElementRef<typeof ContextMenuPrimitive.SubContent> | null>;
+  ref?: React.Ref<React.ComponentRef<typeof ContextMenuPrimitive.SubContent> | null>;
 }) {
   return (
     <RootPortal>
@@ -75,7 +75,7 @@ function ContextMenuContent({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Content> & {
-  ref?: React.Ref<React.ElementRef<typeof ContextMenuPrimitive.Content> | null>;
+  ref?: React.Ref<React.ComponentRef<typeof ContextMenuPrimitive.Content> | null>;
 }) {
   return (
     <RootPortal>
@@ -107,7 +107,7 @@ function ContextMenuItem({
 }: React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Item> & {
   inset?: boolean;
 } & {
-  ref?: React.Ref<React.ElementRef<typeof ContextMenuPrimitive.Item> | null>;
+  ref?: React.Ref<React.ComponentRef<typeof ContextMenuPrimitive.Item> | null>;
 }) {
   return (
     <ContextMenuPrimitive.Item
@@ -138,7 +138,7 @@ function ContextMenuCheckboxItem({
   checked,
   ...props
 }: React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.CheckboxItem> & {
-  ref?: React.Ref<React.ElementRef<typeof ContextMenuPrimitive.CheckboxItem> | null>;
+  ref?: React.Ref<React.ComponentRef<typeof ContextMenuPrimitive.CheckboxItem> | null>;
 }) {
   return (
     <ContextMenuPrimitive.CheckboxItem
@@ -177,7 +177,7 @@ function ContextMenuLabel({
 }: React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Label> & {
   inset?: boolean;
 } & {
-  ref?: React.Ref<React.ElementRef<typeof ContextMenuPrimitive.Label> | null>;
+  ref?: React.Ref<React.ComponentRef<typeof ContextMenuPrimitive.Label> | null>;
 }) {
   return (
     <ContextMenuPrimitive.Label
@@ -193,7 +193,7 @@ function ContextMenuSeparator({
   ref,
   ...props
 }: React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Separator> & {
-  ref?: React.Ref<React.ElementRef<typeof ContextMenuPrimitive.Separator> | null>;
+  ref?: React.Ref<React.ComponentRef<typeof ContextMenuPrimitive.Separator> | null>;
 }) {
   return (
     <ContextMenuPrimitive.Separator

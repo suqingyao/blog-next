@@ -52,7 +52,7 @@ function DialogOverlay({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay> & {
-  ref?: React.RefObject<React.ElementRef<typeof DialogPrimitive.Overlay> | null>;
+  ref?: React.RefObject<React.ComponentRef<typeof DialogPrimitive.Overlay> | null>;
 }) {
   return (
     <DialogPrimitive.Overlay ref={ref} className={cn('fixed inset-0 z-100000000', className)} asChild {...props}>
@@ -74,7 +74,7 @@ function DialogContent({
   children,
   ...props
 }: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> & {
-  ref?: React.RefObject<React.ElementRef<typeof DialogPrimitive.Content> | null>;
+  ref?: React.RefObject<React.ComponentRef<typeof DialogPrimitive.Content> | null>;
 }) {
   return (
     <DialogPortal>
@@ -137,7 +137,7 @@ function DialogTitle({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title> & {
-  ref?: React.RefObject<React.ElementRef<typeof DialogPrimitive.Title> | null>;
+  ref?: React.RefObject<React.ComponentRef<typeof DialogPrimitive.Title> | null>;
 }) {
   return (
     <DialogPrimitive.Title
@@ -154,7 +154,7 @@ function DialogDescription({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description> & {
-  ref?: React.RefObject<React.ElementRef<typeof DialogPrimitive.Description> | null>;
+  ref?: React.RefObject<React.ComponentRef<typeof DialogPrimitive.Description> | null>;
 }) {
   return <DialogPrimitive.Description ref={ref} className={cn('text-sm text-white/70', className)} {...props} />;
 }

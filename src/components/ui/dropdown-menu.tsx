@@ -21,7 +21,7 @@ function DropdownMenuSubTrigger({
 }: React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.SubTrigger> & {
   inset?: boolean;
 } & {
-  ref?: React.Ref<React.ElementRef<typeof DropdownMenuPrimitive.SubTrigger> | null>;
+  ref?: React.Ref<React.ComponentRef<typeof DropdownMenuPrimitive.SubTrigger> | null>;
 }) {
   return (
     <DropdownMenuPrimitive.SubTrigger
@@ -48,7 +48,7 @@ function DropdownMenuContent({
   sideOffset = 4,
   ...props
 }: React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Content> & {
-  ref?: React.Ref<React.ElementRef<typeof DropdownMenuPrimitive.Content> | null>;
+  ref?: React.Ref<React.ComponentRef<typeof DropdownMenuPrimitive.Content> | null>;
 }) {
   return (
     <DropdownMenuPrimitive.Portal>
@@ -90,7 +90,7 @@ function DropdownMenuItem({
   highlightColor?: 'accent' | 'gray';
   shortcut?: string;
 } & {
-  ref?: React.Ref<React.ElementRef<typeof DropdownMenuPrimitive.Item> | null>;
+  ref?: React.Ref<React.ComponentRef<typeof DropdownMenuPrimitive.Item> | null>;
 }) {
   const mergedClassName = cn(
     'cursor-menu relative flex select-none items-center rounded-lg px-2.5 py-1 outline-none data-disabled:pointer-events-none data-disabled:opacity-50',
@@ -107,6 +107,7 @@ function DropdownMenuItem({
         ref={ref}
         className={mergedClassName}
         style={{
+          // @ts-expect-error --highlight-bg is not a valid property
           '--highlight-bg':
             'linear-gradient(to right, color-mix(in srgb, var(--color-accent) 8%, transparent), color-mix(in srgb, var(--color-accent) 5%, transparent))',
         }}
@@ -123,6 +124,7 @@ function DropdownMenuItem({
       ref={ref}
       className={mergedClassName}
       style={{
+        // @ts-expect-error --highlight-bg is not a valid property
         '--highlight-bg':
           'linear-gradient(to right, color-mix(in srgb, var(--color-accent) 8%, transparent), color-mix(in srgb, var(--color-accent) 5%, transparent))',
       }}
@@ -151,7 +153,7 @@ function DropdownMenuCheckboxItem({
   ...props
 }: React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.CheckboxItem> & {
   icon?: React.ReactNode;
-  ref?: React.Ref<React.ElementRef<typeof DropdownMenuPrimitive.CheckboxItem> | null>;
+  ref?: React.Ref<React.ComponentRef<typeof DropdownMenuPrimitive.CheckboxItem> | null>;
 }) {
   return (
     <DropdownMenuPrimitive.CheckboxItem
@@ -164,6 +166,7 @@ function DropdownMenuCheckboxItem({
       )}
       checked={checked}
       style={{
+        // @ts-expect-error --highlight-bg is not a valid property
         '--highlight-bg':
         'linear-gradient(to right, color-mix(in srgb, var(--color-accent) 8%, transparent), color-mix(in srgb, var(--color-accent) 5%, transparent))',
       }}
@@ -189,7 +192,7 @@ function DropdownMenuLabel({
 }: React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Label> & {
   inset?: boolean;
 } & {
-  ref?: React.Ref<React.ElementRef<typeof DropdownMenuPrimitive.Label> | null>;
+  ref?: React.Ref<React.ComponentRef<typeof DropdownMenuPrimitive.Label> | null>;
 }) {
   return (
     <DropdownMenuPrimitive.Label
@@ -205,7 +208,7 @@ function DropdownMenuSeparator({
   ref,
   ...props
 }: React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Separator> & {
-  ref?: React.Ref<React.ElementRef<typeof DropdownMenuPrimitive.Separator> | null>;
+  ref?: React.Ref<React.ComponentRef<typeof DropdownMenuPrimitive.Separator> | null>;
 }) {
   return (
     <DropdownMenuPrimitive.Separator

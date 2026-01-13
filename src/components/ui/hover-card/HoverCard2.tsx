@@ -17,7 +17,7 @@ function HoverCardContent({
   sideOffset = 4,
   ...props
 }: React.ComponentPropsWithoutRef<typeof HoverCardPrimitive.Content> & {
-  ref?: React.RefObject<React.ElementRef<typeof HoverCardPrimitive.Content> | null>;
+  ref?: React.RefObject<React.ComponentRef<typeof HoverCardPrimitive.Content> | null>;
 }) {
   return (
     <RootPortal>

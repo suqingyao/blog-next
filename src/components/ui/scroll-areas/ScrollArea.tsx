@@ -11,7 +11,7 @@ function Corner({
   className,
   ...rest
 }: React.ComponentPropsWithoutRef<typeof ScrollAreaBase.Corner> & {
-  ref?: React.Ref<React.ElementRef<typeof ScrollAreaBase.Corner> | null>;
+  ref?: React.Ref<React.ComponentRef<typeof ScrollAreaBase.Corner> | null>;
 }) {
   return <ScrollAreaBase.Corner {...rest} ref={forwardedRef} className={cn('bg-accent', className)} />;
 }
@@ -23,7 +23,7 @@ function Thumb({
   className,
   ...rest
 }: React.ComponentPropsWithoutRef<typeof ScrollAreaBase.Thumb> & {
-  ref?: React.Ref<React.ElementRef<typeof ScrollAreaBase.Thumb> | null>;
+  ref?: React.Ref<React.ComponentRef<typeof ScrollAreaBase.Thumb> | null>;
 }) {
   return (
     <ScrollAreaBase.Thumb
@@ -53,7 +53,7 @@ function Scrollbar({
   children,
   ...rest
 }: React.ComponentPropsWithoutRef<typeof ScrollAreaBase.Scrollbar> & {
-  ref?: React.Ref<React.ElementRef<typeof ScrollAreaBase.Scrollbar> | null>;
+  ref?: React.Ref<React.ComponentRef<typeof ScrollAreaBase.Scrollbar> | null>;
 }) {
   const { orientation = 'vertical' } = rest;
   return (
@@ -84,7 +84,7 @@ function Viewport({
   mask?: boolean;
   focusable?: boolean;
 } & {
-  ref?: React.Ref<React.ElementRef<typeof ScrollAreaBase.Viewport> | null>;
+  ref?: React.Ref<React.ComponentRef<typeof ScrollAreaBase.Viewport> | null>;
 }) {
   const ref = React.useRef<HTMLDivElement>(null);
 
@@ -106,7 +106,7 @@ function Root({
   children,
   ...rest
 }: React.ComponentPropsWithoutRef<typeof ScrollAreaBase.Root> & {
-  ref?: React.Ref<React.ElementRef<typeof ScrollAreaBase.Root> | null>;
+  ref?: React.Ref<React.ComponentRef<typeof ScrollAreaBase.Root> | null>;
 }) {
   return (
     <ScrollAreaBase.Root {...rest} scrollHideDelay={0} ref={forwardedRef} className={cn('overflow-hidden', className)}>
