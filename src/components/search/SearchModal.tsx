@@ -4,7 +4,6 @@ import type { ModalComponent } from '@/components/ui/modal';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { AlgoliaIcon } from '@/components/icons';
 import { Kbd, KbdGroup } from '@/components/ui/kbd';
 import { Modal } from '@/components/ui/modal';
 import { consoleLog } from '@/lib/console';
@@ -267,10 +266,10 @@ const SearchModalInner: ModalComponent = ({ dismiss }) => {
             <span className="flex items-center gap-1">
               <KbdGroup>
                 <Kbd>
-                  <div className="i-mingcute-arrow-up-line h-4 w-4" />
+                  <i className="i-mingcute-arrow-up-line h-4 w-4" />
                 </Kbd>
                 <Kbd>
-                  <div className="i-mingcute-arrow-down-line h-4 w-4" />
+                  <i className="i-mingcute-arrow-down-line h-4 w-4" />
                 </Kbd>
               </KbdGroup>
               Navigate
@@ -287,7 +286,7 @@ const SearchModalInner: ModalComponent = ({ dismiss }) => {
           {/* Algolia Logo */}
           <div className="flex items-center gap-1 text-xs text-zinc-400 dark:text-zinc-500">
             <span>Powered by</span>
-            <AlgoliaIcon className="h-4 w-auto" />
+            <i className="i-simple-icons-algolia h-4 w-auto" />
           </div>
         </div>
       </div>
