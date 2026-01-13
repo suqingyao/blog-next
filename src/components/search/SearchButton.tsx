@@ -1,19 +1,21 @@
 'use client';
 
-import { useState } from 'react';
+import { useCallback } from 'react';
 import { useSearchHotkey } from '@/hooks/use-search-hotkey';
-import { SearchModal } from './SearchModal';
+import { openSearchModal } from './SearchModal';
 
 export function SearchButton() {
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const handleOpenSearch = useCallback(() => {
+    openSearchModal();
+  }, []);
 
   // 注册全局快捷键
-  useSearchHotkey(() => setIsSearchOpen(true));
+  useSearchHotkey(handleOpenSearch);
 
   return (
     <>
       <button
-        onClick={() => setIsSearchOpen(true)}
+        onClick={handleOpenSearch}
         className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-zinc-600 transition-colors hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
         aria-label="搜索文章"
       >
@@ -23,11 +25,6 @@ export function SearchButton() {
           ⌘K
         </kbd>
       </button>
-
-      <SearchModal
-        isOpen={isSearchOpen}
-        onClose={() => setIsSearchOpen(false)}
-      />
     </>
   );
 }

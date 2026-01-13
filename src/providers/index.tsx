@@ -1,6 +1,8 @@
 'use client';
 
 import { ThemeProvider as NextThemeProvider } from 'next-themes';
+import { Toaster } from 'sonner';
+import { ModalContainer } from '@/components/ui/modal';
 import { usePhotos } from '@/hooks/use-photo-viewer';
 import { ContextMenuProvider } from './context-menu-provider';
 import { EventProvider } from './event-provider';
@@ -23,6 +25,8 @@ export function AppProviders({ children }: { children: React.ReactNode }) {
             >
               <ContextMenuProvider />
               <EventProvider />
+              <ModalContainer />
+              <Toaster />
               {children}
             </NextThemeProvider>
           </PhotosProvider>

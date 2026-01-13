@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import NextTopLoader from 'nextjs-toploader';
-import { Toaster } from 'sonner';
 import { AppContent } from '@/components/application';
 import { DotGrid } from '@/components/common/DotGrid';
 
@@ -73,7 +72,6 @@ export default async function RootLayout({
             />
           </AppContent>
           <Backtop />
-          <Toaster />
           <MusicPlayer />
         </AppProviders>
       </body>

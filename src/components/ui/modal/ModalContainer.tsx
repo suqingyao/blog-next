@@ -1,3 +1,5 @@
+'use client';
+
 import type { ModalItem } from './ModalManager';
 import type { ModalComponent } from './types';
 import { useAtomValue } from 'jotai';

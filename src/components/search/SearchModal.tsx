@@ -1,9 +1,11 @@
 'use client';
 
+import type { ModalComponent } from '@/components/ui/modal';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { AlgoliaIcon } from '@/components/icons';
+import { Kbd, KbdGroup } from '@/components/ui/kbd';
 import { Modal } from '@/components/ui/modal';
 import { consoleLog } from '@/lib/console';
 
@@ -16,12 +18,7 @@ interface SearchResult {
   searchText: string;
 }
 
-interface SearchModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
-
-export function SearchModal({ isOpen, onClose }: SearchModalProps) {
+const SearchModalInner: ModalComponent = ({ dismiss }) => {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<SearchResult[]>([]);
   const [loading, setLoading] = useState(false);
@@ -82,9 +79,6 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
    */
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (!isOpen)
-        return;
-
       switch (e.key) {
         case 'ArrowDown':
           e.preventDefault();
@@ -107,16 +101,16 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, results, selectedIndex]);
+  }, [results, selectedIndex]);
 
   /**
    * 自动聚焦输入框
    */
   useEffect(() => {
-    if (isOpen && inputRef.current) {
+    if (inputRef.current) {
       inputRef.current.focus();
     }
-  }, [isOpen]);
+  }, []);
 
   /**
    * 滚动到选中项
@@ -168,37 +162,12 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
    * 处理模态框关闭事件
    */
   const handleClose = useCallback(() => {
-    onClose();
     resetSearch();
-  }, [onClose, resetSearch]);
-
-  /**
-   * 处理模态框状态变化
-   */
-  const handleOpenChange = useCallback(
-    (open: boolean) => {
-      if (!open) {
-        handleClose();
-      }
-    },
-    [handleClose],
-  );
+    dismiss();
+  }, [dismiss, resetSearch]);
 
   return (
-    <Modal
-      open={isOpen}
-      onOpenChange={handleOpenChange}
-      onClose={handleClose}
-      title="Search Articles"
-      description="Search blog articles by title, content, and tags"
-      className="top-16 max-w-2xl -translate-y-0"
-      showCloseButton={false}
-      animation={{
-        initial: { opacity: 0, scale: 0.95, y: -20 },
-        animate: { opacity: 1, scale: 1, y: 0 },
-        exit: { opacity: 0, scale: 0.95, y: -20 },
-      }}
-    >
+    <>
       {/* 搜索输入框 */}
       <div className="flex items-center border-b border-zinc-200 px-4 py-3 dark:border-zinc-600">
         <i className="i-mingcute-search-line mr-3 h-5 w-5 text-zinc-400 dark:text-zinc-500" />
@@ -211,13 +180,8 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
           className="flex-1 bg-transparent text-zinc-900 placeholder-zinc-500 outline-none dark:text-zinc-100 dark:placeholder-zinc-400"
           aria-label="Search articles"
         />
-        <button
-          onClick={handleClose}
-          className="ml-3 p-1 text-zinc-400 transition-colors hover:text-zinc-600 dark:text-zinc-500 dark:hover:text-zinc-300"
-          aria-label="Close search"
-        >
-          <i className="i-mingcute-close-line h-5 w-5" />
-        </button>
+        <Kbd>⌘</Kbd>
+        <Kbd>K</Kbd>
       </div>
 
       {/* 搜索结果 */}
@@ -301,21 +265,22 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
         <div className="flex items-center justify-between text-xs text-zinc-500 dark:text-zinc-400">
           <div className="flex items-center gap-4">
             <span className="flex items-center gap-1">
-              <kbd className="rounded border border-zinc-300 bg-white px-1.5 py-0.5 text-xs dark:border-zinc-600 dark:bg-zinc-700 dark:text-zinc-200">
-                ↑↓
-              </kbd>
+              <KbdGroup>
+                <Kbd>
+                  <div className="i-mingcute-arrow-up-line h-4 w-4" />
+                </Kbd>
+                <Kbd>
+                  <div className="i-mingcute-arrow-down-line h-4 w-4" />
+                </Kbd>
+              </KbdGroup>
               Navigate
             </span>
             <span className="flex items-center gap-1">
-              <kbd className="rounded border border-zinc-300 bg-white px-1.5 py-0.5 text-xs dark:border-zinc-600 dark:bg-zinc-700 dark:text-zinc-200">
-                Enter
-              </kbd>
+              <Kbd>Enter</Kbd>
               Select
             </span>
             <span className="flex items-center gap-1">
-              <kbd className="rounded border border-zinc-300 bg-white px-1.5 py-0.5 text-xs dark:border-zinc-600 dark:bg-zinc-700 dark:text-zinc-200">
-                Esc
-              </kbd>
+              <Kbd>Esc</Kbd>
               Close
             </span>
           </div>
@@ -326,6 +291,16 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
           </div>
         </div>
       </div>
-    </Modal>
+    </>
   );
+};
+
+SearchModalInner.contentProps = {
+  dismissOnOutsideClick: true,
+};
+
+export const SearchModal: ModalComponent = SearchModalInner;
+
+export function openSearchModal() {
+  Modal.present(SearchModal, undefined, { dismissOnOutsideClick: true });
 }
