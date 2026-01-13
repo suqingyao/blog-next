@@ -370,12 +370,16 @@ export class LocalStorageProvider implements StorageProvider {
         const baseName = path.parse(obj.key).name;
         const dirName = path.dirname(obj.key);
 
-        // 查找对应的 .mov 文件
-        const videoKey = path.join(dirName, `${baseName}.mov`).replaceAll('\\', '/');
-        const videoObj = fileMap.get(videoKey.toLowerCase());
+        // 查找对应的 .mov 或 .mp4 文件
+        const videoExtensions = ['.mov', '.mp4'];
+        for (const videoExt of videoExtensions) {
+          const videoKey = path.join(dirName, `${baseName}${videoExt}`).replaceAll('\\', '/');
+          const videoObj = fileMap.get(videoKey.toLowerCase());
 
-        if (videoObj) {
-          livePhotos.set(obj.key, videoObj);
+          if (videoObj) {
+            livePhotos.set(obj.key, videoObj);
+            break; // 找到匹配的视频文件后停止查找
+          }
         }
       }
     });

@@ -5,7 +5,7 @@ export default defineBuilderConfig(() => ({
   // 存储配置 - 指定从哪里读取照片
   storage: {
     provider: 'local',
-    basePath: './src/assets/photos', // 源照片目录
+    basePath: 'public/photos', // 源照片目录
     baseUrl: '/photos', // 访问 URL 前缀
   },
 
