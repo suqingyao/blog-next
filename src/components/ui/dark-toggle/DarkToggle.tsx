@@ -1,7 +1,7 @@
 'use client';
 
 import type { MouseEvent } from 'react';
-import { motion } from 'motion/react';
+import { m } from 'motion/react';
 import { useTheme } from 'next-themes';
 import { useMemo } from 'react';
 import { flushSync } from 'react-dom';
@@ -76,7 +76,7 @@ export function DarkToggle() {
       xmlns="http://www.w3.org/2000/svg"
     >
       {starPaths.map(path => (
-        <motion.path
+        <m.path
           initial={{
             scale: 0,
             rotate: 30,
@@ -98,7 +98,7 @@ export function DarkToggle() {
   );
 
   const clouds = (
-    <motion.svg
+    <m.svg
       animate={{
         opacity: isDark ? 0 : 1,
         x: isDark ? -5 : 0,
@@ -118,7 +118,7 @@ export function DarkToggle() {
         d="M18.0258 11.2704C18.0258 5.34458 22.8296 0.540771 28.7554 0.540771H93.1331C99.0589 0.540771 103.863 5.34458 103.863 11.2704C103.863 17.1962 99.0589 22 93.1331 22H66.2146C63.3038 22 60.9442 24.3596 60.9442 27.2704V27.2704C60.9442 30.1811 63.3038 32.5408 66.2146 32.5408H75.1073C81.0331 32.5408 85.8369 37.3446 85.8369 43.2704C85.8369 49.1962 81.0331 54 75.1073 54H10.7296C4.80381 54 0 49.1962 0 43.2704C0 37.3446 4.80381 32.5408 10.7296 32.5408H44.7296C47.6404 32.5408 50 30.1811 50 27.2704V27.2704C50 24.3596 47.6404 22 44.7296 22H28.7554C22.8296 22 18.0258 17.1962 18.0258 11.2704Z"
         fill="white"
       />
-    </motion.svg>
+    </m.svg>
   );
 
   // 在服务器端渲染一个占位符，避免水合错误
@@ -131,7 +131,7 @@ export function DarkToggle() {
   }
 
   return (
-    <motion.div
+    <m.div
       animate={{
         backgroundColor: isDark ? '#475569' : '#7dd3fc',
       }}
@@ -141,7 +141,7 @@ export function DarkToggle() {
     >
       {starts}
       {clouds}
-      <motion.div
+      <m.div
         animate={{
           x: isDark ? 28 : 0,
           rotate: isDark ? 0 : 180,
@@ -149,7 +149,7 @@ export function DarkToggle() {
         }}
         className="relative h-[18px] w-[18px] rounded-full"
       >
-        <motion.div
+        <m.div
           animate={{
             opacity: isDark ? 1 : 0,
           }}
@@ -158,8 +158,8 @@ export function DarkToggle() {
           <div className="absolute top-[6px] left-[4px] h-[4px] w-[4px] rounded-full bg-slate-400/50 shadow-inner" />
           <div className="absolute top-[8px] left-[11px] h-px w-px rounded-full bg-slate-400/50 shadow-inner" />
           <div className="absolute top-[11px] left-[9px] h-[2px] w-[2px] rounded-full bg-slate-400/50 shadow-inner" />
-        </motion.div>
-      </motion.div>
-    </motion.div>
+        </m.div>
+      </m.div>
+    </m.div>
   );
 }

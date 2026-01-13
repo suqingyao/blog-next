@@ -1,6 +1,6 @@
 import type { PhotoManifestItem as PhotoManifest } from '@/types/photo';
 import { useAtom, useSetAtom } from 'jotai';
-import { m as motion } from 'motion/react';
+import { m } from 'motion/react';
 import { useMemo } from 'react';
 
 import { useContextPhotos } from '@/hooks/use-photo-viewer';
@@ -151,7 +151,7 @@ export function ActiveFiltersHero() {
   };
 
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
@@ -247,6 +247,6 @@ export function ActiveFiltersHero() {
           </div>
         </div>
       </div>
-    </motion.div>
+    </m.div>
   );
 }

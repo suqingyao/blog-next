@@ -4,7 +4,7 @@ import type { TargetAndTransition, VariantLabels } from 'motion/react';
 import type { ReactNode } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
-import { motion } from 'motion/react';
+import { m } from 'motion/react';
 import { cn } from '@/lib/utils';
 
 export interface ModalProps {
@@ -72,7 +72,7 @@ export function Modal({
     >
       <Dialog.Portal>
         <Dialog.Overlay asChild>
-          <motion.div
+          <m.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -83,7 +83,7 @@ export function Modal({
           />
         </Dialog.Overlay>
         <Dialog.Content asChild>
-          <motion.div
+          <m.div
             initial={animation.initial}
             animate={animation.animate}
             exit={animation.exit}
@@ -120,7 +120,7 @@ export function Modal({
 
             {/* 模态框内容 */}
             {children}
-          </motion.div>
+          </m.div>
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>

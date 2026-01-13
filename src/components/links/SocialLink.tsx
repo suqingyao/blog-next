@@ -1,7 +1,7 @@
 'use client';
 
 import type { LinkProps } from 'next/link';
-import { AnimatePresence, motion } from 'motion/react';
+import { AnimatePresence, m } from 'motion/react';
 import Link from 'next/link';
 import React from 'react';
 import { Tooltip } from '@/components/ui/tooltip';
@@ -87,13 +87,13 @@ export function SocialLink({
           {open && (
             <Tooltip.Portal forceMount>
               <Tooltip.Content asChild>
-                <motion.div
+                <m.div
                   initial={{ opacity: 0, scale: 0.96 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.95 }}
                 >
                   {info.label}
-                </motion.div>
+                </m.div>
               </Tooltip.Content>
             </Tooltip.Portal>
           )}

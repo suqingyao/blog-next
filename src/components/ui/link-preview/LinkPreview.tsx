@@ -2,7 +2,7 @@
 import * as HoverCardPrimitive from '@radix-ui/react-hover-card';
 import {
   AnimatePresence,
-  motion,
+  m,
   useMotionValue,
   useSpring,
 } from 'motion/react';
@@ -117,7 +117,7 @@ export function LinkPreview({
         >
           <AnimatePresence>
             {isOpen && (
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, y: 20, scale: 0.6 }}
                 animate={{
                   opacity: 1,
@@ -148,7 +148,7 @@ export function LinkPreview({
                     alt="preview image"
                   />
                 </Link>
-              </motion.div>
+              </m.div>
             )}
           </AnimatePresence>
         </HoverCardPrimitive.Content>

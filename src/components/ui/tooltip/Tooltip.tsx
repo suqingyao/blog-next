@@ -1,7 +1,7 @@
 'use client';
 
 import * as TooltipPrimitive from '@radix-ui/react-tooltip';
-import { AnimatePresence, motion } from 'motion/react';
+import { AnimatePresence, m } from 'motion/react';
 import * as React from 'react';
 import { cn } from '@/lib/utils';
 
@@ -51,13 +51,13 @@ export function ElegantTooltip({ children, content }: ElegantTooltipProps) {
           {open && (
             <Tooltip.Portal forceMount>
               <Tooltip.Content asChild>
-                <motion.div
+                <m.div
                   initial={{ opacity: 0, scale: 0.96 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.95 }}
                 >
                   {content}
-                </motion.div>
+                </m.div>
               </Tooltip.Content>
             </Tooltip.Portal>
           )}

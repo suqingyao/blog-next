@@ -2,7 +2,7 @@
 
 import type { HTMLMotionProps, Transition } from 'motion/react';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
-import { AnimatePresence, m as motion } from 'motion/react';
+import { AnimatePresence, m } from 'motion/react';
 import * as React from 'react';
 import { cn } from '@/lib/utils';
 
@@ -118,7 +118,7 @@ function DialogContent({
       {isOpen && (
         <DialogPortal forceMount data-slot="dialog-portal">
           <DialogOverlay asChild forceMount>
-            <motion.div
+            <m.div
               key="dialog-overlay"
               initial={{ opacity: 0, filter: 'blur(4px)' }}
               animate={{ opacity: 1, filter: 'blur(0px)' }}
@@ -137,7 +137,7 @@ function DialogContent({
               onInteractOutside?.(event);
             }}
           >
-            <motion.div
+            <m.div
               key="dialog-content"
               data-slot="dialog-content"
               initial={{
@@ -167,7 +167,7 @@ function DialogContent({
                 <i className="i-mingcute-close-line size-4" aria-hidden="true" />
                 <span className="sr-only">Close</span>
               </DialogPrimitive.Close>
-            </motion.div>
+            </m.div>
           </DialogPrimitive.Content>
         </DialogPortal>
       )}

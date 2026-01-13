@@ -1,7 +1,7 @@
 'use client';
 
 import type { MotionValue, SpringOptions, UseInViewOptions } from 'motion/react';
-import { m as motion, useInView, useSpring, useTransform } from 'motion/react';
+import { m, useInView, useSpring, useTransform } from 'motion/react';
 import * as React from 'react';
 import useMeasure from 'react-use-measure';
 import { Spring } from '@/lib/spring';
@@ -63,14 +63,14 @@ function SlidingNumberDisplay({ motionValue, number, height, transition }: Slidi
   }
 
   return (
-    <motion.span
+    <m.span
       data-slot="sliding-number-display"
       style={{ y }}
       className="absolute inset-0 flex items-center justify-center"
       transition={{ ...transition, type: 'spring' }}
     >
       {number}
-    </motion.span>
+    </m.span>
   );
 }
 

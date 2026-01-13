@@ -1,4 +1,4 @@
-import { m as motion } from 'motion/react';
+import { m } from 'motion/react';
 import { Spring } from '@/lib/spring';
 
 interface FilterChipProps {
@@ -32,7 +32,7 @@ export function FilterChip({ type, label, onRemove, icon }: FilterChipProps) {
   };
 
   return (
-    <motion.div
+    <m.div
       layout
       initial={{ opacity: 0, scale: 0.8 }}
       animate={{ opacity: 1, scale: 1 }}
@@ -50,6 +50,6 @@ export function FilterChip({ type, label, onRemove, icon }: FilterChipProps) {
       >
         <i className="i-lucide-x text-xs" />
       </button>
-    </motion.div>
+    </m.div>
   );
 }

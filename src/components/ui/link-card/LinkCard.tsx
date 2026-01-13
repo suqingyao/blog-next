@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, useMotionTemplate } from 'motion/react';
+import { m, useMotionTemplate } from 'motion/react';
 import Link from 'next/link';
 
 import { DarkModeOnly } from '@/components/common/DarkModeOnly';
@@ -35,13 +35,13 @@ export function LinkCard({
     >
       {/* Border shimmer layer */}
       <DarkModeOnly>
-        <motion.div
+        <m.div
           className="pointer-events-none absolute inset-0 text-white/10 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
           style={{ background }}
         />
       </DarkModeOnly>
       {/* Spotlight layer */}
-      <motion.div
+      <m.div
         className="pointer-events-none absolute inset-0 z-[1] text-black/5 opacity-0 transition-opacity duration-500 group-hover:opacity-100 dark:text-white/10"
         style={{ background }}
         aria-hidden

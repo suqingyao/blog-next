@@ -1,7 +1,8 @@
 'use client';
 
 import type { LinkProps } from 'next/link';
-import { AnimatePresence, motion } from 'motion/react';
+import process from 'node:process';
+import { AnimatePresence, m } from 'motion/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { encode } from 'qss';
@@ -118,7 +119,7 @@ export function PeekabooLink({
                 asChild
                 collisionPadding={250}
               >
-                <motion.div
+                <m.div
                   className="pointer-events-none relative z-50 w-[400px] origin-top overflow-hidden !p-0"
                   initial={{
                     opacity: 0,
@@ -159,7 +160,7 @@ export function PeekabooLink({
                       unoptimized
                     />
                   </Link>
-                </motion.div>
+                </m.div>
               </HoverCard.Content>
             </HoverCard.Portal>
           )}
