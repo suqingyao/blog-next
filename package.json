@@ -11,7 +11,6 @@
     "lint:fix": "eslint . --fix",
     "new:post": "node ./scripts/new-post.js",
     "update": "npx taze -w",
-    "compress:images": "node ./scripts/compress-images.js",
     "optimize:images": "node ./scripts/optimize-images.js",
     "build:photos": "tsx ./scripts/build-photos.ts",
     "build:photos:force": "tsx ./scripts/build-photos.ts --force",
