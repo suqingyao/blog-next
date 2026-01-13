@@ -49,3 +49,4 @@ Contains the "Glassmorphic Depth Design System" for the main user-facing photo g
 ## IMPORTANT
 
 Avoid feature gates/flags and any backwards compability changes - since our app is still unreleased" is really helpful.
+Delete files must be asked for.
