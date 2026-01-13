@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+
 @plugin '@tailwindcss/typography';
 @plugin '@egoist/tailwindcss-icons';
 @plugin 'daisyui';
@@ -7,8 +8,26 @@
 @import 'tailwind-scrollbar-hide/v4';
 @import 'tailwindcss-safe-area';
 @import 'tailwindcss-uikit-colors/v4/macos.css';
-@config '../../tailwind.config.ts';
 
+/* 迁移 Spacing 配置 */
+@theme {
+  --spacing-header: 60px;
+  --spacing-footer: 60px;
+
+  --color-primary: var(--auto-theme-color, theme('colors.orange.500'));
+  --color-accent: var(--auto-theme-color, var(--color-primary));
+  --color-hover: var(--auto-hover-color, theme('colors.orange.500'));
+  --color-border: var(--auto-border-color, theme('colors.zinc.600'));
+  --color-theme: var(--auto-theme-color, theme('colors.orange.500'));
+}
+
+/* 迁移 Container 配置 */
+@utility container {
+  margin-inline: auto;
+  padding-inline: 1rem;
+}
+
+/* DaisyUI 主题配置 */
 @plugin "daisyui/theme" {
   name: 'dark';
   prefersdark: true;
@@ -16,10 +35,6 @@
   --color-primary: theme('colors.orange.500');
   --color-secondary: theme('colors.orange.400');
   --color-accent: theme('colors.orange.500');
-  /* --color-neutral: #48484a; */
-  /* --color-base-100: #1c1c1e; */
-  /* --color-base-content: #fff; */
-  /* --color-info: theme('colors.orange.500'); */
   --color-success: #30d158;
   --color-warning: #ff9f0a;
   --color-error: #ff453a;
@@ -54,98 +69,54 @@
   .animate-accordion-up {
     animation: accordion-up 0.2s ease-out;
   }
-  .animate-bounce-enter-in {
-    animation: bounce-enter-in 0.5s;
-  }
-  .animate-bounce-leave-out {
-    animation: bounce-leave-out 0.5s;
-  }
-  .animate-fade-in {
-    animation: fade-in 0.5s;
-  }
-  .animate-fade-out {
-    animation: fade-out 0.5s;
+  .animate-shake {
+    animation: shake 0.5s ease-in-out;
   }
 }
 
 @keyframes accordion-down {
-  from {
-    height: 0;
-  }
-  to {
-    height: var(--radix-accordion-content-height);
-  }
+  from { height: 0; }
+  to { height: var(--radix-accordion-content-height); }
 }
 
 @keyframes accordion-up {
-  from {
-    height: var(--radix-accordion-content-height);
-  }
-  to {
-    height: 0;
-  }
+  from { height: var(--radix-accordion-content-height); }
+  to { height: 0; }
 }
 
 @keyframes slide-enter-in {
-  from {
-    transform: translateY(-100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
+  from { transform: translateY(-100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
 
 @keyframes bounce-enter-in {
-  from {
-    transform: translateY(20px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
 
 @keyframes bounce-leave-out {
-  from {
-    transform: translateY(0);
-    opacity: 1;
-  }
-  to {
-    transform: translateY(100px);
-    opacity: 0;
-  }
+  from { transform: translateY(0); opacity: 1; }
+  to { transform: translateY(100px); opacity: 0; }
 }
 
 @keyframes fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @keyframes fade-out {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
+  from { opacity: 1; }
+  to { opacity: 0; }
 }
 
-@theme {
-  --color-primary: var(--auto-theme-color, theme('colors.orange.500'));
-  --color-accent: var(--auto-theme-color, var(--color-primary));
-  --color-hover: var(--auto-hover-color, theme('colors.orange.500'));
-  --color-border: var(--auto-border-color, theme('colors.zinc.600'));
-  --color-theme: var(--auto-theme-color, theme('colors.orange.500'));
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }
+  20%, 40%, 60%, 80% { transform: translateX(4px); }
 }
 
-@safelist i-mingcute-copy-2-line, bg-material-opaque, bg-material-ultra-thick, bg-material-thick, bg-material-medium, bg-material-thin, bg-material-ultra-thin;
+@safelist i-mingcute-copy-2-line;
+
 .post-toc .katex {
   font: unset;
   line-height: unset;
@@ -162,9 +133,7 @@
   .content-container {
     @apply mx-auto w-[75ch];
   }
-}
 
-@layer components {
   .shadow-tooltip-bottom {
     --bg: var(--color-primary);
     box-shadow: 0px 5px 20px -11px var(--bg);
@@ -175,9 +144,26 @@
     box-shadow: 0px -5px 20px -11px var(--bg);
   }
 
-  /* Glassmorphic menu item highlight effect */
   [data-highlighted] {
     background: var(--highlight-bg, transparent);
+  }
+
+  .glassmorphic-btn:hover {
+    background: linear-gradient(
+      to right,
+      color-mix(in srgb, var(--color-accent) 8%, transparent),
+      color-mix(in srgb, var(--color-accent) 5%, transparent)
+    ) !important;
+    color: var(--color-accent) !important;
+  }
+
+  .command-item:hover,
+  .command-item.selected {
+    background: linear-gradient(
+      to right,
+      color-mix(in srgb, var(--color-accent) 8%, transparent),
+      color-mix(in srgb, var(--color-accent) 5%, transparent)
+    ) !important;
   }
 }
 
@@ -221,52 +207,4 @@
     transparent,
     color-mix(in srgb, var(--color-accent) 5%, transparent)
   );
-}
-
-@layer components {
-  /* Glassmorphic button hover effect */
-  .glassmorphic-btn:hover {
-    background: linear-gradient(
-      to right,
-      color-mix(in srgb, var(--color-accent) 8%, transparent),
-      color-mix(in srgb, var(--color-accent) 5%, transparent)
-    ) !important;
-    color: var(--color-accent) !important;
-  }
-
-  /* Command item hover/selected effect */
-  .command-item:hover,
-  .command-item.selected {
-    background: linear-gradient(
-      to right,
-      color-mix(in srgb, var(--color-accent) 8%, transparent),
-      color-mix(in srgb, var(--color-accent) 5%, transparent)
-    ) !important;
-  }
-}
-
-@layer utilities {
-  .animate-shake {
-    animation: shake 0.5s ease-in-out;
-  }
-}
-
-@keyframes shake {
-  0%,
-  100% {
-    transform: translateX(0);
-  }
-  10%,
-  30%,
-  50%,
-  70%,
-  90% {
-    transform: translateX(-4px);
-  }
-  20%,
-  40%,
-  60%,
-  80% {
-    transform: translateX(4px);
-  }
 }
