@@ -2,6 +2,7 @@
 
 import type { HTMLMotionProps, Transition } from 'motion/react';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import { AnimatePresence, m } from 'motion/react';
 import * as React from 'react';
 import { cn } from '@/lib/utils';
@@ -126,6 +127,9 @@ function DialogContent({
               transition={{ duration: 0.2, ease: 'easeInOut' }}
             />
           </DialogOverlay>
+          <VisuallyHidden>
+            <DialogTitle />
+          </VisuallyHidden>
           <DialogPrimitive.Content
             asChild
             forceMount
