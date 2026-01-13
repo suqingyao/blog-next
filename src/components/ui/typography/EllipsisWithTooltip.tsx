@@ -2,7 +2,7 @@ import type { PropsWithChildren } from 'react';
 import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
 
-import { Tooltip, TooltipContent, TooltipPortal, TooltipTrigger } from '../tooltip2';
+import { Tooltip, TooltipContent, TooltipPortal, TooltipTrigger } from '../tooltip';
 
 function isTextOverflowed(element: HTMLElement, dir: 'h' | 'v') {
   if (dir === 'h') {

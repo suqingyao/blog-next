@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { Tooltip } from '@/components/ui/tooltip';
+import { Tooltip, TooltipContent, TooltipRoot, TooltipTrigger } from '@/components/ui/tooltip';
 import { APP_HEADER_HEIGHT } from '@/constants';
 import { cn } from '@/lib/utils';
 
@@ -378,9 +378,9 @@ export function MusicPlayer() {
 
                   {/* 音量控制 */}
                   <div className="flex items-center">
-                    <Tooltip.Provider delayDuration={0}>
-                      <Tooltip.Root>
-                        <Tooltip.Trigger asChild>
+                    <Tooltip delayDuration={0}>
+                      <TooltipRoot>
+                        <TooltipTrigger asChild>
                           <button type="button" className="flex items-center justify-center rounded-full bg-transparent p-2 text-gray-500 transition-all duration-200 hover:bg-black/5 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/10 dark:hover:text-gray-300">
                             {isMuted
                               ? (
@@ -390,8 +390,8 @@ export function MusicPlayer() {
                                   <i className="i-mingcute-volume-fill h-4 w-4" />
                                 )}
                           </button>
-                        </Tooltip.Trigger>
-                        <Tooltip.Content
+                        </TooltipTrigger>
+                        <TooltipContent
                           side="top"
                           sideOffset={10}
                           className="rounded-2xl border-none bg-transparent bg-none p-0 shadow-none ring-0"
@@ -431,9 +431,9 @@ export function MusicPlayer() {
                               </div>
                             </div>
                           </div>
-                        </Tooltip.Content>
-                      </Tooltip.Root>
-                    </Tooltip.Provider>
+                        </TooltipContent>
+                      </TooltipRoot>
+                    </Tooltip>
                   </div>
                 </div>
 

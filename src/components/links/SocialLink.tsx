@@ -4,7 +4,7 @@ import type { LinkProps } from 'next/link';
 import { AnimatePresence, m } from 'motion/react';
 import Link from 'next/link';
 import React from 'react';
-import { Tooltip } from '@/components/ui/tooltip';
+import { Tooltip, TooltipContent, TooltipPortal, TooltipRoot, TooltipTrigger } from '@/components/ui/tooltip';
 
 export type Platform = 'github' | 'twitter' | 'youtube' | 'telegram' | 'bilibili' | 'mail' | 'rss';
 
@@ -65,13 +65,13 @@ export function SocialLink({
   }
 
   return (
-    <Tooltip.Provider disableHoverableContent>
-      <Tooltip.Root
+    <Tooltip disableHoverableContent>
+      <TooltipRoot
         open={open}
         onOpenChange={setOpen}
         delayDuration={200}
       >
-        <Tooltip.Trigger asChild>
+        <TooltipTrigger asChild>
           <Link
             className="group -m-1 p-1"
             href={href}
@@ -82,11 +82,11 @@ export function SocialLink({
           >
             <span className={`${info.icon} block h-5 w-5 text-zinc-400 transition-colors group-hover:text-zinc-700 dark:text-zinc-400 dark:group-hover:text-zinc-200`} />
           </Link>
-        </Tooltip.Trigger>
+        </TooltipTrigger>
         <AnimatePresence>
           {open && (
-            <Tooltip.Portal forceMount>
-              <Tooltip.Content asChild>
+            <TooltipPortal forceMount>
+              <TooltipContent asChild>
                 <m.div
                   initial={{ opacity: 0, scale: 0.96 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -94,11 +94,11 @@ export function SocialLink({
                 >
                   {info.label}
                 </m.div>
-              </Tooltip.Content>
-            </Tooltip.Portal>
+              </TooltipContent>
+            </TooltipPortal>
           )}
         </AnimatePresence>
-      </Tooltip.Root>
-    </Tooltip.Provider>
+      </TooltipRoot>
+    </Tooltip>
   );
 }

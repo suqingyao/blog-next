@@ -4,8 +4,6 @@ import * as React from 'react';
 import { Spring } from '@/lib/spring';
 import { cn } from '@/lib/utils';
 
-import { tooltipStyle } from './styles';
-
 const TooltipProvider = TooltipPrimitive.Provider;
 const TooltipRoot = TooltipPrimitive.Root;
 
@@ -17,20 +15,22 @@ const Tooltip: typeof TooltipProvider = ({ children, ...props }) => (
 
 const TooltipTrigger = TooltipPrimitive.Trigger;
 
+const TooltipPortal = TooltipPrimitive.Portal;
+
 function TooltipContent({
   ref,
   className,
   sideOffset = 4,
   ...props
 }: React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content> & {
-  ref?: React.Ref<React.ElementRef<typeof TooltipPrimitive.Content> | null>;
+  ref?: React.Ref<React.ComponentRef<typeof TooltipPrimitive.Content> | null>;
 }) {
   return (
     <TooltipPrimitive.Content
       ref={ref}
       asChild
       sideOffset={sideOffset}
-      className={cn(tooltipStyle.content, className)}
+      className={cn('relative z-9999 px-3 py-2 text-text backdrop-blur-2xl data-[state=closed]:animate-out data-[state=closed]:fade-out-0 rounded-xl text-sm max-w-[75ch] select-text', className)}
       {...props}
     >
       <m.div
@@ -63,6 +63,12 @@ function TooltipContent({
 }
 TooltipContent.displayName = TooltipPrimitive.Content.displayName;
 
-export { Tooltip, TooltipContent, TooltipRoot, TooltipTrigger };
+export {
+  Tooltip,
+  TooltipContent,
+  TooltipPortal,
+  TooltipRoot,
+  TooltipTrigger,
+};
 
-export { RootPortal as TooltipPortal } from '../portal';
+// export { RootPortal as TooltipPortal } from '../portal';
