@@ -46,6 +46,8 @@ For specific UI and design guidelines, please refer to the `AGENTS.md` file with
 
 Contains the "Glassmorphic Depth Design System" for the main user-facing photo gallery.
 
+Reference doc: `docs/MACOS_DESIGN_SYSTEM.md`、`docs/MACOS_UI_UX_GUIDELINES.md`
+
 ## IMPORTANT
 
 Avoid feature gates/flags and any backwards compability changes - since our app is still unreleased" is really helpful.
