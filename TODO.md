@@ -1,25 +1,10 @@
-- [ ] Comment Giscus
-- [ ] Like Vercel KV + API Routes
-- [ ] Share
-- [ ] Sponsor
-- [x] Tags
-- [ ] Media site
-- [ ] Code Playground
-- [ ] I18n
-- [x] RSS
-- [ ] Adapter for mobile
-- [ ] Random theme color feature (removed for simplicity)
-- [ ] Music Player
-  - [ ] Audio player component with play/pause controls
-  - [ ] Playlist management
-  - [ ] Volume control and progress bar
-  - [ ] Background music support
-  - [ ] Music visualization (optional)
-  - [ ] Keyboard shortcuts for music control
-  - [ ] Mobile-friendly interface
-  - [ ] Tablet-friendly interface
-  - [ ] Desktop-friendly interface
-  - [ ] Lyrics display
-    - [ ] Lyrics fetching from external API
-    - [ ] Synchronization with audio playback
-    - [ ] User-friendly lyrics display
+1. 迁移photos到云存储（Cloudflare R2 或阿里云 OSS）
+2. 音乐播放器
+  - 歌词显示
+3. photos 页面优化
+4. 优化系统设计
+   1. ui/ux 参考 macOS 系统 Tahoe 版本的设计
+5. 增加评论
+6. 增加点赞功能
+7. 增加分享功能
+8. 增加赞助功能
