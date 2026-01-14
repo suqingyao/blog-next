@@ -49,7 +49,7 @@ export default function PhotosLayout({ children }: PropsWithChildren) {
             </ScrollElementContext>
           )
         : (
-            <ScrollArea rootClassName="h-svh w-full" viewportClassName="size-full" scrollbarClassName="mt-12">
+            <ScrollArea rootClassName="h-svh w-full" viewportClassName="size-full" scrollbarClassName="">
               <PhotosRoot />
             </ScrollArea>
           )}

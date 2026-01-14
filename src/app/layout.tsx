@@ -1,9 +1,8 @@
 import type { Metadata } from 'next';
 import NextTopLoader from 'nextjs-toploader';
-import { AppContent } from '@/components/application';
+import { AppMain } from '@/components/application';
 import { DotGrid } from '@/components/common/DotGrid';
 
-import { MusicPlayer } from '@/components/music-player';
 import { Backtop } from '@/components/ui/backtop';
 import { APP_DESCRIPTION, APP_NAME, OUR_DOMAIN } from '@/constants';
 
@@ -47,7 +46,7 @@ export default async function RootLayout({
           serifFont.variable,
           monoFont.variable,
           interFont.variable,
-          'min-h-screen w-full',
+          'overflow-hidden h-screen'
         )}
       >
         <NextTopLoader
@@ -55,7 +54,7 @@ export default async function RootLayout({
           showSpinner={false}
         />
         <AppProviders>
-          <AppContent>
+          <AppMain>
             {children}
             {modal}
             <DotGrid
@@ -70,9 +69,8 @@ export default async function RootLayout({
               returnDuration={1}
               style={{ width: '100%', height: '100%', position: 'fixed', inset: 0, zIndex: -1 }}
             />
-          </AppContent>
+          </AppMain>
           <Backtop />
-          <MusicPlayer />
         </AppProviders>
       </body>
     </html>
