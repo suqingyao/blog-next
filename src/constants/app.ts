@@ -14,4 +14,4 @@ export const APP_NAME = `suqingyao's blog`;
 export const APP_DESCRIPTION = `suqingyao's blog`;
 
 /** 应用头部高度（像素） */
-export const APP_HEADER_HEIGHT = 60;
+export const APP_HEADER_HEIGHT = 3 * 16;

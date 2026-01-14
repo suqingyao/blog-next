@@ -9,38 +9,149 @@
 @import 'tailwindcss-safe-area';
 @import 'tailwindcss-uikit-colors/v4/macos.css';
 
-/* 迁移 Spacing 配置 */
-@theme {
-  --spacing-header: 60px;
-  --spacing-footer: 60px;
-
-  --color-primary: var(--auto-theme-color, theme('colors.orange.500'));
-  --color-accent: var(--auto-theme-color, var(--color-primary));
-  --color-hover: var(--auto-hover-color, theme('colors.orange.500'));
-  --color-border: var(--auto-border-color, theme('colors.zinc.600'));
-  --color-theme: var(--auto-theme-color, theme('colors.orange.500'));
-}
-
-/* 迁移 Container 配置 */
-@utility container {
-  margin-inline: auto;
-  padding-inline: 1rem;
-}
-
 /* DaisyUI 主题配置 */
 @plugin "daisyui/theme" {
   name: 'dark';
+  default: true;
   prefersdark: true;
   color-scheme: dark;
-  --color-primary: theme('colors.orange.500');
-  --color-secondary: theme('colors.orange.400');
-  --color-accent: theme('colors.orange.500');
+  --color-primary: #007aff;
+  --color-secondary: #007aff;
+  --color-accent: #007aff
+  --color-neutral: #48484a;
+  --color-base-100: #1c1c1e;
+  --color-base-content: #fff;
+  --color-info: #0a84ff;
   --color-success: #30d158;
   --color-warning: #ff9f0a;
   --color-error: #ff453a;
   --rounded-btn: 1.9rem;
   --tab-border: 2px;
   --tab-radius: 0.5rem;
+}
+
+/* Enable Class-based Dark Mode */
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+[data-theme='dark'] {
+  --radius: 0.5rem;
+  --border: 0 0% 22.1%;
+}
+
+/* Tahoe Design System Tokens */
+@theme {
+
+  /* Container */
+  --container-padding: 2rem;
+  --container-max-width-2xl: 1400px;
+
+  --color-background: #1c1c1e;
+
+  /* Custom cursors */
+  --cursor-button: var(--cursor-button);
+  --cursor-select: var(--cursor-select);
+  --cursor-checkbox: var(--cursor-checkbox);
+  --cursor-link: var(--cursor-link);
+  --cursor-menu: var(--cursor-menu);
+  --cursor-radio: var(--cursor-radio);
+  --cursor-switch: var(--cursor-switch);
+  --cursor-card: var(--cursor-card);
+
+  /* Colors */
+  --color-border: hsl(var(--border));
+
+  /* Border radius */
+  --radius: var(--radius);
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  /* Font families */
+  --font-sans: Geist, ui-sans-serif, system-ui, sans-serif;
+  --font-serif:
+    'Noto Serif CJK SC', 'Noto Serif SC', var(--font-serif), 'Source Han Serif SC', 'Source Han Serif',
+    source-han-serif-sc, SongTi SC, SimSum, 'Hiragino Sans GB', system-ui, -apple-system, Segoe UI, Roboto, Helvetica,
+    'Microsoft YaHei', 'WenQuanYi Micro Hei', sans-serif;
+  --font-mono:
+    'OperatorMonoSSmLig Nerd Font', 'Cascadia Code PL', 'FantasqueSansMono Nerd Font', 'operator mono', JetBrainsMono,
+    'Fira code Retina', 'Fira code', Consolas, Monaco, 'Hannotate SC', monospace, -apple-system;
+
+  /* Custom screens */
+  --screen-light-mode: (prefers-color-scheme: light);
+  --screen-dark-mode: (prefers-color-scheme: dark);
+  --screen-w-screen: 100vw;
+  --screen-h-screen: 100vh;
+
+  /* Width and max-width */
+  --width-screen: 100vw;
+  --max-width-screen: 100vw;
+
+  /* Height and max-height */
+  --height-screen: 100vh;
+  --max-height-screen: 100vh;
+}
+
+/* Tahoe Glass Materials (CSS Variables for Auto-Switching) */
+/* :root {
+  --bg-body: theme('colors.zinc.50');
+  --text-body: theme('colors.zinc.900');
+
+  --glass-base: rgba(255, 255, 255, 0.65);
+  --glass-overlay: rgba(255, 255, 255, 0.75);
+  --glass-border: rgba(255, 255, 255, 0.4);
+
+  --glass-highlight: inset 0 1px 0 0 rgba(255, 255, 255, 0.6), inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+  --glass-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+} */
+
+/* :is(.dark) {
+  --bg-body: #050505;
+  --text-body: rgba(255, 255, 255, 0.95);
+
+  --glass-base: rgba(40, 44, 52, 0.55);
+  --glass-overlay: rgba(60, 64, 72, 0.65);
+
+  --glass-highlight: inset 0 1px 0 0 rgba(255, 255, 255, 0.15), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+
+  --glass-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(0,0,0,0.2);
+} */
+
+@layer base {
+  .container {
+    margin-left: auto;
+    margin-right: auto;
+    padding: var(--container-padding);
+  }
+  @media (min-width: 1536px) {
+    .container {
+      max-width: var(--container-max-width-2xl);
+    }
+  }
+
+  body {
+    background-color: var(--bg-body);
+    color: var(--text-body);
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms;
+  }
+}
+
+/* Tahoe Utility Classes */
+@utility glass-panel {
+  @apply bg-[var(--glass-base)] backdrop-blur-[80px] backdrop-saturate-[200%] shadow-[var(--glass-shadow)] rounded-[24px];
+  box-shadow: var(--glass-highlight), var(--glass-shadow);
+}
+
+@utility glass-card {
+  @apply relative overflow-hidden rounded-[24px] bg-[var(--glass-overlay)] backdrop-blur-[60px] backdrop-saturate-[180%] transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1;
+  /* 使用 box-shadow 模拟边框和高光，比 border 更细腻 */
+  box-shadow: var(--glass-highlight), var(--glass-shadow);
+
+  &:hover {
+    background-color: rgba(70, 74, 82, 0.75);
+    box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.2), inset 0 0 0 1px rgba(255, 255, 255, 0.1), 0 25px 60px rgba(0, 0, 0, 0.6);
+  }
 }
 
 @utility text-link {
@@ -116,11 +227,6 @@
 }
 
 @safelist i-mingcute-copy-2-line;
-
-.post-toc .katex {
-  font: unset;
-  line-height: unset;
-}
 
 @layer components {
   .shadow-context-menu {

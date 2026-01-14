@@ -21,3 +21,5 @@ export const isExiftoolLoadedAtom = atom(false);
 
 // Command Palette state
 export const isCommandPaletteOpenAtom = atom(false);
+
+export const scrollContainerRefAtom = atom<HTMLDivElement | null>(null);

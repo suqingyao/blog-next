@@ -375,6 +375,11 @@
       margin-top: theme('spacing.6');
       margin-bottom: theme('spacing.6');
     }
+
+    .post-toc .katex {
+      font: unset;
+      line-height: unset;
+    }
   }
 
   /* Inline Code Global Override */

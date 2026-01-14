@@ -19,9 +19,9 @@ export function AppProviders({ children }: { children: React.ReactNode }) {
         <ReactQueryProvider>
           <PhotosProvider photos={photos}>
             <NextThemeProvider
-              attribute="class"
+              attribute="data-theme"
               storageKey="blog-theme"
-              defaultTheme="light"
+              defaultTheme="dark"
             >
               <ContextMenuProvider />
               <EventProvider />
