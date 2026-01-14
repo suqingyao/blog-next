@@ -5,11 +5,9 @@ import { DotGrid } from '@/components/common/DotGrid';
 
 import { Backtop } from '@/components/ui/backtop';
 import { APP_DESCRIPTION, APP_NAME, OUR_DOMAIN } from '@/constants';
-
 import { interFont, monoFont, sansFont, serifFont, snProFont } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
 import { AppProviders } from '@/providers';
-
 import '@/styles/main.css';
 
 export const metadata: Metadata = {

@@ -31,9 +31,9 @@ export default function PostTitle({
   }, [post.title]);
 
   return (
-    <h2
+    <h1
       className={cn(
-        'post-title relative my-4 flex items-center text-xl font-extrabold',
+        'post-title relative my-4 flex items-center text-3xl font-extrabold',
         {
           'justify-center': center,
           'text-center': center,
@@ -43,6 +43,6 @@ export default function PostTitle({
     >
       {icon}
       <span>{post.title}</span>
-    </h2>
+    </h1>
   );
 }

@@ -1,6 +1,6 @@
 @import 'tailwindcss';
 
-@plugin '@tailwindcss/typography';
+/* @plugin '@tailwindcss/typography'; */
 @plugin '@egoist/tailwindcss-icons';
 @plugin 'daisyui';
 @plugin 'tailwindcss-animate';
@@ -9,34 +9,133 @@
 @import 'tailwindcss-safe-area';
 @import 'tailwindcss-uikit-colors/v4/macos.css';
 
-/* DaisyUI 主题配置 */
+/* ==========================================
+   DaisyUI Theme Configuration
+   Light & Dark themes with prose variables
+   ========================================== */
+
+/* Light Theme */
+@plugin "daisyui/theme" {
+  name: 'light';
+  color-scheme: light;
+
+  /* Base Colors */
+  --color-primary: #007aff;
+  --color-secondary: #5856d6;
+  --color-accent: #ff9500;
+  --color-neutral: #8e8e93;
+  --color-base-100: #ffffff;
+  --color-base-200: #f5f5f7;
+  --color-base-300: #e5e5ea;
+  --color-base-content: #1c1c1e;
+
+  /* Semantic Colors */
+  --color-info: #0a84ff;
+  --color-success: #34c759;
+  --color-warning: #ff9f0a;
+  --color-error: #ff3b30;
+
+  /* Prose Variables - Light Mode */
+  --prose-body: #3a3a3c;
+  --prose-headings: #1c1c1e;
+  --prose-lead: #48484a;
+  --prose-links: #007aff;
+  --prose-links-hover: #0051d5;
+  --prose-bold: #1c1c1e;
+  --prose-counters: #636366;
+  --prose-bullets: #636366;
+  --prose-hr: #d1d1d6;
+  --prose-quotes: #48484a;
+  --prose-quote-borders: #c7c7cc;
+  --prose-captions: #8e8e93;
+  --prose-code: #1c1c1e;
+  --prose-code-bg: #f5f5f7;
+  --prose-pre-code: #e5e5ea;
+  --prose-pre-bg: #1c1c1e;
+  --prose-th-borders: #d1d1d6;
+  --prose-td-borders: #e5e5ea;
+
+  /* Typography */
+  --prose-font-size: var(--font-size-base);
+  --prose-line-height: var(--line-height-normal);
+  --prose-heading-weight: var(--font-bold);
+
+  /* Border Radius */
+  --rounded-box: 1rem;
+  --rounded-btn: 0.5rem;
+  --rounded-badge: 1.9rem;
+
+  /* Glass Materials */
+  --glass-base: rgba(255, 255, 255, 0.65);
+  --glass-overlay: rgba(255, 255, 255, 0.75);
+  --glass-border: rgba(255, 255, 255, 0.4);
+  --glass-highlight: inset 0 1px 0 0 rgba(255, 255, 255, 0.6), inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+  --glass-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+}
+
+/* Dark Theme */
 @plugin "daisyui/theme" {
   name: 'dark';
   default: true;
   prefersdark: true;
   color-scheme: dark;
-  --color-primary: #007aff;
-  --color-secondary: #007aff;
-  --color-accent: #007aff
+
+  /* Base Colors */
+  --color-primary: #0a84ff;
+  --color-secondary: #5e5ce6;
+  --color-accent: #ff9f0a;
   --color-neutral: #48484a;
-  --color-base-100: #1c1c1e;
-  --color-base-content: #fff;
-  --color-info: #0a84ff;
+  --color-base-100: #000000;
+  --color-base-200: #1c1c1e;
+  --color-base-300: #2c2c2e;
+  --color-base-content: #ffffff;
+
+  /* Semantic Colors */
+  --color-info: #64d2ff;
   --color-success: #30d158;
-  --color-warning: #ff9f0a;
+  --color-warning: #ffd60a;
   --color-error: #ff453a;
-  --rounded-btn: 1.9rem;
-  --tab-border: 2px;
-  --tab-radius: 0.5rem;
+
+  /* Prose Variables - Dark Mode */
+  --prose-body: #ebebf5;
+  --prose-headings: #ffffff;
+  --prose-lead: #d1d1d6;
+  --prose-links: #0a84ff;
+  --prose-links-hover: #409cff;
+  --prose-bold: #ffffff;
+  --prose-counters: #8e8e93;
+  --prose-bullets: #8e8e93;
+  --prose-hr: #3a3a3c;
+  --prose-quotes: #aeaeb2;
+  --prose-quote-borders: #48484a;
+  --prose-captions: #8e8e93;
+  --prose-code: #ffffff;
+  --prose-code-bg: #2c2c2e;
+  --prose-pre-code: #ebebf5;
+  --prose-pre-bg: #1c1c1e;
+  --prose-th-borders: #3a3a3c;
+  --prose-td-borders: #2c2c2e;
+
+  /* Typography */
+  --prose-font-size: var(--font-size-base);
+  --prose-line-height: var(--line-height-normal);
+  --prose-heading-weight: var(--font-bold);
+
+  /* Border Radius */
+  --rounded-box: 1rem;
+  --rounded-btn: 0.5rem;
+  --rounded-badge: 1.9rem;
+
+  /* Glass Materials */
+  --glass-base: rgba(28, 28, 30, 0.6);
+  --glass-overlay: rgba(44, 44, 46, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.15);
+  --glass-highlight: inset 0 1px 0 0 rgba(255, 255, 255, 0.15), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  --glass-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(0, 0, 0, 0.2);
 }
 
 /* Enable Class-based Dark Mode */
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
-
-[data-theme='dark'] {
-  --radius: 0.5rem;
-  --border: 0 0% 22.1%;
-}
 
 /* Tahoe Design System Tokens */
 @theme {
@@ -67,14 +166,15 @@
   --radius-sm: calc(var(--radius) - 4px);
 
   /* Font families */
-  --font-sans: Geist, ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Manrope', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-serif:
-    'Noto Serif CJK SC', 'Noto Serif SC', var(--font-serif), 'Source Han Serif SC', 'Source Han Serif',
-    source-han-serif-sc, SongTi SC, SimSum, 'Hiragino Sans GB', system-ui, -apple-system, Segoe UI, Roboto, Helvetica,
-    'Microsoft YaHei', 'WenQuanYi Micro Hei', sans-serif;
+    'Noto Serif CJK SC', 'Noto Serif SC', system-ui, -apple-system, 'Hiragino Sans GB', 'Microsoft YaHei',
+    'WenQuanYi Micro Hei', serif;
   --font-mono:
-    'OperatorMonoSSmLig Nerd Font', 'Cascadia Code PL', 'FantasqueSansMono Nerd Font', 'operator mono', JetBrainsMono,
-    'Fira code Retina', 'Fira code', Consolas, Monaco, 'Hannotate SC', monospace, -apple-system;
+    'Outfit', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  --font-fans: 'SNPro', ui-sans-serif, system-ui, sans-serif;
+
+  --font-fans: 'SNPro', ui-sans-serif, system-ui, sans-serif;
 
   /* Custom screens */
   --screen-light-mode: (prefers-color-scheme: light);
@@ -117,6 +217,12 @@
 } */
 
 @layer base {
+
+  html,
+  body {
+    @apply font-fans
+  }
+
   .container {
     margin-left: auto;
     margin-right: auto;
@@ -126,14 +232,6 @@
     .container {
       max-width: var(--container-max-width-2xl);
     }
-  }
-
-  body {
-    background-color: var(--bg-body);
-    color: var(--text-body);
-    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transition-duration: 300ms;
   }
 }
 
@@ -154,10 +252,6 @@
   }
 }
 
-@utility text-link {
-  @apply cursor-pointer border-b border-[--color-hover] no-underline transition-colors duration-300 hover:border-[#555] dark:hover:border-[#bbb];
-}
-
 @layer utilities {
   .animate-bounce-enter-in {
     animation: bounce-enter-in 0.5s;
@@ -165,39 +259,9 @@
   .animate-bounce-leave-out {
     animation: bounce-leave-out 0.5s;
   }
-  .animate-fade-in {
-    animation: fade-in 0.5s;
-  }
-  .animate-fade-out {
-    animation: fade-out 0.5s;
-  }
-  .animate-slide-enter-in {
-    animation: slide-enter-in 1s both 1;
-  }
-  .animate-accordion-down {
-    animation: accordion-down 0.2s ease-out;
-  }
-  .animate-accordion-up {
-    animation: accordion-up 0.2s ease-out;
-  }
   .animate-shake {
     animation: shake 0.5s ease-in-out;
   }
-}
-
-@keyframes accordion-down {
-  from { height: 0; }
-  to { height: var(--radix-accordion-content-height); }
-}
-
-@keyframes accordion-up {
-  from { height: var(--radix-accordion-content-height); }
-  to { height: 0; }
-}
-
-@keyframes slide-enter-in {
-  from { transform: translateY(-100%); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
 }
 
 @keyframes bounce-enter-in {
@@ -210,23 +274,11 @@
   to { transform: translateY(100px); opacity: 0; }
 }
 
-@keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes fade-out {
-  from { opacity: 1; }
-  to { opacity: 0; }
-}
-
 @keyframes shake {
   0%, 100% { transform: translateX(0); }
   10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }
   20%, 40%, 60%, 80% { transform: translateX(4px); }
 }
-
-@safelist i-mingcute-copy-2-line;
 
 @layer components {
   .shadow-context-menu {
@@ -237,7 +289,7 @@
   }
 
   .content-container {
-    @apply mx-auto w-[75ch];
+    @apply mx-auto max-w-4xl;
   }
 
   .shadow-tooltip-bottom {

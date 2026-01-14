@@ -1,16 +1,15 @@
 'use client';
 
 import { useTheme } from 'next-themes';
-import { useMemo } from 'react';
 import { flushSync } from 'react-dom';
+import { useIsDark } from '@/hooks/use-dark-mode';
 import { useIsMounted } from '@/hooks/use-is-mounted';
 import { transitionViewIfSupported } from '@/lib/dom';
 import { cn } from '@/lib/utils';
 
 export function ThemeToggle() {
-  const { resolvedTheme, setTheme } = useTheme();
-
-  const isDark = useMemo(() => resolvedTheme === 'dark', [resolvedTheme]);
+  const { setTheme } = useTheme();
+  const isDark = useIsDark();
   const isMounted = useIsMounted();
 
   const toggleTheme = async (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -28,6 +27,10 @@ export function ThemeToggle() {
       });
     });
     if (transition) {
+      const root = document.documentElement;
+      const toDark = !isDark;
+      root.classList.toggle('view-to-dark', toDark);
+      root.classList.toggle('view-to-light', !toDark);
       transition.ready.then(() => {
         const clipPath = [
           `circle(0px at ${x}px ${y}px)`,
@@ -40,11 +43,15 @@ export function ThemeToggle() {
           {
             duration: 400,
             easing: 'ease-out',
+            fill: 'both',
             pseudoElement: isDark
               ? '::view-transition-old(root)'
               : '::view-transition-new(root)',
           },
         );
+      });
+      transition.finished.finally(() => {
+        root.classList.remove('view-to-dark', 'view-to-light');
       });
     }
   };
@@ -73,8 +80,8 @@ export function ThemeToggle() {
         className={cn(
           'text-xl transition-all duration-300',
           isDark
-            ? 'i-mingcute-moon-line'
-            : 'i-mingcute-sun-line rotate-90',
+            ? 'i-mingcute-sun-line'
+            : 'i-mingcute-moon-line',
         )}
       />
     </button>

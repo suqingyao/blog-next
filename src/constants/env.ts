@@ -1,5 +1,7 @@
 import process from 'node:process';
 
+export type ColorScheme = 'dark' | 'light';
+
 /** 判断是否在浏览器环境 */
 export const IS_BROWSER = typeof document !== 'undefined';
 
@@ -10,3 +12,8 @@ export const IS_PROD = IS_BROWSER
 
 /** 判断是否为开发环境 */
 export const IS_DEV = process.env.NODE_ENV === 'development';
+
+export const COLOR_SCHEME_DARK = 'dark';
+export const COLOR_SCHEME_LIGHT = 'light';
+export const DEFAULT_COLOR_SCHEME: ColorScheme = 'light';
+export const DARK_MODE_STORAGE_KEY = 'darkMode';
