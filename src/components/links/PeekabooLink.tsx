@@ -1,7 +1,6 @@
 'use client';
 
 import type { LinkProps } from 'next/link';
-import process from 'node:process';
 import { AnimatePresence, m } from 'motion/react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -55,7 +54,7 @@ export function PeekabooLink({
   }
 
   // Render simple RichLink if link preview is disabled OR if not yet mounted (to avoid hydration mismatch)
-  if (!process.env.NEXT_PUBLIC_SITE_LINK_PREVIEW_ENABLED || !isMounted) {
+  if (!isMounted) {
     return (
       <RichLink
         href={href}
@@ -114,6 +113,7 @@ export function PeekabooLink({
               <HoverCardContent
                 asChild
                 collisionPadding={250}
+                className="z-100 w-110 flex items-center justify-center"
               >
                 <m.div
                   className="pointer-events-none relative z-50 w-[400px] origin-top overflow-hidden !p-0"
@@ -141,7 +141,7 @@ export function PeekabooLink({
                 >
                   <Link
                     href={href}
-                    className="block rounded-xl border-2 border-transparent bg-white p-1 shadow hover:border-neutral-200 dark:hover:border-neutral-800"
+                    className="block rounded-2xl"
                     style={{ fontSize: 0 }}
                   >
                     <Image
@@ -151,7 +151,7 @@ export function PeekabooLink({
                       quality={50}
                       layout="fixed"
                       priority={true}
-                      className="rounded-lg"
+                      className="rounded-2xl"
                       alt="preview image"
                       unoptimized
                     />
