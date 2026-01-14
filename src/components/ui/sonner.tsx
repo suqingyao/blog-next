@@ -1,9 +1,10 @@
 import { Toaster as Sonner } from 'sonner';
+import { cn } from '@/lib/utils';
 
 type ToasterProps = React.ComponentProps<typeof Sonner>;
 
 const toastStyles = {
-  toast: tw`
+  toast: cn(`
     z-[10000]
     group relative flex w-full items-center justify-between gap-3 rounded-2xl p-4
     backdrop-blur-2xl duration-300 ease-out overflow-hidden
@@ -21,19 +22,19 @@ const toastStyles = {
     [&]:data-[type=warning]:shadow-[0_8px_32px_rgba(255,149,0,0.08),0_4px_16px_rgba(255,149,0,0.06),0_2px_8px_rgba(0,0,0,0.1)]
     [&]:data-[type=info]:shadow-[0_8px_32px_rgba(0,122,255,0.08),0_4px_16px_rgba(0,122,255,0.06),0_2px_8px_rgba(0,0,0,0.1)]
     [&]:data-[type=loading]:shadow-[0_8px_32px_rgba(142,142,147,0.08),0_4px_16px_rgba(142,142,147,0.06),0_2px_8px_rgba(0,0,0,0.1)]
-  `,
-  title: tw`
+  `),
+  title: cn(`
     text-sm font-medium text-text
     leading-tight
-  `,
-  description: tw`
+  `),
+  description: cn(`
     text-sm text-text-secondary
     leading-relaxed mt-1
-  `,
-  content: tw`
+  `),
+  content: cn(`
     flex-1 min-w-0
-  `,
-  icon: tw`
+  `),
+  icon: cn(`
     shrink-0 mt-0.5 size-5
     relative
     [li[data-type="success"]_&]:text-green
@@ -41,8 +42,8 @@ const toastStyles = {
     [li[data-type="warning"]_&]:text-orange
     [li[data-type="info"]_&]:text-blue
     [li[data-type="loading"]_&]:text-gray
-  `,
-  actionButton: tw`
+  `),
+  actionButton: cn(`
     shrink-0
     h-6
     px-2.5 text-xs font-medium rounded-md
@@ -54,16 +55,16 @@ const toastStyles = {
     group-data-[type=info]:bg-blue group-data-[type=info]:text-white group-data-[type=info]:hover:bg-blue/90 group-data-[type=info]:focus:shadow-blue/50
     group-data-[type=loading]:bg-gray group-data-[type=loading]:text-white group-data-[type=loading]:hover:bg-gray/90 group-data-[type=loading]:focus:shadow-gray/50
     hover:shadow-md active:scale-95
-  `,
-  cancelButton: tw`
+  `),
+  cancelButton: cn(`
     h-6
     px-2.5 text-xs font-medium rounded-md
     bg-fill-secondary text-text-secondary
     hover:bg-fill-tertiary hover:text-text
     transition-colors duration-200
     focus:outline-none focus:ring-2 focus:ring-fill/50 focus:ring-offset-1
-  `,
-  closeButton: tw`
+  `),
+  closeButton: cn(`
     absolute -top-2 -right-2 w-6 h-6 rounded-full
     flex items-center justify-center
     text-text
@@ -74,7 +75,7 @@ const toastStyles = {
     opacity-0 group-hover:opacity-100
     focus:outline-none focus:ring-2 focus:ring-accent/50
     focus:opacity-100
-  `,
+  `),
 };
 
 function Toaster({ ...props }: ToasterProps) {
