@@ -4,10 +4,8 @@ import type { Result as TocResult } from 'mdast-util-toc';
 import type { BundledTheme } from 'shiki/themes';
 import { memo, useEffect } from 'react';
 
-import { toast } from 'sonner';
 import PostToc from '@/components/site/PostToc';
 import { APP_HEADER_HEIGHT } from '@/constants';
-import { useClipboard } from '@/hooks/use-clipboard';
 
 import { cn, scrollToElement } from '@/lib/utils';
 import { renderMarkdown } from '@/markdown';
@@ -22,7 +20,7 @@ export const MarkdownContent = memo(({
   onMouseEnter,
   parsedContent,
   strictMode,
-  withActions,
+  // withActions,
   onlyContent,
   codeTheme,
 }: {
@@ -57,38 +55,6 @@ export const MarkdownContent = memo(({
   if (!onlyContent && withToc) {
     toc = inParsedContent?.toToc();
   }
-
-  const { copy, isSupported } = useClipboard();
-
-  useEffect(() => {
-    if (!isSupported) {
-      return;
-    }
-
-    const handleCopy = (wrapper: HTMLDivElement) => {
-      const codeWrapper = wrapper.querySelector('code') as HTMLPreElement;
-      copy(codeWrapper?.textContent ?? '').then(() => {
-        toast.success('Copied to clipboard');
-      });
-    };
-
-    const codeWrappers = document.querySelectorAll('.code-wrapper');
-    codeWrappers.forEach((codeWrapper) => {
-      codeWrapper
-        .querySelector('.copy-button')
-        ?.addEventListener('click', () =>
-          handleCopy(codeWrapper as HTMLDivElement));
-    });
-
-    return () => {
-      codeWrappers.forEach((codeWrapper) => {
-        codeWrapper
-          .querySelector('.copy-button')
-          ?.removeEventListener('click', () =>
-            handleCopy(codeWrapper as HTMLDivElement));
-      });
-    };
-  }, [isSupported]);
 
   useEffect(() => {
     const anchors = document.querySelectorAll('.post-content .anchor');

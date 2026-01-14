@@ -54,7 +54,8 @@ export function PeekabooLink({
     );
   }
 
-  if (!process.env.NEXT_PUBLIC_SITE_LINK_PREVIEW_ENABLED) {
+  // Render simple RichLink if link preview is disabled OR if not yet mounted (to avoid hydration mismatch)
+  if (!process.env.NEXT_PUBLIC_SITE_LINK_PREVIEW_ENABLED || !isMounted) {
     return (
       <RichLink
         href={href}
@@ -74,6 +75,7 @@ export function PeekabooLink({
     setIsOpen(open);
   }
 
+  // Only render HoverCard on client side after mount
   return (
     <HoverCard
       openDelay={0}
@@ -94,22 +96,18 @@ export function PeekabooLink({
         </RichLink>
       </HoverCardTrigger>
       <>
-        {isMounted
-          ? (
-              <div className="hidden">
-                <Image
-                  src={microlinkSrc}
-                  width={400}
-                  height={250}
-                  quality={50}
-                  layout="fixed"
-                  priority={true}
-                  alt="hidden image"
-                  unoptimized
-                />
-              </div>
-            )
-          : null}
+        <div className="hidden">
+          <Image
+            src={microlinkSrc}
+            width={400}
+            height={250}
+            quality={50}
+            layout="fixed"
+            priority={true}
+            alt="hidden image"
+            unoptimized
+          />
+        </div>
         <AnimatePresence mode="wait">
           {isOpen && (
             <HoverCardPortal forceMount>

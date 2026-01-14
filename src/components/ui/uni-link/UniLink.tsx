@@ -43,11 +43,7 @@ export function UniLink({
     = (href && (/^https?:\/\//.test(href) || href.startsWith('/feed')))
       || href.startsWith('mailto:');
 
-  const isInModal
-    = typeof window !== 'undefined'
-      && window.location.pathname.startsWith('/posts/');
-
-  if (isExternal || isInModal) {
+  if (isExternal) {
     return (
       <a
         {...props}
