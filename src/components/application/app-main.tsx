@@ -1,6 +1,6 @@
 'use client';
 
-import { useAtom } from 'jotai';
+import { useSetAtom } from 'jotai';
 import { useEffect, useRef } from 'react';
 import { scrollContainerRefAtom } from '@/store/atoms/app';
 import { AppContent } from './app-content';
@@ -9,7 +9,7 @@ import { AppHeader } from './app-header';
 
 export function AppMain({ children }: { children: React.ReactNode }) {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [, setScrollContainerRef] = useAtom(scrollContainerRefAtom);
+  const setScrollContainerRef = useSetAtom(scrollContainerRefAtom);
 
   useEffect(() => {
     setScrollContainerRef(scrollContainerRef.current);
