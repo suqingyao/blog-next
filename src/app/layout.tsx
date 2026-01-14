@@ -6,7 +6,7 @@ import { DotGrid } from '@/components/common/DotGrid';
 import { Backtop } from '@/components/ui/backtop';
 import { APP_DESCRIPTION, APP_NAME, OUR_DOMAIN } from '@/constants';
 
-import { interFont, monoFont, sansFont, serifFont } from '@/lib/fonts';
+import { interFont, monoFont, sansFont, serifFont, snProFont } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
 import { AppProviders } from '@/providers';
 
@@ -42,11 +42,12 @@ export default async function RootLayout({
     >
       <body
         className={cn(
+          snProFont.variable,
           sansFont.variable,
           serifFont.variable,
           monoFont.variable,
           interFont.variable,
-          'overflow-hidden h-screen'
+          'overflow-hidden h-screen',
         )}
       >
         <NextTopLoader
