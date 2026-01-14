@@ -42,11 +42,11 @@ export default async function RootLayout({
     >
       <body
         className={cn(
-          snProFont.variable,
           sansFont.variable,
           serifFont.variable,
           monoFont.variable,
           interFont.variable,
+          snProFont.variable,
           'overflow-hidden h-screen',
         )}
       >

@@ -21,7 +21,7 @@ async function PostPage({ params }: PostPageParams) {
   // const { prev, next } = await getAdjacentPosts(slug);
 
   return (
-    <div className="mx-auto w-[75ch] font-sans">
+    <div className="content-container">
       <PostTitle
         post={post as Post}
         center={true}

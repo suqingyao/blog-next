@@ -63,7 +63,7 @@ export function AppHeader() {
   };
 
   return (
-    <header className="h-12 fixed left-0 right-0 top-0 z-100 flex items-center px-5 text-center shadow-xs backdrop-blur-sm">
+    <header className="h-12 fixed left-0 right-0 top-0 z-100 flex items-center px-5 text-center">
       <div className="ml-auto flex items-center">
         {showPageTitle && (
           <m.h2
