@@ -19,7 +19,7 @@ function getLinkNode(node: any): List['children'] {
 
 function generateContent(items: TocResult['map']) {
   items?.children?.forEach((item) => {
-    item.children.forEach((child: any, i) => {
+    item.children.forEach((child: any) => {
       const children = getLinkNode(child) || [];
       let content = '';
 
