@@ -5,6 +5,7 @@ import { DotGrid } from '@/components/common/DotGrid';
 
 import { Backtop } from '@/components/ui/backtop';
 import { APP_DESCRIPTION, APP_NAME, OUR_DOMAIN } from '@/constants';
+import { snProFont } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
 import { AppProviders } from '@/providers';
 import '@/styles/main.css';
@@ -37,7 +38,7 @@ export default async function RootLayout({
       lang="en"
       suppressHydrationWarning
     >
-      <body>
+      <body className={cn(snProFont.variable)}>
         <NextTopLoader
           color="var(--color-primary)"
           showSpinner={false}
