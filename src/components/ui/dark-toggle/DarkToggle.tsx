@@ -1,58 +1,24 @@
 'use client';
 
-import type { MouseEvent } from 'react';
 import { m } from 'motion/react';
 import { useTheme } from 'next-themes';
 import { useMemo } from 'react';
-import { flushSync } from 'react-dom';
 
 import { useSound } from 'use-sound';
+import { useIsDark } from '@/hooks/use-dark-mode';
 import { useIsMounted } from '@/hooks/use-is-mounted';
-import { transitionViewIfSupported } from '@/lib/dom';
 
 export function DarkToggle() {
-  const { theme = 'light', setTheme } = useTheme();
+  const { setTheme } = useTheme();
   const [playOn] = useSound('/sounds/switch.mp3');
   const [playOff] = useSound('/sounds/switch.mp3', { playbackRate: 0.6 });
 
-  const isDark = useMemo(() => theme === 'dark', [theme]);
+  const isDark = useIsDark();
   const isMounted = useIsMounted();
 
-  const handleToggleTheme = (event: MouseEvent<HTMLDivElement>) => {
-    const x = event.clientX;
-    const y = event.clientY;
-    const endRadius = Math.hypot(
-      Math.max(x, innerWidth - x),
-      Math.max(y, innerHeight - y),
-    );
-
-    const transition = transitionViewIfSupported(() => {
-      // eslint-disable-next-line react-dom/no-flush-sync
-      flushSync(() => {
-        setTheme(isDark ? 'light' : 'dark');
-        isDark ? playOff() : playOn();
-      });
-    });
-    if (transition) {
-      transition.ready.then(() => {
-        const clipPath = [
-          `circle(0px at ${x}px ${y}px)`,
-          `circle(${endRadius}px at ${x}px ${y}px)`,
-        ];
-        document.documentElement.animate(
-          {
-            clipPath: isDark ? [...clipPath].reverse() : clipPath,
-          },
-          {
-            duration: 400,
-            easing: 'ease-out',
-            pseudoElement: isDark
-              ? '::view-transition-old(root)'
-              : '::view-transition-new(root)',
-          },
-        );
-      });
-    }
+  const handleToggleTheme = () => {
+    setTheme(isDark ? 'light' : 'dark');
+    isDark ? playOff() : playOn();
   };
 
   const starPaths = useMemo(() => {
