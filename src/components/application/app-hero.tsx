@@ -22,39 +22,35 @@ export function AppHero() {
       className="flex flex-col-reverse gap-8 py-12 md:flex-row md:items-center md:justify-between md:gap-12"
     >
       <div className="flex-1 space-y-6">
-        <div className="space-y-2">
-          <m.h1
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.2 }}
-            className="text-4xl font-bold tracking-tight sm:text-5xl"
-          >
-            Hi, I'm SuQingyao
-          </m.h1>
-          <m.p
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.3 }}
-            className="text-xl font-medium text-zinc-600 dark:text-zinc-400"
-          >
-            FrontEnd Developer
-          </m.p>
-        </div>
+        <m.h1
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.2 }}
+          className="mb-5 text-4xl font-bold leading-tight md:text-4xl lg:text-6xl text-black dark:text-white"
+        >
+          Hi, SuQingyao
+        </m.h1>
+        <m.p
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.3 }}
+          className="text-base font-semibold text-neutral-600 dark:text-neutral-400 mb-6"
+        >
+          FrontEnd Developer
+        </m.p>
 
         <m.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4 }}
-          className="max-w-md leading-relaxed text-zinc-600 dark:text-zinc-400"
+          className="max-w-md leading-relaxed text-neutral-600 dark:text-neutral-400 mb-2 flex flex-col"
         >
-          Currently live in Chongqing, China.
-          <br />
-          Loves music, programming and exploring new technologies.
-          <br />
-          Introverted but friendly.
+          <span>Currently live in Chongqing, China.</span>
+          <span>Loves music, programming and exploring new technologies.</span>
+          <span>Introverted but friendly.</span>
         </m.p>
 
-        <m.div
+        <m.section
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
@@ -63,10 +59,10 @@ export function AppHero() {
           {SOCIAL_LINKS.map(link => (
             <SocialLink key={link.href} {...link} />
           ))}
-        </m.div>
+        </m.section>
       </div>
 
-      <m.div
+      <m.section
         initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
         animate={{ opacity: 1, scale: 1, rotate: 0 }}
         transition={{ delay: 0.2, type: 'spring', stiffness: 200, damping: 20 }}
@@ -84,7 +80,7 @@ export function AppHero() {
             sizes="(max-width: 768px) 160px, 208px"
           />
         </div>
-      </m.div>
+      </m.section>
     </m.section>
   );
 }

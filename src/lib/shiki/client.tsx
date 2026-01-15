@@ -7,11 +7,8 @@ import type { ShikiCodeProps } from './types';
 import { Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import {
   createHighlighter as _createHighlighter,
-
   bundledLanguages,
-
   bundledThemes,
-
 } from 'shiki';
 import { shikiTransformers } from './shared';
 

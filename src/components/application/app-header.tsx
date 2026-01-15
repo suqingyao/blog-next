@@ -34,7 +34,7 @@ const links = [
   },
   {
     label: 'Map',
-    path: '/map',
+    path: '/photos/map',
     icon: 'i-mingcute-map-pin-line',
   },
 ];
