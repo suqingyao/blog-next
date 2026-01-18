@@ -1,6 +1,6 @@
 import type { StyleSpecification } from 'maplibre-gl';
 
-import BUILTIN_MAP_STYLE from '../../components/ui/map/MapLibreStyle.json';
+import BUILTIN_MAP_STYLE from '@/components/ui/map/MapLibreStyle.json';
 
 // import { siteConfig } from '~/config';
 
