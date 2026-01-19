@@ -22,6 +22,8 @@ export function AppProviders({ children }: { children: React.ReactNode }) {
               attribute="data-theme"
               storageKey="blog-theme"
               defaultTheme="dark"
+              themes={['light', 'dark']}
+              enableSystem={true}
             >
               <ContextMenuProvider />
               <EventProvider />

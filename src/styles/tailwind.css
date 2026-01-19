@@ -80,8 +80,6 @@
 /* Dark Theme */
 @plugin "daisyui/theme" {
   name: 'dark';
-  default: true;
-  prefersdark: true;
   color-scheme: dark;
 
   /* Base Colors */
