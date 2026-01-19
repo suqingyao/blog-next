@@ -1,4 +1,4 @@
-import { TagList } from '@/components/site/TagList';
+import { TagCloud } from '@/components/site/TagCloud';
 import { getAllPosts, getAllTags } from '@/models/post.model';
 
 /**
@@ -10,8 +10,7 @@ export default async function TagsPage() {
 
   return (
     <div className="content-container">
-      <h1 className="mb-8 text-3xl font-bold">Tags</h1>
-      <TagList
+      <TagCloud
         tags={tags}
         posts={posts as Post[]}
       />
