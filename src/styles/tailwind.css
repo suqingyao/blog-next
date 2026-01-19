@@ -28,6 +28,7 @@
   --color-base-200: #f5f5f7;
   --color-base-300: #e5e5ea;
   --color-base-content: #1c1c1e;
+  --color-background: #f5f5f7;
 
   /* Semantic Colors */
   --color-info: #0a84ff;
@@ -92,6 +93,7 @@
   --color-base-200: #1c1c1e;
   --color-base-300: #2c2c2e;
   --color-base-content: #ffffff;
+  --color-background: #1c1c1e;
 
   /* Semantic Colors */
   --color-info: #64d2ff;
