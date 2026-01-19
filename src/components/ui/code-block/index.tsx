@@ -100,7 +100,7 @@ export function CodeBlock({
   return (
     <div
       className={cn(
-        'group relative overflow-hidden rounded-2xl border p-0.5',
+        'group relative overflow-hidden rounded-2xl border p-0.5 my-7',
         'border-zinc-950/10 dark:border-white/10',
         'bg-zinc-50 dark:bg-white/5',
         'text-zinc-950 dark:text-zinc-50',
@@ -251,7 +251,7 @@ export function CodeBlock({
                 duration: 0.15,
                 ease: 'easeOut',
               }}
-              className="font-mono text-zinc-950 dark:text-zinc-50 block whitespace-pre"
+              className="text-zinc-950 dark:text-zinc-50 block whitespace-pre"
             >
               <ShikiRender
                 code={currentCode}
