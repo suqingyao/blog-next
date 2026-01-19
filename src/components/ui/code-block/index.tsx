@@ -1,8 +1,10 @@
 'use client';
 
+import type { BundledTheme } from 'shiki/themes';
 import { AnimatePresence, m } from 'motion/react';
 import { useLayoutEffect, useMemo, useRef, useState } from 'react';
 
+import { ShikiRender } from '@/lib/shiki/client';
 import { cn } from '@/lib/utils';
 
 interface CodeTab {
@@ -11,11 +13,17 @@ interface CodeTab {
   language?: string;
 }
 
+type CodeTheme = BundledTheme | {
+  light: BundledTheme;
+  dark: BundledTheme;
+};
+
 interface CodeBlockProps {
-  tabs?: CodeTab[];
+  tabs?: CodeTab[] | CodeTab | null;
   code?: string;
   language?: string;
   className?: string;
+  codeTheme?: CodeTheme;
 }
 
 export function CodeBlock({
@@ -23,6 +31,7 @@ export function CodeBlock({
   code,
   language = 'bash',
   className,
+  codeTheme,
 }: CodeBlockProps) {
   const [activeTab, setActiveTab] = useState(0);
   const [copied, setCopied] = useState(false);
@@ -31,8 +40,15 @@ export function CodeBlock({
   const [hasOverflow, setHasOverflow] = useState(false);
 
   const codeContent = useMemo(() => {
-    if (tabs && tabs.length > 0) {
+    if (Array.isArray(tabs) && tabs.length > 0) {
       return tabs;
+    }
+    if (tabs && !Array.isArray(tabs)) {
+      // tolerate a single object passed through hast/rehype props
+      const maybe = tabs as CodeTab;
+      if (maybe.code) {
+        return [maybe];
+      }
     }
     if (code) {
       return [{ label: language, code, language }];
@@ -41,28 +57,31 @@ export function CodeBlock({
   }, [tabs, code, language]);
 
   const currentCode = codeContent[activeTab]?.code || '';
+  const currentLanguage
+    = codeContent[activeTab]?.language || language || 'text';
 
   // Check overflow when tab changes or content updates
   // biome-ignore lint/correctness/useExhaustiveDependencies: activeTab is needed to recheck overflow when content changes
   useLayoutEffect(() => {
+    const target
+      = preRef.current?.querySelector('pre') ?? preRef.current;
+    if (!target)
+      return;
+
     const checkOverflow = () => {
-      if (preRef.current) {
-        const hasHorizontalOverflow
-          = preRef.current.scrollWidth > preRef.current.clientWidth;
-        setHasOverflow(hasHorizontalOverflow);
-      }
+      const hasHorizontalOverflow
+        = target.scrollWidth > target.clientWidth;
+      setHasOverflow(hasHorizontalOverflow);
     };
 
     checkOverflow();
     const resizeObserver = new ResizeObserver(checkOverflow);
-    if (preRef.current) {
-      resizeObserver.observe(preRef.current);
-    }
+    resizeObserver.observe(target);
 
     return () => {
       resizeObserver.disconnect();
     };
-  }, [activeTab]);
+  }, [activeTab, currentCode]);
 
   const handleCopy = async () => {
     await navigator.clipboard.writeText(currentCode);
@@ -234,7 +253,11 @@ export function CodeBlock({
               }}
               className="font-mono text-zinc-950 dark:text-zinc-50 block whitespace-pre"
             >
-              {currentCode}
+              <ShikiRender
+                code={currentCode}
+                language={currentLanguage}
+                codeTheme={codeTheme}
+              />
             </m.code>
           </AnimatePresence>
         </pre>

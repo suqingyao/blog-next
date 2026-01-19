@@ -166,10 +166,10 @@
   --color-border: hsl(var(--border));
 
   /* Border radius */
-  --radius: var(--radius);
+  /* --radius: var(--radius);
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
-  --radius-sm: calc(var(--radius) - 4px);
+  --radius-sm: calc(var(--radius) - 4px); */
 
   /* Font families */
   --font-sans: 'Manrope', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;

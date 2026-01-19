@@ -21,6 +21,11 @@ const scheme = deepmerge(defaultSchema, {
     'peekaboolink',
     'merimad',
     ...['svg', 'path', 'circle'],
+    // Custom code block elements
+    'code-group-wrapper',
+    'codeblock-wrapper',
+    'codegroup',
+    'codeblock',
   ],
   // ancestors: {
   //   linkcard: ['root', 'section', 'div', 'article', 'blockquote'], // 允许出现在这些父级下
@@ -61,6 +66,21 @@ const scheme = deepmerge(defaultSchema, {
     'linkpreview': ['url'],
     'peekaboolink': ['href'],
     'mermaid': ['className', 'style'],
+    'div': [
+      'className',
+      'data-labels',
+      'data-code',
+      'data-language',
+      'data-label',
+      'dataLabels',
+      'dataCode',
+      'dataLanguage',
+      'dataLabel',
+    ],
+    'code-group-wrapper': ['data-labels', 'dataLabels'],
+    'codeblock-wrapper': ['data-label', 'dataLabel'],
+    'codegroup': ['data-labels', 'data-code', 'data-language'],
+    'codeblock': ['data-label', 'data-code', 'data-language'],
   },
   protocols: {
     href: ['magnet', 'ed2k'],

@@ -33,12 +33,12 @@ import { ShikiRemarkServer } from '@/components/ui/shiki-remark';
 import { consoleLog } from '@/lib/console';
 import { isServer } from '@/lib/is';
 import { mdxComponents } from './components';
+import { rehypeCodeGroup } from './rehype-code-group';
 import { rehypeFixBlock } from './rehype-fix-block';
 import { rehypeMermaid } from './rehype-mermaid';
 import { rehypePeekabooLink } from './rehype-peekaboo-link';
 import { rehypeTable } from './rehype-table';
-import { rehypeTaskList } from './rehype-task-list';
-import { rehypeWrapCode } from './rehype-wrap-code';
+import { remarkCodeGroup } from './remark-code-group';
 import { remarkPangu } from './remark-pangu';
 import sanitizeScheme from './sanitize-schema';
 
@@ -77,6 +77,7 @@ export function renderMarkdown({
         singleTilde: false,
       })
       .use(remarkDirective)
+      .use(remarkCodeGroup) // Process code-group directive before converting to rehype
       .use(remarkDirectiveRehype)
       .use(remarkMath, {
         singleDollarTextMath: false,
@@ -86,13 +87,14 @@ export function renderMarkdown({
         allowDangerousHtml: true,
       })
       .use(rehypeRaw)
+      .use(rehypeCodeGroup, {}) // Must be right after rehypeRaw to process wrapper elements
       .use(rehypeSlug)
       .use(rehypeSanitize, strictMode ? undefined : sanitizeScheme)
       .use(rehypeTable)
       .use(rehypeMermaid)
-      .use(rehypeWrapCode)
+      // .use(rehypeWrapCode)
       .use(rehypePeekabooLink)
-      .use(rehypeTaskList) // 处理任务列表的 checkbox
+      // .use(rehypeTaskList) // 处理任务列表的 checkbox
       .use(rehypeFixBlock) // 必须放在其他 rehype 插件之后
       .use(rehypeInferDescriptionMeta)
       .use(rehypeKatex, {
@@ -168,7 +170,7 @@ export function renderMarkdown({
       metadata.excerpt = file.data.meta?.description || undefined;
 
       if (mdastTree) {
-        visit(mdastTree, (node, index, parent) => {
+        visit(mdastTree, (node) => {
           if (node.type === 'yaml') {
             metadata.frontMatter = jsYaml.load(node.value) as Record<
               string,
@@ -180,7 +182,7 @@ export function renderMarkdown({
       }
 
       if (hastTree) {
-        visit(hastTree, (node, index, parent) => {
+        visit(hastTree, (node) => {
           if (node.type === 'element') {
             if (
               node.tagName === 'img'
