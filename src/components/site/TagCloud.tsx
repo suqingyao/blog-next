@@ -25,10 +25,10 @@ export function TagCloud({ tags, posts }: TagCloudProps) {
   // Sort tags by count and assign grid sizes
   const gridTags = useMemo(() => {
     const sorted = [...tags].sort((a, b) => b.count - a.count);
-    
+
     // Define grid sizes (span classes)
     const sizePattern = ['large', 'large', 'medium', 'medium', 'small', 'small', 'small', 'medium'];
-    
+
     return sorted.map((tag, index) => ({
       ...tag,
       gridSize: sizePattern[index % sizePattern.length],
@@ -68,7 +68,10 @@ export function TagCloud({ tags, posts }: TagCloudProps) {
           {selectedTag
             ? (
                 <>
-                  <span className="font-semibold uppercase text-primary">#{selectedTag}</span>
+                  <span className="font-semibold uppercase text-primary">
+                    #
+                    {selectedTag}
+                  </span>
                   {' '}
                   •
                   {' '}
@@ -163,7 +166,8 @@ export function TagCloud({ tags, posts }: TagCloudProps) {
                 <div className={cn(
                   'absolute -right-8 -top-8 h-24 w-24 rounded-full opacity-10 transition-transform group-hover:scale-150',
                   colors.bg,
-                )} />
+                )}
+                />
               </m.button>
             );
           })}

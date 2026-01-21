@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import NextTopLoader from 'nextjs-toploader';
-import { AppMain } from '@/components/application';
 import { DotGrid } from '@/components/common/DotGrid';
+import { Main } from '@/components/site';
 
 import { Backtop } from '@/components/ui/backtop';
 import { APP_DESCRIPTION, APP_NAME, OUR_DOMAIN } from '@/constants';
@@ -44,7 +44,7 @@ export default async function RootLayout({
           showSpinner={false}
         />
         <AppProviders>
-          <AppMain>
+          <Main>
             {children}
             {modal}
             <DotGrid
@@ -59,7 +59,7 @@ export default async function RootLayout({
               returnDuration={1}
               style={{ width: '100%', height: '100%', position: 'fixed', inset: 0, zIndex: -1 }}
             />
-          </AppMain>
+          </Main>
           <Backtop />
         </AppProviders>
       </body>

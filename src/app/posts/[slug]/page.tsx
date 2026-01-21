@@ -18,15 +18,9 @@ async function PostPage({ params }: PostPageParams) {
     return notFound();
   }
 
-  // const { prev, next } = await getAdjacentPosts(slug);
-
   return (
     <div className="content-container">
-      <PostTitle
-        post={post as Post}
-        center={true}
-      />
-
+      <PostTitle title={post.title} />
       <PostMeta post={post} />
 
       <MarkdownContentServer

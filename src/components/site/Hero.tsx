@@ -13,7 +13,7 @@ const SOCIAL_LINKS: { href: string; platform: Platform }[] = [
   { href: '/api/feed', platform: 'rss' },
 ];
 
-export function AppHero() {
+export function Hero() {
   return (
     <m.section
       initial={{ opacity: 0, y: 20 }}

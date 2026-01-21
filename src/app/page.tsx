@@ -1,5 +1,4 @@
-import { AppLatestPosts } from '@/components/application';
-import { AppHero } from '@/components/application/app-hero';
+import { Hero, LatestPosts } from '@/components/site';
 
 import { getAllPosts } from '@/models/post.model';
 
@@ -9,8 +8,8 @@ export default async function Home() {
 
   return (
     <div className="content-container space-y-16 py-8 md:py-12">
-      <AppHero />
-      <AppLatestPosts posts={latestPosts} />
+      <Hero />
+      <LatestPosts posts={latestPosts} />
     </div>
   );
 }

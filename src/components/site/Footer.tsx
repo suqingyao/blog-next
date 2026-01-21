@@ -1,6 +1,6 @@
 import { APP_NAME } from '@/constants';
 
-export function AppFooter() {
+export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (

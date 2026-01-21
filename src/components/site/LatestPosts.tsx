@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 import dayjs from '@/lib/dayjs';
 
-export function AppLatestPosts({ posts }: { posts: any[] }) {
+export function LatestPosts({ posts }: { posts: any[] }) {
   return (
     <section className="py-12">
       <div className="mb-8 flex items-center justify-between">
