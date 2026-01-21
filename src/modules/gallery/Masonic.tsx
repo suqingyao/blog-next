@@ -246,7 +246,7 @@ function useResizeObserver(positioner: Positioner) {
     },
     [positioner, forceUpdate],
   );
-  
+
   // Cleans up the resize observers when they change or the
   // component unmounts
   React.useEffect(() => () => resizeObserver.disconnect(), [resizeObserver]);

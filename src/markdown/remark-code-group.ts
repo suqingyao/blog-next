@@ -93,7 +93,7 @@ export const remarkCodeGroup: Plugin<[], Root> = () => {
 
       // Determine label: use meta [label] if present, otherwise use language
       let label = node.lang || 'code';
-      
+
       if (node.meta) {
         const match = node.meta.match(/^\[([^\]]+)\]$/);
         if (match) {
@@ -114,7 +114,7 @@ export const remarkCodeGroup: Plugin<[], Root> = () => {
 
       // Replace code block with: opening tag + code + closing tag
       siblings.splice(index, 1, htmlNode, node, htmlCloseNode);
-      
+
       // Return SKIP to avoid re-visiting the newly inserted nodes
       return [SKIP, index + 3];
     });

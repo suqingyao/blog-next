@@ -1,1 +1,1 @@
-export { LinearBorderContainer } from './LinearBorderContainer'
+export { LinearBorderContainer } from './LinearBorderContainer';

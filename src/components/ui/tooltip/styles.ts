@@ -5,4 +5,4 @@ export const tooltipStyle = {
     'rounded-xl text-sm',
     'max-w-[75ch] select-text',
   ],
-}
+};

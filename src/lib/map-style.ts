@@ -34,71 +34,71 @@ export const darkMapStyle: MapStyle = {
       },
     },
     {
-      id: 'water',
-      type: 'fill',
-      source: 'carto-vector',
+      'id': 'water',
+      'type': 'fill',
+      'source': 'carto-vector',
       'source-layer': 'water',
-      paint: {
+      'paint': {
         'fill-color': '#181818',
       },
     },
     {
-      id: 'landcover',
-      type: 'fill',
-      source: 'carto-vector',
+      'id': 'landcover',
+      'type': 'fill',
+      'source': 'carto-vector',
       'source-layer': 'landcover',
-      paint: {
+      'paint': {
         'fill-color': '#1a1a1a',
         'fill-opacity': 0.3,
       },
     },
     {
-      id: 'landuse',
-      type: 'fill',
-      source: 'carto-vector',
+      'id': 'landuse',
+      'type': 'fill',
+      'source': 'carto-vector',
       'source-layer': 'landuse',
-      paint: {
+      'paint': {
         'fill-color': '#1a1a1a',
         'fill-opacity': 0.5,
       },
     },
     {
-      id: 'park',
-      type: 'fill',
-      source: 'carto-vector',
+      'id': 'park',
+      'type': 'fill',
+      'source': 'carto-vector',
       'source-layer': 'park',
-      paint: {
+      'paint': {
         'fill-color': '#1e1e1e',
       },
     },
     {
-      id: 'building',
-      type: 'fill',
-      source: 'carto-vector',
+      'id': 'building',
+      'type': 'fill',
+      'source': 'carto-vector',
       'source-layer': 'building',
-      paint: {
+      'paint': {
         'fill-color': '#262626',
         'fill-opacity': 0.6,
       },
     },
     {
-      id: 'road_minor',
-      type: 'line',
-      source: 'carto-vector',
+      'id': 'road_minor',
+      'type': 'line',
+      'source': 'carto-vector',
       'source-layer': 'transportation',
-      filter: ['in', 'class', 'minor', 'service', 'track'],
-      paint: {
+      'filter': ['in', 'class', 'minor', 'service', 'track'],
+      'paint': {
         'line-color': '#333333',
         'line-width': 1,
       },
     },
     {
-      id: 'road_major',
-      type: 'line',
-      source: 'carto-vector',
+      'id': 'road_major',
+      'type': 'line',
+      'source': 'carto-vector',
       'source-layer': 'transportation',
-      filter: ['in', 'class', 'primary', 'secondary', 'tertiary', 'trunk'],
-      paint: {
+      'filter': ['in', 'class', 'primary', 'secondary', 'tertiary', 'trunk'],
+      'paint': {
         'line-color': '#3d3d3d',
         'line-width': {
           stops: [
@@ -109,12 +109,12 @@ export const darkMapStyle: MapStyle = {
       },
     },
     {
-      id: 'road_motorway',
-      type: 'line',
-      source: 'carto-vector',
+      'id': 'road_motorway',
+      'type': 'line',
+      'source': 'carto-vector',
       'source-layer': 'transportation',
-      filter: ['==', 'class', 'motorway'],
-      paint: {
+      'filter': ['==', 'class', 'motorway'],
+      'paint': {
         'line-color': '#4a4a4a',
         'line-width': {
           stops: [
@@ -125,11 +125,11 @@ export const darkMapStyle: MapStyle = {
       },
     },
     {
-      id: 'place_label',
-      type: 'symbol',
-      source: 'carto-vector',
+      'id': 'place_label',
+      'type': 'symbol',
+      'source': 'carto-vector',
       'source-layer': 'place',
-      layout: {
+      'layout': {
         'text-field': '{name}',
         'text-font': ['Open Sans Regular'],
         'text-size': {
@@ -139,7 +139,7 @@ export const darkMapStyle: MapStyle = {
           ],
         },
       },
-      paint: {
+      'paint': {
         'text-color': '#666666',
         'text-halo-color': '#0e0e0e',
         'text-halo-width': 1,
@@ -171,71 +171,71 @@ export const lightMapStyle: MapStyle = {
       },
     },
     {
-      id: 'water',
-      type: 'fill',
-      source: 'carto-vector',
+      'id': 'water',
+      'type': 'fill',
+      'source': 'carto-vector',
       'source-layer': 'water',
-      paint: {
+      'paint': {
         'fill-color': '#d4dadc',
       },
     },
     {
-      id: 'landcover',
-      type: 'fill',
-      source: 'carto-vector',
+      'id': 'landcover',
+      'type': 'fill',
+      'source': 'carto-vector',
       'source-layer': 'landcover',
-      paint: {
+      'paint': {
         'fill-color': '#e8edeb',
         'fill-opacity': 0.5,
       },
     },
     {
-      id: 'landuse',
-      type: 'fill',
-      source: 'carto-vector',
+      'id': 'landuse',
+      'type': 'fill',
+      'source': 'carto-vector',
       'source-layer': 'landuse',
-      paint: {
+      'paint': {
         'fill-color': '#e8edeb',
         'fill-opacity': 0.6,
       },
     },
     {
-      id: 'park',
-      type: 'fill',
-      source: 'carto-vector',
+      'id': 'park',
+      'type': 'fill',
+      'source': 'carto-vector',
       'source-layer': 'park',
-      paint: {
+      'paint': {
         'fill-color': '#d4edda',
       },
     },
     {
-      id: 'building',
-      type: 'fill',
-      source: 'carto-vector',
+      'id': 'building',
+      'type': 'fill',
+      'source': 'carto-vector',
       'source-layer': 'building',
-      paint: {
+      'paint': {
         'fill-color': '#e0e0e0',
         'fill-opacity': 0.7,
       },
     },
     {
-      id: 'road_minor',
-      type: 'line',
-      source: 'carto-vector',
+      'id': 'road_minor',
+      'type': 'line',
+      'source': 'carto-vector',
       'source-layer': 'transportation',
-      filter: ['in', 'class', 'minor', 'service', 'track'],
-      paint: {
+      'filter': ['in', 'class', 'minor', 'service', 'track'],
+      'paint': {
         'line-color': '#ffffff',
         'line-width': 1,
       },
     },
     {
-      id: 'road_major',
-      type: 'line',
-      source: 'carto-vector',
+      'id': 'road_major',
+      'type': 'line',
+      'source': 'carto-vector',
       'source-layer': 'transportation',
-      filter: ['in', 'class', 'primary', 'secondary', 'tertiary', 'trunk'],
-      paint: {
+      'filter': ['in', 'class', 'primary', 'secondary', 'tertiary', 'trunk'],
+      'paint': {
         'line-color': '#fefefe',
         'line-width': {
           stops: [
@@ -246,12 +246,12 @@ export const lightMapStyle: MapStyle = {
       },
     },
     {
-      id: 'road_motorway',
-      type: 'line',
-      source: 'carto-vector',
+      'id': 'road_motorway',
+      'type': 'line',
+      'source': 'carto-vector',
       'source-layer': 'transportation',
-      filter: ['==', 'class', 'motorway'],
-      paint: {
+      'filter': ['==', 'class', 'motorway'],
+      'paint': {
         'line-color': '#fcfcfc',
         'line-width': {
           stops: [
@@ -262,11 +262,11 @@ export const lightMapStyle: MapStyle = {
       },
     },
     {
-      id: 'place_label',
-      type: 'symbol',
-      source: 'carto-vector',
+      'id': 'place_label',
+      'type': 'symbol',
+      'source': 'carto-vector',
       'source-layer': 'place',
-      layout: {
+      'layout': {
         'text-field': '{name}',
         'text-font': ['Open Sans Regular'],
         'text-size': {
@@ -276,7 +276,7 @@ export const lightMapStyle: MapStyle = {
           ],
         },
       },
-      paint: {
+      'paint': {
         'text-color': '#5c5c5c',
         'text-halo-color': '#ffffff',
         'text-halo-width': 1.5,

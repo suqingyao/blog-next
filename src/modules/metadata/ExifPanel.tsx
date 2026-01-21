@@ -5,13 +5,7 @@ import { isNil } from 'es-toolkit/compat';
 import { useAtomValue } from 'jotai';
 import { m } from 'motion/react';
 import { Fragment, useCallback, useMemo } from 'react';
-import {
-  CarbonIsoOutline,
-  MaterialSymbolsExposure,
-  MaterialSymbolsShutterSpeed,
-  StreamlineImageAccessoriesLensesPhotosCameraShutterPicturePhotographyPicturesPhotoLens,
-  TablerAperture,
-} from '@/components/icons';
+
 import { MotionButtonBase } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-areas';
 import { useMobile } from '@/hooks/use-mobile';
@@ -97,7 +91,7 @@ export const ExifPanelContent: FC<ExifPanelContentProps> = ({
               <div className="grid grid-cols-2 gap-2">
                 {formattedExifData.focalLength35mm && (
                   <div className="border-accent/20 bg-accent/10 flex h-6 items-center gap-2 rounded-md border px-2">
-                    <StreamlineImageAccessoriesLensesPhotosCameraShutterPicturePhotographyPicturesPhotoLens className="text-sm text-white/70" />
+                    <i className="i-streamline-image-accessories-lenses-photos-camera-shutter-picture-photography-pictures-photo-lens text-sm text-white/70" />
                     <span className="text-xs">
                       {formattedExifData.focalLength35mm}
                       mm
@@ -107,21 +101,21 @@ export const ExifPanelContent: FC<ExifPanelContentProps> = ({
 
                 {formattedExifData.aperture && (
                   <div className="border-accent/20 bg-accent/10 flex h-6 items-center gap-2 rounded-md border px-2">
-                    <TablerAperture className="text-sm text-white/70" />
+                    <i className="i-lucide-aperture text-sm text-white/70" />
                     <span className="text-xs">{formattedExifData.aperture}</span>
                   </div>
                 )}
 
                 {formattedExifData.shutterSpeed && (
                   <div className="border-accent/20 bg-accent/10 flex h-6 items-center gap-2 rounded-md border px-2">
-                    <MaterialSymbolsShutterSpeed className="text-sm text-white/70" />
+                    <i className="i-material-symbols-shutter-speed text-sm text-white/70" />
                     <span className="text-xs">{formattedExifData.shutterSpeed}</span>
                   </div>
                 )}
 
                 {formattedExifData.iso && (
                   <div className="border-accent/20 bg-accent/10 flex h-6 items-center gap-2 rounded-md border px-2">
-                    <CarbonIsoOutline className="text-sm text-white/70" />
+                    <i className="i-carbon-iso-outline text-sm text-white/70" />
                     <span className="text-xs">
                       ISO
                       {formattedExifData.iso}
@@ -131,7 +125,7 @@ export const ExifPanelContent: FC<ExifPanelContentProps> = ({
 
                 {formattedExifData.exposureBias && (
                   <div className="border-accent/20 bg-accent/10 flex h-6 items-center gap-2 rounded-md border px-2">
-                    <MaterialSymbolsExposure className="text-sm text-white/70" />
+                    <i className="i-material-symbols-exposure text-sm text-white/70" />
                     <span className="text-xs">{formattedExifData.exposureBias}</span>
                   </div>
                 )}

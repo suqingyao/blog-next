@@ -23,5 +23,9 @@ export default antfu({
     'dist',
     '.next',
     'public',
+    '*.tsbuildinfo',
+    '**/*.md',
+    'docs/**',
+    'posts/**',
   ],
 });

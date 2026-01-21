@@ -14,7 +14,7 @@ export const RootPortal: FC<
 
   // SSR safe: only render portal on client side
   const target = props.to || to || (typeof document !== 'undefined' ? document.body : null);
-  
+
   if (!target) {
     return null; // Don't render during SSR if no target
   }

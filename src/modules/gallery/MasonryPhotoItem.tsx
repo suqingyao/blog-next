@@ -6,12 +6,6 @@ import { m } from 'motion/react';
 import { Fragment, memo, useCallback, useEffect, useRef, useState } from 'react';
 // import { useTranslation } from 'react-i18next';
 
-import {
-  CarbonIsoOutline,
-  MaterialSymbolsShutterSpeed,
-  StreamlineImageAccessoriesLensesPhotosCameraShutterPicturePhotographyPicturesPhotoLens,
-  TablerAperture,
-} from '@/components/icons';
 import { Thumbhash } from '@/components/ui/thumbhash';
 import { useContextPhotos, usePhotoViewer } from '@/hooks/use-photo-viewer';
 import { isMobileDevice } from '@/lib/device-viewport';
@@ -353,7 +347,7 @@ export const MasonryPhotoItem = memo(({ data, width }: { data: PhotoManifest; wi
               <div className="grid grid-cols-2 gap-2 pb-4 text-xs">
                 {exifData.focalLength35mm && (
                   <div className="flex items-center gap-1.5 rounded-md bg-white/10 px-2 py-1 opacity-0 backdrop-blur-md transition-opacity duration-300 group-hover:opacity-100">
-                    <StreamlineImageAccessoriesLensesPhotosCameraShutterPicturePhotographyPicturesPhotoLens className="text-white/70" />
+                    <i className="i-streamline-image-accessories-lenses-photos-camera-shutter-picture-photography-pictures-photo-lens text-base text-white/70" />
                     <span className="text-white/90">
                       {exifData.focalLength35mm}
                       mm
@@ -363,21 +357,21 @@ export const MasonryPhotoItem = memo(({ data, width }: { data: PhotoManifest; wi
 
                 {exifData.aperture && (
                   <div className="flex items-center gap-1.5 rounded-md bg-white/10 px-2 py-1 opacity-0 backdrop-blur-md transition-opacity duration-300 group-hover:opacity-100">
-                    <TablerAperture className="text-white/70" />
+                    <i className="i-lucide-aperture text-base text-white/70" />
                     <span className="text-white/90">{exifData.aperture}</span>
                   </div>
                 )}
 
                 {exifData.shutterSpeed && (
                   <div className="flex items-center gap-1.5 rounded-md bg-white/10 px-2 py-1 opacity-0 backdrop-blur-md transition-opacity duration-300 group-hover:opacity-100">
-                    <MaterialSymbolsShutterSpeed className="text-white/70" />
+                    <i className="i-material-symbols-shutter-speed text-base text-white/70" />
                     <span className="text-white/90">{exifData.shutterSpeed}</span>
                   </div>
                 )}
 
                 {exifData.iso && (
                   <div className="flex items-center gap-1.5 rounded-md bg-white/10 px-2 py-1 opacity-0 backdrop-blur-md transition-opacity duration-300 group-hover:opacity-100">
-                    <CarbonIsoOutline className="text-white/70" />
+                    <i className="i-carbon-iso-outline text-base text-white/70" />
                     <span className="text-white/90">
                       ISO
                       {exifData.iso}

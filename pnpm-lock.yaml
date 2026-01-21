@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@radix-ui/react-avatar':
+        specifier: ^1.1.11
+        version: 1.1.11(@types/react-dom@19.1.6(@types/react@19.1.8))(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@radix-ui/react-context-menu':
         specifier: ^2.2.16
         version: 2.2.16(@types/react-dom@19.1.6(@types/react@19.1.8))(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -325,7 +328,7 @@ importers:
         version: 1.0.15
       zustand:
         specifier: ^5.0.9
-        version: 5.0.9(@types/react@19.1.8)(immer@11.1.3)(react@19.1.0)
+        version: 5.0.9(@types/react@19.1.8)(immer@11.1.3)(react@19.1.0)(use-sync-external-store@1.6.0(react@19.1.0))
     devDependencies:
       '@antfu/eslint-config':
         specifier: ^5.2.0
@@ -336,12 +339,21 @@ importers:
       '@eslint-react/eslint-plugin':
         specifier: ^1.52.3
         version: 1.52.3(eslint@9.31.0(jiti@2.6.1))(ts-api-utils@2.4.0(typescript@5.9.3))(typescript@5.9.3)
+      '@iconify-json/carbon':
+        specifier: ^1.2.18
+        version: 1.2.18
       '@iconify-json/lucide':
         specifier: ^1.2.84
         version: 1.2.84
+      '@iconify-json/material-symbols':
+        specifier: ^1.2.52
+        version: 1.2.52
       '@iconify-json/mingcute':
         specifier: ^1.2.3
         version: 1.2.3
+      '@iconify-json/streamline':
+        specifier: ^1.2.5
+        version: 1.2.5
       '@tailwindcss/postcss':
         specifier: ^4.1.11
         version: 4.1.11
@@ -1344,11 +1356,20 @@ packages:
     resolution: {integrity: sha512-bV0Tgo9K4hfPCek+aMAn81RppFKv2ySDQeMoSZuvTASywNTnVJCArCZE2FWqpvIatKu7VMRLWlR1EazvVhDyhQ==}
     engines: {node: '>=18.18'}
 
+  '@iconify-json/carbon@1.2.18':
+    resolution: {integrity: sha512-Grb13E6r/RqTEV4Sqd/BQR2FUt57U2WLuticJ5H8JbTdHLop1LmdePu3EJJA3Xi8DcWRbD6OnC133hKfOwlgtg==}
+
   '@iconify-json/lucide@1.2.84':
     resolution: {integrity: sha512-m45MY1aW2swSK6Neb3J2qdZ+BxZ1VTdN7UeoXENwyMACG9bqGHWYJYxWoFzwoSnCfYLyKWTcBhesBgMd5IrUzQ==}
 
+  '@iconify-json/material-symbols@1.2.52':
+    resolution: {integrity: sha512-vOBmoF2J5GeKgaTqOcdIHjuPXcGVvjRMlviGgE1jKAh85iXSsFmLVxiJKMXvijrGVLmcqrkEmkMiSem7uWfGpA==}
+
   '@iconify-json/mingcute@1.2.3':
     resolution: {integrity: sha512-yiEQfLBF5iwyOdxuY0kEU06+8Mp6Mrp14KVXTb+5jjSVuD71C9EQrzM/mm1Efd8Nu2amJalTPisl3loC8pHBqQ==}
+
+  '@iconify-json/streamline@1.2.5':
+    resolution: {integrity: sha512-u6l9BOJoIIPjjDXWl6D/hPDzeBk5WiaEHZ+U9SbkQ14N9hgotaYyIZVMfgF175CG1TTS06j8k15D3FM2OYaFIw==}
 
   '@iconify/types@2.0.0':
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
@@ -1863,6 +1884,19 @@ packages:
       '@types/react-dom':
         optional: true
 
+  '@radix-ui/react-avatar@1.1.11':
+    resolution: {integrity: sha512-0Qk603AHGV28BOBO34p7IgD5m+V5Sg/YovfayABkoDDBM5d3NCx0Mp4gGrjzLGes1jV5eNOE1r3itqOR33VC6Q==}
+    peerDependencies:
+      '@types/react': '*'
+      '@types/react-dom': '*'
+      react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+      react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/react-dom':
+        optional: true
+
   '@radix-ui/react-collection@1.1.7':
     resolution: {integrity: sha512-Fh9rGN0MoI4ZFUNyfFVNU4y9LUz93u9/0K+yLgA2bwRojxM8JU1DyvvMBabnZPBgMWREAJvU2jjVzq+LrFUglw==}
     peerDependencies:
@@ -1900,6 +1934,15 @@ packages:
 
   '@radix-ui/react-context@1.1.2':
     resolution: {integrity: sha512-jCi/QKUM2r1Ju5a3J64TH2A5SpKAgh0LpknyqdQ4m6DCV0xJ2HG1xARRwNGPQfi1SLdLWZ1OJz6F4OMBBNiGJA==}
+    peerDependencies:
+      '@types/react': '*'
+      react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+
+  '@radix-ui/react-context@1.1.3':
+    resolution: {integrity: sha512-ieIFACdMpYfMEjF0rEf5KLvfVyIkOz6PDGyNnP+u+4xQ6jny3VCgA4OgXOwNx2aUkxn8zx9fiVcM8CfFYv9Lxw==}
     peerDependencies:
       '@types/react': '*'
       react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
@@ -2112,6 +2155,19 @@ packages:
       '@types/react-dom':
         optional: true
 
+  '@radix-ui/react-primitive@2.1.4':
+    resolution: {integrity: sha512-9hQc4+GNVtJAIEPEqlYqW5RiYdrr8ea5XQ0ZOnD6fgru+83kqT15mq2OCcbe8KnjRZl5vF3ks69AKz3kh1jrhg==}
+    peerDependencies:
+      '@types/react': '*'
+      '@types/react-dom': '*'
+      react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+      react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/react-dom':
+        optional: true
+
   '@radix-ui/react-roving-focus@1.1.11':
     resolution: {integrity: sha512-7A6S9jSgm/S+7MdtNDSb+IU859vQqJ/QAtcYQcfFC6W8RS4IxIZDldLR0xqCFZ6DCyrQLjLPsxtTNch5jVA4lA==}
     peerDependencies:
@@ -2198,6 +2254,15 @@ packages:
 
   '@radix-ui/react-use-escape-keydown@1.1.1':
     resolution: {integrity: sha512-Il0+boE7w/XebUHyBjroE+DbByORGR9KKmITzbR7MyQ4akpORYP/ZmbhAr0DG7RmmBqoOnZdy2QlvajJ2QA59g==}
+    peerDependencies:
+      '@types/react': '*'
+      react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+
+  '@radix-ui/react-use-is-hydrated@0.1.0':
+    resolution: {integrity: sha512-U+UORVEq+cTnRIaostJv9AGdV3G6Y+zbVd+12e18jQ5A3c0xL03IhnHuiU4UV69wolOQp5GfR58NW/EgdQhwOA==}
     peerDependencies:
       '@types/react': '*'
       react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
@@ -6908,6 +6973,11 @@ packages:
     peerDependencies:
       react: '>=16.8'
 
+  use-sync-external-store@1.6.0:
+    resolution: {integrity: sha512-Pp6GSwGP/NrPIrxVFAIkOQeyw8lFenOHijQWkUTrDvrF4ALqylP2C/KCkeS9dpUM3KvYRQhna5vt7IL95+ZQ9w==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+
   usehooks-ts@3.1.1:
     resolution: {integrity: sha512-I4diPp9Cq6ieSUH2wu+fDAVQO43xwtulo+fKEidHUwZPnYImbtkTjzIJYcDcJqxgmX31GVqNFURodvcgHcW0pA==}
     engines: {node: '>=16.15.0'}
@@ -8056,11 +8126,23 @@ snapshots:
 
   '@humanwhocodes/retry@0.4.3': {}
 
+  '@iconify-json/carbon@1.2.18':
+    dependencies:
+      '@iconify/types': 2.0.0
+
   '@iconify-json/lucide@1.2.84':
     dependencies:
       '@iconify/types': 2.0.0
 
+  '@iconify-json/material-symbols@1.2.52':
+    dependencies:
+      '@iconify/types': 2.0.0
+
   '@iconify-json/mingcute@1.2.3':
+    dependencies:
+      '@iconify/types': 2.0.0
+
+  '@iconify-json/streamline@1.2.5':
     dependencies:
       '@iconify/types': 2.0.0
 
@@ -8478,6 +8560,19 @@ snapshots:
       '@types/react': 19.1.8
       '@types/react-dom': 19.1.6(@types/react@19.1.8)
 
+  '@radix-ui/react-avatar@1.1.11(@types/react-dom@19.1.6(@types/react@19.1.8))(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
+    dependencies:
+      '@radix-ui/react-context': 1.1.3(@types/react@19.1.8)(react@19.1.0)
+      '@radix-ui/react-primitive': 2.1.4(@types/react-dom@19.1.6(@types/react@19.1.8))(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@radix-ui/react-use-callback-ref': 1.1.1(@types/react@19.1.8)(react@19.1.0)
+      '@radix-ui/react-use-is-hydrated': 0.1.0(@types/react@19.1.8)(react@19.1.0)
+      '@radix-ui/react-use-layout-effect': 1.1.1(@types/react@19.1.8)(react@19.1.0)
+      react: 19.1.0
+      react-dom: 19.1.0(react@19.1.0)
+    optionalDependencies:
+      '@types/react': 19.1.8
+      '@types/react-dom': 19.1.6(@types/react@19.1.8)
+
   '@radix-ui/react-collection@1.1.7(@types/react-dom@19.1.6(@types/react@19.1.8))(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
     dependencies:
       '@radix-ui/react-compose-refs': 1.1.2(@types/react@19.1.8)(react@19.1.0)
@@ -8511,6 +8606,12 @@ snapshots:
       '@types/react-dom': 19.1.6(@types/react@19.1.8)
 
   '@radix-ui/react-context@1.1.2(@types/react@19.1.8)(react@19.1.0)':
+    dependencies:
+      react: 19.1.0
+    optionalDependencies:
+      '@types/react': 19.1.8
+
+  '@radix-ui/react-context@1.1.3(@types/react@19.1.8)(react@19.1.0)':
     dependencies:
       react: 19.1.0
     optionalDependencies:
@@ -8733,6 +8834,15 @@ snapshots:
       '@types/react': 19.1.8
       '@types/react-dom': 19.1.6(@types/react@19.1.8)
 
+  '@radix-ui/react-primitive@2.1.4(@types/react-dom@19.1.6(@types/react@19.1.8))(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
+    dependencies:
+      '@radix-ui/react-slot': 1.2.4(@types/react@19.1.8)(react@19.1.0)
+      react: 19.1.0
+      react-dom: 19.1.0(react@19.1.0)
+    optionalDependencies:
+      '@types/react': 19.1.8
+      '@types/react-dom': 19.1.6(@types/react@19.1.8)
+
   '@radix-ui/react-roving-focus@1.1.11(@types/react-dom@19.1.6(@types/react@19.1.8))(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
     dependencies:
       '@radix-ui/primitive': 1.1.3
@@ -8826,6 +8936,13 @@ snapshots:
     dependencies:
       '@radix-ui/react-use-callback-ref': 1.1.1(@types/react@19.1.8)(react@19.1.0)
       react: 19.1.0
+    optionalDependencies:
+      '@types/react': 19.1.8
+
+  '@radix-ui/react-use-is-hydrated@0.1.0(@types/react@19.1.8)(react@19.1.0)':
+    dependencies:
+      react: 19.1.0
+      use-sync-external-store: 1.6.0(react@19.1.0)
     optionalDependencies:
       '@types/react': 19.1.8
 
@@ -14552,6 +14669,10 @@ snapshots:
       howler: 2.2.4
       react: 19.1.0
 
+  use-sync-external-store@1.6.0(react@19.1.0):
+    dependencies:
+      react: 19.1.0
+
   usehooks-ts@3.1.1(react@19.1.0):
     dependencies:
       lodash.debounce: 4.0.8
@@ -14739,10 +14860,11 @@ snapshots:
 
   zod@4.0.17: {}
 
-  zustand@5.0.9(@types/react@19.1.8)(immer@11.1.3)(react@19.1.0):
+  zustand@5.0.9(@types/react@19.1.8)(immer@11.1.3)(react@19.1.0)(use-sync-external-store@1.6.0(react@19.1.0)):
     optionalDependencies:
       '@types/react': 19.1.8
       immer: 11.1.3
       react: 19.1.0
+      use-sync-external-store: 1.6.0(react@19.1.0)
 
   zwitch@2.0.4: {}
