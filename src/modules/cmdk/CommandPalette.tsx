@@ -2,7 +2,6 @@ import { useAtom } from 'jotai';
 import { useRouter } from 'next/navigation';
 import * as React from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { MageLens } from '@/components/icons';
 
 import { usePhotoViewer } from '@/hooks/use-photo-viewer';
 import { photoLoader } from '@/lib/data';
@@ -204,7 +203,7 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
           type: 'filter',
           title: lens.displayName,
           subtitle: '镜头筛选',
-          icon: <MageLens />,
+          icon: <i className="i-mage-lens" />,
           active: isActive,
           action: () => {
             setGallerySetting(prev => ({
