@@ -7,6 +7,7 @@ import { usePathname } from 'next/navigation';
 import { memo, useCallback, useEffect } from 'react';
 import { openSearchModal } from '@/components/search/SearchModal';
 import { AnimatedLogo } from '@/components/site/AnimatedLogo';
+import { GlassMorphismButton } from '@/components/ui/button';
 import { useIsDark } from '@/hooks/use-dark-mode';
 import { useHeaderVisible, useMenuOpacity } from '@/hooks/use-scroll';
 import { useSearchHotkey } from '@/hooks/use-search-hotkey';
@@ -229,24 +230,10 @@ const HeaderActions = memo(() => {
   return (
     <div className="relative z-10 flex items-center gap-2">
       {/* Search Button */}
-      <button
-        type="button"
+      <GlassMorphismButton
+        variant="rectangle"
         onClick={handleOpenSearch}
-        className={cn(
-          'hidden sm:flex items-center gap-2',
-          'rounded-xl px-3 py-2 text-sm',
-          'bg-white/60 text-slate-700',
-          'border border-slate-200/50',
-          'shadow-sm shadow-black/5',
-          'backdrop-blur-sm',
-          'transition-all duration-200',
-          'hover:scale-105 hover:bg-white/80',
-          'active:scale-95',
-          'dark:bg-white/10 dark:text-white',
-          'dark:border-white/20',
-          'dark:shadow-black/20',
-          'dark:hover:bg-white/15',
-        )}
+        className="hidden sm:flex"
         aria-label="搜索文章"
       >
         <i className="i-mingcute-search-line h-4 w-4" />
@@ -254,27 +241,13 @@ const HeaderActions = memo(() => {
         <kbd className="flex items-center rounded border border-slate-300/50 bg-slate-100/80 px-2 py-0.5 font-mono text-xs dark:border-white/20 dark:bg-white/10">
           ⌘K
         </kbd>
-      </button>
+      </GlassMorphismButton>
 
       {/* Theme Toggle */}
-      <button
-        type="button"
+      <GlassMorphismButton
+        variant="circle"
+        size="md"
         onClick={() => setTheme(isDark ? 'light' : 'dark')}
-        className={cn(
-          'flex items-center justify-center',
-          'size-9 rounded-full',
-          'bg-white/60 text-slate-700',
-          'border border-slate-200/50',
-          'shadow-sm shadow-black/5',
-          'backdrop-blur-sm',
-          'transition-all duration-200',
-          'hover:scale-110 hover:bg-white/80',
-          'active:scale-95',
-          'dark:bg-white/10 dark:text-white',
-          'dark:border-white/20',
-          'dark:shadow-black/20',
-          'dark:hover:bg-white/15',
-        )}
         title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
       >
         <i
@@ -283,31 +256,18 @@ const HeaderActions = memo(() => {
             isDark ? 'i-mingcute-sun-line' : 'i-mingcute-moon-line',
           )}
         />
-      </button>
+      </GlassMorphismButton>
 
       {/* Mobile: Search icon button */}
-      <button
-        type="button"
+      <GlassMorphismButton
+        variant="circle"
+        size="md"
         onClick={handleOpenSearch}
-        className={cn(
-          'flex sm:hidden items-center justify-center',
-          'size-9 rounded-full',
-          'bg-white/60 text-slate-700',
-          'border border-slate-200/50',
-          'shadow-sm shadow-black/5',
-          'backdrop-blur-sm',
-          'transition-all duration-200',
-          'hover:scale-110 hover:bg-white/80',
-          'active:scale-95',
-          'dark:bg-white/10 dark:text-white',
-          'dark:border-white/20',
-          'dark:shadow-black/20',
-          'dark:hover:bg-white/15',
-        )}
+        className="sm:hidden"
         title="搜索"
       >
         <i className="i-mingcute-search-line h-5 w-5" />
-      </button>
+      </GlassMorphismButton>
     </div>
   );
 });
