@@ -1,4 +1,4 @@
-import { isExiftoolLoadedAtom } from '@/store/atoms/app';
+import { isExiftoolLoadedAtom } from '@/atoms/app';
 
 import { jotaiStore } from './jotai';
 

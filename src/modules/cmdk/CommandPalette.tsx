@@ -3,10 +3,10 @@ import { useRouter } from 'next/navigation';
 import * as React from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
+import { gallerySettingAtom } from '@/atoms/app';
 import { usePhotoViewer } from '@/hooks/use-photo-viewer';
 import { photoLoader } from '@/lib/data';
 import { cn } from '@/lib/utils';
-import { gallerySettingAtom } from '@/store/atoms/app';
 
 // Command types
 type CommandType = 'search' | 'filter' | 'action' | 'photo';

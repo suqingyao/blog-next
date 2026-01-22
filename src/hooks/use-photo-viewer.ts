@@ -1,11 +1,11 @@
 import { atom, useAtom, useAtomValue } from 'jotai';
 import { use, useCallback, useEffect, useMemo } from 'react';
-import { photoLoader } from '@/lib/data';
+import { gallerySettingAtom } from '@/atoms/app';
 
+import { photoLoader } from '@/lib/data';
 import { jotaiStore } from '@/lib/jotai';
 import { trackView } from '@/lib/tracker';
 import { PhotosContext } from '@/providers/photos-provider';
-import { gallerySettingAtom } from '@/store/atoms/app';
 
 const openAtom = atom(false);
 const currentIndexAtom = atom(0);

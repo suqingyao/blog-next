@@ -5,9 +5,9 @@ import type { PhotoManifestItem as PhotoManifest } from '@/types/photo';
 
 import { useAtomValue } from 'jotai';
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useMobile } from '@/hooks/use-mobile';
+import { gallerySettingAtom } from '@/atoms/app';
 
-import { gallerySettingAtom } from '@/store/atoms/app';
+import { useMobile } from '@/hooks/use-mobile';
 import { Masonry } from './Masonic';
 import { MasonryPhotoItem } from './MasonryPhotoItem';
 

@@ -1,12 +1,12 @@
 import { useSetAtom } from 'jotai';
 import { useState } from 'react';
 import { Drawer } from 'vaul';
+import { gallerySettingAtom } from '@/atoms/app';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { useMobile } from '@/hooks/use-mobile';
 
+import { useMobile } from '@/hooks/use-mobile';
 import { cn } from '@/lib/utils';
-import { gallerySettingAtom } from '@/store/atoms/app';
 
 // 通用的操作按钮组件
 export function ActionButton({

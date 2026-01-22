@@ -4,11 +4,11 @@ import type { LivePhotoVideoHandle } from '@/modules/media/LivePhotoVideo';
 import { startTransition, useCallback, useEffect, useRef, useState } from 'react';
 
 import { toast } from 'sonner';
+import { MenuItemSeparator, MenuItemText } from '@/atoms/context-menu';
 import { isMobileDevice } from '@/lib/device-viewport';
 import { ImageLoaderManager } from '@/lib/image-loader-manager';
-import { LoadingState } from '@/lib/webgl-viewer';
 
-import { MenuItemSeparator, MenuItemText } from '@/store/atoms/context-menu';
+import { LoadingState } from '@/lib/webgl-viewer';
 import { SHOW_SCALE_INDICATOR_DURATION } from './types';
 
 export function useProgressiveImageState(): [

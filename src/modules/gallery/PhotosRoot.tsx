@@ -3,15 +3,15 @@
 import type { PanelType } from './ActionPanel';
 import { useAtomValue } from 'jotai';
 import { useEffect, useState } from 'react';
-import { ClientOnly } from '@/components/common/ClientOnly';
+import { gallerySettingAtom } from '@/atoms/app';
 
+import { ClientOnly } from '@/components/common/ClientOnly';
 import { useScrollViewElement } from '@/components/ui/scroll-areas';
 import { useHasActiveFilters } from '@/hooks/use-has-active-filters';
 import { useContextPhotos } from '@/hooks/use-photo-viewer';
-import { useVisiblePhotosDateRange } from '@/hooks/use-visible-photos-date-range';
 
+import { useVisiblePhotosDateRange } from '@/hooks/use-visible-photos-date-range';
 import { cn } from '@/lib/utils';
-import { gallerySettingAtom } from '@/store/atoms/app';
 import { ActionPanel } from './ActionPanel';
 import { ActiveFiltersHero } from './ActiveFiltersHero';
 import { ListView } from './ListView';

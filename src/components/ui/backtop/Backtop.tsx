@@ -3,8 +3,8 @@
 import { useAtomValue } from 'jotai';
 
 import { useEffect, useState } from 'react';
+import { scrollContainerRefAtom } from '@/atoms/app';
 import { cn } from '@/lib/utils';
-import { scrollContainerRefAtom } from '@/store/atoms/app';
 
 export function Backtop() {
   const [show, setShow] = useState(false);

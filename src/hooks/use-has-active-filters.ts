@@ -1,6 +1,6 @@
 import { useAtomValue } from 'jotai';
 
-import { gallerySettingAtom } from '@/store/atoms/app';
+import { gallerySettingAtom } from '@/atoms/app';
 
 export function useHasActiveFilters() {
   const gallerySetting = useAtomValue(gallerySettingAtom);

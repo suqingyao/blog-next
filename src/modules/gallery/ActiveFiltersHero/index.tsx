@@ -3,9 +3,9 @@ import { useAtom, useSetAtom } from 'jotai';
 import { m } from 'motion/react';
 import { useMemo } from 'react';
 
+import { gallerySettingAtom, isCommandPaletteOpenAtom } from '@/atoms/app';
 import { useContextPhotos } from '@/hooks/use-photo-viewer';
 import { Spring } from '@/lib/spring';
-import { gallerySettingAtom, isCommandPaletteOpenAtom } from '@/store/atoms/app';
 
 import { FilterChips } from './FilterChips';
 import { HeroActions } from './HeroActions';

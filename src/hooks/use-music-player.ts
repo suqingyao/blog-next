@@ -1,7 +1,6 @@
-import type { PlayerPosition } from '@/store/atoms/music-player';
+import type { PlayerPosition } from '@/atoms/music-player';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { useCallback, useEffect, useRef } from 'react';
-import { consoleLog } from '@/lib/console';
 import {
   loadPlaylistAtom,
   musicPlayerAtom,
@@ -17,7 +16,8 @@ import {
   setVolumeAtom,
   toggleMuteAtom,
   togglePlayAtom,
-} from '@/store/atoms/music-player';
+} from '@/atoms/music-player';
+import { consoleLog } from '@/lib/console';
 
 /**
  * 音乐播放器自定义 Hook

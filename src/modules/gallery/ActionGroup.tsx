@@ -1,8 +1,8 @@
 import { useAtom, useSetAtom } from 'jotai';
 import { useRouter } from 'next/navigation';
-import { Button } from '@/components/ui/button';
+import { gallerySettingAtom, isCommandPaletteOpenAtom } from '@/atoms/app';
 
-import { gallerySettingAtom, isCommandPaletteOpenAtom } from '@/store/atoms/app';
+import { Button } from '@/components/ui/button';
 
 import { ResponsiveActionButton } from './components/ActionButton';
 import { ViewPanel } from './panels/ViewPanel';

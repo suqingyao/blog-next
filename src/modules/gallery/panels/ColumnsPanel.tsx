@@ -1,9 +1,9 @@
 import { useAtom } from 'jotai';
 import { useRef, useState } from 'react';
 
+import { gallerySettingAtom } from '@/atoms/app';
 import { Slider } from '@/components/ui/slider';
 import { useMobile } from '@/hooks/use-mobile';
-import { gallerySettingAtom } from '@/store/atoms/app';
 
 export function ColumnsPanel() {
   const [gallerySetting, setGallerySetting] = useAtom(gallerySettingAtom);

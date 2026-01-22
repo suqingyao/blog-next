@@ -4,7 +4,7 @@ import { selectAtom } from 'jotai/utils';
 import { useCallback } from 'react';
 import { shallow } from 'zustand/shallow';
 
-import { viewportAtom } from '@/store/atoms/viewport';
+import { viewportAtom } from '@/atoms/viewport';
 
 export function useViewport<T>(selector: (value: ExtractAtomValue<typeof viewportAtom>) => T): T {
   return useAtomValue(

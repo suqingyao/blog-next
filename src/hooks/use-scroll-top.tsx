@@ -1,6 +1,6 @@
 import { useAtomValue } from 'jotai';
 import { useCallback, useEffect, useState } from 'react';
-import { scrollContainerRefAtom } from '@/store/atoms/app';
+import { scrollContainerRefAtom } from '@/atoms/app';
 
 export function useScrollTop() {
   const [scrollTop, setScrollTop] = useState(0);

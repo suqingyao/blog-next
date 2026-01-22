@@ -3,9 +3,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { Tooltip, TooltipContent, TooltipRoot, TooltipTrigger } from '@/components/ui/tooltip';
 import { APP_HEADER_HEIGHT } from '@/constants';
-import { cn } from '@/lib/utils';
+import { useMusicPlayer } from '@/hooks/use-music-player';
 
-import { useMusicPlayer } from '@/store/hooks/use-music-player';
+import { cn } from '@/lib/utils';
 
 export function MusicPlayer() {
   const {

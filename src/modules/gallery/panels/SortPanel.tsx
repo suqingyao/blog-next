@@ -1,6 +1,6 @@
 import { useAtom } from 'jotai';
 
-import { gallerySettingAtom } from '@/store/atoms/app';
+import { gallerySettingAtom } from '@/atoms/app';
 
 export function SortPanel() {
   const [gallerySetting, setGallerySetting] = useAtom(gallerySettingAtom);

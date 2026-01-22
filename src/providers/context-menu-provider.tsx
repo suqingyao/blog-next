@@ -1,5 +1,7 @@
-import type { FollowMenuItem } from '@/store/atoms/context-menu';
+import type { FollowMenuItem } from '@/atoms/context-menu';
 import { Fragment, memo, useCallback, useEffect, useRef } from 'react';
+import { MenuItemSeparator, MenuItemType, useContextMenuState } from '@/atoms/context-menu';
+
 import {
   ContextMenu,
   ContextMenuCheckboxItem,
@@ -12,10 +14,8 @@ import {
   ContextMenuSubTrigger,
   ContextMenuTrigger,
 } from '@/components/ui/context-menu';
-
 import { nextFrame, preventDefault } from '@/lib/dom';
 import { cn } from '@/lib/utils';
-import { MenuItemSeparator, MenuItemType, useContextMenuState } from '@/store/atoms/context-menu';
 
 export const ContextMenuProvider: Component = ({ children }) => (
   <>

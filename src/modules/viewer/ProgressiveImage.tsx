@@ -3,17 +3,17 @@ import type { ProgressiveImageProps, WebGLImageViewerRef } from './types';
 import { AnimatePresence, m } from 'motion/react';
 import { useCallback, useMemo, useRef } from 'react';
 import { useMediaQuery } from 'usehooks-ts';
-import { SlidingNumber } from '@/components/ui/number/SlidingNumber';
+import { useShowContextMenu } from '@/atoms/context-menu';
 
+import { SlidingNumber } from '@/components/ui/number/SlidingNumber';
 import { isDevelopment } from '@/lib/env';
 import { canUseWebGL } from '@/lib/feature';
 import { cn } from '@/lib/utils';
 import { WebGLImageViewer } from '@/lib/webgl-viewer';
 import { HDRBadge } from '@/modules/media/HDRBadge';
-import { LivePhotoBadge } from '@/modules/media/LivePhotoBadge';
 
+import { LivePhotoBadge } from '@/modules/media/LivePhotoBadge';
 import { LivePhotoVideo } from '@/modules/media/LivePhotoVideo';
-import { useShowContextMenu } from '@/store/atoms/context-menu';
 import { DOMImageViewer } from './DOMImageViewer';
 import {
   createContextMenuItems,

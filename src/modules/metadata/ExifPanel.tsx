@@ -6,13 +6,13 @@ import { useAtomValue } from 'jotai';
 import { m } from 'motion/react';
 import { Fragment, useCallback, useMemo } from 'react';
 
+import { isExiftoolLoadedAtom } from '@/atoms/app';
 import { MotionButtonBase } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-areas';
-import { useMobile } from '@/hooks/use-mobile';
 
+import { useMobile } from '@/hooks/use-mobile';
 import { convertExifGPSToDecimal } from '@/lib/map-utils';
 import { Spring } from '@/lib/spring';
-import { isExiftoolLoadedAtom } from '@/store/atoms/app';
 import { formatExifData, Row } from './formatExifData';
 
 import { HistogramChart } from './HistogramChart';

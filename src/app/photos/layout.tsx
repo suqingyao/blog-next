@@ -5,6 +5,7 @@ import { useAtomValue, useSetAtom } from 'jotai';
 import { useParams, usePathname, useSearchParams } from 'next/navigation';
 import { Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { RemoveScroll } from 'react-remove-scroll';
+import { gallerySettingAtom } from '@/atoms/app';
 import { ClientOnly } from '@/components/common/ClientOnly';
 import { RootPortal, RootPortalProvider } from '@/components/ui/portal';
 import { ScrollArea, ScrollElementContext } from '@/components/ui/scroll-areas';
@@ -15,7 +16,6 @@ import { deriveAccentFromSources } from '@/lib/color';
 import { cn } from '@/lib/utils';
 import { PhotosRoot } from '@/modules/gallery/PhotosRoot';
 import { PhotoViewer } from '@/modules/viewer';
-import { gallerySettingAtom } from '@/store/atoms/app';
 
 // const siteConfig = {
 //   accentColor: 'var(--color-primary)',
