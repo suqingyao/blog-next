@@ -1,4 +1,3 @@
-import { repository } from '@pkg';
 import * as AvatarPrimitive from '@radix-ui/react-avatar';
 import { APP_NAME } from '@/constants';
 

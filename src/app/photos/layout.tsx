@@ -2,8 +2,8 @@
 
 import type { PropsWithChildren } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useParams, usePathname, useSearchParams } from 'next/navigation';
+import { Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { RemoveScroll } from 'react-remove-scroll';
 import { ClientOnly } from '@/components/common/ClientOnly';
 import { RootPortal, RootPortalProvider } from '@/components/ui/portal';
@@ -21,7 +21,7 @@ import { gallerySettingAtom } from '@/store/atoms/app';
 //   accentColor: 'var(--color-primary)',
 // };
 
-export default function PhotosLayout({ children }: PropsWithChildren) {
+function PhotosLayoutContent({ children }: PropsWithChildren) {
   useStateRestoreFromUrl();
   useSyncStateToUrl();
 
@@ -295,5 +295,13 @@ function PhotoViewerContainer() {
         </RootPortalProvider>
       </RootPortal>
     </ClientOnly>
+  );
+}
+
+export default function PhotosLayout({ children }: PropsWithChildren) {
+  return (
+    <Suspense fallback={<div className="flex items-center justify-center h-screen">Loading...</div>}>
+      <PhotosLayoutContent>{children}</PhotosLayoutContent>
+    </Suspense>
   );
 }

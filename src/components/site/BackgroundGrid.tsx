@@ -1,6 +1,4 @@
-import { DotGrid } from '../common/DotGrid';
 import { GridBackground } from '../common/GridBackground';
-import { PlumGrid } from '../common/PlumGrid';
 
 export function BackgroundGrid() {
   return (

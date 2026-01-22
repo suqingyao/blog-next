@@ -46,7 +46,6 @@ export default async function RootLayout({
           <Main>
             {children}
             {modal}
-
           </Main>
           <Backtop />
         </AppProviders>
