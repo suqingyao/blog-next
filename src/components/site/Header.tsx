@@ -1,15 +1,15 @@
 'use client';
 
-import { AnimatePresence, m, useMotionTemplate, useMotionValue } from 'motion/react';
+import { m, useMotionTemplate, useMotionValue } from 'motion/react';
 import { useTheme } from 'next-themes';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { memo, useCallback, useEffect } from 'react';
-import { SearchButton } from '@/components/search/SearchButton';
+import { openSearchModal } from '@/components/search/SearchModal';
 import { AnimatedLogo } from '@/components/site/AnimatedLogo';
-import { GlassButton } from '@/components/ui/button';
 import { useIsDark } from '@/hooks/use-dark-mode';
-import { useHeaderBgOpacity, useHeaderVisible, useMenuOpacity, useScrollDirection, useScrollY } from '@/hooks/use-scroll';
+import { useHeaderVisible, useMenuOpacity } from '@/hooks/use-scroll';
+import { useSearchHotkey } from '@/hooks/use-search-hotkey';
 import { cn } from '@/lib/utils';
 
 interface NavigationLink {
@@ -52,7 +52,6 @@ const navigationLinks: NavigationLink[] = [
   },
 ];
 
-// Header container (Shiro 风格：无背景色，只在顶部固定)
 const HeaderWithShadow = memo<{ children: React.ReactNode }>(({ children }) => {
   const isVisible = useHeaderVisible();
 
@@ -80,27 +79,6 @@ const HeaderWithShadow = memo<{ children: React.ReactNode }>(({ children }) => {
 });
 
 HeaderWithShadow.displayName = 'HeaderWithShadow';
-
-// Shiro 样式：Header 本身无背景，只在需要时显示模糊背景
-const BlurredBackground = memo(() => {
-  const bgOpacity = useHeaderBgOpacity();
-  const shouldShow = bgOpacity > 0;
-
-  if (!shouldShow)
-    return null;
-
-  return (
-    <m.div
-      className="absolute inset-0 -z-10 backdrop-blur-md"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: bgOpacity }}
-      transition={{ duration: 0.2 }}
-    />
-  );
-});
-
-BlurredBackground.displayName = 'BlurredBackground';
-
 // Logo area
 const HeaderLogo = memo(() => {
   return (
@@ -241,37 +219,95 @@ const HeaderActions = memo(() => {
   const { setTheme } = useTheme();
   const isDark = useIsDark();
 
+  const handleOpenSearch = useCallback(() => {
+    openSearchModal();
+  }, []);
+
+  // 注册全局快捷键
+  useSearchHotkey(handleOpenSearch);
+
   return (
-    <div className="relative z-10 flex items-center gap-1">
-      {/* Search */}
-      <div className="hidden sm:block">
-        <SearchButton />
-      </div>
+    <div className="relative z-10 flex items-center gap-2">
+      {/* Search Button */}
+      <button
+        type="button"
+        onClick={handleOpenSearch}
+        className={cn(
+          'hidden sm:flex items-center gap-2',
+          'rounded-xl px-3 py-2 text-sm',
+          'bg-white/60 text-slate-700',
+          'border border-slate-200/50',
+          'shadow-sm shadow-black/5',
+          'backdrop-blur-sm',
+          'transition-all duration-200',
+          'hover:scale-105 hover:bg-white/80',
+          'active:scale-95',
+          'dark:bg-white/10 dark:text-white',
+          'dark:border-white/20',
+          'dark:shadow-black/20',
+          'dark:hover:bg-white/15',
+        )}
+        aria-label="搜索文章"
+      >
+        <i className="i-mingcute-search-line h-4 w-4" />
+        <span>Search</span>
+        <kbd className="flex items-center rounded border border-slate-300/50 bg-slate-100/80 px-2 py-0.5 font-mono text-xs dark:border-white/20 dark:bg-white/10">
+          ⌘K
+        </kbd>
+      </button>
 
       {/* Theme Toggle */}
-      <GlassButton
+      <button
+        type="button"
         onClick={() => setTheme(isDark ? 'light' : 'dark')}
-        title="切换主题"
-        className="size-9"
-      >
-        <i className={cn(
-          isDark ? 'i-mingcute-sun-line' : 'i-mingcute-moon-line',
+        className={cn(
+          'flex items-center justify-center',
+          'size-9 rounded-full',
+          'bg-white/60 text-slate-700',
+          'border border-slate-200/50',
+          'shadow-sm shadow-black/5',
+          'backdrop-blur-sm',
+          'transition-all duration-200',
+          'hover:scale-110 hover:bg-white/80',
+          'active:scale-95',
+          'dark:bg-white/10 dark:text-white',
+          'dark:border-white/20',
+          'dark:shadow-black/20',
+          'dark:hover:bg-white/15',
         )}
+        title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+      >
+        <i
+          className={cn(
+            'h-5 w-5',
+            isDark ? 'i-mingcute-sun-line' : 'i-mingcute-moon-line',
+          )}
         />
-      </GlassButton>
+      </button>
 
       {/* Mobile: Search icon button */}
-      <GlassButton
-        onClick={() => {
-          // Trigger search modal on mobile
-          const searchBtn = document.querySelector('[aria-label="搜索文章"]') as HTMLButtonElement;
-          searchBtn?.click();
-        }}
+      <button
+        type="button"
+        onClick={handleOpenSearch}
+        className={cn(
+          'flex sm:hidden items-center justify-center',
+          'size-9 rounded-full',
+          'bg-white/60 text-slate-700',
+          'border border-slate-200/50',
+          'shadow-sm shadow-black/5',
+          'backdrop-blur-sm',
+          'transition-all duration-200',
+          'hover:scale-110 hover:bg-white/80',
+          'active:scale-95',
+          'dark:bg-white/10 dark:text-white',
+          'dark:border-white/20',
+          'dark:shadow-black/20',
+          'dark:hover:bg-white/15',
+        )}
         title="搜索"
-        className="size-9 sm:hidden"
       >
-        <i className="i-mingcute-search-line" />
-      </GlassButton>
+        <i className="i-mingcute-search-line h-5 w-5" />
+      </button>
     </div>
   );
 });
@@ -280,21 +316,18 @@ HeaderActions.displayName = 'HeaderActions';
 
 export const Header = memo(() => {
   return (
-    <>
-      <HeaderWithShadow>
-        <BlurredBackground />
-        <div className="relative mx-auto grid h-full max-w-7xl grid-cols-[auto_1fr_auto] items-center gap-4 px-4 lg:px-8">
-          {/* Left: Logo */}
-          <HeaderLogo />
+    <HeaderWithShadow>
+      <div className="relative mx-auto grid h-full max-w-7xl grid-cols-[auto_1fr_auto] items-center gap-4 px-4 lg:px-8">
+        {/* Left: Logo */}
+        <HeaderLogo />
 
-          {/* Center: Navigation */}
-          <HeaderNav />
+        {/* Center: Navigation */}
+        <HeaderNav />
 
-          {/* Right: Actions */}
-          <HeaderActions />
-        </div>
-      </HeaderWithShadow>
-    </>
+        {/* Right: Actions */}
+        <HeaderActions />
+      </div>
+    </HeaderWithShadow>
   );
 });
 

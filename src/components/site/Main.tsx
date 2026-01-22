@@ -2,8 +2,8 @@
 
 import { useSetAtom } from 'jotai';
 import { useEffect, useRef } from 'react';
+import { scrollContainerRefAtom } from '@/atoms/app';
 import { useScrollListener } from '@/hooks/use-scroll';
-import { scrollContainerRefAtom } from '@/store/atoms/app';
 import { BackgroundGrid } from './BackgroundGrid';
 import { Footer } from './Footer';
 import { Header } from './Header';
