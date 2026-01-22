@@ -48,6 +48,192 @@ Contains the "Glassmorphic Depth Design System" for the main user-facing photo g
 
 Reference doc: `docs/MACOS_DESIGN_SYSTEM.md`、`docs/MACOS_UI_UX_GUIDELINES.md`
 
+## Reference Projects & Acknowledgments
+
+This project is built by learning from and adapting code from several excellent open-source projects. All reference projects are available locally under `/Users/suqingyao/workspace/forks/` for code inspection and learning.
+
+### 1. xLog - Markdown Rendering System
+**Local Path**: `/Users/suqingyao/workspace/forks/xLog`
+**GitHub**: https://github.com/Crossbell-Box/xLog
+**Description**: An open-source creative community written on the blockchain
+
+**What We Adapted**:
+- **Markdown Processing Pipeline** (`src/markdown/`):
+  - Unified processor with remark/rehype plugins
+  - MDX component system (`src/markdown/components.tsx`)
+  - Custom rehype plugins: `rehype-wrap-code`, `rehype-task-list`, `rehype-peekaboo-link`, `rehype-mermaid`, `rehype-table`
+  - Remark plugins: `remark-pangu` for Chinese/English spacing
+- **Markdown Rendering Components** (`src/components/ui/markdown/`):
+  - `MarkdownContentServer`: Server-side rendering wrapper
+  - `MarkdownContent`: Client-side rendering with TOC support
+  - Code highlighting with theme switching (Shiki integration)
+- **Content Model** (`src/models/post.model.ts`):
+  - Post metadata extraction and frontmatter parsing
+  - Reading time calculation
+  - Tag and category management
+- **Typography Styles** (`src/styles/typography.css`):
+  - Prose styling with light/dark mode support
+  - Custom code block styling
+  - Table, list, and blockquote styles
+
+**Key Features Learned**:
+- Shiki syntax highlighting with dual theme support
+- Custom directive handling (e.g., PeekabooLink, LinkCard)
+- Math rendering with KaTeX
+- GitHub Alerts (Note, Warning, Important)
+- Task list with custom checkbox icons
+
+---
+
+### 2. Shiro - Photo Gallery & Content Management
+**Local Path**: `/Users/suqingyao/workspace/forks/Shiro`
+**GitHub**: https://github.com/Innei/Shiro
+**Description**: A modern, aesthetic personal website and blog system
+
+**What We Adapted**:
+- **Design Philosophy**:
+  - Minimalist aesthetics with attention to detail
+  - Smooth animations and transitions
+  - Dark mode implementation patterns
+- **Component Patterns**:
+  - Modal and dialog system architecture
+  - Link components with hover effects (`RichLink`, `PeekabooLink`)
+  - Advanced image components with optimization
+- **State Management**:
+  - Jotai atom patterns for global state
+  - Custom hooks for UI state (e.g., `use-header-atom`, `use-title`)
+- **UI/UX Patterns**:
+  - Floating action buttons
+  - Toast notifications (Sonner integration)
+  - Smooth scroll behavior
+  - Loading states and skeletons
+
+**Key Features Learned**:
+- Clean component composition patterns
+- TypeScript best practices for React
+- Animation choreography with Framer Motion
+- Responsive design patterns
+
+---
+
+### 3. afilmory - Photo Management & Viewer
+**Local Path**: `/Users/suqingyao/workspace/forks/afilmory`
+**GitHub**: https://github.com/afilmory/afilmory
+**Description**: A beautiful photo gallery and management system
+
+**What We Adapted** (Most Comprehensive):
+
+#### **Photo Gallery System** (`/photos`)
+- **Gallery Layout** (`src/modules/gallery/`):
+  - `PhotosRoot`: Main gallery container with filter state
+  - Masonry vs List view switching
+  - Infinite scroll with virtualization
+  - Date range grouping and display
+- **Filter System**:
+  - URL-synced filters (tags, camera, lens, rating)
+  - Multi-select tag filtering
+  - Camera and lens metadata filtering
+  - Star rating filter
+- **Photo Cards**:
+  - Lazy loading with blur-up placeholder
+  - EXIF data display on hover
+  - Thumbhash-based dominant color extraction
+  - Responsive grid layout
+
+#### **Photo Viewer** (`/photos/[photoId]`)
+- **Full-Screen Viewer** (`src/modules/viewer/`):
+  - Standalone viewer page
+  - Modal overlay variant (`@modal/(.)photos/[photoId]`)
+  - Keyboard navigation (arrow keys, Escape)
+  - Swipe gestures for mobile
+- **Viewer Features**:
+  - High-resolution image loading
+  - EXIF data panel
+  - Share functionality
+  - Download original
+  - Previous/Next navigation
+  - Accent color derivation from image
+- **State Management**:
+  - Viewer index synchronization
+  - URL updates without page reload
+  - Body scroll locking
+  - Portal-based UI rendering
+
+#### **Map Integration** (`/map`)
+- **Interactive Map** (`src/modules/map/`):
+  - Leaflet-based map component
+  - Photo markers with clustering
+  - Click to open photo viewer
+  - Lazy loading with React.lazy + Suspense
+- **Geolocation Features**:
+  - GPS coordinate parsing from EXIF
+  - Location-based photo grouping
+  - Map bounds optimization
+
+#### **Photo Processing Pipeline** (`scripts/`)
+- **Build Scripts**:
+  - `build-photos.ts`: Main photo processing orchestrator
+  - Image optimization and resizing
+  - EXIF metadata extraction
+  - Thumbhash generation
+  - Motion Photo / Live Photo support
+- **Manifest Generation**:
+  - `generate-manifest-from-assets.js`: Photo metadata JSON
+  - Camera and lens information
+  - GPS coordinates conversion (DMS to decimal)
+  - Image orientation handling (EXIF rotation)
+
+#### **Photo Data Models** (`src/types/`, `src/lib/photo-loader.ts`)
+- **Type Definitions**:
+  - `Photo`: Complete photo metadata
+  - `PhotoExif`: EXIF data structure
+  - `PhotoManifest`: Gallery manifest
+- **Data Loading**:
+  - `photoLoader`: Photo metadata loading utilities
+  - Client/server data providers
+  - Photo filtering and sorting logic
+
+**Key Features Learned**:
+- Efficient image lazy loading strategies
+- EXIF data extraction and display
+- Thumbhash for placeholder generation
+- Virtual scrolling for large galleries
+- URL state synchronization patterns
+- Modal vs standalone page patterns
+- Touch gesture handling
+- Map integration with photo data
+
+---
+
+## How to Reference Source Code
+
+When implementing features or debugging issues, you can directly read the source code from these projects:
+
+```bash
+# Read xLog markdown processing
+cat ~/workspace/forks/xLog/src/markdown/index.ts
+
+# Check afilmory photo viewer implementation
+cat ~/workspace/forks/afilmory/src/modules/viewer/PhotoViewer.tsx
+
+# Review Shiro component patterns
+cat ~/workspace/forks/Shiro/src/components/ui/link/Link.tsx
+```
+
+## Attribution & License Notes
+
+- This project maintains attribution to all referenced projects
+- Each project's license is respected (check individual LICENSE files)
+- Adapted code is modified to fit our architecture and requirements
+- Original ideas and implementations are credited to their respective authors
+
+**Special Thanks** to:
+- [@DIYgod](https://github.com/DIYgod) and xLog contributors
+- [@Innei](https://github.com/Innei) for Shiro
+- [@afilmory](https://github.com/afilmory) team for the excellent photo gallery system
+
+---
+
 ## IMPORTANT
 
 Avoid feature gates/flags and any backwards compability changes - since our app is still unreleased" is really helpful.
