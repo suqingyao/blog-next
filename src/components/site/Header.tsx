@@ -9,6 +9,7 @@ import { openSearchModal } from '@/components/search/SearchModal';
 import { AnimatedLogo } from '@/components/site/AnimatedLogo';
 import { GlassMorphismButton } from '@/components/ui/button';
 import { useIsDark } from '@/hooks/use-dark-mode';
+import { useIsMounted } from '@/hooks/use-is-mounted';
 import { useHeaderVisible, useMenuOpacity } from '@/hooks/use-scroll';
 import { useSearchHotkey } from '@/hooks/use-search-hotkey';
 import { cn } from '@/lib/utils';
@@ -219,6 +220,7 @@ HeaderNav.displayName = 'HeaderNav';
 const HeaderActions = memo(() => {
   const { setTheme } = useTheme();
   const isDark = useIsDark();
+  const isMounted = useIsMounted();
 
   const handleOpenSearch = useCallback(() => {
     openSearchModal();
@@ -248,14 +250,19 @@ const HeaderActions = memo(() => {
         variant="circle"
         size="md"
         onClick={() => setTheme(isDark ? 'light' : 'dark')}
-        title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+        title={isMounted ? (isDark ? 'Switch to light mode' : 'Switch to dark mode') : 'Toggle theme'}
       >
-        <i
-          className={cn(
-            'h-5 w-5',
-            isDark ? 'i-mingcute-sun-line' : 'i-mingcute-moon-line',
-          )}
-        />
+        {/* 避免 hydration mismatch：未挂载时显示默认图标 */}
+        {!isMounted ? (
+          <i className="h-5 w-5 i-mingcute-sun-line" />
+        ) : (
+          <i
+            className={cn(
+              'h-5 w-5',
+              isDark ? 'i-mingcute-sun-line' : 'i-mingcute-moon-line',
+            )}
+          />
+        )}
       </GlassMorphismButton>
 
       {/* Mobile: Search icon button */}
