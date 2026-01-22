@@ -57,11 +57,6 @@ const navigationLinks: NavigationLink[] = [
 const HeaderWithShadow = memo<{ children: React.ReactNode }>(({ children }) => {
   const isVisible = useHeaderVisible();
 
-  // Debug: 使用 useEffect 打印状态
-  useEffect(() => {
-    console.log('Header状态:', { isVisible });
-  }, [isVisible]);
-
   return (
     <m.header
       animate={{
@@ -253,16 +248,18 @@ const HeaderActions = memo(() => {
         title={isMounted ? (isDark ? 'Switch to light mode' : 'Switch to dark mode') : 'Toggle theme'}
       >
         {/* 避免 hydration mismatch：未挂载时显示默认图标 */}
-        {!isMounted ? (
-          <i className="h-5 w-5 i-mingcute-sun-line" />
-        ) : (
-          <i
-            className={cn(
-              'h-5 w-5',
-              isDark ? 'i-mingcute-sun-line' : 'i-mingcute-moon-line',
+        {!isMounted
+          ? (
+              <i className="h-5 w-5 i-mingcute-sun-line" />
+            )
+          : (
+              <i
+                className={cn(
+                  'h-5 w-5',
+                  isDark ? 'i-mingcute-sun-line' : 'i-mingcute-moon-line',
+                )}
+              />
             )}
-          />
-        )}
       </GlassMorphismButton>
 
       {/* Mobile: Search icon button */}
