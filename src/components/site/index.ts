@@ -1,4 +1,3 @@
-export * from './Dock';
 export * from './Footer';
 export * from './Hero';
 export * from './LatestPosts';

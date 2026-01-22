@@ -46,9 +46,9 @@ export function ActionGroup() {
       <Button
         variant="ghost"
         size="sm"
-        onClick={() => router.push('/map')}
+        onClick={() => router.push('/explore')}
         className="h-10 w-10 rounded-full border-0 bg-gray-100 transition-all duration-200 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700"
-        title="地图探索"
+        title="探索地图"
       >
         <i className="i-mingcute-map-pin-line text-base text-gray-600 dark:text-gray-300" />
       </Button>

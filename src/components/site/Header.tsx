@@ -7,6 +7,7 @@ import { usePathname } from 'next/navigation';
 import { memo, useCallback, useEffect } from 'react';
 import { SearchButton } from '@/components/search/SearchButton';
 import { AnimatedLogo } from '@/components/site/AnimatedLogo';
+import { GlassButton } from '@/components/ui/button';
 import { useIsDark } from '@/hooks/use-dark-mode';
 import { useHeaderBgOpacity, useHeaderVisible, useMenuOpacity, useScrollDirection, useScrollY } from '@/hooks/use-scroll';
 import { cn } from '@/lib/utils';
@@ -21,32 +22,32 @@ interface NavigationLink {
 const navigationLinks: NavigationLink[] = [
   {
     id: 'home',
-    label: '首页',
+    label: 'Home',
     path: '/',
     icon: 'i-mingcute-home-2-line',
   },
   {
     id: 'posts',
-    label: '文章',
+    label: 'Posts',
     path: '/posts',
     icon: 'i-mingcute-quill-pen-line',
   },
   {
     id: 'tags',
-    label: '标签',
+    label: 'Tags',
     path: '/tags',
     icon: 'i-mingcute-tag-line',
   },
   {
     id: 'photos',
-    label: '照片',
+    label: 'Photos',
     path: '/photos',
     icon: 'i-mingcute-camera-line',
   },
   {
-    id: 'map',
-    label: '地图',
-    path: '/map',
+    id: 'explore',
+    label: 'Explore',
+    path: '/explore',
     icon: 'i-mingcute-map-pin-line',
   },
 ];
@@ -248,40 +249,29 @@ const HeaderActions = memo(() => {
       </div>
 
       {/* Theme Toggle */}
-      <button
-        type="button"
+      <GlassButton
         onClick={() => setTheme(isDark ? 'light' : 'dark')}
-        className={cn(
-          'flex size-9 items-center justify-center rounded-full',
-          'transition-colors duration-200',
-          'hover:bg-gray-100 dark:hover:bg-gray-800',
-        )}
         title="切换主题"
+        className="size-9"
       >
         <i className={cn(
           isDark ? 'i-mingcute-sun-line' : 'i-mingcute-moon-line',
-          'text-lg text-gray-600 dark:text-gray-400',
         )}
         />
-      </button>
+      </GlassButton>
 
       {/* Mobile: Search icon button */}
-      <button
-        type="button"
+      <GlassButton
         onClick={() => {
           // Trigger search modal on mobile
           const searchBtn = document.querySelector('[aria-label="搜索文章"]') as HTMLButtonElement;
           searchBtn?.click();
         }}
-        className={cn(
-          'flex size-9 items-center justify-center rounded-full sm:hidden',
-          'transition-colors duration-200',
-          'hover:bg-gray-100 dark:hover:bg-gray-800',
-        )}
         title="搜索"
+        className="size-9 sm:hidden"
       >
-        <i className="i-mingcute-search-line text-lg text-gray-600 dark:text-gray-400" />
-      </button>
+        <i className="i-mingcute-search-line" />
+      </GlassButton>
     </div>
   );
 });
@@ -289,13 +279,6 @@ const HeaderActions = memo(() => {
 HeaderActions.displayName = 'HeaderActions';
 
 export const Header = memo(() => {
-  // Debug panel
-  const scrollY = useScrollY();
-  const direction = useScrollDirection();
-  const isVisible = useHeaderVisible();
-  const bgOpacity = useHeaderBgOpacity();
-  const menuOpacity = useMenuOpacity();
-
   return (
     <>
       <HeaderWithShadow>
@@ -311,41 +294,6 @@ export const Header = memo(() => {
           <HeaderActions />
         </div>
       </HeaderWithShadow>
-
-      {/* Debug Panel - 临时调试用，后续可删除 */}
-      <div className="fixed right-4 top-20 z-[999] rounded-lg bg-black/90 p-4 font-mono text-xs text-white shadow-lg">
-        <div className="space-y-1">
-          <div>
-            Scroll Y:
-            <span className="text-green-400">
-              {scrollY.toFixed(0)}
-              px
-            </span>
-          </div>
-          <div>
-            Direction:
-            <span className="text-blue-400">{direction || 'none'}</span>
-          </div>
-          <div>
-            Header Visible:
-            <span className={isVisible ? 'text-green-400' : 'text-red-400'}>{isVisible ? 'YES' : 'NO'}</span>
-          </div>
-          <div>
-            BG Opacity:
-            <span className="text-yellow-400">
-              {(bgOpacity * 100).toFixed(0)}
-              %
-            </span>
-          </div>
-          <div>
-            Menu Opacity:
-            <span className="text-purple-400">
-              {(menuOpacity * 100).toFixed(0)}
-              %
-            </span>
-          </div>
-        </div>
-      </div>
     </>
   );
 });
