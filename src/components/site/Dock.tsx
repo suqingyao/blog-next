@@ -40,7 +40,7 @@ const navigationLinks = [
   {
     id: 'map',
     label: 'Map',
-    path: '/photos/map',
+    path: '/map',
     icon: 'i-mingcute-map-pin-line',
     iconActive: 'i-mingcute-map-pin-fill',
   },

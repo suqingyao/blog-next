@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import NextTopLoader from 'nextjs-toploader';
-import { DotGrid } from '@/components/common/DotGrid';
 import { Main } from '@/components/site';
 
 import { Backtop } from '@/components/ui/backtop';
@@ -47,18 +46,7 @@ export default async function RootLayout({
           <Main>
             {children}
             {modal}
-            <DotGrid
-              dotSize={2}
-              gap={40}
-              baseColor="#e5e7eb"
-              activeColor="#a1a1aa"
-              proximity={100}
-              shockRadius={100}
-              shockStrength={2}
-              resistance={1000}
-              returnDuration={1}
-              style={{ width: '100%', height: '100%', position: 'fixed', inset: 0, zIndex: -1 }}
-            />
+
           </Main>
           <Backtop />
         </AppProviders>

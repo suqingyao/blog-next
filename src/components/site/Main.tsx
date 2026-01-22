@@ -3,6 +3,7 @@
 import { useSetAtom } from 'jotai';
 import { useEffect, useRef } from 'react';
 import { scrollContainerRefAtom } from '@/store/atoms/app';
+import { BackgroundGrid } from './BackgroundGrid';
 import { Dock } from './Dock';
 import { Footer } from './Footer';
 
@@ -27,6 +28,7 @@ export function Main({ children }: { children: React.ReactNode }) {
       </div>
       {/* 添加底部 Dock */}
       <Dock />
+      <BackgroundGrid />
     </div>
   );
 }

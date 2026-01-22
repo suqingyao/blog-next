@@ -12,11 +12,11 @@ export default function PostTitle({
   return (
     <h1
       className={cn(
-        'post-title relative mb-5 flex items-center text-3xl font-extrabold',
+        'post-title relative mb-5 flex items-center justify-center text-3xl font-extrabold',
         className,
       )}
     >
-      <span>{title}</span>
+      {title}
     </h1>
   );
 }
