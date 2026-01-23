@@ -60,7 +60,7 @@ export function MiniMap({ latitude, longitude, photoId }: MiniMapProps) {
 
       {/* 点击跳转到explore页面的遮罩 */}
       <Link
-        href={`/map?photoId=${photoId}`}
+        href={`/explore?photoId=${photoId}`}
         target="_blank"
         className="absolute inset-0 cursor-pointer transition-opacity duration-200 hover:bg-black/10"
         aria-label="在地图中查看位置"
