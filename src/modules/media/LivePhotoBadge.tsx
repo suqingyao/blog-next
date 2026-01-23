@@ -37,9 +37,10 @@ export const LivePhotoBadge: FC<LivePhotoBadgeProps> = ({ livePhotoRef, isLivePh
       {/* Live Photo 标识 */}
       <div
         className={cn(
-          'flex items-center space-x-1 rounded-xl bg-black/50 px-1 py-1 text-xs text-white transition-all duration-200',
+          'absolute z-20 flex items-center space-x-1 rounded-xl bg-black/50 px-1 py-1 text-xs text-white transition-all duration-200',
           'cursor-pointer hover:bg-black/70',
           isLivePhotoPlaying && 'bg-accent/70 hover:bg-accent/80',
+          'top-12 lg:top-4 left-4',
         )}
         onClick={handleClick}
       >

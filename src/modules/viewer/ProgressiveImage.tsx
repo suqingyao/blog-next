@@ -193,22 +193,15 @@ export function ProgressiveImage({
         </div>
       )}
 
-      {
-        highResLoaded && blobSrc && isActiveImage && !error && (
-          <div className={cn('absolute z-20 flex items-center', isDevelopment ? 'top-16 right-4' : 'top-12 lg:top-4 left-4')}>
-            {hasVideo && (
-              <LivePhotoBadge
-                livePhotoRef={livePhotoRef}
-                isLivePhotoPlaying={isLivePhotoPlaying}
-                imageLoaderManagerRef={imageLoaderManagerRef}
-              />
-            )}
-            {shouldUseHDR && (
-              <HDRBadge className={cn(hasVideo && 'ml-2')} />
-            )}
-          </div>
-        )
-      }
+      {hasVideo && highResLoaded && blobSrc && isActiveImage && !error && (
+        <LivePhotoBadge
+          livePhotoRef={livePhotoRef}
+          isLivePhotoPlaying={isLivePhotoPlaying}
+          imageLoaderManagerRef={imageLoaderManagerRef}
+        />
+      )}
+
+      {shouldUseHDR && highResLoaded && blobSrc && isActiveImage && !error && <HDRBadge className={cn(hasVideo && 'lg:top-12 top-20')} />}
 
       {/* 备用图片（当 WebGL 不可用时） - 只在非错误状态时显示 */}
       {!canUseWebGL && highResLoaded && blobSrc && isActiveImage && !error && (
