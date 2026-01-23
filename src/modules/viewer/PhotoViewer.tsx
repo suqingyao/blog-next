@@ -163,7 +163,7 @@ export function PhotoViewer({
   const currentThumbHash = transitionThumbHash;
 
   return (
-    <>
+    <div data-theme="dark">
       <AnimatePresence>
         {shouldRenderBackdrop && (
           <m.div
@@ -426,7 +426,7 @@ export function PhotoViewer({
           onComplete={handleExitAnimationComplete}
         />
       )}
-    </>
+    </div>
   );
 }
 
