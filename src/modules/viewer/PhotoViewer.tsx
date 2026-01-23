@@ -8,11 +8,10 @@ import { AnimatePresence, m } from 'motion/react';
 import { Fragment, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Keyboard, Navigation, Virtual } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { GlassMorphismButton } from '@/components/ui/button';
 import { Thumbhash } from '@/components/ui/thumbhash';
 import { useMobile } from '@/hooks/use-mobile';
-
 import { Spring } from '@/lib/spring';
+
 import { LoadingIndicator } from '@/modules/inspector/LoadingIndicator';
 import { PhotoInspector } from '@/modules/inspector/PhotoInspector';
 // import { ShareModal } from '@/modules/social/ShareModal';
@@ -227,14 +226,13 @@ export function PhotoViewer({
                     <div className="flex items-center gap-2">
                       {/* 信息按钮 - 在移动设备上显示 */}
                       {isMobile && (
-                        <GlassMorphismButton
-                          variant="circle"
-                          size="sm"
-                          className={`pointer-events-auto ${isInspectorVisible ? 'bg-accent' : ''}`}
+                        <button
+                          type="button"
+                          className={`bg-material-ultra-thick pointer-events-auto flex size-8 items-center justify-center rounded-full text-white backdrop-blur-2xl duration-200 hover:bg-black/40 ${isInspectorVisible ? 'bg-accent' : ''}`}
                           onClick={() => setIsInspectorVisible(visible => !visible)}
                         >
                           <i className="i-mingcute-information-line" />
-                        </GlassMorphismButton>
+                        </button>
                       )}
                     </div>
 
@@ -257,26 +255,24 @@ export function PhotoViewer({
 
                       {/* 展开信息面板（桌面端在折叠时显示） */}
                       {!isMobile && !isInspectorVisible && (
-                        <GlassMorphismButton
-                          variant="circle"
-                          size="sm"
-                          className="pointer-events-auto"
+                        <button
+                          type="button"
+                          className="bg-material-ultra-thick pointer-events-auto flex size-8 items-center justify-center rounded-full text-white backdrop-blur-2xl duration-200 hover:bg-black/40"
                           onClick={() => setIsInspectorVisible(true)}
                           title="信息"
                         >
                           <i className="i-lucide-panel-right-open" />
-                        </GlassMorphismButton>
+                        </button>
                       )}
 
                       {/* 关闭按钮 */}
-                      <GlassMorphismButton
-                        variant="circle"
-                        size="sm"
-                        className="pointer-events-auto"
+                      <button
+                        type="button"
+                        className="bg-material-ultra-thick pointer-events-auto flex size-8 items-center justify-center rounded-full text-white backdrop-blur-2xl duration-200 hover:bg-black/40"
                         onClick={onClose}
                       >
                         <i className="i-mingcute-close-line" />
-                      </GlassMorphismButton>
+                      </button>
                     </div>
                   </m.div>
 
@@ -366,25 +362,23 @@ export function PhotoViewer({
                   {!isMobile && (
                     <Fragment>
                       {currentIndex > 0 && (
-                        <GlassMorphismButton
-                          variant="circle"
-                          size="sm"
-                          className="absolute top-1/2 left-4 z-20 -translate-y-1/2 opacity-0 duration-200 group-hover/photo-viewer:opacity-100"
+                        <button
+                          type="button"
+                          className="bg-material-medium absolute top-1/2 left-4 z-20 flex size-8 -translate-y-1/2 items-center justify-center rounded-full text-white opacity-0 backdrop-blur-sm duration-200 group-hover/photo-viewer:opacity-100 hover:bg-black/40"
                           onClick={handlePrevious}
                         >
                           <i className="i-mingcute-left-line text-xl" />
-                        </GlassMorphismButton>
+                        </button>
                       )}
 
                       {currentIndex < photos.length - 1 && (
-                        <GlassMorphismButton
-                          variant="circle"
-                          size="sm"
-                          className="absolute top-1/2 right-4 z-20 -translate-y-1/2 opacity-0 duration-200 group-hover/photo-viewer:opacity-100"
+                        <button
+                          type="button"
+                          className="bg-material-medium absolute top-1/2 right-4 z-20 flex size-8 -translate-y-1/2 items-center justify-center rounded-full text-white opacity-0 backdrop-blur-sm duration-200 group-hover/photo-viewer:opacity-100 hover:bg-black/40"
                           onClick={handleNext}
                         >
                           <i className="i-mingcute-right-line text-xl" />
-                        </GlassMorphismButton>
+                        </button>
                       )}
                     </Fragment>
                   )}
