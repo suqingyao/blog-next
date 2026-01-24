@@ -4,7 +4,7 @@ import { MapLoadingFallback } from './_components/Fallback';
 
 export default function MapPage() {
   return (
-    <div className="fixed inset-0 size-full z-9999">
+    <div className="fixed inset-0 size-full z-50">
       <Suspense fallback={<MapLoadingFallback />}>
         <MapSection />
       </Suspense>
