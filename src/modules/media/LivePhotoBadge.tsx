@@ -4,7 +4,6 @@ import { AnimatePresence, m } from 'motion/react';
 import { useCallback } from 'react';
 
 import { isMobileDevice } from '@/lib/device-viewport';
-import { isDevelopment } from '@/lib/env';
 import { cn } from '@/lib/utils';
 
 export const LivePhotoBadge: FC<LivePhotoBadgeProps> = ({ livePhotoRef, isLivePhotoPlaying }) => {
