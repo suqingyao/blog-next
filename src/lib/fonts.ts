@@ -6,6 +6,7 @@ const sansFont = Manrope({
   weight: ['300', '400', '500'],
   variable: '--font-sans',
   display: 'swap',
+  preload: true,
 });
 
 const serifFont = Noto_Serif_SC({
@@ -13,6 +14,7 @@ const serifFont = Noto_Serif_SC({
   weight: ['400'],
   variable: '--font-serif',
   display: 'swap',
+  preload: true,
   // adjustFontFallback: false,
   fallback: ['Noto Serif SC'],
 });
@@ -22,6 +24,7 @@ const monoFont = Outfit({
   weight: ['400'],
   variable: '--font-mono',
   display: 'swap',
+  preload: true,
 });
 
 const interFont = Inter({
@@ -29,6 +32,7 @@ const interFont = Inter({
   weight: ['400'],
   variable: '--font-inter',
   display: 'swap',
+  preload: true,
 });
 
 const snProFont = localFont({
