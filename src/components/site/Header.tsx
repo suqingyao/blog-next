@@ -4,7 +4,7 @@ import { m, useMotionTemplate, useMotionValue } from 'motion/react';
 import { useTheme } from 'next-themes';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { memo, useCallback, useEffect } from 'react';
+import { memo, useCallback } from 'react';
 import { openSearchModal } from '@/components/search/SearchModal';
 import { AnimatedLogo } from '@/components/site/AnimatedLogo';
 import { GlassMorphismButton } from '@/components/ui/button';
