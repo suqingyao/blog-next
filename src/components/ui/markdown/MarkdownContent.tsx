@@ -1,7 +1,7 @@
 'use client';
 
 import type { Result as TocResult } from 'mdast-util-toc';
-import type { BundledTheme } from 'shiki/themes';
+import type { CodeTheme } from '@/lib/shiki/types';
 import { memo, useEffect } from 'react';
 
 import PostToc from '@/components/site/PostToc';
@@ -34,10 +34,7 @@ export const MarkdownContent = memo(({
   strictMode?: boolean;
   withActions?: boolean;
   onlyContent?: boolean;
-  codeTheme?: {
-    light?: BundledTheme;
-    dark?: BundledTheme;
-  };
+  codeTheme?: CodeTheme;
 }) => {
   let inParsedContent;
   if (parsedContent) {

@@ -1,164 +1,91 @@
-import type { Element, Root } from 'hast';
+/**
+ * Rehype plugin to handle code-group elements
+ * Works after remarkDirectiveRehype has processed directives
+ * Extracts code blocks from children and stores in data-code-blocks
+ */
+
+import type { Element, Root, Text } from 'hast';
 import type { Plugin } from 'unified';
-import { toString as hastToString } from 'hast-util-to-string';
-import { SKIP, visit } from 'unist-util-visit';
+import { visit } from 'unist-util-visit';
 
-// Separator for multiple code blocks in data-code attribute
-const CODE_SEPARATOR = '|||';
-
-/**
- * Extract language from className (e.g., "language-bash" -> "bash")
- */
-function extractLanguage(classNames: any): string | undefined {
-  if (!classNames)
-    return undefined;
-
-  const classes = Array.isArray(classNames) ? classNames : [classNames];
-
-  for (const cls of classes) {
-    if (typeof cls === 'string' && cls.startsWith('language-')) {
-      return cls.replace('language-', '');
-    }
-  }
-
-  return undefined;
+interface CodeBlockData {
+  code: string;
+  language: string;
+  label: string;
 }
 
-/**
- * Extract code content from a <pre> element
- */
-function extractCodeContent(preElement: Element): { code: string; language?: string } {
-  // Find the <code> element inside <pre>
-  const codeElement = preElement.children.find(
-    (child): child is Element => child.type === 'element' && child.tagName === 'code',
-  );
-
-  if (!codeElement) {
-    return { code: hastToString(preElement), language: undefined };
-  }
-
-  // Extract language from className
-  const language = extractLanguage(codeElement.properties?.className);
-
-  // Extract code content (handle both text nodes and element nodes)
-  const code = hastToString(codeElement);
-
-  return { code, language };
-}
-
-/**
- * Options to customize the Rehype Code Group plugin.
- */
-export interface RehypeCodeGroupOptions {
-  // Reserved for future use
-}
-
-export const rehypeCodeGroup: Plugin<[RehypeCodeGroupOptions?], Root> = (
-  _ = {},
-) => {
+export const rehypeCodeGroup: Plugin<[], Root> = () => {
   return (tree: Root) => {
-    visit(tree, 'element', (node, index, parent) => {
-      if (node.type !== 'element' || index === undefined || !parent) {
-        return;
-      }
+    visit(tree, 'element', (node: Element, index, parent) => {
+      // Only handle CodeGroup HTML tag syntax (PascalCase)
+      // Directive syntax (:::code-group) is handled by remarkCodeGroup → <codegroup> tag
+      if (node.tagName === 'CodeGroup') {
+        // Extract from children for HTML tag syntax: <CodeGroup>
+        const codeBlocks: CodeBlockData[] = [];
 
-      // Handle code-group-wrapper (from remark-code-group)
-      // Transform it to <codegroup> with extracted data
-      if (node.tagName === 'code-group-wrapper') {
-        // Extract labels (rehypeRaw converts data-labels to dataLabels)
-        const dataLabels = node.properties.dataLabels || node.properties['data-labels'];
-        const tabLabels = typeof dataLabels === 'string'
-          ? dataLabels.split(',').map(l => l.trim()).filter(Boolean)
-          : [];
+        visit(node, 'element', (child: Element) => {
+          if (child.tagName === 'pre') {
+            // Find code element inside pre
+            const codeElement = child.children.find(
+              (c): c is Element => c.type === 'element' && c.tagName === 'code',
+            );
 
-        if (tabLabels.length === 0) {
-          return;
-        }
+            if (codeElement) {
+              // Extract language from className
+              const className = codeElement.properties?.className;
+              const languageMatch = Array.isArray(className)
+                ? className.find((c: any) => typeof c === 'string' && c.startsWith('language-'))
+                : typeof className === 'string' && className.startsWith('language-') ? className : null;
 
-        // Find all <pre> elements (code blocks) in children
-        const codeBlocks: Element[] = [];
-        const findCodeBlocks = (children: any[]) => {
-          for (const child of children) {
-            if (child.type === 'element' && child.tagName === 'pre') {
-              codeBlocks.push(child);
-            }
-            else if (child.children) {
-              findCodeBlocks(child.children);
+              const language = typeof languageMatch === 'string'
+                ? languageMatch.replace('language-', '')
+                : 'text';
+
+              // Extract code text
+              const textNode = codeElement.children.find((c): c is Text => c.type === 'text');
+              const code = textNode?.value || '';
+
+              // Extract label from data-meta or first line comment
+              let label = language;
+
+              // Try to get label from data-meta (for HTML syntax with meta)
+              const dataMeta = codeElement.properties?.['data-meta'] as string;
+              if (dataMeta) {
+                const metaMatch = dataMeta.match(/\[(.+?)\]/);
+                if (metaMatch) {
+                  label = metaMatch[1];
+                }
+              }
+
+              // Try to extract from first line comment
+              if (label === language) {
+                const lines = code.split('\n');
+                const firstLine = lines[0]?.trim();
+                if (firstLine) {
+                  const commentMatch = firstLine.match(/^(?:#|\/\/|<!--|\/\*)\s*(.+?)(?:-->|\*\/)?$/);
+                  if (commentMatch) {
+                    label = commentMatch[1].trim();
+                  }
+                }
+              }
+
+              codeBlocks.push({ code, language, label });
             }
           }
-        };
-        findCodeBlocks(node.children);
-
-        if (codeBlocks.length === 0) {
-          return;
-        }
-
-        // Extract code content and language from each code block
-        const codes: string[] = [];
-        const languages: string[] = [];
-
-        codeBlocks.forEach((block) => {
-          const { code, language } = extractCodeContent(block);
-          codes.push(code);
-          languages.push(language || '');
         });
 
-        // Create <codegroup> element
-        const newNode: Element = {
-          type: 'element',
-          tagName: 'codegroup',
-          properties: {
-            'data-labels': tabLabels.join(','),
-            'data-code': codes.join(CODE_SEPARATOR),
-            'data-language': languages.join(','),
-          },
-          children: [],
-        };
+        // Store in data-code-blocks and convert to codegroup tag
+        if (codeBlocks.length > 0) {
+          node.properties = node.properties || {};
+          node.properties['data-code-blocks'] = JSON.stringify(codeBlocks);
+          node.properties.dataCodeBlocks = JSON.stringify(codeBlocks); // Also camelCase
 
-        // Replace the node in parent
-        (parent as any).children[index] = newNode;
+          // Change to lowercase codegroup tag (same as directive syntax)
+          node.tagName = 'codegroup';
 
-        return [SKIP];
-      }
-
-      // Handle codeblock-wrapper (from remark-code-group)
-      // Transform it to <codeblock> with extracted data
-      if (node.tagName === 'codeblock-wrapper') {
-        // Get the label
-        const dataLabel = node.properties?.dataLabel || node.properties?.['data-label'];
-
-        if (!dataLabel) {
-          return;
+          // Clear children to avoid duplicate rendering
+          node.children = [];
         }
-
-        // Find the <pre> element inside
-        const preElement = node.children.find(
-          (child): child is Element => child.type === 'element' && child.tagName === 'pre',
-        );
-
-        if (!preElement) {
-          return;
-        }
-
-        // Extract code and language
-        const { code, language } = extractCodeContent(preElement);
-
-        // Create <codeblock> element
-        const newNode: Element = {
-          type: 'element',
-          tagName: 'codeblock',
-          properties: {
-            'data-label': String(dataLabel),
-            'data-code': code,
-            'data-language': language || '',
-          },
-          children: [],
-        };
-
-        // Replace the node in parent
-        (parent as any).children[index] = newNode;
-
-        return [SKIP];
       }
     });
   };

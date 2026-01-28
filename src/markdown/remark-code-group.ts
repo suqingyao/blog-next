@@ -1,122 +1,137 @@
-import type { Root } from 'mdast';
+/**
+ * Remark plugin to handle :::code-group directive
+ * Converts directive syntax to CodeGroup component
+ */
+
+import type { Code, Root } from 'mdast';
+import type { ContainerDirective } from 'mdast-util-directive';
 import type { Plugin } from 'unified';
 import { SKIP, visit } from 'unist-util-visit';
 
 /**
- * Remark plugin to transform code blocks
+ * Extract labels from directive attributes
+ * Example: :::code-group labels="npm, pnpm, yarn"
+ *     or: :::code-group labels=[npm,pnpm,yarn]
  *
- * 1. Single code blocks with [label] meta: wrap in code-block-wrapper
- * 2. Code groups (:::code-group): wrap in code-group-wrapper
+ * NOTE: Avoid spaces in unquoted attribute values as they will be treated as separate attributes
+ *       ❌ labels=[npm, pnpm, yarn]  (will parse incorrectly)
+ *       ✅ labels="npm, pnpm, yarn"  (correct with quotes)
+ *       ✅ labels=[npm,pnpm,yarn]    (correct without spaces)
+ */
+function extractLabels(node: ContainerDirective): string[] | undefined {
+  const labelsAttr = node.attributes?.labels;
+  if (!labelsAttr)
+    return undefined;
+
+  // Remove optional square brackets if present
+  // e.g., "npm, pnpm, yarn" or "[npm,pnpm,yarn]" or "npm,pnpm,yarn"
+  let cleanedAttr = labelsAttr.trim();
+
+  // Remove surrounding brackets if exist
+  if (cleanedAttr.startsWith('[') && cleanedAttr.endsWith(']')) {
+    cleanedAttr = cleanedAttr.slice(1, -1);
+  }
+
+  // Split by comma and trim each label
+  return cleanedAttr.split(',').map(s => s.trim()).filter(s => s.length > 0);
+}
+
+/**
+ * Extract label from code meta string
+ * Example: ```bash [pnpm]
+ */
+function extractLabelFromMeta(meta?: string | null): string | undefined {
+  if (!meta)
+    return undefined;
+  const match = meta.match(/\[(.+?)\]/);
+  return match?.[1];
+}
+
+/**
+ * Remark plugin: :::code-group → CodeGroup component
  */
 export const remarkCodeGroup: Plugin<[], Root> = () => {
   return (tree: Root) => {
-    // First pass: Handle code-group directives
-    visit(tree, 'containerDirective', (node: any, index, parent) => {
-      // Only process code-group directives
-      if (node.name !== 'code-group' || index === undefined || !parent) {
+    visit(tree, 'containerDirective', (node: ContainerDirective, index, parent) => {
+      // Only handle code-group directives
+      if (node.name !== 'code-group')
         return;
-      }
 
-      // Extract labels from code block meta
-      const labels: string[] = [];
-      const codeBlocks = node.children.filter((child: any) => {
-        if (child.type === 'code' && child.meta) {
-          // Extract label from meta like "[pnpm]" or "[yarn]"
-          const match = child.meta.match(/^\[([^\]]+)\]$/);
-          if (match) {
-            labels.push(match[1]);
-            return true;
+      // Processing code-group directive
+
+      // Extract labels from directive attributes (if provided)
+      const explicitLabels = extractLabels(node);
+
+      // Find all code blocks inside the directive
+      const codeBlocks: Array<{
+        code: string;
+        language: string;
+        label: string;
+        meta?: string;
+      }> = [];
+
+      visit(node, 'code', (codeNode: Code) => {
+        const language = codeNode.lang || 'text';
+        let code = codeNode.value;
+        let label: string | undefined;
+        let labelFromComment = false;
+
+        // Try to extract label from meta string first
+        label = extractLabelFromMeta(codeNode.meta);
+
+        // If no label in meta, try to extract from first line comment
+        if (!label) {
+          const lines = code.split('\n');
+          const firstLine = lines[0]?.trim();
+
+          // Match various comment formats: # label, // label, <!-- label -->, /* label */
+          const commentMatch = firstLine?.match(/^(?:#|\/\/|<!--|\/\*)\s*(.+?)(?:-->|\*\/)?$/);
+          if (commentMatch) {
+            label = commentMatch[1].trim();
+            labelFromComment = true;
+            // Remove the comment line from code
+            code = lines.slice(1).join('\n').trim();
           }
         }
-        return child.type === 'code';
+
+        // If still no label, use language name
+        if (!label) {
+          label = language;
+        }
+
+        codeBlocks.push({
+          code,
+          language,
+          label,
+          meta: codeNode.meta || undefined,
+        });
       });
 
-      if (codeBlocks.length === 0) {
+      // If explicit labels provided, use them (override extracted labels)
+      if (explicitLabels && explicitLabels.length === codeBlocks.length) {
+        codeBlocks.forEach((block, i) => {
+          block.label = explicitLabels[i];
+        });
+      }
+
+      // Skip if no code blocks found
+      if (codeBlocks.length === 0)
         return;
-      }
 
-      // If no labels found in meta, try to extract from attributes
-      if (labels.length === 0 && node.attributes?.labels) {
-        const attrLabels = node.attributes.labels
-          .replace(/^\[|\]$/g, '') // Remove [ ]
-          .split(',')
-          .map((l: string) => l.trim());
-        labels.push(...attrLabels);
-      }
+      // Transform the directive node into an HTML element node
+      // Use custom tag name 'codegroup' (no hyphen for better compatibility)
+      // Convert to 'html' type so it passes through remarkRehype correctly
+      const htmlContent = `<codegroup data-code-blocks='${JSON.stringify(codeBlocks).replace(/'/g, '&apos;')}'></codegroup>`;
+      
+      // Replace the directive node with an HTML node
+      (node as any).type = 'html';
+      (node as any).value = htmlContent;
+      delete (node as any).name;
+      delete (node as any).attributes;
+      delete (node as any).children;
 
-      // Create HTML wrapper for code group
-      // Use code-group-wrapper so rehype-code-group can process it
-      const htmlNode = {
-        type: 'html',
-        value: `<code-group-wrapper data-labels="${labels.join(',')}">`,
-      };
-
-      const htmlCloseNode = {
-        type: 'html',
-        value: '</code-group-wrapper>',
-      };
-
-      // Replace the containerDirective with: opening tag + code blocks + closing tag
-      const newNodes = [htmlNode, ...codeBlocks, htmlCloseNode];
-      (parent.children as any[]).splice(index, 1, ...newNodes);
-
-      // Return SKIP to avoid re-visiting the newly inserted nodes
-      return [SKIP, index + newNodes.length];
-    });
-
-    // Second pass: Handle standalone code blocks (all code blocks not in a group)
-    visit(tree, 'code', (node: any, index, parent) => {
-      if (index === undefined || !parent) {
-        return;
-      }
-
-      // Skip special languages that have their own rendering logic
-      const specialLanguages = ['mermaid'];
-      if (node.lang && specialLanguages.includes(node.lang.toLowerCase())) {
-        return;
-      }
-
-      // Check if this code block is inside a code-group-wrapper
-      // by checking if previous sibling is opening tag or next sibling is closing tag
-      const siblings = parent.children as any[];
-      const prevSibling = index > 0 ? siblings[index - 1] : null;
-      const nextSibling = index < siblings.length - 1 ? siblings[index + 1] : null;
-
-      const isInCodeGroup
-        = (prevSibling?.type === 'html' && prevSibling.value?.includes('code-group-wrapper'))
-          || (nextSibling?.type === 'html' && nextSibling.value === '</code-group-wrapper>');
-
-      // Skip if already in a code group
-      if (isInCodeGroup) {
-        return;
-      }
-
-      // Determine label: use meta [label] if present, otherwise use language
-      let label = node.lang || 'code';
-
-      if (node.meta) {
-        const match = node.meta.match(/^\[([^\]]+)\]$/);
-        if (match) {
-          label = match[1];
-        }
-      }
-
-      // Wrap standalone code block with <codeblock-wrapper>
-      const htmlNode = {
-        type: 'html',
-        value: `<codeblock-wrapper data-label="${label}">`,
-      };
-
-      const htmlCloseNode = {
-        type: 'html',
-        value: '</codeblock-wrapper>',
-      };
-
-      // Replace code block with: opening tag + code + closing tag
-      siblings.splice(index, 1, htmlNode, node, htmlCloseNode);
-
-      // Return SKIP to avoid re-visiting the newly inserted nodes
-      return [SKIP, index + 3];
+      // Return SKIP to prevent further processing
+      return [SKIP];
     });
   };
 };

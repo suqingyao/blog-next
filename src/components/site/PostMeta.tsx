@@ -1,6 +1,6 @@
 import { Time } from '@/components/common/Time';
 import PostTag from '@/components/site/PostTag';
-import { MarkdownContent } from '@/components/ui/markdown/MarkdownContent';
+import { MarkdownContentServer } from '@/components/ui/markdown/MarkdownContentServer';
 import { RESERVED_TAGS } from '@/constants';
 import { CalendarIcon } from '../icons';
 // import TranslationInfo from "./TranslationInfo"
@@ -47,7 +47,7 @@ export default async function PostMeta({
             {translated?.['AI-generated summary'] || 'AI 生成的摘要'}
           </div>
           <div className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-            <MarkdownContent
+            <MarkdownContentServer
               content={post.summary}
               onlyContent={true}
               strictMode={true}

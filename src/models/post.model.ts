@@ -4,20 +4,30 @@ import fg from 'fast-glob';
 import fs from 'fs-extra';
 import { IS_PROD, OUR_DOMAIN } from '@/constants';
 import { consoleLog } from '@/lib/console';
+import { initHighlighter } from '@/lib/shiki/server';
 import { renderMarkdown } from '@/markdown';
 
 export const getAllPostFiles = async () => fg('posts/**/*.mdx');
 
 let memoedAllPosts: Record<string, any>[] = [];
+let shikiInitialized = false;
 
 export async function getAllPosts() {
   // 开发环境每次都重新读取文件
   if (!IS_PROD) {
     memoedAllPosts = [];
+    shikiInitialized = false;
   }
 
   if (memoedAllPosts.length) {
     return memoedAllPosts;
+  }
+
+  // Initialize Shiki highlighter before processing posts
+  if (!shikiInitialized) {
+    await initHighlighter();
+    shikiInitialized = true;
+    consoleLog('INFO', '[Shiki] Highlighter initialized');
   }
 
   const postFiles = await getAllPostFiles();
@@ -169,6 +179,13 @@ export async function getPostBySlug(slug: string) {
     const posts = await getAllPosts();
     const post = posts.find(post => post.slug === slug);
     return post;
+  }
+
+  // Initialize Shiki highlighter if not already done
+  if (!shikiInitialized) {
+    await initHighlighter();
+    shikiInitialized = true;
+    consoleLog('INFO', '[Shiki] Highlighter initialized');
   }
 
   // 开发环境：查找匹配的文件（支持子目录）

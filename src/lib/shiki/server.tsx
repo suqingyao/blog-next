@@ -1,50 +1,98 @@
-import type { FC } from 'react';
 import type { Highlighter } from 'shiki';
 
-import type { ShikiCodeProps } from './types';
+import type { CodeTheme } from './types';
 import {
   bundledLanguages,
   bundledThemes,
   createHighlighter as createHighlighterPrimitive,
-
 } from 'shiki';
-import { shikiTransformers } from './shared';
+import { defaultCodeTheme, extractShikiHtml, shikiTransformers } from './shared';
 
-export const ShikiRender: FC<ShikiCodeProps> = async ({
-  code,
-  codeTheme,
-  language,
-}) => {
-  if (!code) {
-    return null;
+export { defaultCodeTheme } from './shared';
+export type { CodeTheme, ShikiResult } from './types';
+
+let highlighter: Highlighter | undefined;
+let highlighterPromise: Promise<Highlighter> | undefined;
+
+/**
+ * Initialize highlighter (call this at app startup)
+ */
+export async function initHighlighter() {
+  if (highlighter)
+    return highlighter;
+  if (highlighterPromise)
+    return highlighterPromise;
+
+  highlighterPromise = createHighlighterPrimitive({
+    themes: Object.keys(bundledThemes),
+    langs: Object.keys(bundledLanguages),
+  });
+
+  highlighter = await highlighterPromise;
+  return highlighter;
+}
+
+/**
+ * Get highlighter (sync, must call initHighlighter first)
+ */
+export function getHighlighter(): Highlighter | undefined {
+  return highlighter;
+}
+
+export interface ShikiServerResult {
+  html: string;
+  bgStyle: string;
+}
+
+/**
+ * Server-side Shiki highlight (sync version)
+ * Must call initHighlighter() before using this
+ */
+export function highlightCode(
+  code: string,
+  language?: string,
+  codeTheme?: CodeTheme,
+): ShikiServerResult {
+  const hl = highlighter;
+
+  if (!hl) {
+    // Fallback: return unhighlighted code
+    return {
+      html: escapeHtml(code),
+      bgStyle: '',
+    };
   }
 
-  const highlighter = await createHighlighter();
+  const lang = Object.keys(bundledLanguages).includes(language || '')
+    ? language!
+    : 'text';
 
-  if (!Object.keys(bundledLanguages).includes(language || '')) {
-    language = 'text';
-  }
-
-  const rendered = highlighter.codeToHtml(code, {
-    lang: language || 'text',
-    themes: codeTheme || {
-      light: 'github-light-default',
-      dark: 'github-dark-default',
-    },
+  const fullHtml = hl.codeToHtml(code, {
+    lang,
+    theme: (codeTheme || defaultCodeTheme) as any,
     transformers: shikiTransformers,
   });
 
-  return <div dangerouslySetInnerHTML={{ __html: rendered }} />;
-};
+  return extractShikiHtml(fullHtml);
+}
 
-let highlighter: Highlighter | undefined;
+/**
+ * Server-side function to get Shiki HTML and background style (async)
+ */
+export async function getShikiResult(
+  code: string,
+  language?: string,
+  codeTheme?: CodeTheme,
+): Promise<ShikiServerResult> {
+  await initHighlighter();
+  return highlightCode(code, language, codeTheme);
+}
 
-export async function createHighlighter() {
-  if (!highlighter) {
-    highlighter = await createHighlighterPrimitive({
-      themes: Object.keys(bundledThemes),
-      langs: Object.keys(bundledLanguages),
-    });
-  }
-  return highlighter;
+function escapeHtml(text: string): string {
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
 }

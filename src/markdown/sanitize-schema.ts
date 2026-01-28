@@ -22,10 +22,8 @@ const scheme = deepmerge(defaultSchema, {
     'merimad',
     ...['svg', 'path', 'circle'],
     // Custom code block elements
-    'code-group-wrapper',
-    'codeblock-wrapper',
-    'codegroup',
-    'codeblock',
+    'codeblock', // For single code blocks
+    'codegroup', // For :::code-group directive
   ],
   // ancestors: {
   //   linkcard: ['root', 'section', 'div', 'article', 'blockquote'], // 允许出现在这些父级下
@@ -77,10 +75,14 @@ const scheme = deepmerge(defaultSchema, {
       'dataLanguage',
       'dataLabel',
     ],
-    'code-group-wrapper': ['data-labels', 'dataLabels'],
-    'codeblock-wrapper': ['data-label', 'dataLabel'],
-    'codegroup': ['data-labels', 'data-code', 'data-language'],
-    'codeblock': ['data-label', 'data-code', 'data-language'],
+    'codeblock': [
+      'code',              // Code content
+      'language',          // Language
+    ],
+    'codegroup': [
+      'data-code-blocks',  // For :::code-group directive
+      'dataCodeBlocks',    // camelCase version
+    ],
   },
   protocols: {
     href: ['magnet', 'ed2k'],
