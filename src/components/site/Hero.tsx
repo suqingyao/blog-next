@@ -23,16 +23,16 @@ export function Hero() {
     >
       <div className="flex-1 space-y-6">
         <m.h1
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, filter: 'blur(4px)', x: -20 }}
+          animate={{ opacity: 1, filter: 'blur(0)', x: 0 }}
           transition={{ delay: 0.2 }}
           className="mb-5 text-4xl font-bold leading-tight md:text-4xl lg:text-6xl text-black dark:text-white"
         >
           Hi, SuQingyao
         </m.h1>
         <m.p
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, filter: 'blur(4px)', x: -20 }}
+          animate={{ opacity: 1, filter: 'blur(0)', x: 0 }}
           transition={{ delay: 0.3 }}
           className="text-base font-semibold text-neutral-600 dark:text-neutral-400 mb-6"
         >
@@ -40,8 +40,8 @@ export function Hero() {
         </m.p>
 
         <m.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          initial={{ opacity: 0, filter: 'blur(4px)' }}
+          animate={{ opacity: 1, filter: 'blur(0)' }}
           transition={{ delay: 0.4 }}
           className="max-w-md leading-relaxed text-neutral-600 dark:text-neutral-400 mb-2 flex flex-col"
         >
