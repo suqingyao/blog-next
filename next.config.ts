@@ -48,6 +48,7 @@ const baseConfig: NextConfig = {
     ignoreBuildErrors: true,
   },
   bundlePagesRouterDependencies: true,
+  reactCompiler: true,
 };
 
 const nextConfig
